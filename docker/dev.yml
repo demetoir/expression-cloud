@@ -22,7 +22,7 @@ services:
     ports:
       - ${DEV_REDIS_PORT}:6379
     volumes:
-      - ${VOLUMNS_PATH}.${CONTAINER_PREFIX}.${DEV_REDIS_CONTAINER_NAME}:/data
+      - ${VOLUMNS_PATH}/${CONTAINER_PREFIX}.${DEV_REDIS_CONTAINER_NAME}:/data
     restart: always
 
 

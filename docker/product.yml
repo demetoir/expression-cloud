@@ -55,49 +55,8 @@ services:
       - mysql
       - redis
 
-  graphql:
-    container_name: ${GRAPHQL_YOGA_SERVER_PROD_CONTAINER_NAME}
-    build:
-      context: ../
-      dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
-    entrypoint: yarn pm2-runtime start ./build/graphQL/app.js
-    ports:
-      - ${GRAPHQL_YOGA_SERVER_PROD_PORT}:${GRAPHQL_YOGA_SERVER_PROD_PORT}
-    volumes:
-      - ../:/usr/src/app/
-    environment:
-      - NODE_ENV=production
-      - IS_DOCKER_CONTAINER=true
-    networks:
-      - nginx.docker
-    links:
-      - mysql
-      - redis
-    depends_on:
-      - mysql
-      - redis
 
-  socket:
-    container_name: ${SOCKET_IO_SERVER_PROD_CONTAINER_NAME}
-    build:
-      context: ../
-      dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
-    entrypoint: yarn pm2-runtime start ./build/socket_io_server/app.js
-    ports:
-      - ${SOCKET_IO_SERVER_PROD_PORT}:${SOCKET_IO_SERVER_PROD_PORT}
-    volumes:
-      - ../:/usr/src/app/
-    environment:
-      - NODE_ENV=production
-      - IS_DOCKER_CONTAINER=true
-    networks:
-      - nginx.docker
-    links:
-      - mysql
-      - redis
-    depends_on:
-      - mysql
-      - redis
+
 
   nginx:
     container_name: ${NGINX_PROD_CONTAINER_NAME}
