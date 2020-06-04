@@ -6,6 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "postinstall": "sh scripts/postinstall.sh",
     "prebuild": "rimraf dist",
     "build": "node scripts/build.js",
     "prestart": "sh scripts/prestart.sh",
