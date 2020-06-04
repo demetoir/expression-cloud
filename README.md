@@ -8,7 +8,11 @@
 - [*] docker mysql setting 
 - [*] docker redis setting
 - [*] docker prestart, prestop script
+- [ ] typeorm 문서 읽기
+- [ ] nest.js 문서 읽기
+- [ ] git hook setting 
 - [ ] mysql sql setting
+- [ ] sqlite setting 하기
 - [ ] travis-ci setting
 - [ ] script one shot build
 - [ ] script one shot start 
