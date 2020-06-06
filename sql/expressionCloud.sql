@@ -6,12 +6,12 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users`
 (
-    `id`          BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment primary key ,
     `name`        VARCHAR(255) NOT NULL,
     `email`       VARCHAR(255) NOT NULL,
     `description` VARCHAR(255) NOT NULL,
-    `created_at`  DATETIME     NOT NULL,
-    `updated_at`  DATETIME     NOT NULL,
+    `created_at`  DATETIME     NOT NULL default now(),
+    `updated_at`  DATETIME     NOT NULL default now(),
     `deleted_at`  DATETIME     NULL
 );
 
@@ -19,11 +19,11 @@ DROP TABLE IF EXISTS `user_role`;
 
 CREATE TABLE `user_role`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment primary key ,
     `user_id`    BIGINT(20) NOT NULL,
     `role_id`    BIGINT(20) NOT NULL,
-    `created_at` DATETIME   NOT NULL,
-    `updated_at` DATETIME   NOT NULL,
+    `created_at` DATETIME   NOT NULL default now(),
+    `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
 );
 
@@ -31,10 +31,10 @@ DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment primary key ,
     `name`       VARCHAR(255) NOT NULL,
-    `created_at` DATETIME     NOT NULL,
-    `updated_at` DATETIME     NOT NULL,
+    `created_at` DATETIME     NOT NULL default now(),
+    `updated_at` DATETIME     NOT NULL default now(),
     `deleted_at` DATETIME     NULL
 );
 
@@ -42,10 +42,10 @@ DROP TABLE IF EXISTS `user_settings`;
 
 CREATE TABLE `user_settings`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment primary key ,
     `user_id`    BIGINT(20) NOT NULL,
-    `created_at` DATETIME   NOT NULL,
-    `updated_at` DATETIME   NOT NULL,
+    `created_at` DATETIME   NOT NULL default now(),
+    `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
 );
 
@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `notice`;
 
 CREATE TABLE `notice`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`    BIGINT(20)   NOT NULL,
     `content`    VARCHAR(255) NOT NULL,
     `is_read`    BIT(1)       NOT NULL DEFAULT false,
@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS `images`;
 
 CREATE TABLE `images`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `url`        VARCHAR(255) NOT NULL,
     `extension`  VARCHAR(255) NOT NULL,
     `file_name`  VARCHAR(255) NOT NULL,
@@ -81,7 +81,7 @@ DROP TABLE IF EXISTS `teams`;
 
 CREATE TABLE `teams`
 (
-    `id`          BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `name`        VARCHAR(255) NOT NULL,
     `description` VARCHAR(255) NOT NULL,
     `created_at`  DATETIME     NOT NULL,
@@ -93,7 +93,7 @@ DROP TABLE IF EXISTS `likes`;
 
 CREATE TABLE `likes`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`    BIGINT(20) NOT NULL,
     `ref_type`   BIGINT(20) NOT NULL,
     `ref_id`     BIGINT(20) NOT NULL,
@@ -106,7 +106,7 @@ DROP TABLE IF EXISTS `expressions`;
 
 CREATE TABLE `expressions`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `project_id` BIGINT(20)   NOT NULL,
     `type`       TINYINT(1)   NOT NULL,
     `name`       VARCHAR(255) NOT NULL,
@@ -120,7 +120,7 @@ DROP TABLE IF EXISTS `tags`;
 
 CREATE TABLE `tags`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `project_id` BIGINT(20)   NOT NULL,
     `name`       VARCHAR(255) NOT NULL,
     `created_at` DATETIME     NOT NULL,
@@ -132,7 +132,7 @@ DROP TABLE IF EXISTS `user_team`;
 
 CREATE TABLE `user_team`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`    BIGINT(20) NOT NULL,
     `team_id`    BIGINT(20) NOT NULL,
     `created_at` DATETIME   NOT NULL,
@@ -144,7 +144,7 @@ DROP TABLE IF EXISTS `edit_histories`;
 
 CREATE TABLE `edit_histories`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`    BIGINT(20) NOT NULL,
     `id2`        BIGINT(20) NOT NULL,
     `ref_id`     BIGINT(20) NOT NULL,
@@ -159,7 +159,7 @@ DROP TABLE IF EXISTS `projects`;
 
 CREATE TABLE `projects`
 (
-    `id`          BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`     BIGINT(20)   NOT NULL,
     `name`        VARCHAR(255) NOT NULL,
     `is_public`   BIT(1)       NOT NULL DEFAULT false,
@@ -174,7 +174,7 @@ DROP TABLE IF EXISTS `oauths`;
 
 CREATE TABLE `oauths`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`    BIGINT(20)   NOT NULL,
     `type`       TINYINT(1)   NOT NULL,
     `auth_id`    VARCHAR(255) NOT NULL,
@@ -187,7 +187,7 @@ DROP TABLE IF EXISTS `values`;
 
 CREATE TABLE `values`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `column_id`  BIGINT(20) NOT NULL,
     `value`      BIGINT(20) NOT NULL,
     `index`      BIGINT(20) NOT NULL,
@@ -200,7 +200,7 @@ DROP TABLE IF EXISTS `columns`;
 
 CREATE TABLE `columns`
 (
-    `key`           BIGINT(20)   NOT NULL,
+    `id`           BIGINT(20)   NOT NULL auto_increment,
     `expression_id` BIGINT(20)   NOT NULL,
     `name`          VARCHAR(255) NOT NULL,
     `index`         BIGINT(20)   NOT NULL,
@@ -213,7 +213,7 @@ DROP TABLE IF EXISTS `comments`;
 
 CREATE TABLE `comments`
 (
-    `id`         BIGINT(20)   NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `user_id`    BIGINT(20)   NOT NULL,
     `content`    VARCHAR(255) NOT NULL,
     `ref_type`   BIGINT(20)   NOT NULL,
@@ -227,40 +227,19 @@ DROP TABLE IF EXISTS `project_settings`;
 
 CREATE TABLE `project_settings`
 (
-    `id`         BIGINT(20) NOT NULL,
+    `id`          BIGINT(20)   NOT NULL auto_increment,
     `project_id` BIGINT(20) NOT NULL,
     `created_at` DATETIME   NOT NULL,
     `updated_at` DATETIME   NOT NULL,
     `deleted_at` DATETIME   NULL
 );
 
-DROP TABLE IF EXISTS `session`;
-
-CREATE TABLE `session`
-(
-    `id`            VARCHAR(255) NOT NULL,
-    `session_value` VARCHAR(255) NOT NULL,
-    `created_at`    DATETIME     NOT NULL,
-    `updated_at`    DATETIME     NOT NULL,
-    `deleted_at`    DATETIME     NULL
-);
-
-DROP TABLE IF EXISTS `log`;
-
-CREATE TABLE `log`
-(
-    `log_type`   VARCHAR(255) NOT NULL,
-    `log_value`  VARCHAR(255) NOT NULL,
-    `created_at` DATETIME     NOT NULL,
-    `updated_at` DATETIME     NOT NULL,
-    `deleted_at` DATETIME     NULL
-);
 
 DROP TABLE IF EXISTS `edit_history_value_varchars`;
 
 CREATE TABLE `edit_history_value_varchars`
 (
-    `key`             BIGINT(20)   NOT NULL,
+    `id`             BIGINT(20)   NOT NULL,
     `edit_history_id` BIGINT(20)   NOT NULL,
     `value`           VARCHAR(255) NOT NULL,
     `created_at`      DATETIME     NOT NULL,
@@ -272,7 +251,7 @@ DROP TABLE IF EXISTS `edit_history_value_bigints`;
 
 CREATE TABLE `edit_history_value_bigints`
 (
-    `key`             BIGINT(20) NOT NULL,
+    `id`             BIGINT(20) NOT NULL,
     `edit_history_id` BIGINT(20) NOT NULL,
     `value`           BIGINT(20) NOT NULL,
     `created_at`      DATETIME   NOT NULL,
@@ -326,7 +305,7 @@ ALTER TABLE `values`
     ADD CONSTRAINT `pk_values` PRIMARY KEY (`id`);
 
 ALTER TABLE `columns`
-    ADD CONSTRAINT `pk_columns` PRIMARY KEY (`key`);
+    ADD CONSTRAINT `pk_columns` PRIMARY KEY (`id`);
 
 ALTER TABLE `comments`
     ADD CONSTRAINT `pk_comments` PRIMARY KEY (`id`);
@@ -334,17 +313,12 @@ ALTER TABLE `comments`
 ALTER TABLE `project_settings`
     ADD CONSTRAINT `pk_project_settings` PRIMARY KEY (`id`);
 
-ALTER TABLE `session`
-    ADD CONSTRAINT `pk_session` PRIMARY KEY (`id`);
-
-ALTER TABLE `log`
-    ADD CONSTRAINT `pk_log` PRIMARY KEY (`log_type`);
 
 ALTER TABLE `edit_history_value_varchars`
-    ADD CONSTRAINT `pk_edit_history_value_varchars` PRIMARY KEY (`key`);
+    ADD CONSTRAINT `pk_edit_history_value_varchars` PRIMARY KEY (`id`);
 
 ALTER TABLE `edit_history_value_bigints`
-    ADD CONSTRAINT `pk_edit_history_value_bigints` PRIMARY KEY (`key`);
+    ADD CONSTRAINT `pk_edit_history_value_bigints` PRIMARY KEY (`id`);
 
 ALTER TABLE `user_role`
     ADD CONSTRAINT `fk_users_to_user_role` FOREIGN KEY (`user_id`) REFERENCES
@@ -400,7 +374,7 @@ ALTER TABLE `oauths`
 
 ALTER TABLE `values`
     ADD CONSTRAINT `fk_columns_to_values` FOREIGN KEY (`column_id`) REFERENCES
-        `columns` (`key`);
+        `columns` (`id`);
 
 ALTER TABLE `columns`
     ADD CONSTRAINT `fk_expressions_to_columns` FOREIGN KEY (`expression_id`)
