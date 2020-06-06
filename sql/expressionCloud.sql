@@ -2,80 +2,67 @@
 --    마이그레이션은 typeorm 을에서 보기
 --    SQL 파일 읽어서 수행하는 식으로 만들기
 --    만들때 따로 따로 한테이블 씩 노가다해서 만들기
-
 DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `users_roles`;
-DROP TABLE IF EXISTS `roles`;
-DROP TABLE IF EXISTS `user_settings`;
-DROP TABLE IF EXISTS `notice`;
-DROP TABLE IF EXISTS `images`;
-DROP TABLE IF EXISTS `teams`;
-DROP TABLE IF EXISTS `user_profile_images`;
-DROP TABLE IF EXISTS `project_thumbnail_images`;
-DROP TABLE IF EXISTS `likes`;
-DROP TABLE IF EXISTS `expressions`;
-DROP TABLE IF EXISTS `tags`;
-DROP TABLE IF EXISTS `users_teams`;
-DROP TABLE IF EXISTS `team_profile_images`;
-DROP TABLE IF EXISTS `expressions_comments`;
-DROP TABLE IF EXISTS `projects`;
-DROP TABLE IF EXISTS `user_authorities`;
-DROP TABLE IF EXISTS `values`;
-DROP TABLE IF EXISTS `columns`;
-DROP TABLE IF EXISTS `comments`;
-DROP TABLE IF EXISTS `project_comments`;
-DROP TABLE IF EXISTS `expresssion_comments`;
-DROP TABLE IF EXISTS `project_settings`;
 
 CREATE TABLE `users`
 (
     `id`          BIGINT(20)   NOT NULL,
     `name`        VARCHAR(255) NOT NULL,
     `email`       VARCHAR(255) NOT NULL,
-    `description` TEXT(1024)   NOT NULL,
-    `created_at`  datetime     NOT NULL,
-    `updated_at`  datetime     NOT NULL,
-    `deleted_at`  datetime     NULL
+    `description` VARCHAR(255) NOT NULL,
+    `created_at`  DATETIME     NOT NULL,
+    `updated_at`  DATETIME     NOT NULL,
+    `deleted_at`  DATETIME     NULL
 );
 
-CREATE TABLE `users_roles`
+DROP TABLE IF EXISTS `user_role`;
+
+CREATE TABLE `user_role`
 (
     `id`         BIGINT(20) NOT NULL,
     `user_id`    BIGINT(20) NOT NULL,
     `role_id`    BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
+
+DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles`
 (
     `id`         BIGINT(20)   NOT NULL,
     `name`       VARCHAR(255) NOT NULL,
-    `created_at` datetime     NOT NULL,
-    `updated_at` datetime     NOT NULL,
-    `deleted_at` datetime     NULL
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
+
+DROP TABLE IF EXISTS `user_settings`;
 
 CREATE TABLE `user_settings`
 (
     `id`         BIGINT(20) NOT NULL,
     `user_id`    BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
+
+DROP TABLE IF EXISTS `notice`;
 
 CREATE TABLE `notice`
 (
     `id`         BIGINT(20)   NOT NULL,
     `user_id`    BIGINT(20)   NOT NULL,
     `content`    VARCHAR(255) NOT NULL,
-    `is_read`    BIT(1)       NOT NULL DEFAULT FALSE,
-    `created_at` datetime     NOT NULL,
-    `updated_at` datetime     NOT NULL,
-    `deleted_at` datetime     NULL
+    `is_read`    BIT(1)       NOT NULL DEFAULT false,
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
+
+DROP TABLE IF EXISTS `images`;
 
 CREATE TABLE `images`
 (
@@ -83,129 +70,120 @@ CREATE TABLE `images`
     `url`        VARCHAR(255) NOT NULL,
     `extension`  VARCHAR(255) NOT NULL,
     `file_name`  VARCHAR(255) NOT NULL,
-    `created_at` datetime     NOT NULL,
-    `updated_at` datetime     NOT NULL,
-    `deleted_at` datetime     NULL
+    `ret_type`   VARCHAR(255) NOT NULL,
+    `ref_id`     VARCHAR(255) NOT NULL,
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
+
+DROP TABLE IF EXISTS `teams`;
 
 CREATE TABLE `teams`
 (
     `id`          BIGINT(20)   NOT NULL,
     `name`        VARCHAR(255) NOT NULL,
-    `description` TEXT(1024)   NOT NULL,
-    `created_at`  datetime     NOT NULL,
-    `updated_at`  datetime     NOT NULL,
-    `deleted_at`  datetime     NULL
+    `description` VARCHAR(255) NOT NULL,
+    `created_at`  DATETIME     NOT NULL,
+    `updated_at`  DATETIME     NOT NULL,
+    `deleted_at`  DATETIME     NULL
 );
 
-CREATE TABLE `user_profile_images`
-(
-    `id`         BIGINT(20) NOT NULL,
-    `user_id`    BIGINT(20) NOT NULL,
-    `image_id`   BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
-);
-
-CREATE TABLE `project_thumbnail_images`
-(
-    `id`         BIGINT(20) NOT NULL,
-    `project_id` BIGINT(20) NOT NULL,
-    `image_id`   BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
-);
+DROP TABLE IF EXISTS `likes`;
 
 CREATE TABLE `likes`
 (
     `id`         BIGINT(20) NOT NULL,
     `user_id`    BIGINT(20) NOT NULL,
-    `project_id` BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `ref_type`   BIGINT(20) NOT NULL,
+    `ref_id`     BIGINT(20) NOT NULL,
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
+
+DROP TABLE IF EXISTS `expressions`;
 
 CREATE TABLE `expressions`
 (
     `id`         BIGINT(20)   NOT NULL,
     `project_id` BIGINT(20)   NOT NULL,
     `type`       TINYINT(1)   NOT NULL,
-    `index`      VARCHAR(255) NOT NULL,
     `name`       VARCHAR(255) NOT NULL,
     `content`    VARCHAR(255) NOT NULL,
-    `created_at` datetime     NOT NULL,
-    `updated_at` datetime     NOT NULL,
-    `deleted_at` datetime     NULL
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
+
+DROP TABLE IF EXISTS `tags`;
 
 CREATE TABLE `tags`
 (
     `id`         BIGINT(20)   NOT NULL,
     `project_id` BIGINT(20)   NOT NULL,
     `name`       VARCHAR(255) NOT NULL,
-    `created_at` datetime     NOT NULL,
-    `updated_at` datetime     NOT NULL,
-    `deleted_at` datetime     NULL
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
 
-CREATE TABLE `users_teams`
+DROP TABLE IF EXISTS `user_team`;
+
+CREATE TABLE `user_team`
 (
     `id`         BIGINT(20) NOT NULL,
     `user_id`    BIGINT(20) NOT NULL,
     `team_id`    BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
 
-CREATE TABLE `team_profile_images`
+DROP TABLE IF EXISTS `edit_histories`;
+
+CREATE TABLE `edit_histories`
 (
     `id`         BIGINT(20) NOT NULL,
-    `team_id`    BIGINT(20) NOT NULL,
-    `image_id`   BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `user_id`    BIGINT(20) NOT NULL,
+    `id2`        BIGINT(20) NOT NULL,
+    `ref_id`     BIGINT(20) NOT NULL,
+    `ref_type`   BIGINT(20) NOT NULL,
+    `edit_type`  BIGINT(20) NOT NULL,
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
 
-CREATE TABLE `expression_histories`
-(
-    `id`            BIGINT(20)   NOT NULL,
-    `expression_id` BIGINT(20)   NOT NULL,
-    `user_id`       BIGINT(20)   NOT NULL,
-    `type`          TINYINT(1)   NOT NULL,
-    `old_content`   VARCHAR(255) NOT NULL,
-    `new_content`   VARCHAR(255) NOT NULL,
-    `created_at`    datetime     NOT NULL,
-    `updated_at`    datetime     NOT NULL,
-    `deleted_at`    datetime     NULL
-);
+DROP TABLE IF EXISTS `projects`;
 
 CREATE TABLE `projects`
 (
     `id`          BIGINT(20)   NOT NULL,
     `user_id`     BIGINT(20)   NOT NULL,
     `name`        VARCHAR(255) NOT NULL,
-    `is_public`   BIT(1)       NOT NULL DEFAULT FALSE,
-    `is_locked`   BIT(1)       NOT NULL DEFAULT FALSE,
-    `description` TEXT(1024)   NOT NULL,
-    `created_at`  datetime     NOT NULL,
-    `updated_at`  datetime     NOT NULL,
-    `deleted_at`  datetime     NULL
+    `is_public`   BIT(1)       NOT NULL DEFAULT false,
+    `is_locked`   BIT(1)       NOT NULL DEFAULT false,
+    `description` VARCHAR(255) NOT NULL,
+    `created_at`  DATETIME     NOT NULL,
+    `updated_at`  DATETIME     NOT NULL,
+    `deleted_at`  DATETIME     NULL
 );
 
-CREATE TABLE `user_authorities`
+DROP TABLE IF EXISTS `oauths`;
+
+CREATE TABLE `oauths`
 (
-    `id`         BIGINT(20) NOT NULL,
-    `user_id`    BIGINT(20) NOT NULL,
-    `type`       TINYINT(1) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `id`         BIGINT(20)   NOT NULL,
+    `user_id`    BIGINT(20)   NOT NULL,
+    `type`       TINYINT(1)   NOT NULL,
+    `auth_id`    VARCHAR(255) NOT NULL,
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
+
+DROP TABLE IF EXISTS `values`;
 
 CREATE TABLE `values`
 (
@@ -213,242 +191,233 @@ CREATE TABLE `values`
     `column_id`  BIGINT(20) NOT NULL,
     `value`      BIGINT(20) NOT NULL,
     `index`      BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
+
+DROP TABLE IF EXISTS `columns`;
 
 CREATE TABLE `columns`
 (
-    `id`            BIGINT(20)   NOT NULL,
+    `key`           BIGINT(20)   NOT NULL,
     `expression_id` BIGINT(20)   NOT NULL,
     `name`          VARCHAR(255) NOT NULL,
     `index`         BIGINT(20)   NOT NULL,
-    `created_at`    datetime     NOT NULL,
-    `updated_at`    datetime     NOT NULL,
-    `deleted_at`    datetime     NULL
+    `created_at`    DATETIME     NOT NULL,
+    `updated_at`    DATETIME     NOT NULL,
+    `deleted_at`    DATETIME     NULL
 );
+
+DROP TABLE IF EXISTS `comments`;
 
 CREATE TABLE `comments`
 (
     `id`         BIGINT(20)   NOT NULL,
     `user_id`    BIGINT(20)   NOT NULL,
     `content`    VARCHAR(255) NOT NULL,
-    `created_at` datetime     NOT NULL,
-    `updated_at` datetime     NOT NULL,
-    `deleted_at` datetime     NULL
+    `ref_type`   BIGINT(20)   NOT NULL,
+    `ref_id`     BIGINT(20)   NOT NULL,
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
 );
 
-CREATE TABLE `project_comments`
-(
-    `id`         BIGINT(20) NOT NULL,
-    `comment_id` BIGINT(20) NOT NULL,
-    `project_id` BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
-);
-
-CREATE TABLE `expressions_comments`
-(
-    `id`            BIGINT(20) NOT NULL,
-    `expression_id` BIGINT(20) NOT NULL,
-    `comment_id`    BIGINT(20) NOT NULL,
-    `created_at`    datetime   NOT NULL,
-    `updated_at`    datetime   NOT NULL,
-    `deleted_at`    datetime   NULL
-);
+DROP TABLE IF EXISTS `project_settings`;
 
 CREATE TABLE `project_settings`
 (
     `id`         BIGINT(20) NOT NULL,
     `project_id` BIGINT(20) NOT NULL,
-    `created_at` datetime   NOT NULL,
-    `updated_at` datetime   NOT NULL,
-    `deleted_at` datetime   NULL
+    `created_at` DATETIME   NOT NULL,
+    `updated_at` DATETIME   NOT NULL,
+    `deleted_at` DATETIME   NULL
 );
 
--- todo 이거는 제거하는 SQL 도 작성해야한다.
+DROP TABLE IF EXISTS `session`;
+
+CREATE TABLE `session`
+(
+    `id`            VARCHAR(255) NOT NULL,
+    `session_value` VARCHAR(255) NOT NULL,
+    `created_at`    DATETIME     NOT NULL,
+    `updated_at`    DATETIME     NOT NULL,
+    `deleted_at`    DATETIME     NULL
+);
+
+DROP TABLE IF EXISTS `log`;
+
+CREATE TABLE `log`
+(
+    `log_type`   VARCHAR(255) NOT NULL,
+    `log_value`  VARCHAR(255) NOT NULL,
+    `created_at` DATETIME     NOT NULL,
+    `updated_at` DATETIME     NOT NULL,
+    `deleted_at` DATETIME     NULL
+);
+
+DROP TABLE IF EXISTS `edit_history_value_varchars`;
+
+CREATE TABLE `edit_history_value_varchars`
+(
+    `key`             BIGINT(20)   NOT NULL,
+    `edit_history_id` BIGINT(20)   NOT NULL,
+    `value`           VARCHAR(255) NOT NULL,
+    `created_at`      DATETIME     NOT NULL,
+    `updated_at`      DATETIME     NOT NULL,
+    `deleted_at`      DATETIME     NULL
+);
+
+DROP TABLE IF EXISTS `edit_history_value_bigints`;
+
+CREATE TABLE `edit_history_value_bigints`
+(
+    `key`             BIGINT(20) NOT NULL,
+    `edit_history_id` BIGINT(20) NOT NULL,
+    `value`           BIGINT(20) NOT NULL,
+    `created_at`      DATETIME   NOT NULL,
+    `updated_at`      DATETIME   NOT NULL,
+    `deleted_at`      DATETIME   NULL
+);
 
 ALTER TABLE `users`
-    ADD CONSTRAINT `PK_USERS` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_users` PRIMARY KEY (`id`);
 
-ALTER TABLE `users_roles`
-    ADD CONSTRAINT `PK_USER_ROLE` PRIMARY KEY (`id`);
+ALTER TABLE `user_role`
+    ADD CONSTRAINT `pk_user_role` PRIMARY KEY (`id`);
 
 ALTER TABLE `roles`
-    ADD CONSTRAINT `PK_ROLES` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_roles` PRIMARY KEY (`id`);
 
 ALTER TABLE `user_settings`
-    ADD CONSTRAINT `PK_USER_SETTINGS` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_user_settings` PRIMARY KEY (`id`);
 
 ALTER TABLE `notice`
-    ADD CONSTRAINT `PK_NOTICE` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_notice` PRIMARY KEY (`id`);
 
 ALTER TABLE `images`
-    ADD CONSTRAINT `PK_IMAGES` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_images` PRIMARY KEY (`id`);
 
 ALTER TABLE `teams`
-    ADD CONSTRAINT `PK_TEAMS` PRIMARY KEY (`id`);
-
-ALTER TABLE `user_profile_images`
-    ADD CONSTRAINT `PK_USER_PROFILE_IMAGES` PRIMARY KEY (`id`);
-
-ALTER TABLE `project_thumbnail_images`
-    ADD CONSTRAINT `PK_PROJECT_THUMBNAIL_IMAGES` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_teams` PRIMARY KEY (`id`);
 
 ALTER TABLE `likes`
-    ADD CONSTRAINT `PK_LIKES` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_likes` PRIMARY KEY (`id`);
 
 ALTER TABLE `expressions`
-    ADD CONSTRAINT `PK_EXPRESSION` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_expressions` PRIMARY KEY (`id`);
 
 ALTER TABLE `tags`
-    ADD CONSTRAINT `PK_TAGS` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_tags` PRIMARY KEY (`id`);
 
-ALTER TABLE `users_teams`
-    ADD CONSTRAINT `PK_USER_TEAM` PRIMARY KEY (`id`);
+ALTER TABLE `user_team`
+    ADD CONSTRAINT `pk_user_team` PRIMARY KEY (`id`);
 
-ALTER TABLE `team_profile_images`
-    ADD CONSTRAINT `PK_TEAM_PROFILE_IMAGES` PRIMARY KEY (`id`);
-
-ALTER TABLE `expression_histories`
-    ADD CONSTRAINT `PK_EXPRESSION_HISTORIES` PRIMARY KEY (`id`);
+ALTER TABLE `edit_histories`
+    ADD CONSTRAINT `pk_edit_histories` PRIMARY KEY (`id`);
 
 ALTER TABLE `projects`
-    ADD CONSTRAINT `PK_PROJECT` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_projects` PRIMARY KEY (`id`);
 
-ALTER TABLE `user_authorities`
-    ADD CONSTRAINT `PK_USER_AUTHORITIES` PRIMARY KEY (`id`);
+ALTER TABLE `oauths`
+    ADD CONSTRAINT `pk_oauths` PRIMARY KEY (`id`);
 
 ALTER TABLE `values`
-    ADD CONSTRAINT `PK_VALUES` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_values` PRIMARY KEY (`id`);
 
 ALTER TABLE `columns`
-    ADD CONSTRAINT `PK_COLUMNS` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_columns` PRIMARY KEY (`key`);
 
 ALTER TABLE `comments`
-    ADD CONSTRAINT `PK_COMMENTS` PRIMARY KEY (`id`);
-
-ALTER TABLE `project_comments`
-    ADD CONSTRAINT `PK_PROJECT_COMMENTS` PRIMARY KEY (`id`);
-
-ALTER TABLE `expressions_comments`
-    ADD CONSTRAINT `PK_EXPRESSIONS_COMMENTS` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_comments` PRIMARY KEY (`id`);
 
 ALTER TABLE `project_settings`
-    ADD CONSTRAINT `PK_PROJECT_SETTINGS` PRIMARY KEY (`id`);
+    ADD CONSTRAINT `pk_project_settings` PRIMARY KEY (`id`);
 
+ALTER TABLE `session`
+    ADD CONSTRAINT `pk_session` PRIMARY KEY (`id`);
 
-ALTER TABLE `users_roles`
-    ADD CONSTRAINT `FK_users_TO_user_role` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
+ALTER TABLE `log`
+    ADD CONSTRAINT `pk_log` PRIMARY KEY (`log_type`);
 
-ALTER TABLE `users_roles`
-    ADD CONSTRAINT `FK_roles_TO_user_role` FOREIGN KEY (`role_id`)
-        REFERENCES `roles` (`id`);
+ALTER TABLE `edit_history_value_varchars`
+    ADD CONSTRAINT `pk_edit_history_value_varchars` PRIMARY KEY (`key`);
+
+ALTER TABLE `edit_history_value_bigints`
+    ADD CONSTRAINT `pk_edit_history_value_bigints` PRIMARY KEY (`key`);
+
+ALTER TABLE `user_role`
+    ADD CONSTRAINT `fk_users_to_user_role` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
+
+ALTER TABLE `user_role`
+    ADD CONSTRAINT `fk_roles_to_user_role` FOREIGN KEY (`role_id`) REFERENCES
+        `roles` (`id`);
 
 ALTER TABLE `user_settings`
-    ADD CONSTRAINT `FK_users_TO_user_settings` FOREIGN KEY (`user_id`)
+    ADD CONSTRAINT `fk_users_to_user_settings` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`);
 
 ALTER TABLE `notice`
-    ADD CONSTRAINT `FK_users_TO_notice` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
-
-ALTER TABLE `user_profile_images`
-    ADD CONSTRAINT `FK_users_TO_user_profile_images` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
-
-ALTER TABLE `user_profile_images`
-    ADD CONSTRAINT `FK_images_TO_user_profile_images` FOREIGN KEY (`image_id`)
-        REFERENCES `images` (`id`);
-
-ALTER TABLE `project_thumbnail_images`
-    ADD CONSTRAINT `FK_project_TO_project_thumbnail_images` FOREIGN KEY (`project_id`)
-        REFERENCES `projects` (`id`);
-
-ALTER TABLE `project_thumbnail_images`
-    ADD CONSTRAINT `FK_images_TO_project_thumbnail_images` FOREIGN KEY (`image_id`)
-        REFERENCES `images` (`id`);
+    ADD CONSTRAINT `fk_users_to_notice` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
 
 ALTER TABLE `likes`
-    ADD CONSTRAINT `FK_users_TO_likes` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
-
-ALTER TABLE `likes`
-    ADD CONSTRAINT `FK_project_TO_likes` FOREIGN KEY (`project_id`)
-        REFERENCES `projects` (`id`);
+    ADD CONSTRAINT `fk_users_to_likes` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
 
 ALTER TABLE `expressions`
-    ADD CONSTRAINT `FK_project_TO_expression` FOREIGN KEY (`project_id`)
+    ADD CONSTRAINT `fk_projects_to_expressions` FOREIGN KEY (`project_id`)
         REFERENCES `projects` (`id`);
 
 ALTER TABLE `tags`
-    ADD CONSTRAINT `FK_project_TO_tags` FOREIGN KEY (`project_id`)
-        REFERENCES `projects` (`id`);
+    ADD CONSTRAINT `fk_projects_to_tags` FOREIGN KEY (`project_id`) REFERENCES
+        `projects` (`id`);
 
-ALTER TABLE `users_teams`
-    ADD CONSTRAINT `FK_users_TO_user_team` FOREIGN KEY (`user_id`)
+ALTER TABLE `user_team`
+    ADD CONSTRAINT `fk_users_to_user_team` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
+
+ALTER TABLE `user_team`
+    ADD CONSTRAINT `fk_teams_to_user_team` FOREIGN KEY (`team_id`) REFERENCES
+        `teams` (`id`);
+
+ALTER TABLE `edit_histories`
+    ADD CONSTRAINT `fk_users_to_edit_histories` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`);
 
-ALTER TABLE `users_teams`
-    ADD CONSTRAINT `FK_teams_TO_user_team` FOREIGN KEY (`team_id`)
-        REFERENCES `teams` (`id`);
-
-ALTER TABLE `team_profile_images`
-    ADD CONSTRAINT `FK_teams_TO_team_profile_images` FOREIGN KEY (`team_id`)
-        REFERENCES `teams` (`id`);
-
-ALTER TABLE `team_profile_images`
-    ADD CONSTRAINT `FK_images_TO_team_profile_images` FOREIGN KEY (`image_id`)
-        REFERENCES `images` (`id`);
-
-ALTER TABLE `expression_histories`
-    ADD CONSTRAINT `FK_expression_TO_expression_histories` FOREIGN KEY (`expression_id`)
-        REFERENCES `expressions` (`id`);
-
-ALTER TABLE `expression_histories`
-    ADD CONSTRAINT `FK_users_TO_expression_histories` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
+ALTER TABLE `edit_histories`
+    ADD CONSTRAINT `fk_edit_histories_to_edit_histories` FOREIGN KEY (`id2`)
+        REFERENCES `edit_histories` (`id`);
 
 ALTER TABLE `projects`
-    ADD CONSTRAINT `FK_users_TO_project` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
+    ADD CONSTRAINT `fk_users_to_projects` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
 
-ALTER TABLE `user_authorities`
-    ADD CONSTRAINT `FK_users_TO_user_authorities` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
+ALTER TABLE `oauths`
+    ADD CONSTRAINT `fk_users_to_oauths` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
 
 ALTER TABLE `values`
-    ADD CONSTRAINT `FK_columns_TO_values` FOREIGN KEY (`column_id`)
-        REFERENCES `columns` (`id`);
+    ADD CONSTRAINT `fk_columns_to_values` FOREIGN KEY (`column_id`) REFERENCES
+        `columns` (`key`);
 
 ALTER TABLE `columns`
-    ADD CONSTRAINT `FK_expression_TO_columns` FOREIGN KEY (`expression_id`)
+    ADD CONSTRAINT `fk_expressions_to_columns` FOREIGN KEY (`expression_id`)
         REFERENCES `expressions` (`id`);
 
 ALTER TABLE `comments`
-    ADD CONSTRAINT `FK_users_TO_comments` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`);
-
-ALTER TABLE `project_comments`
-    ADD CONSTRAINT `FK_comments_TO_project_comments` FOREIGN KEY (`comment_id`)
-        REFERENCES `comments` (`id`);
-
-ALTER TABLE `project_comments`
-    ADD CONSTRAINT `FK_project_TO_project_comments` FOREIGN KEY (`project_id`)
-        REFERENCES `projects` (`id`);
-
-ALTER TABLE `expressions_comments`
-    ADD CONSTRAINT `FK_expression_TO_expressions_comments` FOREIGN KEY (`expression_id`)
-        REFERENCES `expressions` (`id`);
-
-ALTER TABLE `expressions_comments`
-    ADD CONSTRAINT `FK_comments_TO_expressions_comments` FOREIGN KEY (`comment_id`)
-        REFERENCES `comments` (`id`);
+    ADD CONSTRAINT `fk_users_to_comments` FOREIGN KEY (`user_id`) REFERENCES
+        `users` (`id`);
 
 ALTER TABLE `project_settings`
-    ADD CONSTRAINT `FK_project_TO_project_settings` FOREIGN KEY (`project_id`)
+    ADD CONSTRAINT `fk_projects_to_project_settings` FOREIGN KEY (`project_id`)
         REFERENCES `projects` (`id`);
 
+ALTER TABLE `edit_history_value_varchars`
+    ADD CONSTRAINT `fk_edit_histories_to_edit_history_value_varchars` FOREIGN KEY
+        (`edit_history_id`) REFERENCES `edit_histories` (`id`);
+
+ALTER TABLE `edit_history_value_bigints`
+    ADD CONSTRAINT `fk_edit_histories_to_edit_history_value_bigints` FOREIGN KEY
+        (edit_history_id) REFERENCES `edit_histories` (`id`);
