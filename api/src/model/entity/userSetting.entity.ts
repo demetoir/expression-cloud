@@ -12,7 +12,7 @@ import { UserEntity } from './user.entity';
 @Entity({name:'user_settings'})
 export class UserSettingEntity {
   @PrimaryGeneratedColumn('increment',{ type: 'bigint', name: 'id' })
-  id: number;
+  id: bigint;
 
   @CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
   createdAt: Date;

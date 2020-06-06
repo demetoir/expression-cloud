@@ -12,6 +12,7 @@ module.exports = {
 	database: "expression_cloud",
 	synchronize: false,
 	logging: false,
+	bigNumberStrings: false,
 	entities: [
 		"src/model/entity/**/*.ts"
 	],

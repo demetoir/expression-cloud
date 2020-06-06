@@ -13,7 +13,7 @@ import { UserEntity } from './user.entity';
 @Entity({name:'roles'})
 export class RoleEntity {
   @PrimaryGeneratedColumn('increment',{ type: 'bigint', name: 'id' })
-  id: number;
+  id: bigint;
 
   @Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
   name: string;
