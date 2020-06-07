@@ -9,10 +9,11 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
+import tableIdType from "../libs/tableIdTypeResolver";
 
 @Entity({ name: 'roles' })
 export class RoleEntity {
-	@PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id' })
+	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })

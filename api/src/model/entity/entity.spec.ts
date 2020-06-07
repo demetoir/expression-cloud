@@ -6,13 +6,25 @@ import { NoticeEntity } from './notices.entity';
 import { UserSettingEntity } from './userSetting.entity';
 
 describe('entity define', () => {
+
+	let connection;
+	beforeAll(async ()=>{
+		connection = await createConnection(ormconfig);
+
+	})
+
+	afterAll( async ()=>{
+		connection.close();
+	})
+
 	beforeEach(async () => {
 		console.log('before each');
 	});
 
-	describe('root', () => {
-		it('should return "Hello World!"', async () => {
-			const connection = await createConnection(ormconfig);
+	// todo test soft delete
+	// todo split test to each entity
+	describe('userEntity', () => {
+		it('able to create', async () => {
 			console.log('here');
 			const user = new UserEntity();
 			user.name = 'Me and Bears';

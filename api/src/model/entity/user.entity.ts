@@ -13,10 +13,12 @@ import {
 import { UserSettingEntity } from './userSetting.entity';
 import { RoleEntity } from './role.entity';
 import { NoticeEntity } from './notices.entity';
+import tableIdType from "../libs/tableIdTypeResolver";
+
 
 @Entity({ name: 'users' })
 export class UserEntity {
-	@PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id' })
+	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
