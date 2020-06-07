@@ -1,14 +1,12 @@
 import {
-	Entity,
 	Column,
-	PrimaryGeneratedColumn,
 	CreateDateColumn,
-	UpdateDateColumn,
 	DeleteDateColumn,
-	ManyToMany,
-	JoinTable,
-	ManyToOne,
+	Entity,
 	JoinColumn,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
@@ -42,7 +40,11 @@ export class NoticeEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(type => UserEntity, user=> user.notices, {eager:true})
+	@ManyToOne(
+		type => UserEntity,
+		user => user.notices,
+		{ eager: true },
+	)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 }

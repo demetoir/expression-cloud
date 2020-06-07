@@ -1,37 +1,37 @@
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  ManyToMany,
-  JoinTable,
+	Column,
+	CreateDateColumn,
+	DeleteDateColumn,
+	Entity,
+	JoinTable,
+	ManyToMany,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
-@Entity({name:'roles'})
+@Entity({ name: 'roles' })
 export class RoleEntity {
-  @PrimaryGeneratedColumn('increment',{ type: 'bigint', name: 'id' })
-  id: bigint;
+	@PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id' })
+	id: bigint;
 
-  @Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
-  name: string;
+	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
+	name: string;
 
-  @CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-  createdAt: Date;
+	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
+	createdAt: Date;
 
-  @UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-  updatedAt: Date;
+	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
+	updatedAt: Date;
 
-  @DeleteDateColumn({
-    type: 'datetime',
-    name: 'deleted_at',
-    nullable: true,
-  })
-  deletedAt: Date;
+	@DeleteDateColumn({
+		type: 'datetime',
+		name: 'deleted_at',
+		nullable: true,
+	})
+	deletedAt: Date;
 
-  @ManyToMany(type => UserEntity)
-  @JoinTable()
-  users: UserEntity[];
+	@ManyToMany(type => UserEntity)
+	@JoinTable()
+	users: UserEntity[];
 }

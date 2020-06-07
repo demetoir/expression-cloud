@@ -1,18 +1,17 @@
 import {
-	Entity,
 	Column,
-	PrimaryGeneratedColumn,
 	CreateDateColumn,
-	UpdateDateColumn,
 	DeleteDateColumn,
-	OneToOne,
-	ManyToMany,
+	Entity,
 	JoinTable,
+	ManyToMany,
 	OneToMany,
+	OneToOne,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from 'typeorm';
 import { UserSettingEntity } from './userSetting.entity';
 import { RoleEntity } from './role.entity';
-import { type } from 'os';
 import { NoticeEntity } from './notices.entity';
 
 @Entity({ name: 'users' })
@@ -53,8 +52,7 @@ export class UserEntity {
 	)
 	setting: Promise<UserSettingEntity>;
 
-	@ManyToMany(
-		type => RoleEntity, {
+	@ManyToMany(type => RoleEntity, {
 		eager: true,
 		cascade: true,
 	})

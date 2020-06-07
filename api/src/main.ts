@@ -1,15 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { createConnection } from 'typeorm';
-
 import { UserEntity } from './model/entity/user.entity';
-
 import ormconfig from '../ormconfig.js';
 import { UserSettingEntity } from './model/entity/userSetting.entity';
 import { RoleEntity } from './model/entity/role.entity';
-import { setFlagsFromString } from 'v8';
-import { NoticeEntity } from "./model/entity/notices.entity";
-import { getNonTransientInstances } from "@nestjs/core/injector/transient-instances";
+import { NoticeEntity } from './model/entity/notices.entity';
 
 createConnection(ormconfig)
 	.then(async connection => {
@@ -31,7 +27,6 @@ createConnection(ormconfig)
 		console.log(result);
 
 		console.log('Photo has been saved');
-
 
 		const userSetting = new UserSettingEntity();
 		userSetting.user = Promise.resolve(user);
@@ -61,28 +56,28 @@ createConnection(ormconfig)
 		const result3 = await userRepository.findOne({ id: user.id });
 		console.log(result3);
 
-
 		const notice1 = new NoticeEntity();
-		notice1.content = "content";
+		notice1.content = 'content';
 		// notice1.user = user
 		await connection.manager.save(notice1);
 
-
 		const notice2 = new NoticeEntity();
-		notice2.content =" contesnt";
+		notice2.content = ' contesnt';
 		notice2.user = user;
 		await connection.manager.save(notice2);
 
-		console.log('fwesfsef')
+		console.log('fwesfsef');
 
 		console.log(user);
 
-		const result6 = await userRepository.find({relations:["notices"]})
-		console.log(result6)
+		const result6 = await userRepository.find({ relations: ['notices'] });
+		console.log(result6);
 
-		const result5 = await userRepository.createQueryBuilder('user').leftJoin('user.notices', 'notice').getMany();
+		const result5 = await userRepository
+			.createQueryBuilder('user')
+			.leftJoin('user.notices', 'notice')
+			.getMany();
 		console.log(result5);
-
 
 		process.exit(0);
 	})
