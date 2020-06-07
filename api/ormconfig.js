@@ -35,15 +35,17 @@ const prod = {
 };
 
 const test = {
-	type: 'mysql',
-	host: 'localhost',
-	port: 3306,
-	username: 'user',
-	password: 'password',
-	database: 'expression_cloud',
-	synchronize: false,
-	logging: false,
+	type: 'sqlite',
+	// host: 'localhost',
+	// port: 3306,
+	// username: 'user',
+	// password: 'password',
+	database: ':memory:',
+	synchronize: true,
+	logging: true,
 	bigNumberStrings: false,
+
+	// migrationsRun:true,
 	entities: ['src/model/entity/**/*.entity.ts'],
 	migrations: ['src/model/migration/**/*.ts'],
 	cli: {
