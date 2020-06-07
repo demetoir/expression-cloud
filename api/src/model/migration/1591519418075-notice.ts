@@ -1,9 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class notice1591519418075 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
 
 
 
@@ -22,11 +21,10 @@ export class notice1591519418075 implements MigrationInterface {
                 \`deleted_at\` DATETIME           NULL
             );
 
-`)
-    }
+`);
+	}
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('notice')
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable('notice');
+	}
 }

@@ -1,9 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class userRole1591519393588 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
             CREATE TABLE \`user_role\`
             (
                 id         bigint primary key NOT NULL auto_increment,
@@ -14,11 +13,10 @@ export class userRole1591519393588 implements MigrationInterface {
                 \`deleted_at\` DATETIME           NULL
 
             );
-`)
-    }
+`);
+	}
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('user_role')
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable('user_role');
+	}
 }

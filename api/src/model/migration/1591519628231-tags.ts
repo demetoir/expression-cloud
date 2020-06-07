@@ -1,9 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class tags1591519628231 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
 
             CREATE TABLE \`tags\`
             (
@@ -14,11 +13,10 @@ export class tags1591519628231 implements MigrationInterface {
                 \`updated_at\` DATETIME           NOT NULL default now(),
                 \`deleted_at\` DATETIME           NULL
             );
-`)
-    }
+`);
+	}
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('tags')
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable('tags');
+	}
 }

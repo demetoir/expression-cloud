@@ -1,9 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class likes1591519625834 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
 
 
             CREATE TABLE \`likes\`
@@ -15,11 +14,10 @@ export class likes1591519625834 implements MigrationInterface {
                 \`created_at\` DATETIME           NOT NULL default now(),
                 \`updated_at\` DATETIME           NOT NULL default now(),
                 \`deleted_at\` DATETIME           NULL
-            );`)
-    }
+            );`);
+	}
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable(`likes`)
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable(`likes`);
+	}
 }

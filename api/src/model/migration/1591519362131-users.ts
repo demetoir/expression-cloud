@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class users1591519362131 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
@@ -13,10 +13,9 @@ export class users1591519362131 implements MigrationInterface {
                 \`updated_at\`  DATETIME           NOT NULL default now(),
                 \`deleted_at\`  DATETIME           NULL
             );`);
-
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable("users");
+		await queryRunner.dropTable('users');
 	}
 }

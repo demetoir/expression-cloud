@@ -1,11 +1,17 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class fkProjectsToProjectSettings1591519914446 implements MigrationInterface {
+export class fkProjectsToProjectSettings1591519914446
+	implements MigrationInterface {
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
+        
+        ALTER TABLE \`project_settings\`
+    ADD CONSTRAINT \`fk_projects_to_project_settings\` FOREIGN KEY (\`project_id\`)
+        REFERENCES \`projects\` (id);
+        `);
+	}
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable('');
+	}
 }

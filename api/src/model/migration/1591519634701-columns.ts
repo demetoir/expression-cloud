@@ -1,10 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class columns1591519634701 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-
-        await  queryRunner.query(`
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
 
             CREATE TABLE \`columns\`
             (
@@ -15,13 +13,10 @@ export class columns1591519634701 implements MigrationInterface {
                 \`created_at\`    DATETIME           NOT NULL default now(),
                 \`updated_at\`    DATETIME           NOT NULL default now(),
                 \`deleted_at\`    DATETIME           NULL
-            );`)
-    }
+            );`);
+	}
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-
-await queryRunner.dropTable('columns')
-
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable('columns');
+	}
 }

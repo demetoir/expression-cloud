@@ -1,11 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class projectSettings1591519637117 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-
-
-        await queryRunner.query(`
+	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query(`
             CREATE TABLE \`project_settings\`
             (
                 id         bigint primary key NOT NULL auto_increment,
@@ -15,12 +12,10 @@ export class projectSettings1591519637117 implements MigrationInterface {
                 \`deleted_at\` DATETIME           NULL
             );
 
-`)
-    }
+`);
+	}
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-   await queryRunner.dropTable('project_settings')
-
-    }
-
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.dropTable('project_settings');
+	}
 }
