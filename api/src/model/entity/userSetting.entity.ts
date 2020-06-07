@@ -32,5 +32,5 @@ export class UserSettingEntity {
     user => user.setting,
   )
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: UserEntity;
+  user: Promise<UserEntity>;
 }
