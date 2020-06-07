@@ -15,7 +15,7 @@ export class NoticeEntity {
 	@PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id' })
 	id: bigint;
 
-	@Column({ type: 'varchar', length: 255, name: 'content', nullable: false })
+	@Column({ type: 'text', name: 'content', nullable: false })
 	content: string;
 
 	@Column({

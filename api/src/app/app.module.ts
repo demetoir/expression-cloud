@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserEntity } from './model/entity/user.entity';
-import { RoleEntity } from './model/entity/role.entity';
-import { UserSettingEntity } from './model/entity/userSetting.entity';
+import { UserEntity } from '../model/entity/user.entity';
+import { RoleEntity } from '../model/entity/role.entity';
+import { UserSettingEntity } from '../model/entity/userSetting.entity';
 
 const entities = [UserEntity, RoleEntity, UserSettingEntity];
 
