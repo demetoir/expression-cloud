@@ -10,8 +10,8 @@ CREATE TABLE `users`
 (
     `id`          BIGINT(20)   NOT NULL auto_increment primary key,
     `name`        VARCHAR(255) NOT NULL,
-    `email`       text NOT NULL,
-    `description` text NOT NULL,
+    `email`       text         NOT NULL,
+    `description` text         NOT NULL,
     `created_at`  DATETIME     NOT NULL default now(),
     `updated_at`  DATETIME     NOT NULL default now(),
     `deleted_at`  DATETIME     NULL
@@ -64,15 +64,16 @@ CREATE TABLE `notice`
     `deleted_at` DATETIME   NULL
 );
 
+
 DROP TABLE IF EXISTS `images`;
 
 CREATE TABLE `images`
 (
     `id`         BIGINT(20)   NOT NULL auto_increment primary key,
-    `url`        text   NOT NULL,
+    `url`        text         NOT NULL,
     `extension`  VARCHAR(255) NOT NULL,
     `file_name`  text         NOT NULL,
-    `ret_type`   BIGINT(20)  NULL,
+    `ret_type`   BIGINT(20)   NULL,
     `ref_id`     bigint(20)   NULL,
     `created_at` DATETIME     NOT NULL default now(),
     `updated_at` DATETIME     NOT NULL default now(),
@@ -103,6 +104,8 @@ CREATE TABLE `likes`
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
 );
+
+
 
 DROP TABLE IF EXISTS `expressions`;
 
@@ -141,6 +144,8 @@ CREATE TABLE `user_team`
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
 );
+
+
 
 DROP TABLE IF EXISTS `edit_histories`;
 
@@ -184,6 +189,8 @@ CREATE TABLE `oauths`
     `updated_at` DATETIME     NOT NULL default now(),
     `deleted_at` DATETIME     NULL
 );
+
+
 
 DROP TABLE IF EXISTS `values`;
 
@@ -235,6 +242,7 @@ CREATE TABLE `project_settings`
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
 );
+
 
 
 DROP TABLE IF EXISTS `edit_history_value_varchars`;
