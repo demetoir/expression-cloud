@@ -20,6 +20,9 @@ describe('entity define', () => {
 			user.email = 'email';
 			await connection.manager.save(user);
 
+			console.log(user);
+			return;
+
 			const userRepository = connection.getRepository(UserEntity);
 			const userSettingRepository = connection.getRepository(
 				UserSettingEntity,

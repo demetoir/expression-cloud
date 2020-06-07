@@ -2,13 +2,12 @@
 --    마이그레이션은 typeorm 을에서 보기
 --    SQL 파일 읽어서 수행하는 식으로 만들기
 --    만들때 따로 따로 한테이블 씩 노가다해서 만들기
+
+
 DROP TABLE IF EXISTS `users`;
-
---  todo fk 에는 not null 조건 제거하기
-
 CREATE TABLE `users`
 (
-    `id`          BIGINT(20)   NOT NULL auto_increment primary key,
+    `id`          bigint   primary key NOT NULL auto_increment,
     `name`        VARCHAR(255) NOT NULL,
     `email`       text         NOT NULL,
     `description` text         NOT NULL,
@@ -17,46 +16,41 @@ CREATE TABLE `users`
     `deleted_at`  DATETIME     NULL
 );
 
-DROP TABLE IF EXISTS `user_role`;
-
-CREATE TABLE `user_role`
-(
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20) NULL,
-    `role_id`    BIGINT(20) NULL,
-    `created_at` DATETIME   NOT NULL default now(),
-    `updated_at` DATETIME   NOT NULL default now(),
-    `deleted_at` DATETIME   NULL
-);
-
+;
 DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles`
 (
-    `id`         BIGINT(20)   NOT NULL auto_increment primary key,
+    `id`         bigint   primary key NOT NULL auto_increment,
     `name`       VARCHAR(255) NOT NULL,
     `created_at` DATETIME     NOT NULL default now(),
     `updated_at` DATETIME     NOT NULL default now(),
     `deleted_at` DATETIME     NULL
 );
 
-DROP TABLE IF EXISTS `user_settings`;
 
-CREATE TABLE `user_settings`
+DROP TABLE IF EXISTS `user_role`;
+
+CREATE TABLE `user_role`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `user_id`    bigint NULL,
+    `role_id`    bigint NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
+
 );
+
+DROP TABLE IF EXISTS `user_settings`;
+
 
 DROP TABLE IF EXISTS `notice`;
 
 CREATE TABLE `notice`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `user_id`    bigint NULL,
     `content`    text       NOT NULL,
     `is_read`    tinyint(1) NOT NULL DEFAULT false,
     `created_at` DATETIME   NOT NULL default now(),
@@ -69,12 +63,12 @@ DROP TABLE IF EXISTS `images`;
 
 CREATE TABLE `images`
 (
-    `id`         BIGINT(20)   NOT NULL auto_increment primary key,
+    `id`         bigint   primary key NOT NULL auto_increment,
     `url`        text         NOT NULL,
     `extension`  VARCHAR(255) NOT NULL,
     `file_name`  text         NOT NULL,
-    `ret_type`   BIGINT(20)   NULL,
-    `ref_id`     bigint(20)   NULL,
+    `ret_type`   bigint   NULL,
+    `ref_id`     bigint   NULL,
     `created_at` DATETIME     NOT NULL default now(),
     `updated_at` DATETIME     NOT NULL default now(),
     `deleted_at` DATETIME     NULL
@@ -84,7 +78,7 @@ DROP TABLE IF EXISTS `teams`;
 
 CREATE TABLE `teams`
 (
-    `id`          BIGINT(20)   NOT NULL auto_increment primary key,
+    `id`          bigint   primary key NOT NULL auto_increment,
     `name`        VARCHAR(255) NOT NULL,
     `description` text         NOT NULL,
     `created_at`  DATETIME     NOT NULL default now(),
@@ -96,10 +90,10 @@ DROP TABLE IF EXISTS `likes`;
 
 CREATE TABLE `likes`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20) NULL,
-    `ref_type`   BIGINT(20) NOT NULL,
-    `ref_id`     BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `user_id`    bigint NULL,
+    `ref_type`   bigint NOT NULL,
+    `ref_id`     bigint NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
@@ -111,8 +105,8 @@ DROP TABLE IF EXISTS `expressions`;
 
 CREATE TABLE `expressions`
 (
-    `id`         BIGINT(20)   NOT NULL auto_increment primary key,
-    `project_id` BIGINT(20)   NULL,
+    `id`         bigint   primary key NOT NULL auto_increment,
+    `project_id` bigint   NULL,
     `type`       TINYINT(1)   NOT NULL,
     `name`       VARCHAR(255) NOT NULL,
     `content`    text         NOT NULL,
@@ -125,8 +119,8 @@ DROP TABLE IF EXISTS `tags`;
 
 CREATE TABLE `tags`
 (
-    `id`         BIGINT(20)   NOT NULL auto_increment primary key,
-    `project_id` BIGINT(20)   NULL,
+    `id`         bigint   primary key NOT NULL auto_increment,
+    `project_id` bigint   NULL,
     `name`       VARCHAR(255) NOT NULL,
     `created_at` DATETIME     NOT NULL default now(),
     `updated_at` DATETIME     NOT NULL default now(),
@@ -137,9 +131,9 @@ DROP TABLE IF EXISTS `user_team`;
 
 CREATE TABLE `user_team`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20) NULL,
-    `team_id`    BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `user_id`    bigint NULL,
+    `team_id`    bigint NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
@@ -151,12 +145,12 @@ DROP TABLE IF EXISTS `edit_histories`;
 
 CREATE TABLE `edit_histories`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `prev_id`    BIGINT(20) NULL,
-    `user_id`    BIGINT(20) NULL,
-    `ref_id`     BIGINT(20) NULL,
-    `ref_type`   BIGINT(20) NULL,
-    `edit_type`  BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `prev_id`    bigint NULL,
+    `user_id`    bigint NULL,
+    `ref_id`     bigint NULL,
+    `ref_type`   bigint NULL,
+    `edit_type`  bigint NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
@@ -166,8 +160,8 @@ DROP TABLE IF EXISTS `projects`;
 
 CREATE TABLE `projects`
 (
-    `id`          BIGINT(20)   NOT NULL auto_increment primary key,
-    `user_id`     BIGINT(20)   NULL,
+    `id`          bigint   primary key NOT NULL auto_increment,
+    `user_id`     bigint   NULL,
     `name`        VARCHAR(255) NOT NULL,
     `is_public`   tinyint(1)   NOT NULL DEFAULT false,
     `is_locked`   tinyint(1)   NOT NULL DEFAULT false,
@@ -181,8 +175,8 @@ DROP TABLE IF EXISTS `oauths`;
 
 CREATE TABLE `oauths`
 (
-    `id`         BIGINT(20)   NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20)   NULL,
+    `id`         bigint   primary key NOT NULL auto_increment,
+    `user_id`    bigint   NULL,
     `type`       TINYINT(1)   NOT NULL,
     `auth_id`    VARCHAR(255) NOT NULL,
     `created_at` DATETIME     NOT NULL default now(),
@@ -196,10 +190,10 @@ DROP TABLE IF EXISTS `values`;
 
 CREATE TABLE `values`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `column_id`  BIGINT(20) NULL,
-    `value`      BIGINT(20) NOT NULL,
-    `index`      BIGINT(20) NOT NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `column_id`  bigint NULL,
+    `value`      bigint NOT NULL,
+    `index`      bigint NOT NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
@@ -209,10 +203,10 @@ DROP TABLE IF EXISTS `columns`;
 
 CREATE TABLE `columns`
 (
-    `id`            BIGINT(20)   NOT NULL auto_increment primary key,
-    `expression_id` BIGINT(20)   NULL,
+    `id`            bigint   primary key NOT NULL auto_increment,
+    `expression_id` bigint   NULL,
     `name`          VARCHAR(255) NOT NULL,
-    `index`         BIGINT(20)   NOT NULL,
+    `index`         bigint   NOT NULL,
     `created_at`    DATETIME     NOT NULL default now(),
     `updated_at`    DATETIME     NOT NULL default now(),
     `deleted_at`    DATETIME     NULL
@@ -222,11 +216,11 @@ DROP TABLE IF EXISTS `comments`;
 
 CREATE TABLE `comments`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `user_id`    BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `user_id`    bigint NULL,
     `content`    text       NOT NULL,
-    `ref_type`   BIGINT(20) NULL,
-    `ref_id`     BIGINT(20) NULL,
+    `ref_type`   bigint NULL,
+    `ref_id`     bigint NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
@@ -236,8 +230,8 @@ DROP TABLE IF EXISTS `project_settings`;
 
 CREATE TABLE `project_settings`
 (
-    `id`         BIGINT(20) NOT NULL auto_increment primary key,
-    `project_id` BIGINT(20) NULL,
+    `id`         bigint primary key NOT NULL auto_increment,
+    `project_id` bigint NULL,
     `created_at` DATETIME   NOT NULL default now(),
     `updated_at` DATETIME   NOT NULL default now(),
     `deleted_at` DATETIME   NULL
@@ -249,8 +243,8 @@ DROP TABLE IF EXISTS `edit_history_value_varchars`;
 
 CREATE TABLE `edit_history_value_varchars`
 (
-    `id`              BIGINT(20)   not null auto_increment primary key,
-    `edit_history_id` BIGINT(20)   NULL,
+    `id`              bigint   primary key NOT NULL auto_increment,
+    `edit_history_id` bigint   NULL,
     `value`           VARCHAR(255) NOT NULL,
     `created_at`      DATETIME     NOT NULL default now(),
     `updated_at`      DATETIME     NOT NULL default now(),
@@ -261,9 +255,9 @@ DROP TABLE IF EXISTS `edit_history_value_bigints`;
 
 CREATE TABLE `edit_history_value_bigints`
 (
-    `id`              BIGINT(20) NOT NULL auto_increment primary key,
-    `edit_history_id` BIGINT(20) NULL,
-    `value`           BIGINT(20) NOT NULL,
+    `id`              bigint primary key NOT NULL auto_increment,
+    `edit_history_id` bigint NULL,
+    `value`           bigint NOT NULL,
     `created_at`      DATETIME   NOT NULL default now(),
     `updated_at`      DATETIME   NOT NULL default now(),
     `deleted_at`      DATETIME   NULL
@@ -346,3 +340,14 @@ ALTER TABLE `edit_history_value_varchars`
 ALTER TABLE `edit_history_value_bigints`
     ADD CONSTRAINT `fk_edit_histories_to_edit_history_value_bigints` FOREIGN KEY
         (edit_history_id) REFERENCES `edit_histories` (`id`);
+
+
+
+
+
+
+
+
+
+
+
