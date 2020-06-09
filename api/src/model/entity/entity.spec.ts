@@ -6,16 +6,14 @@ import { NoticeEntity } from './notices.entity';
 import { UserSettingEntity } from './userSetting.entity';
 
 describe('entity define', () => {
-
 	let connection;
-	beforeAll(async ()=>{
+	beforeAll(async () => {
 		connection = await createConnection(ormconfig);
+	});
 
-	})
-
-	afterAll( async ()=>{
+	afterAll(async () => {
 		connection.close();
-	})
+	});
 
 	beforeEach(async () => {
 		console.log('before each');
@@ -24,6 +22,10 @@ describe('entity define', () => {
 	// todo test soft delete
 	// todo split test to each entity
 	describe('userEntity', () => {
+		it('soft remove', async () => {});
+
+		it('auto updated_at', () => {});
+
 		it('able to create', async () => {
 			console.log('here');
 			const user = new UserEntity();
