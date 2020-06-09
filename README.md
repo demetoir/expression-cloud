@@ -1,26 +1,33 @@
 # Expression Could
 
+# todo checklist
 
-# todo checklist 
 - [*] nest.js boilerplate
 - [*] vue front setting
 - [*] docker dotenv setting
-- [*] docker mysql setting 
+- [*] docker mysql setting
 - [*] docker redis setting
 - [*] docker prestart, prestop script
+- [*] sqlite setting 하기
+- [*] mysql sql setting
+- [*] root build script
+- [ ] prod docker compose setting
+- [ ] nodeCluster.dockerFile
+- [ ] nginx.dockerFile
 - [ ] typeorm 문서 읽기
 - [ ] nest.js 문서 읽기
-- [ ] git hook setting 
-- [ ] mysql sql setting
-- [ ] sqlite setting 하기
+- [ ] git hook setting
+  - [ ] husky
+  - [ ] prettier-quik
+  - [ ] lint-staged
 - [ ] travis-ci setting
 - [ ] script one shot build
-- [ ] script one shot start 
+- [ ] script one shot start
 - [ ] script one shot start dev
 - [ ] docker mongo setting
 - [ ] docker dotenv expend
 - [ ] docker nginx and proxy express server
-- [ ] nest.js/typeorm setting 
+- [ ] nest.js/typeorm setting
 - [ ] nest.js passort redis session
 - [ ] nest.js passort google
 - [ ] nest.js passort facebook
@@ -30,9 +37,6 @@
 - [ ] nest.js typeorm migration
 - [ ] vue ant design theme 적용
 - [ ] vue app server proxy
-
-
-
 
 # 대략적인 스케치
 
@@ -104,15 +108,15 @@ yarn
 mocha
 typeorm
 
--   REST like http api
--   api doc 자동생성
--   모니터링 알아보기
+- REST like http api
+- api doc 자동생성
+- 모니터링 알아보기
 
 ## 인프라
 
 aws ec2, rds, code Deploy
 
--   docker
+- docker
 
 ## DB
 
@@ -122,4 +126,3 @@ prod aws aroras
 
 aws elasticCache redis
 docker redis
-
