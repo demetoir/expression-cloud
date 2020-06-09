@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "sh scripts/postinstall.sh",
     "prebuild": "rimraf dist",
-    "build": "node scripts/build.js",
+    "build": "sh scripts/build.sh",
     "prestart": "sh scripts/prestart.sh",
     "start": "sh scripts/start.sh",
     "prestop": "sh ./scripts/prestop.sh",
