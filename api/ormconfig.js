@@ -26,12 +26,12 @@ const prod = {
 	synchronize: false,
 	logging: false,
 	bigNumberStrings: false,
-	entities: ['src/model/entity/**/*.entity.ts'],
-	migrations: ['src/model/migration/**/*.ts'],
+	entities: ['dest/model/entity/**/*.entity.js'],
+	migrations: ['dest/model/migration/**/*.js'],
 	cli: {
-		migrationsDir: 'src/model/migration',
+		migrationsDir: 'dest/model/migration',
 	},
-	subscribers: ['src/model/subscriber/**/*.ts'],
+	subscribers: ['dest/model/subscriber/**/*.js'],
 };
 
 const test = {
@@ -60,7 +60,7 @@ if (node_env === 'dev') {
 	config = dev;
 } else if (node_env === 'test') {
 	config = test;
-} else if (node_env === 'prod') {
+} else if (node_env === 'production') {
 	config = prod;
 } else {
 	throw new Error(`node_env expect one of dev, test, prod, but ${node_env}`);
