@@ -8,5 +8,7 @@ RUN yarn install --production
 
 COPY ../../dist/api .
 
+# todo add volume for loggig
+
 EXPOSE 3000
 CMD ['yarn', 'start:prod']
