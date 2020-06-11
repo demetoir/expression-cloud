@@ -7,12 +7,14 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "sh scripts/postinstall.sh",
-    "prebuild": "rimraf dist",
+    "prebuild": "sh scripts/prebuild.sh",
     "build": "sh scripts/build.sh",
+    "postbuild": "sh scripts/postbuild.sh",
     "prestart": "sh scripts/prestart.sh",
     "start": "sh scripts/start.sh",
     "prestop": "sh ./scripts/prestop.sh",
-    "stop": "sh ./scripts/stop.sh"
+    "stop": "sh ./scripts/stop.sh",
+    "start:prod": "sh ./scripts/"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
