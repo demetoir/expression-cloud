@@ -37,6 +37,8 @@
 - [ ] nest.js typeorm migration
 - [ ] vue ant design theme 적용
 - [ ] vue app server proxy
+- [ ] nest.js 보안 모듈 적용 helmet 등등
+- [ ] 좋은 윈스턴 로거 추가하기
 
 # 대략적인 스케치
 
