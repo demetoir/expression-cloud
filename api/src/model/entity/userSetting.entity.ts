@@ -8,7 +8,7 @@ import {
 	UpdateDateColumn
 } from "typeorm";
 import { UserEntity } from "./user.entity";
-import tableIdType from "../libs/tableIdTypeResolver";
+import tableIdType from "../../libs/tableIdTypeResolver";
 
 
 @Entity({ name: "user_settings" })

@@ -13,7 +13,7 @@ import {
 import { UserSettingEntity } from './userSetting.entity';
 import { RoleEntity } from './role.entity';
 import { NoticeEntity } from './notices.entity';
-import tableIdType from "../libs/tableIdTypeResolver";
+import tableIdType from "../../libs/tableIdTypeResolver";
 
 
 @Entity({ name: 'users' })
