@@ -74,6 +74,9 @@ export class UserEntity {
 	@OneToMany(
 		type => NoticeEntity,
 		notices => notices.user,
+		{
+			eager: false,
+		},
 	)
 	notices: NoticeEntity[];
 
@@ -81,7 +84,7 @@ export class UserEntity {
 		type => TeamEntity,
 		user => user.teams,
 		{
-			eager: true,
+			eager: false,
 		},
 	)
 	@JoinTable({
