@@ -8,7 +8,7 @@ export class images1591519624801 implements MigrationInterface {
                 \`url\`        text               NOT NULL,
                 \`extension\`  VARCHAR(255)       NOT NULL,
                 \`file_name\`  text               NOT NULL,
-                \`ret_type\`   bigint             NULL,
+                \`ref_type\`   bigint             NULL,
                 \`ref_id\`     bigint             NULL,
                 \`created_at\` DATETIME           NOT NULL default now(),
                 \`updated_at\` DATETIME           NOT NULL default now(),

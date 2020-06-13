@@ -8,8 +8,8 @@ export class oauths1591519632556 implements MigrationInterface {
             (
                 id         bigint primary key NOT NULL auto_increment,
                 \`user_id\`    bigint             NULL,
-                \`type\`       TINYINT(1)         NOT NULL,
-                \`auth_id\`    VARCHAR(255)       NOT NULL,
+                \`type\`       bigint         NOT NULL,
+                \`auth_id\`    text       NOT NULL,
                 \`created_at\` DATETIME           NOT NULL default now(),
                 \`updated_at\` DATETIME           NOT NULL default now(),
                 \`deleted_at\` DATETIME           NULL
