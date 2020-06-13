@@ -3,9 +3,6 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class editHistories1591519630478 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(`
-
-
-
             CREATE TABLE \`edit_histories\`
             (
                 id         bigint primary key NOT NULL auto_increment,
