@@ -28,7 +28,7 @@ export class ProjectEntity {
 		name: 'is_locked',
 		type: 'tinyint',
 		nullable: false,
-		defl: false,
+		default: false,
 	})
 	isLocked: boolean;
 

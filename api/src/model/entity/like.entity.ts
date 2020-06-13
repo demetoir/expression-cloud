@@ -17,7 +17,7 @@ export class LikeEntity {
 	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
 	refType: bigint;
 
-	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
+	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
 	refId: bigint;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
