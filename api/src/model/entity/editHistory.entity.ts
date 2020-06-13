@@ -4,13 +4,12 @@ import {
 	DeleteDateColumn,
 	Entity,
 	JoinColumn,
-	ManyToOne,
+	ManyToOne, OneToOne,
 	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
+	UpdateDateColumn
+} from "typeorm";
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { UserEntity } from './user.entity';
-import { userInfo } from 'os';
 
 @Entity({ name: 'edit_histories' })
 export class EditHistoryEntity {
@@ -46,5 +45,6 @@ export class EditHistoryEntity {
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-	// todo add self relation prev_id to one to one
+	@OneToOne(type => EditHistoryEntity)
+	prevHistory: EditHistoryEntity;
 }
