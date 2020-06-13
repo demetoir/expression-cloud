@@ -2,7 +2,7 @@ import { createConnection } from 'typeorm';
 import ormconfig from '../../../ormconfig.js';
 import { UserEntity } from './user.entity';
 import { RoleEntity } from './role.entity';
-import { NoticeEntity } from './notices.entity';
+import { NoticeEntity } from './notice.entity';
 import { UserSettingEntity } from './userSetting.entity';
 
 describe('entity define', () => {
