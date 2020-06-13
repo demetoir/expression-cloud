@@ -11,16 +11,16 @@
 - [*] sqlite setting 하기
 - [*] mysql sql setting
 - [*] root build script
-- [ ] prod docker compose setting
-- [ ] nodeCluster.dockerFile
-- [ ] nginx.dockerFile
+- [XXX] prod docker compose setting
+- [*] nodeCluster.dockerFile
+- [*] nginx.dockerFile
 - [ ] typeorm 문서 읽기
 - [ ] nest.js 문서 읽기
 - [ ] git hook setting
   - [ ] husky
   - [ ] prettier-quik
   - [ ] lint-staged
-- [ ] travis-ci setting
+- [ ] github action setting
 - [ ] script one shot build
 - [ ] script one shot start
 - [ ] script one shot start dev
@@ -39,6 +39,49 @@
 - [ ] vue app server proxy
 - [ ] nest.js 보안 모듈 적용 helmet 등등
 - [ ] 좋은 윈스턴 로거 추가하기
+
+# 개발환경
+
+vue dev server
+nest dev server
+docker for mysql and redis, mongo
+
+
+# 배포환경
+
+deploy to aws
+docker deploy
+beanstalk
+rds
+elastic cache
+s3
+route 53
+node 12
+vpc
+ALB..???
+lambda
+
+
+
+# ci/cd flow
+
+https://velog.io/@q00/Github-action-aws-ecs-Github-CICD-55k38sf8ik
+
+마스터 pr시에만 테스트
+
+master 로 머지시 배포
+
+git action
+  
+lint api test api build api js
+lint app test app build app js
+  
+send built api to beanstalk
+send built app to s3
+send nginx conf to .ebextensions
+  
+  
+
 
 # 대략적인 스케치
 
