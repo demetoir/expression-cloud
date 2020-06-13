@@ -15,6 +15,7 @@ import { RoleEntity } from './role.entity';
 import { NoticeEntity } from './notice.entity';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { TeamEntity } from './team.entity';
+import { EditHistoryEntity } from './editHistory.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -95,4 +96,10 @@ export class UserEntity {
 		},
 	})
 	teams: TeamEntity;
+
+	@OneToMany(
+		type => EditHistoryEntity,
+		editHistory => editHistory.user,
+	)
+	editHistory: EditHistoryEntity[];
 }
