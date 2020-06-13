@@ -3,10 +3,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { ColumnEntity } from './column.entity';
+import { columns1591519634701 } from '../migration/1591519634701-columns';
 
 @Entity({ name: 'expressions' })
 export class ExpressionEntity {
@@ -36,4 +39,10 @@ export class ExpressionEntity {
 	deletedAt: Date;
 
 	// todo relation to projec
+
+	@OneToMany(
+		type => ColumnEntity,
+		column => column.expression,
+	)
+	columns: ColumnEntity[];
 }
