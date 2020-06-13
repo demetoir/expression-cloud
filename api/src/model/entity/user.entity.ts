@@ -12,9 +12,9 @@ import {
 } from 'typeorm';
 import { UserSettingEntity } from './userSetting.entity';
 import { RoleEntity } from './role.entity';
-import { NoticeEntity } from './notices.entity';
-import tableIdType from "../../libs/tableIdTypeResolver";
-
+import { NoticeEntity } from './notice.entity';
+import tableIdType from '../../libs/tableIdTypeResolver';
+import { TeamEntity } from './team.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -28,8 +28,7 @@ export class UserEntity {
 	email: string;
 
 	@Column({
-		type: 'varchar',
-		length: 255,
+		type: 'text',
 		name: 'description',
 		nullable: false,
 	})
@@ -76,4 +75,24 @@ export class UserEntity {
 		notices => notices.user,
 	)
 	notices: NoticeEntity[];
+
+	@ManyToMany(
+		type => TeamEntity,
+		user => user.teams,
+		{
+			eager: true,
+		},
+	)
+	@JoinTable({
+		name: 'user_team',
+		joinColumn: {
+			name: 'user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'team_id',
+			referencedColumnName: 'id',
+		},
+	})
+	teams: TeamEntity;
 }

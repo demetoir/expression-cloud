@@ -3,21 +3,24 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
-	JoinTable,
+	JoinColumn, JoinTable,
 	ManyToMany,
 	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
+	UpdateDateColumn
+} from "typeorm";
 import { UserEntity } from './user.entity';
 import tableIdType from '../../libs/tableIdTypeResolver';
 
-@Entity({ name: 'roles' })
-export class RoleEntity {
+@Entity({ name: 'teams' })
+export class TeamEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
 	name: string;
+
+	@Column({ type: 'text', name: 'description', nullable: false })
+	description: string;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
 	createdAt: Date;
@@ -32,7 +35,20 @@ export class RoleEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToMany(type => UserEntity)
-	@JoinTable()
-	users: UserEntity[];
+	@ManyToMany(
+		type => UserEntity,
+		user => user.teams,
+	)
+	@JoinTable({
+		name: 'user_team',
+		joinColumn: {
+			name: 'team_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'user_id',
+			referencedColumnName: 'id',
+		},
+	})
+	teams: TeamEntity[];
 }
