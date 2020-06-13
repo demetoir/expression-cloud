@@ -46,12 +46,12 @@ const test = {
 	bigNumberStrings: false,
 
 	// migrationsRun:true,
-	entities: ["../model/entity/**/*.entity.ts"],
-	migrations: ["../model/migration/**/*.ts"],
+	entities: ["src/model/entity/**/*.entity.ts"],
+	migrations: ["src/model/migration/**/*.ts"],
 	cli: {
-		migrationsDir: "../model/migration"
+		migrationsDir: "src/model/migration"
 	},
-	subscribers: ["../model/subscriber/**/*.ts"]
+	subscribers: ["src/model/subscriber/**/*.ts"]
 };
 
 let config;
@@ -68,4 +68,4 @@ if (node_env === "dev") {
 
 console.log(`load typeorm config as ${node_env}`);
 
-module.exports = config;
+module.exports.config = config;
