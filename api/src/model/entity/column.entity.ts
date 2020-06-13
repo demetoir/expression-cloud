@@ -46,6 +46,4 @@ export class ColumnEntity {
 	)
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
-
-	// todo relation to expression many to one
 }
