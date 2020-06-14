@@ -1,24 +1,32 @@
 {
-  "name": "expression-cloud",
-  "version": "0.0.1",
-  "description": "",
-  "author": "demetoir",
-  "private": true,
-  "license": "MIT",
-  "scripts": {
-    "postinstall": "sh scripts/postinstall.sh",
-    "prebuild": "sh scripts/prebuild.sh",
-    "build": "sh scripts/build.sh",
-    "postbuild": "sh scripts/postbuild.sh",
-    "prestart": "sh scripts/prestart.sh",
-    "start": "sh scripts/start.sh",
-    "prestop": "sh ./scripts/prestop.sh",
-    "stop": "sh ./scripts/stop.sh",
-    "start:prod": "sh ./scripts/"
-  },
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "dotenv-expand": "^5.1.0"
-  },
-  "devDependencies": {}
+	"name": "expression-cloud",
+	"version": "0.0.1",
+	"description": "",
+	"author": "demetoir",
+	"private": true,
+	"license": "MIT",
+	"scripts": {
+		"postinstall": "sh scripts/postinstall.sh",
+		"prebuild": "sh scripts/prebuild.sh",
+		"build": "sh scripts/build.sh",
+		"postbuild": "sh scripts/postbuild.sh",
+		"prestart": "sh scripts/prestart.sh",
+		"start": "sh scripts/start.sh",
+		"prestop": "sh ./scripts/prestop.sh",
+		"stop": "sh ./scripts/stop.sh",
+		"start:prod": "sh ./scripts/"
+	},
+	"dependencies": {
+		"dotenv": "^8.2.0",
+		"dotenv-expand": "^5.1.0"
+	},
+	"devDependencies": {
+		"husky": "^4.2.5"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pwd ",
+			"pre-push": "npm test"
+		}
+	}
 }
