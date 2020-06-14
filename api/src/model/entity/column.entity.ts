@@ -20,6 +20,9 @@ export class ColumnEntity {
 
 
 
+
+
+
 	@Column({
 		name: 'name',
 		type: 'varchar',
