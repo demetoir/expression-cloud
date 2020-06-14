@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import { config } from '../../../ormconfig.js';
 import { UserEntity } from './user.entity';
 import { ProjectEntity } from './project.entity';
+import { TagEntity } from './tag.entity';
 
 describe('project entity', () => {
 	let userRepository;
@@ -200,12 +201,31 @@ describe('project entity', () => {
 			project.user = user;
 			await connection.manager.save(project);
 
-			const resultUserSetting = await projectRepository.findOne({
+			const resultProject = await projectRepository.findOne({
 				where: { id: project.id },
 				relations: ['user'],
 			});
 
-			assert.equal(resultUserSetting.user.id, user.id);
+			assert.equal(resultProject.user.id, user.id);
+		});
+
+		it('should relate with tag˚ entity', async () => {
+			const tag = new TagEntity();
+			tag.name = 'user';
+			await connection.manager.save(tag);
+
+			tag.project = project;
+			await connection.manager.save(tag);
+
+			project.tags = [tag];
+			await connection.manager.save(project);
+
+			const resultProject = await projectRepository.findOne({
+				where: { id: project.id },
+				relations: ['tags'],
+			});
+
+			assert.equal(resultProject.tags[0].id, tag.id);
 		});
 	});
 });

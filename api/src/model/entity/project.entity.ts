@@ -62,7 +62,6 @@ export class ProjectEntity {
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-	// todo add test for relation
 	@OneToMany(
 		type => TagEntity,
 		tags => tags.project,
