@@ -20,6 +20,8 @@
   - [*] husky
   - [*] prettier-quik
   - [ ] ./app 을 prettier 설정으로 변경
+- [*] 각 엔티티 정의
+- [ ] 각 엔티티 관계 정의 및 테스트코드 작성
 - [ ] nest.js 문서 읽기
 - [ ] github action setting
 - [ ] script one shot start
@@ -46,7 +48,6 @@ vue dev server
 nest dev server
 docker for mysql and redis, mongo
 
-
 # 배포환경
 
 deploy to aws
@@ -61,8 +62,6 @@ vpc
 ALB..???
 lambda
 
-
-
 # ci/cd flow
 
 https://velog.io/@q00/Github-action-aws-ecs-Github-CICD-55k38sf8ik
@@ -72,16 +71,13 @@ https://velog.io/@q00/Github-action-aws-ecs-Github-CICD-55k38sf8ik
 master 로 머지시 배포
 
 git action
-  
+
 lint api test api build api js
 lint app test app build app js
-  
+
 send built api to beanstalk
 send built app to s3
 send nginx conf to .ebextensions
-  
-  
-
 
 # 대략적인 스케치
 

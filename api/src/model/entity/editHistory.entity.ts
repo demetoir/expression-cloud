@@ -47,7 +47,6 @@ export class EditHistoryEntity {
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-
 	// todo test this relation
 	@OneToOne(type => EditHistoryEntity)
 	prevHistory: EditHistoryEntity;

@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class tags1591519628231 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
@@ -16,6 +16,6 @@ export class tags1591519628231 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable("tags");
+		await queryRunner.dropTable('tags');
 	}
 }
