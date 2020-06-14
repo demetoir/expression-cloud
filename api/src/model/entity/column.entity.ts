@@ -16,6 +16,10 @@ export class ColumnEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
+
+
+
+
 	@Column({
 		name: 'name',
 		type: 'varchar',

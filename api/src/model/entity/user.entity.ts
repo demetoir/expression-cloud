@@ -27,6 +27,9 @@ export class UserEntity {
 
 
 
+
+
+
 	id: bigint;
 
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
