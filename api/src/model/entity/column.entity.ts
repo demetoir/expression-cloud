@@ -22,13 +22,6 @@ export class ColumnEntity {
 		length: 255,
 		nullable: false,
 	})
-
-
-
-
-
-
-
 	name: string;
 
 	@Column({ name: 'index', type: 'bigint', nullable: false })

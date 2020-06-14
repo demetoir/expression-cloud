@@ -16,8 +16,8 @@
 		"stop": "sh scripts/stop.sh",
 		"start:prod": "sh scripts/",
 		"format": "sh scripts/format.sh",
-		"lint": "sh scripts/husky/pre-commit.sh",
-		"test": "sh scripts/husky/pre-push.sh"
+		"lint": "sh scripts/lint.sh",
+		"test": "sh scripts/test.sh"
 	},
 	"dependencies": {
 		"dotenv": "^8.2.0",
@@ -29,7 +29,7 @@
 	"husky": {
 		"hooks": {
 			"pre-commit": "yarn lint",
-			"pre-push": "npm test"
+			"pre-push": "yarn test"
 		}
 	}
 }
