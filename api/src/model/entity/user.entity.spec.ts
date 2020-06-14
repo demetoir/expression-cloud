@@ -33,7 +33,9 @@ describe('user entity', () => {
 		connection.close();
 	});
 
-	beforeEach(async () => {});
+	beforeEach(async () => {
+		console.log('here');
+	});
 
 	it('should able to get repository from connection manager', function() {
 		assert.isNotNull(userRepository);

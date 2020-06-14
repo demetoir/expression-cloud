@@ -1,10 +1,9 @@
 pwd
 
 # goto root directory
-cd ../../
 
 cd ./api
-
+yarn format
 yarn lint
 cd ..
 

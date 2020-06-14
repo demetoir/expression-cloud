@@ -13,8 +13,6 @@ export class ProjectSettingEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
-
-
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
 	createdAt: Date;
 
@@ -29,5 +27,4 @@ export class ProjectSettingEntity {
 	deletedAt: Date;
 
 	// todo add project relaction one to ont
-
 }

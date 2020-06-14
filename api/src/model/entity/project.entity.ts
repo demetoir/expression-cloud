@@ -35,7 +35,6 @@ export class ProjectEntity {
 	@Column({ name: 'description', type: 'text', nullable: false })
 	description: string;
 
-
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
 	createdAt: Date;
 
@@ -50,5 +49,4 @@ export class ProjectEntity {
 	deletedAt: Date;
 
 	// todo add user relation many to one
-
 }

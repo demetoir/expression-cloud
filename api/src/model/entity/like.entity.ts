@@ -13,7 +13,6 @@ export class LikeEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
-
 	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
 	refType: bigint;
 
@@ -32,6 +31,4 @@ export class LikeEntity {
 		nullable: true,
 	})
 	deletedAt: Date;
-
-
 }

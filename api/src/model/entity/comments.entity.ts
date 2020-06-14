@@ -16,7 +16,6 @@ export class CommentEntity {
 	@Column({ name: 'content', type: 'text', nullable: false })
 	content: string;
 
-
 	// todo reftype, refid nullable true 로 다른데도 변경하기
 	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
 	refType: bigint;

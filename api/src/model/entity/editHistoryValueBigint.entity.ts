@@ -13,7 +13,7 @@ export class EditHistoryValueVarcharEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
-	@Column({ name: 'value', type: 'bigint',  nullable: false })
+	@Column({ name: 'value', type: 'bigint', nullable: false })
 	value: bigint;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })

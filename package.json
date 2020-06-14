@@ -14,7 +14,8 @@
 		"start": "sh scripts/start.sh",
 		"prestop": "sh ./scripts/prestop.sh",
 		"stop": "sh ./scripts/stop.sh",
-		"start:prod": "sh ./scripts/"
+		"start:prod": "sh ./scripts/",
+		"lint": "sh ./scripts/husky/pre-commit.sh"
 	},
 	"dependencies": {
 		"dotenv": "^8.2.0",
@@ -25,7 +26,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "pwd ",
+			"pre-commit": "yarn lint",
 			"pre-push": "npm test"
 		}
 	}

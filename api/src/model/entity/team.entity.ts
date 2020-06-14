@@ -3,11 +3,12 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
-	JoinColumn, JoinTable,
+	JoinColumn,
+	JoinTable,
 	ManyToMany,
 	PrimaryGeneratedColumn,
-	UpdateDateColumn
-} from "typeorm";
+	UpdateDateColumn,
+} from 'typeorm';
 import { UserEntity } from './user.entity';
 import tableIdType from '../../libs/tableIdTypeResolver';
 
