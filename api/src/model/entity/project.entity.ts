@@ -5,11 +5,13 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { UserEntity } from './user.entity';
+import { TagEntity } from './tag.entity';
 
 @Entity({ name: 'projects' })
 export class ProjectEntity {
@@ -59,4 +61,11 @@ export class ProjectEntity {
 	)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
+
+	// todo add test for relation
+	@OneToMany(
+		type => TagEntity,
+		tags => tags.project,
+	)
+	tags: TagEntity[];
 }

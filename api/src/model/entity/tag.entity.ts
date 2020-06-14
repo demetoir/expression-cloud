@@ -3,10 +3,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'tags' })
 export class TagEntity {
@@ -29,5 +32,10 @@ export class TagEntity {
 	})
 	deletedAt: Date;
 
-	// todo relation to project
+	@ManyToOne(
+		type => ProjectEntity,
+		project => project.tags,
+	)
+	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
+	project: ProjectEntity;
 }
