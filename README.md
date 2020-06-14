@@ -15,13 +15,13 @@
 - [*] nodeCluster.dockerFile
 - [*] nginx.dockerFile
 - [*] typeorm 문서 읽기
-- [ ] nest.js 문서 읽기
-- [*] git hook setting
-  - [ ] husky
-  - [ ] prettier-quik
-  - [ ] lint-staged
-- [ ] github action setting
 - [*] script one shot build
+- [*] git hook setting
+  - [*] husky
+  - [*] prettier-quik
+  - [ ] ./app 을 prettier 설정으로 변경
+- [ ] nest.js 문서 읽기
+- [ ] github action setting
 - [ ] script one shot start
 - [ ] script one shot start dev
 - [ ] docker mongo setting
