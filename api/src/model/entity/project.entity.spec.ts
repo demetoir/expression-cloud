@@ -176,7 +176,6 @@ describe('project entity', () => {
 		});
 	});
 
-	// todo add test for userSetting entity
 	describe('relation', () => {
 		let project;
 
