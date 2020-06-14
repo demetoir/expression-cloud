@@ -16,6 +16,7 @@ import { NoticeEntity } from './notice.entity';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
+import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -103,6 +104,16 @@ export class UserEntity {
 	@OneToMany(
 		type => EditHistoryEntity,
 		editHistory => editHistory.user,
+		{ eager: false },
 	)
 	editHistories: EditHistoryEntity[];
+
+
+	// todo test project relation
+	@OneToMany(
+		type => ProjectEntity,
+		project => project.user,
+		{ eager: false },
+	)
+	projects: ProjectEntity[];
 }

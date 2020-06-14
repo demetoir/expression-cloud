@@ -3,10 +3,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'projects' })
 export class ProjectEntity {
@@ -22,7 +25,7 @@ export class ProjectEntity {
 		nullable: false,
 		default: false,
 	})
-	isPublic: boolean;
+	isPublic = false;
 
 	@Column({
 		name: 'is_locked',
@@ -30,7 +33,7 @@ export class ProjectEntity {
 		nullable: false,
 		default: false,
 	})
-	isLocked: boolean;
+	isLocked = false;
 
 	@Column({ name: 'description', type: 'text', nullable: false })
 	description: string;
@@ -48,5 +51,10 @@ export class ProjectEntity {
 	})
 	deletedAt: Date;
 
-	// todo add user relation many to one
+	@ManyToOne(
+		type => UserEntity,
+		user => user.projects,
+	)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }
