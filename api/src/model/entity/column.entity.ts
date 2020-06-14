@@ -16,19 +16,19 @@ export class ColumnEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
-
-
-
-
-
-
-
 	@Column({
 		name: 'name',
 		type: 'varchar',
 		length: 255,
 		nullable: false,
 	})
+
+
+
+
+
+
+
 	name: string;
 
 	@Column({ name: 'index', type: 'bigint', nullable: false })

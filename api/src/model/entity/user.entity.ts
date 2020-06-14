@@ -20,16 +20,6 @@ import { EditHistoryEntity } from './editHistory.entity';
 @Entity({ name: 'users' })
 export class UserEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-
-
-
-
-
-
-
-
-
-
 	id: bigint;
 
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
