@@ -98,7 +98,7 @@ export class UserEntity {
 			referencedColumnName: 'id',
 		},
 	})
-	teams: TeamEntity;
+	teams: TeamEntity[];
 
 	@OneToMany(
 		type => EditHistoryEntity,
