@@ -27,7 +27,7 @@ describe('team entity', () => {
 		assert.isNotNull(teamRepository);
 	});
 
-	it('should create new user', async function() {
+	it('should create new entity', async function() {
 		const team = new TeamEntity();
 		team.name = 'team name';
 		team.description = 'description';
