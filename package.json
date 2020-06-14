@@ -12,10 +12,12 @@
 		"postbuild": "sh scripts/postbuild.sh",
 		"prestart": "sh scripts/prestart.sh",
 		"start": "sh scripts/start.sh",
-		"prestop": "sh ./scripts/prestop.sh",
-		"stop": "sh ./scripts/stop.sh",
-		"start:prod": "sh ./scripts/",
-		"lint": "sh ./scripts/husky/pre-commit.sh"
+		"prestop": "sh scripts/prestop.sh",
+		"stop": "sh scripts/stop.sh",
+		"start:prod": "sh scripts/",
+		"format": "sh scripts/format.sh",
+		"lint": "sh scripts/husky/pre-commit.sh",
+		"test": "sh scripts/husky/pre-push.sh"
 	},
 	"dependencies": {
 		"dotenv": "^8.2.0",

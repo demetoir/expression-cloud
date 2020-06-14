@@ -14,14 +14,14 @@
 - [XXX] prod docker compose setting
 - [*] nodeCluster.dockerFile
 - [*] nginx.dockerFile
-- [ ] typeorm 문서 읽기
+- [*] typeorm 문서 읽기
 - [ ] nest.js 문서 읽기
-- [ ] git hook setting
+- [*] git hook setting
   - [ ] husky
   - [ ] prettier-quik
   - [ ] lint-staged
 - [ ] github action setting
-- [ ] script one shot build
+- [*] script one shot build
 - [ ] script one shot start
 - [ ] script one shot start dev
 - [ ] docker mongo setting
