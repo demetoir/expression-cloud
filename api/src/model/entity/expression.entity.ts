@@ -40,6 +40,8 @@ export class ExpressionEntity {
 
 	// todo relation to projec
 
+
+	// todo add test this relation
 	@OneToMany(
 		type => ColumnEntity,
 		column => column.expression,

@@ -31,4 +31,6 @@ export class LikeEntity {
 		nullable: true,
 	})
 	deletedAt: Date;
+
+	// todo many to one relation with user
 }

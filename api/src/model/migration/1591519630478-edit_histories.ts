@@ -5,17 +5,17 @@ export class editHistories1591519630478 implements MigrationInterface {
 		await queryRunner.query(`
             CREATE TABLE \`edit_histories\`
             (
-                id         bigint primary key NOT NULL auto_increment,
+                id             bigint primary key NOT NULL auto_increment,
                 \`prev_id\`    bigint             NULL,
                 \`user_id\`    bigint             NULL,
                 \`ref_id\`     bigint             NULL,
                 \`ref_type\`   bigint             NULL,
-                \`edit_type\`  smallint             NULL,
+                \`edit_type\`  smallint           NULL,
                 \`created_at\` DATETIME           NOT NULL default now(),
                 \`updated_at\` DATETIME           NOT NULL default now(),
                 \`deleted_at\` DATETIME           NULL
             );
-`);
+		`);
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {

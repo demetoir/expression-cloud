@@ -2,7 +2,8 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class images1591519624801 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`            CREATE TABLE \`images\`
+		await queryRunner.query(`            
+            CREATE TABLE \`images\`
             (
                 id         bigint primary key NOT NULL auto_increment,
                 \`url\`        text               NOT NULL,

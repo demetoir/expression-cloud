@@ -3,8 +3,6 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class likes1591519625834 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(`
-
-
             CREATE TABLE \`likes\`
             (
                 id         bigint primary key NOT NULL auto_increment,

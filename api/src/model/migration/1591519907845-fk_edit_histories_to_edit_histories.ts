@@ -7,7 +7,6 @@ export class fkEditHistoriesToEditHistories1591519907845
             ALTER TABLE \`edit_histories\`
                 ADD CONSTRAINT \`fk_edit_histories_to_edit_histories\` FOREIGN KEY (\`prev_id\`)
                     REFERENCES \`edit_histories\` (id);
-
 		`);
 	}
 

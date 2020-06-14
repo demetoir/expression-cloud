@@ -1,5 +1,4 @@
 import {
-	Column,
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
@@ -26,5 +25,5 @@ export class ProjectSettingEntity {
 	})
 	deletedAt: Date;
 
-	// todo add project relaction one to ont
+	// todo add project relaction one to one
 }

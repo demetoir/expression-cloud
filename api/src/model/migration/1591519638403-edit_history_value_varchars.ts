@@ -6,14 +6,14 @@ export class editHistoryValueVarchars1591519638403
 		await queryRunner.query(`
             CREATE TABLE \`edit_history_value_varchars\`
             (
-                id              bigint primary key NOT NULL auto_increment,
+                id                  bigint primary key NOT NULL auto_increment,
                 \`edit_history_id\` bigint             NULL,
                 \`value\`           VARCHAR(255)       NOT NULL,
                 \`created_at\`      DATETIME           NOT NULL default now(),
                 \`updated_at\`      DATETIME           NOT NULL default now(),
                 \`deleted_at\`      DATETIME           NULL
             );
-`);
+		`);
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
