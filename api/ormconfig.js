@@ -36,16 +36,10 @@ const prod = {
 
 const test = {
 	type: "sqlite",
-	// host: 'localhost',
-	// port: 3306,
-	// username: 'user',
-	// password: 'password',
 	database: ":memory:",
 	synchronize: true,
-	logging: true,
+	logging: false,
 	bigNumberStrings: false,
-
-	// migrationsRun:true,
 	entities: ["src/model/entity/**/*.entity.ts"],
 	migrations: ["src/model/migration/**/*.ts"],
 	cli: {
@@ -66,6 +60,7 @@ if (node_env === "dev") {
 	throw new Error(`node_env expect one of dev, test, prod, but ${node_env}`);
 }
 
-console.log(`load typeorm config as ${node_env}`);
+console.info(`load typeorm config as ${node_env}`);
+console.info(config)
 
 module.exports.config = config;
