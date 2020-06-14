@@ -15,7 +15,7 @@ describe('user entity', () => {
 	let noticeRepository;
 	let connection;
 	let teamRepository;
-	let editHistoryEntity;
+	let editHistoryRepository;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
@@ -26,7 +26,7 @@ describe('user entity', () => {
 		roleRepository = connection.getRepository(RoleEntity);
 		noticeRepository = connection.getRepository(NoticeEntity);
 		teamRepository = connection.getRepository(TeamEntity);
-		editHistoryEntity = connection.getRepository(EditHistoryEntity);
+		editHistoryRepository = connection.getRepository(EditHistoryEntity);
 	});
 
 	afterAll(async () => {
@@ -44,7 +44,7 @@ describe('user entity', () => {
 		assert.isNotNull(noticeRepository);
 
 		assert.isNotNull(teamRepository);
-		assert.isNotNull(editHistoryEntity);
+		assert.isNotNull(editHistoryRepository);
 	});
 
 	it('should create new user', async function() {
