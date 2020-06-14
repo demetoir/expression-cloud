@@ -108,7 +108,6 @@ export class UserEntity {
 	)
 	editHistories: EditHistoryEntity[];
 
-	// todo test project relation
 	@OneToMany(
 		type => ProjectEntity,
 		project => project.user,

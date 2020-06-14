@@ -7,44 +7,25 @@ import { NoticeEntity } from './notice.entity';
 import { UserSettingEntity } from './userSetting.entity';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
+import { ProjectEntity } from './project.entity';
 
 describe('user entity', () => {
 	let userRepository;
-	let userSettingRepository;
-	let roleRepository;
-	let noticeRepository;
 	let connection;
-	let teamRepository;
-	let editHistoryRepository;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
 		userRepository = connection.getRepository(UserEntity);
-		userSettingRepository = connection.getRepository(UserSettingEntity);
-		roleRepository = connection.getRepository(RoleEntity);
-		noticeRepository = connection.getRepository(NoticeEntity);
-		teamRepository = connection.getRepository(TeamEntity);
-		editHistoryRepository = connection.getRepository(EditHistoryEntity);
 	});
 
 	afterAll(async () => {
 		connection.close();
 	});
 
-	beforeEach(async () => {
-		console.log('here');
-	});
-
 	it('should able to get repository from connection manager', function() {
 		assert.isNotNull(userRepository);
-		assert.isNotNull(userRepository);
-		assert.isNotNull(roleRepository);
-		assert.isNotNull(noticeRepository);
-
-		assert.isNotNull(teamRepository);
-		assert.isNotNull(editHistoryRepository);
 	});
 
 	it('should create new user', async function() {
@@ -187,11 +168,6 @@ describe('user entity', () => {
 				id: user.id,
 			});
 			assert.isNotNull(await result1.setting);
-
-			const result2 = await userSettingRepository.find({
-				id: userSetting.id,
-			});
-			assert.isNotNull(result2);
 		});
 
 		it('should relate with team entity', async function() {
@@ -228,6 +204,26 @@ describe('user entity', () => {
 			});
 
 			assert.equal(resultUser.editHistories[0].id, editHistoryEntity.id);
+		});
+
+		it('should relate with project', async function() {
+			const project = new ProjectEntity();
+			project.name = 'name';
+			project.description = 'description';
+			await connection.manager.save(project);
+
+			project.user = user;
+			await connection.manager.save(project);
+
+			user.projects = [project];
+			await connection.manager.save(user);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['projects'],
+			});
+
+			assert.equal(resultUser.projects[0].id, project.id);
 		});
 	});
 });
