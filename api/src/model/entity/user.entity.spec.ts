@@ -177,7 +177,7 @@ describe('user entity', () => {
 
 		it('should relate with user setting entity', async function() {
 			const userSetting = new UserSettingEntity();
-			userSetting.user = Promise.resolve(user);
+			userSetting.user = user;
 			await connection.manager.save(userSetting);
 
 			user.setting = Promise.resolve(userSetting);
