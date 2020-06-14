@@ -4,10 +4,11 @@ import {
 	DeleteDateColumn,
 	Entity,
 	JoinColumn,
-	ManyToOne, OneToOne,
+	ManyToOne,
+	OneToOne,
 	PrimaryGeneratedColumn,
-	UpdateDateColumn
-} from "typeorm";
+	UpdateDateColumn,
+} from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { UserEntity } from './user.entity';
 
@@ -22,8 +23,8 @@ export class EditHistoryEntity {
 	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
 	refType: bigint;
 
-	@Column({ name: 'edit_type', type: 'bigint', nullable: false })
-	edit_type: bigint;
+	@Column({ name: 'edit_type', type: 'smallint', nullable: false })
+	edit_type: number;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
 	createdAt: Date;
@@ -40,7 +41,7 @@ export class EditHistoryEntity {
 
 	@ManyToOne(
 		type => UserEntity,
-		user => user.editHistory,
+		user => user.editHistories,
 	)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;

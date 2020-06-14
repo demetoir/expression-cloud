@@ -50,5 +50,5 @@ export class TeamEntity {
 			referencedColumnName: 'id',
 		},
 	})
-	teams: TeamEntity[];
+	users: UserEntity[];
 }

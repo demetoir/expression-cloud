@@ -7,7 +7,6 @@ import { NoticeEntity } from './notice.entity';
 import { UserSettingEntity } from './userSetting.entity';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
-import { setFlagsFromString } from 'v8';
 
 describe('user entity', () => {
 	let userRepository;
@@ -119,6 +118,7 @@ describe('user entity', () => {
 
 	describe('relation', () => {
 		let user;
+		let anotherUser;
 
 		it('should prepare user', async function() {
 			user = new UserEntity();
@@ -128,6 +128,12 @@ describe('user entity', () => {
 			await connection.manager.save(user);
 
 			assert.isNotNull(user.id);
+
+			anotherUser = new UserEntity();
+			anotherUser.name = 'another';
+			anotherUser.description = 'description';
+			anotherUser.email = 'email';
+			await connection;
 		});
 
 		it('should relate with role entity', async function() {
@@ -152,7 +158,7 @@ describe('user entity', () => {
 		it('should relate with notice entity', async function() {
 			const notice1 = new NoticeEntity();
 			notice1.content = 'content';
-			notice1.user = user
+			notice1.user = user;
 			await connection.manager.save(notice1);
 			assert.isNotNull(notice1.id);
 
@@ -160,7 +166,7 @@ describe('user entity', () => {
 			await connection.manager.save(user);
 
 			const result6 = await userRepository.findOne({
-				where:{id: user.id,},
+				where: { id: user.id },
 				relations: ['notices'],
 			});
 
@@ -187,11 +193,39 @@ describe('user entity', () => {
 		});
 
 		it('should relate with team entity', async function() {
-			assert(false);
+			const team = new TeamEntity();
+			team.name = 'team 1';
+			team.description = 'description';
+			await connection.manager.save(team);
+
+			user.teams = [team];
+			await connection.manager.save(user);
+
+			team.users = [user, anotherUser];
+			await connection.manager.save(team);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['teams'],
+			});
+
+			assert.equal(resultUser.teams[0].id, team.id);
 		});
 
 		it('should relate with edit history entity', async function() {
-			assert(false);
+			const editHistoryEntity = new EditHistoryEntity();
+			editHistoryEntity.edit_type = 1;
+			editHistoryEntity.refId = null;
+			editHistoryEntity.refType = null;
+			editHistoryEntity.user = user;
+			await connection.manager.save(editHistoryEntity);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['editHistories'],
+			});
+
+			assert.equal(resultUser.editHistories[0].id, editHistoryEntity.id);
 		});
 	});
 });

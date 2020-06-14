@@ -82,7 +82,7 @@ export class UserEntity {
 
 	@ManyToMany(
 		type => TeamEntity,
-		user => user.teams,
+		team => team.users,
 		{
 			eager: false,
 		},
@@ -104,5 +104,5 @@ export class UserEntity {
 		type => EditHistoryEntity,
 		editHistory => editHistory.user,
 	)
-	editHistory: EditHistoryEntity[];
+	editHistories: EditHistoryEntity[];
 }
