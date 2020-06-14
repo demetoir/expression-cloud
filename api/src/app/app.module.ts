@@ -10,7 +10,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 //    synchronize 는 test 에서만 되도록 true 되도록 만들기
 //    아니면 그냥 typeorm 의 외부 config를 사용해서 는거 고려하기
 
-
 @Module({
 	imports: [TypeOrmModule.forRoot(config), MorganModule.forRoot()],
 	controllers: [AppController],

@@ -4,9 +4,12 @@ pwd
 
 cd ./api
 yarn test
+yarn test:e2e
 cd ..
 
 
 cd ./app
-yarn test
+yarn test:unit
+yarn test:e2e
+
 cd ..
