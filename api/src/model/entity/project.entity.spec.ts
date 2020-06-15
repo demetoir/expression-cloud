@@ -4,7 +4,7 @@ import { config } from '../../../ormconfig.js';
 import { UserEntity } from './user.entity';
 import { ProjectEntity } from './project.entity';
 import { TagEntity } from './tag.entity';
-import { ProjectSettingEntity } from "./projectSetting.entity";
+import { ProjectSettingEntity } from './projectSetting.entity';
 
 describe('project entity', () => {
 	let userRepository;
@@ -229,8 +229,7 @@ describe('project entity', () => {
 			assert.equal(resultProject.tags[0].id, tag.id);
 		});
 
-
-		it("should relate with projectSetting entity", async function() {
+		it('should relate with projectSetting entity', async function() {
 			const setting = new ProjectSettingEntity();
 			await connection.manager.save(setting);
 
@@ -246,7 +245,6 @@ describe('project entity', () => {
 			});
 
 			assert.equal(resultProject.setting.id, setting.id);
-
 		});
 	});
 });
