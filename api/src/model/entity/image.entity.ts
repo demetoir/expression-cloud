@@ -24,6 +24,9 @@ export class ImageEntity {
 	})
 	extension: string;
 
+	// todo add origin
+	// todo add s3Key
+
 	@Column({ name: 'file_name', type: 'text', nullable: false })
 	fileName: string;
 
