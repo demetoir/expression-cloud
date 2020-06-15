@@ -42,10 +42,7 @@ export class ColumnEntity {
 	deletedAt: Date;
 
 	// todo test this
-	@ManyToOne(
-		type => ExpressionEntity,
-		expression => expression.columns,
-	)
+	@ManyToOne((type) => ExpressionEntity, (expression) => expression.columns)
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
 }
