@@ -2,10 +2,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'project_settings' })
 export class ProjectSettingEntity {
@@ -25,5 +28,10 @@ export class ProjectSettingEntity {
 	})
 	deletedAt: Date;
 
-	// todo add project relaction one to one
+	@OneToOne(
+		type => ProjectEntity,
+		project => project.setting,
+	)
+	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
+	project: ProjectEntity;
 }

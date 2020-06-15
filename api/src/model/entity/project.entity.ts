@@ -6,12 +6,14 @@ import {
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { UserEntity } from './user.entity';
 import { TagEntity } from './tag.entity';
+import { ProjectSettingEntity } from './projectSetting.entity';
 
 @Entity({ name: 'projects' })
 export class ProjectEntity {
@@ -67,4 +69,11 @@ export class ProjectEntity {
 		tags => tags.project,
 	)
 	tags: TagEntity[];
+
+	// todo add test this relation
+	@OneToOne(
+		type => ProjectSettingEntity,
+		setting => setting.project,
+	)
+	setting: ProjectSettingEntity;
 }
