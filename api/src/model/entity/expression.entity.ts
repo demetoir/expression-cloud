@@ -17,7 +17,7 @@ export class ExpressionEntity {
 	id: bigint;
 
 	@Column({ name: 'type', type: 'tinyint', nullable: false })
-	type: boolean;
+	type: number;
 
 	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
 	name: string;
@@ -38,7 +38,7 @@ export class ExpressionEntity {
 	})
 	deletedAt: Date;
 
-	// todo relation to projec
+	// todo relation to project
 
 	// todo add test this relation
 	@OneToMany(
