@@ -41,7 +41,7 @@ describe('projectSetting entity', () => {
 		let projectSetting;
 
 		it('should prepare projectSetting', async () => {
-			projectSetting = new ProjectEntity();
+			projectSetting = new ProjectSettingEntity();
 
 			projectSetting.name = 'projectSetting';
 
@@ -60,7 +60,7 @@ describe('projectSetting entity', () => {
 			projectSetting.project = project;
 			await connection.manager.save(projectSetting);
 
-			const resultRole = await projectRepository.findOne({
+			const resultRole = await projectSettingRepository.findOne({
 				where: { id: projectSetting.id },
 				relations: ['project'],
 			});
