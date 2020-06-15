@@ -35,7 +35,9 @@ describe('expression entity', () => {
 		expression.type = 1;
 		await connection.manager.save(expression);
 
-		const newExpression = expressionRepository.findOne({ id: expression.id });
+		const newExpression = expressionRepository.findOne({
+			id: expression.id,
+		});
 
 		assert.isNotNull(newExpression);
 	});
