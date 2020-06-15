@@ -22,6 +22,7 @@ export class ExpressionEntity {
 	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
 	name: string;
 
+	// todo 이거 마이그레이션에서 column name content 에서 description 으로 수정
 	@Column({ name: 'content', type: 'text', nullable: false })
 	description: string;
 

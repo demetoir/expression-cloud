@@ -1,10 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import { config } from '../../../ormconfig.js';
-import { UserEntity } from './user.entity';
-import { NoticeEntity } from './notice.entity';
 import { ExpressionEntity } from './expression.entity';
 import { ProjectEntity } from './project.entity';
+import { ColumnEntity } from './column.entity';
 
 describe('expression entity', () => {
 	let expressionRepository;
@@ -43,90 +42,100 @@ describe('expression entity', () => {
 	});
 
 	describe('column check', () => {
-		it('should not null on content', async function() {
+		it('should not null on description', async function() {
 			try {
-				const content = null;
-				const notice = new NoticeEntity();
-				notice.content = content;
+				const description = null;
+				const name = 'name';
+				const type = 1;
+				const expression = new ExpressionEntity();
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
 
-				await connection.manager.save(notice);
+				await connection.manager.save(expression);
 
 				assert(false, 'should throw this error');
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: notice.content',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.content',
 				);
 			}
 		});
 
-		it('should not null on isRead', async function() {
+		it('should not null on name', async function() {
 			try {
-				const content = 'content';
-				const isRead = null;
+				const description = 'description';
+				const name = null;
+				const type = 1;
+				const expression = new ExpressionEntity();
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
 
-				const notice = new NoticeEntity();
-				notice.content = content;
-				notice.isRead = isRead;
-
-				await connection.manager.save(notice);
+				await connection.manager.save(expression);
 
 				assert(false, 'should throw this error');
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: notice.is_read',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.name',
 				);
 			}
 		});
 
-		it('should isRead auto false', async function() {
-			const content = 'content';
-			const isRead = undefined;
+		it('should not null on type', async function() {
+			try {
+				const description = null;
+				const name = 'name';
+				const type = null;
+				const expression = new ExpressionEntity();
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
 
-			const notice = new NoticeEntity();
-			notice.content = content;
-			notice.isRead = isRead;
+				await connection.manager.save(expression);
 
-			await connection.manager.save(notice);
-
-			const resultNotice = await projectRepository.findOne({
-				id: notice.id,
-			});
-
-			assert.equal(resultNotice.isRead, false);
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.type',
+				);
+			}
 		});
 	});
 
 	describe('relation', () => {
-		let notice;
+		let expression;
 
 		it('should prepare notice', async () => {
-			notice = new NoticeEntity();
-			notice.content = 'content';
+			expression = new ExpressionEntity();
+			expression.type = 1;
+			expression.name = 'name';
+			expression.description = 'description';
 
-			await connection.manager.save(notice);
+			await connection.manager.save(expression);
 		});
 
-		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.description = 'description';
-			user.email = 'email';
-			await connection.manager.save(user);
+		it('should relate with column entity', async () => {
+			const column = new ColumnEntity();
+			column.name = 'user';
+			column.index = 1;
+			await connection.manager.save(column);
 
-			user.notices = [notice];
-			await connection.manager.save(user);
+			column.expression = expression;
+			await connection.manager.save(column);
 
-			notice.user = user;
-			await connection.manager.save(notice);
+			expression.columns = [column];
+			await connection.manager.save(expression);
 
-			const resultUserSetting = await projectRepository.findOne({
-				where: { id: notice.id },
-				relations: ['user'],
+			const resultExpression = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['columns'],
 			});
 
-			assert.equal(resultUserSetting.user.id, user.id);
+			assert.equal(resultExpression.columns[0].id, column.id);
 		});
 	});
 });
