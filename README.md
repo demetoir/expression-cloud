@@ -25,7 +25,10 @@
   - [ ] ./app 을 prettier 설정으로 변경
 - [*] 각 엔티티 정의
 - [ ] 각 엔티티 관계 정의 및 테스트코드 작성
-- [ ] 좋은 윈스턴 로거 추가하기
+- [*] 좋은 윈스턴 로거 추가하기
+- [*] 모건 로거 추가
+- [*] travis-ci build 및 배포 설정
+- [*] github todo issue auto maker 설정하기
 - [ ] nest.js 보안 모듈 적용 helmet 등등
 - [ ] nest.js 문서 읽기
 - [ ] github action setting
