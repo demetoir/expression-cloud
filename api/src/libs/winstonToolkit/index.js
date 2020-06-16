@@ -76,4 +76,7 @@ const index = winston.createLogger({
 
 index.add(new winston.transports.Console());
 
+// todo add test
+// todo add jsdoc
+// todo add types define
 module.exports.logger = index;

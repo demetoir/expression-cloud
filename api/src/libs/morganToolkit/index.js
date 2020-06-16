@@ -4,6 +4,9 @@ const { FormatBuilder } = require('./FormatBuilder.js');
 const { createRotateLogStream } = require('./createRotateLogStream.js');
 const morgan = require('morgan');
 
+// todo add test
+// todo add jsdoc
+// todo add types define
 /**
  *
  * @param format
