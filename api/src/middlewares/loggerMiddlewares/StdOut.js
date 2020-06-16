@@ -1,4 +1,4 @@
-const { morganToolkit, TokenParser, FormatBuilder, TokenPainter } = require('../morganToolkit');
+const { morganToolkit, TokenParser, FormatBuilder, TokenPainter } = require('../../libs/morganToolkit');
 
 /**
  *

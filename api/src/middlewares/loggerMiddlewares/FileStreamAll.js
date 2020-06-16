@@ -1,4 +1,4 @@
-const { morganToolkit, TokenParser, FormatBuilder, createRotateLogStream } = require('../morganToolkit');
+const { morganToolkit, TokenParser, FormatBuilder, createRotateLogStream } = require('../../libs/morganToolkit');
 
 /**
  *
