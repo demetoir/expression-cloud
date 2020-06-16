@@ -14,6 +14,7 @@ import tableIdType from '../../libs/tableIdTypeResolver';
 import { UserEntity } from './user.entity';
 import { TagEntity } from './tag.entity';
 import { ProjectSettingEntity } from './projectSetting.entity';
+import { ExpressionEntity } from './expression.entity';
 
 @Entity({ name: 'projects' })
 export class ProjectEntity {
@@ -57,23 +58,18 @@ export class ProjectEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(
-		type => UserEntity,
-		user => user.projects,
-	)
+	@ManyToOne((type) => UserEntity, (user) => user.projects)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-	@OneToMany(
-		type => TagEntity,
-		tags => tags.project,
-	)
+	@OneToMany((type) => TagEntity, (tags) => tags.project)
 	tags: TagEntity[];
 
 	// todo add test this relation
-	@OneToOne(
-		type => ProjectSettingEntity,
-		setting => setting.project,
-	)
+	@OneToOne((type) => ProjectSettingEntity, (setting) => setting.project)
 	setting: ProjectSettingEntity;
+
+	// todo add test this relation
+	@OneToMany((type) => ExpressionEntity, (expressions) => expressions.project)
+	expressions: ExpressionEntity[];
 }

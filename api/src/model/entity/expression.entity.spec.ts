@@ -22,12 +22,12 @@ describe('expression entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(expressionRepository);
 		assert.isNotNull(projectRepository);
 	});
 
-	it('should create new expression', async function() {
+	it('should create new expression', async function () {
 		const expression = new ExpressionEntity();
 		expression.name = 'content';
 		expression.description = 'expression';
@@ -42,7 +42,7 @@ describe('expression entity', () => {
 	});
 
 	describe('column check', () => {
-		it('should not null on description', async function() {
+		it('should not null on description', async function () {
 			try {
 				const description = null;
 				const name = 'name';
@@ -63,7 +63,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on name', async function() {
+		it('should not null on name', async function () {
 			try {
 				const description = 'description';
 				const name = null;
@@ -84,7 +84,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on type', async function() {
+		it('should not null on type', async function () {
 			try {
 				const description = null;
 				const name = 'name';
@@ -136,6 +136,26 @@ describe('expression entity', () => {
 			});
 
 			assert.equal(resultExpression.columns[0].id, column.id);
+		});
+
+		it('should relate with project entity', async () => {
+			const project = new ProjectEntity();
+			project.name = 'user';
+			project.description = 'desript';
+			await connection.manager.save(project);
+
+			project.expressions = [expression];
+			await connection.manager.save(project);
+
+			expression.project = project;
+			await connection.manager.save(expression);
+
+			const resultExpression = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['project'],
+			});
+
+			assert.equal(resultExpression.project.id, project.id);
 		});
 	});
 });

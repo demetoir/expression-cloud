@@ -3,13 +3,15 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { ColumnEntity } from './column.entity';
-import { columns1591519634701 } from '../migration/1591519634701-columns';
+import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'expressions' })
 export class ExpressionEntity {
@@ -39,12 +41,11 @@ export class ExpressionEntity {
 	})
 	deletedAt: Date;
 
-	// todo relation to project
+	@ManyToOne((type) => ProjectEntity, (project) => project.expressions)
+	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
+	project: ProjectEntity;
 
 	// todo add test this relation
-	@OneToMany(
-		type => ColumnEntity,
-		column => column.expression,
-	)
+	@OneToMany((type) => ColumnEntity, (column) => column.expression)
 	columns: ColumnEntity[];
 }

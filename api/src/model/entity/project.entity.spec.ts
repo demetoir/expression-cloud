@@ -5,6 +5,7 @@ import { UserEntity } from './user.entity';
 import { ProjectEntity } from './project.entity';
 import { TagEntity } from './tag.entity';
 import { ProjectSettingEntity } from './projectSetting.entity';
+import { ExpressionEntity } from './expression.entity';
 
 describe('project entity', () => {
 	let userRepository;
@@ -23,12 +24,12 @@ describe('project entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(userRepository);
 		assert.isNotNull(projectRepository);
 	});
 
-	it('should create new project', async function() {
+	it('should create new project', async function () {
 		const project = new ProjectEntity();
 		project.name = 'name';
 		project.description = 'description';
@@ -40,7 +41,7 @@ describe('project entity', () => {
 	});
 
 	describe('column check', () => {
-		it('should not null on name', async function() {
+		it('should not null on name', async function () {
 			try {
 				const name = null;
 				const isLocked = true;
@@ -64,7 +65,7 @@ describe('project entity', () => {
 			}
 		});
 
-		it('should not null on isPublic', async function() {
+		it('should not null on isPublic', async function () {
 			try {
 				const name = 'name';
 				const isLocked = true;
@@ -88,7 +89,7 @@ describe('project entity', () => {
 			}
 		});
 
-		it('should isPublic auto false', async function() {
+		it('should isPublic auto false', async function () {
 			const name = 'name';
 			const isLocked = true;
 			const isPublic = undefined;
@@ -109,7 +110,7 @@ describe('project entity', () => {
 			assert.equal(resultProject.isPublic, false);
 		});
 
-		it('should not null on isLocked', async function() {
+		it('should not null on isLocked', async function () {
 			try {
 				const name = 'name';
 				const isLocked = null;
@@ -133,7 +134,7 @@ describe('project entity', () => {
 			}
 		});
 
-		it('should auto false isLocked ', async function() {
+		it('should auto false isLocked ', async function () {
 			const name = 'name';
 			const isLocked = undefined;
 			const isPublic = false;
@@ -154,7 +155,7 @@ describe('project entity', () => {
 			assert.equal(resultProject.isLocked, false);
 		});
 
-		it('should not null on description', async function() {
+		it('should not null on description', async function () {
 			try {
 				const name = 'name';
 				const isLocked = true;
@@ -229,7 +230,7 @@ describe('project entity', () => {
 			assert.equal(resultProject.tags[0].id, tag.id);
 		});
 
-		it('should relate with projectSetting entity', async function() {
+		it('should relate with projectSetting entity', async function () {
 			const setting = new ProjectSettingEntity();
 			await connection.manager.save(setting);
 
@@ -245,6 +246,28 @@ describe('project entity', () => {
 			});
 
 			assert.equal(resultProject.setting.id, setting.id);
+		});
+
+		it('should relate with projectSetting entity', async function () {
+			const expression = new ExpressionEntity();
+			expression.name = 'name';
+			expression.type = 1;
+			expression.description = 'description';
+
+			await connection.manager.save(expression);
+
+			expression.project = project;
+			await connection.manager.save(expression);
+
+			project.expressions = [expression];
+			await connection.manager.save(project);
+
+			const resultProject = await projectRepository.findOne({
+				where: { id: project.id },
+				relations: ['expressions'],
+			});
+
+			assert.equal(resultProject.expressions[0].id, expression.id);
 		});
 	});
 });
