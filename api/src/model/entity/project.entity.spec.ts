@@ -108,6 +108,7 @@ describe('project entity', () => {
 			});
 
 			assert.equal(resultProject.isPublic, false);
+			assert.equal(typeof resultProject.isPublic, 'boolean');
 		});
 
 		it('should not null on isLocked', async function () {
@@ -153,6 +154,7 @@ describe('project entity', () => {
 			});
 
 			assert.equal(resultProject.isLocked, false);
+			assert.equal(typeof resultProject.isLocked, 'boolean');
 		});
 
 		it('should not null on description', async function () {

@@ -24,19 +24,19 @@ export class ProjectEntity {
 	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
 	name: string;
 
-	// todo 이거 자꾸 0,1로 나옴 중간 트랜스폼이 필요하다
+	// todo 이거 마이그레이션 파잉일에서 타입 boolean으로 변경
 	@Column({
 		name: 'is_public',
-		type: 'tinyint',
+		type: 'boolean',
 		nullable: false,
 		default: false,
 	})
 	isPublic = false;
 
-	// todo 이거 자꾸 0,1로 나옴 중간 트랜스폼이 필요하다
+	// todo 이거 마이그레이션 파잉일에서 타입 boolean으로 변경
 	@Column({
 		name: 'is_locked',
-		type: 'tinyint',
+		type: 'boolean',
 		nullable: false,
 		default: false,
 	})
