@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+
 module.exports.TokenPainter = class TokenPainter {
 	static paintColor(tokens) {
 		const remoteAddr = chalk.yellow(tokens.remoteAddr);
