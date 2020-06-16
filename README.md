@@ -1,5 +1,7 @@
 # Expression Could
 
+[![Build Status](https://travis-ci.com/demetoir/expressionCloud.svg?branch=master)](https://travis-ci.com/demetoir/expressionCloud)
+
 # todo checklist
 
 - [*] nest.js boilerplate
@@ -14,6 +16,7 @@
 - [XXX] prod docker compose setting
 - [*] nodeCluster.dockerFile
 - [*] nginx.dockerFile
+- [*] travis-ci test 라도 달아놓기
 - [*] typeorm 문서 읽기
 - [*] script one shot build
 - [*] git hook setting
@@ -22,6 +25,8 @@
   - [ ] ./app 을 prettier 설정으로 변경
 - [*] 각 엔티티 정의
 - [ ] 각 엔티티 관계 정의 및 테스트코드 작성
+- [ ] 좋은 윈스턴 로거 추가하기
+- [ ] nest.js 보안 모듈 적용 helmet 등등
 - [ ] nest.js 문서 읽기
 - [ ] github action setting
 - [ ] script one shot start
@@ -39,8 +44,6 @@
 - [ ] nest.js typeorm migration
 - [ ] vue ant design theme 적용
 - [ ] vue app server proxy
-- [ ] nest.js 보안 모듈 적용 helmet 등등
-- [ ] 좋은 윈스턴 로거 추가하기
 
 # 개발환경
 
