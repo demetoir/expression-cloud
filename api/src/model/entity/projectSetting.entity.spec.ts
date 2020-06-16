@@ -23,12 +23,12 @@ describe('projectSetting entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(projectSettingRepository);
 		assert.isNotNull(projectRepository);
 	});
 
-	it('should create new entity', async function() {
+	it('should create new entity', async function () {
 		const role = new ProjectSettingEntity();
 		await connection.manager.save(role);
 
@@ -48,7 +48,7 @@ describe('projectSetting entity', () => {
 			await connection.manager.save(projectSetting);
 		});
 
-		it('should relate with user entity', async () => {
+		it('should relate with project entity', async () => {
 			const project = new ProjectEntity();
 			project.name = 'user';
 			project.description = 'description';

@@ -45,7 +45,6 @@ export class ExpressionEntity {
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
 	project: ProjectEntity;
 
-	// todo add test this relation
 	@OneToMany((type) => ColumnEntity, (column) => column.expression)
 	columns: ColumnEntity[];
 }

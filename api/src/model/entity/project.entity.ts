@@ -65,11 +65,9 @@ export class ProjectEntity {
 	@OneToMany((type) => TagEntity, (tags) => tags.project)
 	tags: TagEntity[];
 
-	// todo add test this relation
 	@OneToOne((type) => ProjectSettingEntity, (setting) => setting.project)
 	setting: ProjectSettingEntity;
 
-	// todo add test this relation
 	@OneToMany((type) => ExpressionEntity, (expressions) => expressions.project)
 	expressions: ExpressionEntity[];
 }
