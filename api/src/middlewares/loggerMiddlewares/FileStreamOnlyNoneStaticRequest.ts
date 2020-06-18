@@ -1,4 +1,4 @@
-const { morganToolkit, TokenParser, FormatBuilder, createRotateLogStream } = require('../../libs/morganToolkit');
+import { createRotateLogStream, FormatBuilder, morganToolkit, TokenParser } from '../../libs/morganToolkit';
 
 /**
  *
@@ -24,4 +24,4 @@ const FileStreamOnlyNoneStaticRequest = morganToolkit(
 	},
 );
 
-module.exports.FileStreamOnlyNoneStaticRequest = FileStreamOnlyNoneStaticRequest;
+export { FileStreamOnlyNoneStaticRequest };

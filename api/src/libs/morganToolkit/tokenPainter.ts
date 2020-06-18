@@ -1,7 +1,7 @@
-const chalk = require('chalk');
+import * as chalk from 'chalk';
 
-module.exports.TokenPainter = class TokenPainter {
-	static paintColor(tokens) {
+export class TokenPainter {
+	static paintColor(tokens: any): any {
 		const remoteAddr = chalk.yellow(tokens.remoteAddr);
 		const remoteUser = chalk.yellow(tokens.remoteUser || '');
 		const httpVersion = chalk.white(tokens.httpVersion);
@@ -33,4 +33,4 @@ module.exports.TokenPainter = class TokenPainter {
 			userAgent,
 		};
 	}
-};
+}

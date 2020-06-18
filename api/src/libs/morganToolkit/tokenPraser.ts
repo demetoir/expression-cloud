@@ -1,10 +1,11 @@
-module.exports.TokenParser = class TokenParser {
-	static parse(tokens, req, res) {
+export class TokenParser {
+	static parse(tokens, req, res): any {
 		const remoteAddr = tokens['remote-addr'](req, res);
 		const remoteUser = tokens['remote-user'](req, res) || '';
 		const httpVersion = tokens['http-version'](req, res);
 
-		const contentLength = `${tokens.res(req, res, 'content-length') || 0} bytes`;
+		const contentLengthToken = tokens.res(req, res, 'content-length') || 0;
+		const contentLength = `${contentLengthToken} bytes`;
 
 		const method = tokens.method(req, res);
 
@@ -31,4 +32,4 @@ module.exports.TokenParser = class TokenParser {
 			responseTime,
 		};
 	}
-};
+}

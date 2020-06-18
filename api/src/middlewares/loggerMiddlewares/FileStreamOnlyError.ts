@@ -1,4 +1,4 @@
-const { morganToolkit, TokenParser, FormatBuilder, createRotateLogStream } = require('../../libs/morganToolkit');
+import { createRotateLogStream, FormatBuilder, morganToolkit, TokenParser } from '../../libs/morganToolkit';
 
 /**
  *
@@ -19,4 +19,4 @@ const FileStreamOnlyError = morganToolkit(
 	},
 );
 
-module.exports.FileStreamOnlyError = FileStreamOnlyError;
+export { FileStreamOnlyError };

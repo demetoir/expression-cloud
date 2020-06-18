@@ -1,11 +1,10 @@
-const { morganToolkit, TokenParser, FormatBuilder, createRotateLogStream } = require('../../libs/morganToolkit');
+import { createRotateLogStream, FormatBuilder, morganToolkit, TokenParser } from '../../libs/morganToolkit';
 
 /**
  *
  * @returns {e.RequestHandler | *}
  * @constructor
  */
-
 const FileStreamAll = morganToolkit(
 	function (tokens, req, res) {
 		const parserToken = TokenParser.parse(tokens, req, res);
@@ -16,4 +15,4 @@ const FileStreamAll = morganToolkit(
 	},
 );
 
-module.exports.FileStreamAll = FileStreamAll;
+export { FileStreamAll };

@@ -1,4 +1,4 @@
-const { morganToolkit, TokenParser, FormatBuilder, TokenPainter } = require('../../libs/morganToolkit');
+import { FormatBuilder, morganToolkit, TokenPainter, TokenParser } from '../../libs/morganToolkit';
 
 /**
  *
@@ -13,7 +13,7 @@ const StdOut = morganToolkit(
 	},
 	{
 		// skip logging on return true
-		skip: function (req, res) {
+		skip: function (req) {
 			const { url } = req;
 			// ignore static route request
 			const skipFilter = [/\/font/, /\/image/, /\/js/, /\/scss/, /\/thridParty/, /\/ELB-HealthChecker/];
@@ -23,4 +23,4 @@ const StdOut = morganToolkit(
 	},
 );
 
-module.exports.StdOut = StdOut;
+export { StdOut };

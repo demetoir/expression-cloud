@@ -1,29 +1,31 @@
-const rotatingFileStream = require('rotating-file-stream');
+import { createStream } from 'rotating-file-stream';
+import { join } from 'path';
 
 // repository root path
-const LOG_DIRECTORY_PATH = '../../.log';
+const LOG_DIRECTORY_PATH = '../../../.log';
 
 /**
  *
  * @param signature {string} 로그 구분을 위한 signature string
- * 아래 옵션은 rotating-file-stream의 옵션과 동일
+ * 아래 옵션은 rotating-file-stream 의 옵션과 동일
  * @param size {string}
  * @param interval {string}
  * @param path {string}
- * @param compress {string} 압축옵션
+ * @param compress {string} 압축 옵션
  * @param intervalBoundary {boolean}
  * @param initialRotation {boolean}
+ *
  */
 function createRotateLogStream({
 	signature = 'morgan',
 	size = '10M',
 	interval = '1d', // rotate daily
-	path,
+	path = join(__dirname, LOG_DIRECTORY_PATH),
 	compress = 'gzip',
 	intervalBoundary = true,
 	initialRotation = true,
-} = {}) {
-	path = path || require('path').join(__dirname, LOG_DIRECTORY_PATH);
+} = {}): any {
+	path = path || join(__dirname, LOG_DIRECTORY_PATH);
 
 	// ref https://www.npmjs.com/package/rotating-file-stream
 	const pad = (num) => (num > 9 ? '' : '0') + num;
@@ -39,7 +41,7 @@ function createRotateLogStream({
 	};
 
 	// create a rotating write stream
-	return rotatingFileStream.createStream(generator, {
+	return createStream(generator, {
 		size,
 		interval,
 		path,
@@ -49,4 +51,4 @@ function createRotateLogStream({
 	});
 }
 
-module.exports.createRotateLogStream = createRotateLogStream;
+export { createRotateLogStream };
