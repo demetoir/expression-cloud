@@ -7,7 +7,7 @@ const LOG_DIRECTORY_PATH = '../../../.log';
 /**
  *
  * @param signature {string} 로그 구분을 위한 signature string
- * 아래 옵션은 rotating-file-stream 의 옵션과 동일
+ * 아래 옵션은 rotating-file-stream 의 옵션과 동일˚
  * @param size {string}
  * @param interval {string}
  * @param path {string}
