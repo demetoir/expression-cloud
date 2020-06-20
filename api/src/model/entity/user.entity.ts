@@ -18,6 +18,7 @@ import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
+import { CommentEntity } from './comment.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -101,4 +102,7 @@ export class UserEntity {
 
 	@OneToMany(() => LikeEntity, (likes) => likes.user)
 	likes: LikeEntity[];
+
+	@OneToMany(() => CommentEntity, (comments) => comments.user)
+	comments: CommentEntity[];
 }

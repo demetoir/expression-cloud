@@ -9,6 +9,7 @@ import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
+import { CommentEntity } from './comment.entity';
 
 describe('user entity', () => {
 	let userRepository;
@@ -54,7 +55,10 @@ describe('user entity', () => {
 				user.email = email;
 				await connection.manager.save(user);
 			} catch (e) {
-				assert.equal(e.message, 'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.name');
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.name',
+				);
 			}
 		});
 
@@ -70,7 +74,10 @@ describe('user entity', () => {
 				user.email = email;
 				await connection.manager.save(user);
 			} catch (e) {
-				assert.equal(e.message, 'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.email');
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.email',
+				);
 			}
 		});
 
@@ -86,7 +93,10 @@ describe('user entity', () => {
 				user.email = email;
 				await connection.manager.save(user);
 			} catch (e) {
-				assert.equal(e.message, 'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.description');
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.description',
+				);
 			}
 		});
 	});
@@ -234,6 +244,25 @@ describe('user entity', () => {
 			});
 
 			assert.equal(resultUser.likes[0].id, like.id);
+		});
+
+		it('should relate with comments', async function () {
+			const comment = new CommentEntity();
+			comment.content = 'content';
+			await connection.manager.save(comment);
+
+			comment.user = user;
+			await connection.manager.save(comment);
+
+			user.comments = [comment];
+			await connection.manager.save(user);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['comments'],
+			});
+
+			assert.equal(resultUser.comments[0].id, comment.id);
 		});
 	});
 });

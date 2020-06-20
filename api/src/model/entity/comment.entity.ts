@@ -3,10 +3,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'comments' })
 export class CommentEntity {
@@ -36,5 +39,7 @@ export class CommentEntity {
 	})
 	deletedAt: Date;
 
-	// todo relation to user many to one
+	@ManyToOne(() => UserEntity, (user) => user.comments)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }
