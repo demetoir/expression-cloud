@@ -4,7 +4,7 @@ import { config } from '../../../ormconfig.js';
 import { CommentEntity } from './comment.entity';
 import { UserEntity } from './user.entity';
 
-describe('expression comment', () => {
+describe('comment entity', () => {
 	let commentRepository;
 	let connection;
 
