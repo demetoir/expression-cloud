@@ -5,7 +5,6 @@ import { UserEntity } from './user.entity';
 import { LikeEntity } from './like.entity';
 
 describe('like entity', () => {
-	let userRepository;
 	let connection;
 	let likeRepository;
 
@@ -13,7 +12,6 @@ describe('like entity', () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		userRepository = connection.getRepository(UserEntity);
 		likeRepository = connection.getRepository(LikeEntity);
 	});
 
@@ -22,7 +20,6 @@ describe('like entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(userRepository);
 		assert.isNotNull(likeRepository);
 	});
 
@@ -30,7 +27,7 @@ describe('like entity', () => {
 		const notice = new LikeEntity();
 		await connection.manager.save(notice);
 
-		const newContent = likeRepository.findOne({ id: notice.id });
+		const newContent = await likeRepository.findOne({ id: notice.id });
 
 		assert.isNotNull(newContent);
 	});

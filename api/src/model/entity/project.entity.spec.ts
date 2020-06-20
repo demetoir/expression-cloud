@@ -8,7 +8,6 @@ import { ProjectSettingEntity } from './projectSetting.entity';
 import { ExpressionEntity } from './expression.entity';
 
 describe('project entity', () => {
-	let userRepository;
 	let connection;
 	let projectRepository;
 
@@ -16,7 +15,6 @@ describe('project entity', () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		userRepository = connection.getRepository(UserEntity);
 		projectRepository = connection.getRepository(ProjectEntity);
 	});
 
@@ -25,7 +23,6 @@ describe('project entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(userRepository);
 		assert.isNotNull(projectRepository);
 	});
 
@@ -35,12 +32,12 @@ describe('project entity', () => {
 		project.description = 'description';
 		await connection.manager.save(project);
 
-		const newProject = projectRepository.findOne({ id: project.id });
+		const newProject = await projectRepository.findOne({ id: project.id });
 
 		assert.isNotNull(newProject);
 	});
 
-	describe('column check', () => {
+	describe('column type check', () => {
 		it('should not null on name', async function () {
 			try {
 				const name = null;

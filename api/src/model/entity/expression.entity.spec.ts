@@ -8,14 +8,12 @@ import { ColumnEntity } from './column.entity';
 describe('expression entity', () => {
 	let expressionRepository;
 	let connection;
-	let projectRepository;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
 		expressionRepository = connection.getRepository(ExpressionEntity);
-		projectRepository = connection.getRepository(ProjectEntity);
 	});
 
 	afterAll(async () => {
@@ -24,7 +22,6 @@ describe('expression entity', () => {
 
 	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(expressionRepository);
-		assert.isNotNull(projectRepository);
 	});
 
 	it('should create new expression', async function () {
@@ -34,14 +31,14 @@ describe('expression entity', () => {
 		expression.type = 1;
 		await connection.manager.save(expression);
 
-		const newExpression = expressionRepository.findOne({
+		const newExpression = await expressionRepository.findOne({
 			id: expression.id,
 		});
 
 		assert.isNotNull(newExpression);
 	});
 
-	describe('column check', () => {
+	describe('column type check', () => {
 		it('should not null on description', async function () {
 			try {
 				const description = null;

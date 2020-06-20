@@ -7,7 +7,6 @@ import { ProjectSettingEntity } from './projectSetting.entity';
 describe('projectSetting entity', () => {
 	let projectSettingRepository;
 	let connection;
-	let projectRepository;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
@@ -16,7 +15,6 @@ describe('projectSetting entity', () => {
 		projectSettingRepository = connection.getRepository(
 			ProjectSettingEntity,
 		);
-		projectRepository = connection.getRepository(ProjectEntity);
 	});
 
 	afterAll(async () => {
@@ -25,14 +23,13 @@ describe('projectSetting entity', () => {
 
 	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(projectSettingRepository);
-		assert.isNotNull(projectRepository);
 	});
 
 	it('should create new entity', async function () {
 		const role = new ProjectSettingEntity();
 		await connection.manager.save(role);
 
-		const newTeam = projectSettingRepository.findOne({ id: role.id });
+		const newTeam = await projectSettingRepository.findOne({ id: role.id });
 
 		assert.isNotNull(newTeam);
 	});

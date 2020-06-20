@@ -5,7 +5,6 @@ import { UserEntity } from './user.entity';
 import { RoleEntity } from './role.entity';
 
 describe('role entity', () => {
-	let userRepository;
 	let connection;
 	let roleRepository;
 
@@ -13,7 +12,6 @@ describe('role entity', () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		userRepository = connection.getRepository(UserEntity);
 		roleRepository = connection.getRepository(RoleEntity);
 	});
 
@@ -21,23 +19,22 @@ describe('role entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
-		assert.isNotNull(userRepository);
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(roleRepository);
 	});
 
-	it('should create new role', async function() {
+	it('should create new role', async function () {
 		const role = new RoleEntity();
 		role.name = 'admin';
 		await connection.manager.save(role);
 
-		const newTeam = userRepository.findOne({ id: role.id });
+		const newTeam = await roleRepository.findOne({ id: role.id });
 
 		assert.isNotNull(newTeam);
 	});
 
-	describe('check column', () => {
-		it('should not null on name', async function() {
+	describe('check column type', () => {
+		it('should not null on name', async function () {
 			try {
 				const name = undefined;
 

@@ -21,23 +21,23 @@ describe('notice entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(userRepository);
 		assert.isNotNull(noticeRepository);
 	});
 
-	it('should create new project', async function() {
+	it('should create new project', async function () {
 		const notice = new NoticeEntity();
 		notice.content = 'content';
 		await connection.manager.save(notice);
 
-		const newContent = noticeRepository.findOne({ id: notice.id });
+		const newContent = await noticeRepository.findOne({ id: notice.id });
 
 		assert.isNotNull(newContent);
 	});
 
-	describe('column check', () => {
-		it('should not null on content', async function() {
+	describe('column type check', () => {
+		it('should not null on content', async function () {
 			try {
 				const content = null;
 				const notice = new NoticeEntity();
@@ -54,7 +54,7 @@ describe('notice entity', () => {
 			}
 		});
 
-		it('should not null on isRead', async function() {
+		it('should not null on isRead', async function () {
 			try {
 				const content = 'content';
 				const isRead = null;
@@ -74,7 +74,7 @@ describe('notice entity', () => {
 			}
 		});
 
-		it('should isRead auto false', async function() {
+		it('should isRead auto false', async function () {
 			const content = 'content';
 			const isRead = undefined;
 

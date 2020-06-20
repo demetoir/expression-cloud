@@ -40,14 +40,11 @@ export class EditHistoryEntity {
 	deletedAt: Date;
 
 	// todo test this relation
-	@ManyToOne(
-		type => UserEntity,
-		user => user.editHistories,
-	)
+	@ManyToOne(() => UserEntity, (user) => user.editHistories)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
 	// todo test this relation
-	@OneToOne(type => EditHistoryEntity)
+	@OneToOne(() => EditHistoryEntity)
 	prevHistory: EditHistoryEntity;
 }

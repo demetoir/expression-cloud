@@ -7,37 +7,34 @@ import { ProjectEntity } from './project.entity';
 describe('tag entity', () => {
 	let connection;
 	let tagRepository;
-	let projectRepository;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
 		tagRepository = connection.getRepository(TagEntity);
-		projectRepository = connection.getRepository(ProjectEntity);
 	});
 
 	afterAll(async () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(tagRepository);
-		assert.isNotNull(projectRepository);
 	});
 
-	it('should create new role', async function() {
+	it('should create new role', async function () {
 		const tag = new TagEntity();
 		tag.name = 'new tag';
 		await connection.manager.save(tag);
 
-		const newTeam = tagRepository.findOne({ id: tag.id });
+		const newTeam = await tagRepository.findOne({ id: tag.id });
 
 		assert.isNotNull(newTeam);
 	});
 
 	describe('check column', () => {
-		it('should not null on name', async function() {
+		it('should not null on name', async function () {
 			try {
 				const name = undefined;
 

@@ -5,7 +5,6 @@ import { UserEntity } from './user.entity';
 import { TeamEntity } from './team.entity';
 
 describe('team entity', () => {
-	let userRepository;
 	let connection;
 	let teamRepository;
 
@@ -13,7 +12,6 @@ describe('team entity', () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		userRepository = connection.getRepository(UserEntity);
 		teamRepository = connection.getRepository(TeamEntity);
 	});
 
@@ -21,25 +19,23 @@ describe('team entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
-		assert.isNotNull(userRepository);
-
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(teamRepository);
 	});
 
-	it('should create new entity', async function() {
+	it('should create new entity', async function () {
 		const team = new TeamEntity();
 		team.name = 'team name';
 		team.description = 'description';
 		await connection.manager.save(team);
 
-		const newTeam = userRepository.findOne({ id: team.id });
+		const newTeam = await teamRepository.findOne({ id: team.id });
 
 		assert.isNotNull(newTeam);
 	});
 
-	describe('check column', () => {
-		it('should not null on name', async function() {
+	describe('check column type', () => {
+		it('should not null on name', async function () {
 			try {
 				const name = undefined;
 				const description = 'description ';
@@ -56,7 +52,7 @@ describe('team entity', () => {
 			}
 		});
 
-		it('should not null on  description', async function() {
+		it('should not null on  description', async function () {
 			try {
 				const name = 'Me and Bears';
 				const description = undefined;

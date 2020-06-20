@@ -5,14 +5,12 @@ import { UserEntity } from './user.entity';
 import { UserSettingEntity } from './userSetting.entity';
 
 describe('userSetting entity', () => {
-	let userRepository;
 	let connection;
 	let userSettingRepository;
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		userRepository = connection.getRepository(UserEntity);
 		userSettingRepository = connection.getRepository(UserSettingEntity);
 	});
 
@@ -21,8 +19,6 @@ describe('userSetting entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(userRepository);
-
 		assert.isNotNull(userSettingRepository);
 	});
 
@@ -30,7 +26,9 @@ describe('userSetting entity', () => {
 		const userSetting = new UserSettingEntity();
 		await connection.manager.save(userSetting);
 
-		const newUserSetting = userRepository.findOne({ id: userSetting.id });
+		const newUserSetting = await userSettingRepository.findOne({
+			id: userSetting.id,
+		});
 
 		assert.isNotNull(newUserSetting);
 	});

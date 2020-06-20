@@ -37,12 +37,12 @@ describe('user entity', () => {
 		user.email = 'email';
 		await connection.manager.save(user);
 
-		const newUser = userRepository.findOne({ id: user.id });
+		const newUser = await userRepository.findOne({ id: user.id });
 
 		assert.isNotNull(newUser);
 	});
 
-	describe('check column', () => {
+	describe('check column type', () => {
 		it('should not null on name', async function () {
 			try {
 				const name = undefined;
