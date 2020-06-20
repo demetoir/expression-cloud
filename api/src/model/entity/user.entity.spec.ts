@@ -194,7 +194,7 @@ describe('user entity', () => {
 
 		it('should relate with edit history entity', async function () {
 			const editHistoryEntity = new EditHistoryEntity();
-			editHistoryEntity.edit_type = 1;
+			editHistoryEntity.editType = 1;
 			editHistoryEntity.refId = null;
 			editHistoryEntity.refType = null;
 			editHistoryEntity.user = user;
