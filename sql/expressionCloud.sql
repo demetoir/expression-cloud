@@ -1,9 +1,3 @@
--- TODO
---    마이그레이션은 typeorm 을에서 보기
---    SQL 파일 읽어서 수행하는 식으로 만들기
---    만들때 따로 따로 한테이블 씩 노가다해서 만들기
-
-
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`
 (
