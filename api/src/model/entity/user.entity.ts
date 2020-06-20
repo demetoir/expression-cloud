@@ -97,7 +97,6 @@ export class UserEntity {
 	@OneToMany((type) => ProjectEntity, (project) => project.user, { eager: false })
 	projects: ProjectEntity[];
 
-	// todo test
 	@OneToMany((type) => LikeEntity, (likes) => likes.user)
 	likes: LikeEntity[];
 }
