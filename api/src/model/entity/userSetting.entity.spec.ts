@@ -20,13 +20,13 @@ describe('userSetting entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(userRepository);
 
 		assert.isNotNull(userSettingRepository);
 	});
 
-	it('should create new userSetting', async function() {
+	it('should create new userSetting', async function () {
 		const userSetting = new UserSettingEntity();
 		await connection.manager.save(userSetting);
 
@@ -35,7 +35,6 @@ describe('userSetting entity', () => {
 		assert.isNotNull(newUserSetting);
 	});
 
-	// todo add test for userSetting entity
 	describe('relation', () => {
 		let userSetting;
 

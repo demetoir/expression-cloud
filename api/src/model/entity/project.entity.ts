@@ -58,16 +58,16 @@ export class ProjectEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne((type) => UserEntity, (user) => user.projects)
+	@ManyToOne(() => UserEntity, (user) => user.projects)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-	@OneToMany((type) => TagEntity, (tags) => tags.project)
+	@OneToMany(() => TagEntity, (tags) => tags.project)
 	tags: TagEntity[];
 
-	@OneToOne((type) => ProjectSettingEntity, (setting) => setting.project)
+	@OneToOne(() => ProjectSettingEntity, (setting) => setting.project)
 	setting: ProjectSettingEntity;
 
-	@OneToMany((type) => ExpressionEntity, (expressions) => expressions.project)
+	@OneToMany(() => ExpressionEntity, (expressions) => expressions.project)
 	expressions: ExpressionEntity[];
 }

@@ -28,10 +28,7 @@ export class ProjectSettingEntity {
 	})
 	deletedAt: Date;
 
-	@OneToOne(
-		type => ProjectEntity,
-		project => project.setting,
-	)
+	@OneToOne(() => ProjectEntity, (project) => project.setting)
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
 	project: ProjectEntity;
 }

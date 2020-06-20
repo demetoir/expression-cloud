@@ -32,10 +32,7 @@ export class TagEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(
-		type => ProjectEntity,
-		project => project.tags,
-	)
+	@ManyToOne(() => ProjectEntity, (project) => project.tags)
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
 	project: ProjectEntity;
 }

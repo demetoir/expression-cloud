@@ -3,7 +3,6 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
-	JoinColumn,
 	JoinTable,
 	ManyToMany,
 	PrimaryGeneratedColumn,
@@ -36,10 +35,7 @@ export class TeamEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToMany(
-		type => UserEntity,
-		user => user.teams,
-	)
+	@ManyToMany(() => UserEntity, (user) => user.teams)
 	@JoinTable({
 		name: 'user_team',
 		joinColumn: {

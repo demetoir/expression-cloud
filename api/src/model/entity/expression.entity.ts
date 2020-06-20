@@ -41,10 +41,10 @@ export class ExpressionEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne((type) => ProjectEntity, (project) => project.expressions)
+	@ManyToOne(() => ProjectEntity, (project) => project.expressions)
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
 	project: ProjectEntity;
 
-	@OneToMany((type) => ColumnEntity, (column) => column.expression)
+	@OneToMany(() => ColumnEntity, (column) => column.expression)
 	columns: ColumnEntity[];
 }

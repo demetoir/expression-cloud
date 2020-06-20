@@ -32,7 +32,7 @@ export class RoleEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToMany(type => UserEntity)
+	@ManyToMany(() => UserEntity)
 	@JoinTable()
 	users: UserEntity[];
 }

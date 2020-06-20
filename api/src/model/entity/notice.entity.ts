@@ -42,11 +42,7 @@ export class NoticeEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(
-		type => UserEntity,
-		user => user.notices,
-		{ eager: true },
-	)
+	@ManyToOne(() => UserEntity, (user) => user.notices, { eager: true })
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 }

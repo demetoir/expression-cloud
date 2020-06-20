@@ -28,10 +28,7 @@ export class UserSettingEntity {
 	})
 	deletedAt: Date;
 
-	@OneToOne(
-		type => UserEntity,
-		user => user.setting,
-	)
+	@OneToOne(() => UserEntity, (user) => user.setting)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 }
