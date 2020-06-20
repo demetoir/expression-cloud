@@ -24,7 +24,7 @@ export class EditHistoryEntity {
 	refType: bigint;
 
 	@Column({ name: 'edit_type', type: 'smallint', nullable: false })
-	edit_type: number;
+	editType: number;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
 	createdAt: Date;
@@ -39,12 +39,13 @@ export class EditHistoryEntity {
 	})
 	deletedAt: Date;
 
-	// todo test this relation
 	@ManyToOne(() => UserEntity, (user) => user.editHistories)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-	// todo test this relation
-	@OneToOne(() => EditHistoryEntity)
-	prevHistory: EditHistoryEntity;
+	@OneToOne(() => EditHistoryEntity, undefined, {
+		eager: false,
+	})
+	@JoinColumn({ name: 'prev_id', referencedColumnName: 'id' })
+	prev: EditHistoryEntity;
 }
