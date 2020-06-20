@@ -18,3 +18,10 @@ jobs:
       name: backend node
       script:
         - yarn test
+
+notifications:
+  email:
+    recipients:
+      - wnsqlehlswk@naver.com
+    on_success: change
+    on_failure: always
