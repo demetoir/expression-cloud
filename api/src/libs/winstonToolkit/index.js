@@ -1,8 +1,11 @@
-const winston = require('winston');
-require('winston-daily-rotate-file');
 const chalk = require('chalk');
+const { createLogger, loggers, format, transports } = require('winston');
+const DailyRotateFile = require('winston-daily-rotate-file');
 
-const { format } = require('winston');
+// import { createLogger, format, loggers, transports } from 'winston';
+// import * as DailyRotateFile from 'winston-daily-rotate-file';
+// import * as chalk from 'chalk';
+
 const { combine, timestamp, printf, errors } = format;
 
 const levelToChalk = {
@@ -38,7 +41,12 @@ const addColor = ({ message, level }) => {
 const stdoutPrintf = printf((args) => {
 	const { level, message, stack, timestamp, pretty } = args;
 
-	const formattedMessage = convertToFormat({ message, stack, timestamp, level });
+	const formattedMessage = convertToFormat({
+		message,
+		stack,
+		timestamp,
+		level,
+	});
 	return addColor({ message: formattedMessage, level });
 });
 
@@ -50,7 +58,7 @@ const LOGGER_LEVEL = {
 	ERROR: 'error',
 };
 
-const errorLogTransport = new winston.transports.DailyRotateFile({
+const errorLogTransport = new DailyRotateFile({
 	filename: './.log/error-%DATE%.log',
 	datePattern: 'YYYY-MM-DD',
 	zippedArchive: true,
@@ -59,7 +67,7 @@ const errorLogTransport = new winston.transports.DailyRotateFile({
 	level: LOGGER_LEVEL.ERROR,
 });
 
-const combineLogTransport = new winston.transports.DailyRotateFile({
+const combineLogTransport = new DailyRotateFile({
 	filename: './.log/combine-%DATE%.log',
 	datePattern: 'YYYY-MM-DD',
 	zippedArchive: true,
@@ -68,15 +76,24 @@ const combineLogTransport = new winston.transports.DailyRotateFile({
 	level: LOGGER_LEVEL.INFO,
 });
 
-const index = winston.createLogger({
+const consoleLogger = new transports.Console();
+
+const config = {
 	level: LOGGER_LEVEL.INFO,
 	format: combine(errors({ stack: true }), timestamp(), stdoutPrintf),
-	transports: [errorLogTransport, combineLogTransport],
-});
+	transports: [errorLogTransport, combineLogTransport, consoleLogger],
+};
 
-index.add(new winston.transports.Console());
+const logger = createLogger({
+	level: LOGGER_LEVEL.INFO,
+	format: combine(errors({ stack: true }), timestamp(), stdoutPrintf),
+	transports: [errorLogTransport, combineLogTransport, consoleLogger],
+});
 
 // todo add test
 // todo add jsdoc
 // todo add types define
-module.exports.logger = index;
+//
+// exports.logger = logger;
+// exports.config = config;
+export { logger };
