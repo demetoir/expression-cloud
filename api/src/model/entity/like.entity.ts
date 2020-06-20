@@ -3,10 +3,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'likes' })
 export class LikeEntity {
@@ -32,5 +35,7 @@ export class LikeEntity {
 	})
 	deletedAt: Date;
 
-	// todo many to one relation with user
+	@ManyToOne(() => UserEntity, (user) => user.likes)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }

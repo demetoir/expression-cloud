@@ -8,6 +8,7 @@ import { UserSettingEntity } from './userSetting.entity';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
+import { LikeEntity } from './like.entity';
 
 describe('user entity', () => {
 	let userRepository;
@@ -24,11 +25,11 @@ describe('user entity', () => {
 		connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(userRepository);
 	});
 
-	it('should create new user', async function() {
+	it('should create new user', async function () {
 		const user = new UserEntity();
 		user.name = 'Me and Bears';
 		user.description = 'I am near polar bears';
@@ -41,7 +42,7 @@ describe('user entity', () => {
 	});
 
 	describe('check column', () => {
-		it('should not null on name', async function() {
+		it('should not null on name', async function () {
 			try {
 				const name = undefined;
 				const description = 'description ';
@@ -53,14 +54,11 @@ describe('user entity', () => {
 				user.email = email;
 				await connection.manager.save(user);
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.name',
-				);
+				assert.equal(e.message, 'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.name');
 			}
 		});
 
-		it('should not null at email', async function() {
+		it('should not null at email', async function () {
 			try {
 				const name = 'Me and Bears';
 				const description = 'description ';
@@ -72,14 +70,11 @@ describe('user entity', () => {
 				user.email = email;
 				await connection.manager.save(user);
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.email',
-				);
+				assert.equal(e.message, 'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.email');
 			}
 		});
 
-		it('should not null on  description', async function() {
+		it('should not null on  description', async function () {
 			try {
 				const name = 'Me and Bears';
 				const description = undefined;
@@ -91,10 +86,7 @@ describe('user entity', () => {
 				user.email = email;
 				await connection.manager.save(user);
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.description',
-				);
+				assert.equal(e.message, 'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.description');
 			}
 		});
 	});
@@ -103,7 +95,7 @@ describe('user entity', () => {
 		let user;
 		let anotherUser;
 
-		it('should prepare user', async function() {
+		it('should prepare user', async function () {
 			user = new UserEntity();
 			user.name = 'Me and Bears';
 			user.description = 'I am near polar bears';
@@ -119,7 +111,7 @@ describe('user entity', () => {
 			await connection;
 		});
 
-		it('should relate with role entity', async function() {
+		it('should relate with role entity', async function () {
 			const adminRole = new RoleEntity();
 			adminRole.name = 'admin';
 			await connection.manager.save(adminRole);
@@ -138,7 +130,7 @@ describe('user entity', () => {
 			assert.deepEqual(user.roles, [adminRole, userRole]);
 		});
 
-		it('should relate with notice entity', async function() {
+		it('should relate with notice entity', async function () {
 			const notice1 = new NoticeEntity();
 			notice1.content = 'content';
 			notice1.user = user;
@@ -156,7 +148,7 @@ describe('user entity', () => {
 			assert.deepStrictEqual(result6.notices[0].id, notice1.id);
 		});
 
-		it('should relate with user setting entity', async function() {
+		it('should relate with user setting entity', async function () {
 			const userSetting = new UserSettingEntity();
 			userSetting.user = user;
 			await connection.manager.save(userSetting);
@@ -170,7 +162,7 @@ describe('user entity', () => {
 			assert.isNotNull(await result1.setting);
 		});
 
-		it('should relate with team entity', async function() {
+		it('should relate with team entity', async function () {
 			const team = new TeamEntity();
 			team.name = 'team 1';
 			team.description = 'description';
@@ -190,7 +182,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.teams[0].id, team.id);
 		});
 
-		it('should relate with edit history entity', async function() {
+		it('should relate with edit history entity', async function () {
 			const editHistoryEntity = new EditHistoryEntity();
 			editHistoryEntity.edit_type = 1;
 			editHistoryEntity.refId = null;
@@ -206,7 +198,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.editHistories[0].id, editHistoryEntity.id);
 		});
 
-		it('should relate with project', async function() {
+		it('should relate with project', async function () {
 			const project = new ProjectEntity();
 			project.name = 'name';
 			project.description = 'description';
@@ -224,6 +216,24 @@ describe('user entity', () => {
 			});
 
 			assert.equal(resultUser.projects[0].id, project.id);
+		});
+
+		it('should relate with like', async function () {
+			const like = new LikeEntity();
+			await connection.manager.save(like);
+
+			like.user = user;
+			await connection.manager.save(like);
+
+			user.likes = [like];
+			await connection.manager.save(user);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['likes'],
+			});
+
+			assert.equal(resultUser.likes[0].id, like.id);
 		});
 	});
 });

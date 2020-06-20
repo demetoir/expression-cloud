@@ -17,6 +17,7 @@ import tableIdType from '../../libs/tableIdTypeResolver';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
+import { LikeEntity } from './like.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -49,13 +50,10 @@ export class UserEntity {
 	})
 	deletedAt: Date;
 
-	@OneToOne(
-		type => UserSettingEntity,
-		setting => setting.user,
-	)
+	@OneToOne((type) => UserSettingEntity, (setting) => setting.user)
 	setting: Promise<UserSettingEntity>;
 
-	@ManyToMany(type => RoleEntity, {
+	@ManyToMany((type) => RoleEntity, {
 		eager: true,
 		cascade: true,
 	})
@@ -72,22 +70,14 @@ export class UserEntity {
 	})
 	roles: RoleEntity[];
 
-	@OneToMany(
-		type => NoticeEntity,
-		notices => notices.user,
-		{
-			eager: false,
-		},
-	)
+	@OneToMany((type) => NoticeEntity, (notices) => notices.user, {
+		eager: false,
+	})
 	notices: NoticeEntity[];
 
-	@ManyToMany(
-		type => TeamEntity,
-		team => team.users,
-		{
-			eager: false,
-		},
-	)
+	@ManyToMany((type) => TeamEntity, (team) => team.users, {
+		eager: false,
+	})
 	@JoinTable({
 		name: 'user_team',
 		joinColumn: {
@@ -101,17 +91,13 @@ export class UserEntity {
 	})
 	teams: TeamEntity[];
 
-	@OneToMany(
-		type => EditHistoryEntity,
-		editHistory => editHistory.user,
-		{ eager: false },
-	)
+	@OneToMany((type) => EditHistoryEntity, (editHistory) => editHistory.user, { eager: false })
 	editHistories: EditHistoryEntity[];
 
-	@OneToMany(
-		type => ProjectEntity,
-		project => project.user,
-		{ eager: false },
-	)
+	@OneToMany((type) => ProjectEntity, (project) => project.user, { eager: false })
 	projects: ProjectEntity[];
+
+	// todo test
+	@OneToMany((type) => LikeEntity, (likes) => likes.user)
+	likes: LikeEntity[];
 }
