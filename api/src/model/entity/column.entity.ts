@@ -24,8 +24,7 @@ export class ColumnEntity {
 	})
 	name: string;
 
-	// todo 이놈은 type을 int로 바꾸기
-	@Column({ name: 'index', type: 'bigint', nullable: false })
+	@Column({ name: 'index', type: 'int', nullable: false })
 	index: number;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
