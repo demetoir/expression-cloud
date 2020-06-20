@@ -157,5 +157,27 @@ describe('expression entity', () => {
 
 			assert.equal(resultExpression.project.id, project.id);
 		});
+
+		it('should relate with column entity', async () => {
+			const column = new ColumnEntity();
+
+			column.index = 0;
+			column.name = 'name';
+
+			await connection.manager.save(column);
+
+			column.expression = expression;
+			await connection.manager.save(column);
+
+			expression.columns = [column];
+			await connection.manager.save(expression);
+
+			const result = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['columns'],
+			});
+
+			assert.equal(result.columns[0].id, column.id);
+		});
 	});
 });

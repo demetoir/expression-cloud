@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import { config } from '../../../ormconfig.js';
 import { ColumnEntity } from './column.entity';
+import { ExpressionEntity } from './expression.entity';
 
 describe('column entity', () => {
 	let columnRepository;
@@ -76,13 +77,35 @@ describe('column entity', () => {
 	});
 
 	describe('relation', () => {
-		let comment;
+		let column;
 
 		it('should prepare comment', async () => {
-			comment = new ColumnEntity();
-			comment.content = 'description';
+			column = new ColumnEntity();
+			column.name = 'description';
+			column.index = 1;
 
-			await connection.manager.save(comment);
+			await connection.manager.save(column);
+		});
+
+		it('should relate with expression entity', async () => {
+			const expression = new ExpressionEntity();
+			expression.name = 'user';
+			expression.description = 'description';
+			expression.type = 1;
+			await connection.manager.save(expression);
+
+			expression.columns = [column];
+			await connection.manager.save(expression);
+
+			column.expression = [expression];
+			await connection.manager.save(column);
+
+			const result = await columnRepository.findOne({
+				where: { id: column.id },
+				relations: ['expression'],
+			});
+
+			assert.equal(result.expression.id, expression.id);
 		});
 	});
 });
