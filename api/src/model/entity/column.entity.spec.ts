@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import { config } from '../../../ormconfig.js';
 import { ColumnEntity } from './column.entity';
 import { ExpressionEntity } from './expression.entity';
+import { ValueEntity } from './value.entity';
 
 describe('column entity', () => {
 	let columnRepository;
@@ -29,11 +30,11 @@ describe('column entity', () => {
 		column.index = 1;
 		await connection.manager.save(column);
 
-		const newExpression = columnRepository.findOne({
+		const newExpression = await columnRepository.findOne({
 			id: column.id,
 		});
 
-		assert.isNotNull(newExpression);
+		assert.isNotNull(newExpression.id);
 	});
 
 	describe('column type check', () => {
@@ -106,6 +107,27 @@ describe('column entity', () => {
 			});
 
 			assert.equal(result.expression.id, expression.id);
+		});
+
+		it('should relate with value entity', async () => {
+			const value = new ValueEntity();
+			value.index = 0;
+			value.value = 0;
+
+			await connection.manager.save(value);
+
+			value.column = column;
+			await connection.manager.save(value);
+
+			column.values = [value];
+			await connection.manager.save(column);
+
+			const result = await columnRepository.findOne({
+				where: { id: column.id },
+				relations: ['values'],
+			});
+
+			assert.equal(result.values[0].id, value.id);
 		});
 	});
 });
