@@ -16,6 +16,7 @@ export class ValueEntity {
 	@Column({ name: 'value', type: 'bigint', nullable: false })
 	value: bigint;
 
+	// todo 이놈 값을 int 로 변경
 	@Column({ name: 'index', type: 'bigint', nullable: false })
 	index: bigint;
 
