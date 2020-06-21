@@ -19,10 +19,8 @@ export class NoticeEntity {
 	@Column({ type: 'text', name: 'content', nullable: false })
 	content: string;
 
-	// todo 실제 타입이 boolean으로 나오도록 옵션 수정
 	@Column({
-		type: 'tinyint',
-		width: 1,
+		type: 'boolean',
 		name: 'is_read',
 		nullable: false,
 		default: false,

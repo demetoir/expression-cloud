@@ -74,6 +74,26 @@ describe('notice entity', () => {
 			}
 		});
 
+		it('should be boolean type of isRead', async function () {
+			const content = 'content';
+			const isRead = true;
+
+			const notice = new NoticeEntity();
+			notice.content = content;
+			notice.isRead = isRead;
+			await connection.manager.save(notice);
+
+			notice.isRead = true;
+			await connection.manager.save(notice);
+			const result1 = await noticeRepository.findOne({ id: notice.id });
+			assert.equal(typeof result1.isRead, 'boolean');
+
+			notice.isRead = false;
+			await connection.manager.save(notice);
+			const result2 = await noticeRepository.findOne({ id: notice.id });
+			assert.equal(typeof result2.isRead, 'boolean');
+		});
+
 		it('should isRead auto false', async function () {
 			const content = 'content';
 			const isRead = undefined;
