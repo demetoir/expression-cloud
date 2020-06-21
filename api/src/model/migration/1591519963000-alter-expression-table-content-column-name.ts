@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 
-export class alterColumnsTableIndexColumnType1591519961073
+export class alterColumnsTableIndexColumnType1591519963000
 	implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.changeColumn(

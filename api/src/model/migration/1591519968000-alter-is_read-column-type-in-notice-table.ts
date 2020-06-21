@@ -1,18 +1,18 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 
-export class alterColumnsTableIndexColumnType1591519961073
+export class alterColumnsTableIndexColumnType1591519968000
 	implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.changeColumn(
 			'notice',
 			new TableColumn({
-				name: 'is_ready',
-				type: 'boolean',
+				name: 'is_read',
+				type: 'tinyint',
 				isNullable: false,
 			}),
 			new TableColumn({
 				name: 'is_read',
-				type: 'tinyint',
+				type: 'boolean',
 				isNullable: false,
 			}),
 		);
@@ -23,12 +23,12 @@ export class alterColumnsTableIndexColumnType1591519961073
 			'notice',
 			new TableColumn({
 				name: 'is_read',
-				type: 'tinyint',
+				type: 'boolean',
 				isNullable: false,
 			}),
 			new TableColumn({
 				name: 'is_read',
-				type: 'boolean',
+				type: 'tinyint',
 				isNullable: false,
 			}),
 		);
