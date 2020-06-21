@@ -55,7 +55,7 @@ describe('expression entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.content',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.description',
 				);
 			}
 		});
