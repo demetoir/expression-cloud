@@ -23,8 +23,7 @@ export class ValueEntity {
 	@Column({ name: 'value', type: 'double precision', nullable: false })
 	value: number;
 
-	// todo 이놈 값을 int 로 변경
-	@Column({ name: 'index', type: 'bigint', nullable: false })
+	@Column({ name: 'index', type: 'int', nullable: false })
 	index: number;
 
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
