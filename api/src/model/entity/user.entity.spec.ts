@@ -10,6 +10,7 @@ import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
 import { CommentEntity } from './comment.entity';
+import { OauthEntity } from './oauth.entity';
 
 describe('user entity', () => {
 	let userRepository;
@@ -263,6 +264,27 @@ describe('user entity', () => {
 			});
 
 			assert.equal(resultUser.comments[0].id, comment.id);
+		});
+
+		it('should relate with oauth', async function () {
+			const oauth = new OauthEntity();
+			oauth.type = 1;
+			oauth.authId = 'id';
+
+			await connection.manager.save(oauth);
+
+			oauth.user = user;
+			await connection.manager.save(oauth);
+
+			user.oauth = oauth;
+			await connection.manager.save(user);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['oauth'],
+			});
+
+			assert.equal(resultUser.oauth.id, oauth.id);
 		});
 	});
 });

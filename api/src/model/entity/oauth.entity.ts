@@ -3,10 +3,13 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'oauths' })
 export class OauthEntity {
@@ -32,5 +35,7 @@ export class OauthEntity {
 	})
 	deletedAt: Date;
 
-	// todo add user relation many to one
+	@OneToOne(() => UserEntity, (user) => user.oauth)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }

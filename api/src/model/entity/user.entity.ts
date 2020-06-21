@@ -19,6 +19,7 @@ import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
 import { CommentEntity } from './comment.entity';
+import { OauthEntity } from './oauth.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -105,4 +106,7 @@ export class UserEntity {
 
 	@OneToMany(() => CommentEntity, (comments) => comments.user)
 	comments: CommentEntity[];
+
+	@OneToOne(() => OauthEntity, (oauth) => oauth.user)
+	oauth: OauthEntity;
 }
