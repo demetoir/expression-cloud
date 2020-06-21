@@ -31,7 +31,14 @@ export class ImageEntity {
 		nullable: false,
 	})
 	path: string;
-	// todo add type -> (origin, resized 100, resize 300, ...)
+
+	// origin, resize, compressed, thumbnail....
+	@Column({
+		name: 'type',
+		type: 'int',
+		nullable: false,
+	})
+	type: number;
 
 	@Column({ name: 'file_name', type: 'text', nullable: false })
 	fileName: string;

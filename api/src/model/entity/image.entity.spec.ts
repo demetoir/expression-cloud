@@ -28,6 +28,7 @@ describe('image entity', () => {
 		image.extension = 'eeee';
 		image.fileName = 'file';
 		image.path = 'path';
+		image.type = 1;
 
 		await connection.manager.save(image);
 
@@ -43,12 +44,14 @@ describe('image entity', () => {
 				const extension = 'extension';
 				const fileName = 'fileName';
 				const path = 'path';
+				const type = 0;
 
 				const image = new ImageEntity();
 				image.url = url;
 				image.extension = extension;
 				image.fileName = fileName;
 				image.path = path;
+				image.type = type;
 
 				await connection.manager.save(image);
 
@@ -67,6 +70,7 @@ describe('image entity', () => {
 				const extension = null;
 				const fileName = 'fileName';
 				const path = 'path';
+				const type = 0;
 
 				const image = new ImageEntity();
 				image.url = url;
@@ -74,6 +78,7 @@ describe('image entity', () => {
 				image.fileName = fileName;
 
 				image.path = path;
+				image.type = type;
 
 				await connection.manager.save(image);
 
@@ -92,12 +97,14 @@ describe('image entity', () => {
 				const extension = 'extension';
 				const fileName = null;
 				const path = 'path';
+				const type = 0;
 
 				const image = new ImageEntity();
 				image.url = url;
 				image.extension = extension;
 				image.fileName = fileName;
 				image.path = path;
+				image.type = type;
 
 				await connection.manager.save(image);
 
@@ -116,12 +123,14 @@ describe('image entity', () => {
 				const extension = 'extension';
 				const fileName = 'filename';
 				const path = null;
+				const type = 0;
 
 				const image = new ImageEntity();
 				image.url = url;
 				image.extension = extension;
 				image.fileName = fileName;
 				image.path = path;
+				image.type = type;
 
 				await connection.manager.save(image);
 
@@ -130,6 +139,32 @@ describe('image entity', () => {
 				assert.equal(
 					e.message,
 					'SQLITE_CONSTRAINT: NOT NULL constraint failed: images.path',
+				);
+			}
+		});
+
+		it('should not null on type', async () => {
+			try {
+				const url = 'dfd';
+				const extension = 'extension';
+				const fileName = 'filename';
+				const path = 'path';
+				const type = null;
+
+				const image = new ImageEntity();
+				image.url = url;
+				image.extension = extension;
+				image.fileName = fileName;
+				image.path = path;
+				image.type = type;
+
+				await connection.manager.save(image);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: images.type',
 				);
 			}
 		});
