@@ -27,6 +27,7 @@ describe('image entity', () => {
 		image.url = 'url';
 		image.extension = 'eeee';
 		image.fileName = 'file';
+		image.path = 'path';
 
 		await connection.manager.save(image);
 
@@ -41,13 +42,15 @@ describe('image entity', () => {
 				const url = null;
 				const extension = 'extension';
 				const fileName = 'fileName';
+				const path = 'path';
 
-				const notice = new ImageEntity();
-				notice.url = url;
-				notice.extension = extension;
-				notice.fileName = fileName;
+				const image = new ImageEntity();
+				image.url = url;
+				image.extension = extension;
+				image.fileName = fileName;
+				image.path = path;
 
-				await connection.manager.save(notice);
+				await connection.manager.save(image);
 
 				assert(false, 'should throw this error');
 			} catch (e) {
@@ -63,13 +66,16 @@ describe('image entity', () => {
 				const url = 'dfd';
 				const extension = null;
 				const fileName = 'fileName';
+				const path = 'path';
 
-				const notice = new ImageEntity();
-				notice.url = url;
-				notice.extension = extension;
-				notice.fileName = fileName;
+				const image = new ImageEntity();
+				image.url = url;
+				image.extension = extension;
+				image.fileName = fileName;
 
-				await connection.manager.save(notice);
+				image.path = path;
+
+				await connection.manager.save(image);
 
 				assert(false, 'should throw this error');
 			} catch (e) {
@@ -85,19 +91,45 @@ describe('image entity', () => {
 				const url = 'dfd';
 				const extension = 'extension';
 				const fileName = null;
+				const path = 'path';
 
-				const notice = new ImageEntity();
-				notice.url = url;
-				notice.extension = extension;
-				notice.fileName = fileName;
+				const image = new ImageEntity();
+				image.url = url;
+				image.extension = extension;
+				image.fileName = fileName;
+				image.path = path;
 
-				await connection.manager.save(notice);
+				await connection.manager.save(image);
 
 				assert(false, 'should throw this error');
 			} catch (e) {
 				assert.equal(
 					e.message,
 					'SQLITE_CONSTRAINT: NOT NULL constraint failed: images.file_name',
+				);
+			}
+		});
+
+		it('should not null on path', async () => {
+			try {
+				const url = 'dfd';
+				const extension = 'extension';
+				const fileName = 'filename';
+				const path = null;
+
+				const image = new ImageEntity();
+				image.url = url;
+				image.extension = extension;
+				image.fileName = fileName;
+				image.path = path;
+
+				await connection.manager.save(image);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: images.path',
 				);
 			}
 		});

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
 
+// todo created, updated, delete at 이거는 상속 처리 해버리기
 @Entity({ name: 'images' })
 export class ImageEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
@@ -24,8 +25,13 @@ export class ImageEntity {
 	})
 	extension: string;
 
-	// todo add origin
-	// todo add s3Key
+	@Column({
+		name: 'path',
+		type: 'text',
+		nullable: false,
+	})
+	path: string;
+	// todo add type -> (origin, resized 100, resize 300, ...)
 
 	@Column({ name: 'file_name', type: 'text', nullable: false })
 	fileName: string;
