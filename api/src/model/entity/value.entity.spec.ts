@@ -67,6 +67,18 @@ describe('value entity', () => {
 				);
 			}
 		});
+
+		it('should be value type on double type', async function () {
+			const index = 0;
+			const value = 4.12345678901234567890123456789;
+
+			const valueEntity = new ValueEntity();
+			valueEntity.index = index;
+			valueEntity.value = value;
+			await connection.manager.save(valueEntity);
+
+			assert.equal(valueEntity.value, value);
+		});
 	});
 
 	describe('relation', () => {

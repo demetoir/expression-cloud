@@ -18,9 +18,9 @@ export class ValueEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
-	// todo 이놈 값을 double float type으로 엔티티에서는 number로 변경
-	// todo 이거랑 연관된 테이블인 edis history 테이블의 값도 변경하기
-	@Column({ name: 'value', type: 'bigint', nullable: false })
+	// todo 이거 정밀도 때문에 문제 발생가능성 있으니 테코 만들기, string 으로 바꾸든 어떻게든 해야한
+	// todo 이거랑 연관된 테이블인 edit history 테이블의 값도 변경하기
+	@Column({ name: 'value', type: 'double precision', nullable: false })
 	value: number;
 
 	// todo 이놈 값을 int 로 변경
