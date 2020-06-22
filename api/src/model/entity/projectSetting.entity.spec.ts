@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import { config } from '../../../ormconfig.js';
+import * as config from '../../../ormconfig.js';
 import { ProjectEntity } from './project.entity';
 import { ProjectSettingEntity } from './projectSetting.entity';
 
