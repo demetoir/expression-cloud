@@ -115,26 +115,6 @@ describe('expression entity', () => {
 			await connection.manager.save(expression);
 		});
 
-		it('should relate with column entity', async () => {
-			const column = new VectorEntity();
-			column.name = 'user';
-			column.index = 1;
-			await connection.manager.save(column);
-
-			column.expression = expression;
-			await connection.manager.save(column);
-
-			expression.columns = [column];
-			await connection.manager.save(expression);
-
-			const resultExpression = await expressionRepository.findOne({
-				where: { id: expression.id },
-				relations: ['columns'],
-			});
-
-			assert.equal(resultExpression.columns[0].id, column.id);
-		});
-
 		it('should relate with project entity', async () => {
 			const project = new ProjectEntity();
 			project.name = 'user';
@@ -156,25 +136,24 @@ describe('expression entity', () => {
 		});
 
 		it('should relate with column entity', async () => {
-			const column = new VectorEntity();
+			const vector = new VectorEntity();
+			vector.index = 0;
+			vector.name = 'name';
 
-			column.index = 0;
-			column.name = 'name';
+			await connection.manager.save(vector);
 
-			await connection.manager.save(column);
+			vector.expression = expression;
+			await connection.manager.save(vector);
 
-			column.expression = expression;
-			await connection.manager.save(column);
-
-			expression.columns = [column];
+			expression.vectors = [vector];
 			await connection.manager.save(expression);
 
 			const result = await expressionRepository.findOne({
 				where: { id: expression.id },
-				relations: ['columns'],
+				relations: ['vectors'],
 			});
 
-			assert.equal(result.columns[0].id, column.id);
+			assert.equal(result.vectors[0].id, vector.id);
 		});
 	});
 });
