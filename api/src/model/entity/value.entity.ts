@@ -9,7 +9,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
-import { ColumnEntity } from './column.entity';
+import { VectorEntity } from './vector.entity';
 
 // todo scalar 로 테이블 이름 변경
 // todo scalar 로 엔티티 이름 변
@@ -39,7 +39,7 @@ export class ValueEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(() => ColumnEntity, (column) => column.values)
+	@ManyToOne(() => VectorEntity, (column) => column.values)
 	@JoinColumn({ name: 'column_id', referencedColumnName: 'id' })
-	column: ColumnEntity;
+	column: VectorEntity;
 }

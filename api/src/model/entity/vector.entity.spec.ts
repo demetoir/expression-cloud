@@ -1,19 +1,19 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
-import { ColumnEntity } from './column.entity';
+import { VectorEntity } from './vector.entity';
 import { ExpressionEntity } from './expression.entity';
 import { ValueEntity } from './value.entity';
 
 describe('column entity', () => {
-	let columnRepository;
+	let vectorRepository;
 	let connection;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		columnRepository = connection.getRepository(ColumnEntity);
+		vectorRepository = connection.getRepository(VectorEntity);
 	});
 
 	afterAll(async () => {
@@ -21,16 +21,16 @@ describe('column entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(columnRepository);
+		assert.isNotNull(vectorRepository);
 	});
 
 	it('should create new Column', async function () {
-		const column = new ColumnEntity();
+		const column = new VectorEntity();
 		column.name = 'column';
 		column.index = 1;
 		await connection.manager.save(column);
 
-		const newExpression = await columnRepository.findOne({
+		const newExpression = await vectorRepository.findOne({
 			id: column.id,
 		});
 
@@ -42,7 +42,7 @@ describe('column entity', () => {
 			try {
 				const name = null;
 				const index = 1;
-				const column = new ColumnEntity();
+				const column = new VectorEntity();
 				column.name = name;
 				column.index = index;
 
@@ -61,7 +61,7 @@ describe('column entity', () => {
 			try {
 				const name = 'name';
 				const index = null;
-				const column = new ColumnEntity();
+				const column = new VectorEntity();
 				column.name = name;
 				column.index = index;
 
@@ -78,14 +78,14 @@ describe('column entity', () => {
 	});
 
 	describe('relation', () => {
-		let column;
+		let vector;
 
 		it('should prepare comment', async () => {
-			column = new ColumnEntity();
-			column.name = 'description';
-			column.index = 1;
+			vector = new VectorEntity();
+			vector.name = 'description';
+			vector.index = 1;
 
-			await connection.manager.save(column);
+			await connection.manager.save(vector);
 		});
 
 		it('should relate with expression entity', async () => {
@@ -95,14 +95,14 @@ describe('column entity', () => {
 			expression.type = 1;
 			await connection.manager.save(expression);
 
-			expression.columns = [column];
+			expression.vectors = [vector];
 			await connection.manager.save(expression);
 
-			column.expression = [expression];
-			await connection.manager.save(column);
+			vector.expression = [expression];
+			await connection.manager.save(vector);
 
-			const result = await columnRepository.findOne({
-				where: { id: column.id },
+			const result = await vectorRepository.findOne({
+				where: { id: vector.id },
 				relations: ['expression'],
 			});
 
@@ -116,14 +116,14 @@ describe('column entity', () => {
 
 			await connection.manager.save(value);
 
-			value.column = column;
+			value.column = vector;
 			await connection.manager.save(value);
 
-			column.values = [value];
-			await connection.manager.save(column);
+			vector.values = [value];
+			await connection.manager.save(vector);
 
-			const result = await columnRepository.findOne({
-				where: { id: column.id },
+			const result = await vectorRepository.findOne({
+				where: { id: vector.id },
 				relations: ['values'],
 			});
 

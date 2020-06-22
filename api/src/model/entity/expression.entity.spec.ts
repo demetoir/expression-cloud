@@ -3,7 +3,7 @@ import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
 import { ProjectEntity } from './project.entity';
-import { ColumnEntity } from './column.entity';
+import { VectorEntity } from './vector.entity';
 
 describe('expression entity', () => {
 	let expressionRepository;
@@ -116,7 +116,7 @@ describe('expression entity', () => {
 		});
 
 		it('should relate with column entity', async () => {
-			const column = new ColumnEntity();
+			const column = new VectorEntity();
 			column.name = 'user';
 			column.index = 1;
 			await connection.manager.save(column);
@@ -156,7 +156,7 @@ describe('expression entity', () => {
 		});
 
 		it('should relate with column entity', async () => {
-			const column = new ColumnEntity();
+			const column = new VectorEntity();
 
 			column.index = 0;
 			column.name = 'name';

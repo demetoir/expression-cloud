@@ -14,9 +14,8 @@ import { ExpressionEntity } from './expression.entity';
 import { ValueEntity } from './value.entity';
 
 //todo 이거 테이블 이름을 vector 로변경
-//todo 이거 엔티티 이름을 vector 로 변경
 @Entity({ name: 'columns' })
-export class ColumnEntity {
+export class VectorEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
@@ -44,7 +43,7 @@ export class ColumnEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(() => ExpressionEntity, (expression) => expression.columns)
+	@ManyToOne(() => ExpressionEntity, (expression) => expression.vectors)
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
 

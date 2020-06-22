@@ -10,7 +10,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
-import { ColumnEntity } from './column.entity';
+import { VectorEntity } from './vector.entity';
 import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'expressions' })
@@ -44,6 +44,6 @@ export class ExpressionEntity {
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
 	project: ProjectEntity;
 
-	@OneToMany(() => ColumnEntity, (column) => column.expression)
-	columns: ColumnEntity[];
+	@OneToMany(() => VectorEntity, (vector) => vector.expression)
+	vectors: VectorEntity[];
 }

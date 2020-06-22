@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ValueEntity } from './value.entity';
-import { ColumnEntity } from './column.entity';
+import { VectorEntity } from './vector.entity';
 
 describe('value entity', () => {
 	let valueRepository;
@@ -99,7 +99,7 @@ describe('value entity', () => {
 		});
 
 		it('should relate with column entity', async () => {
-			const column = new ColumnEntity();
+			const column = new VectorEntity();
 			column.index = 0;
 			column.name = 'name';
 			await connection.manager.save(column);
