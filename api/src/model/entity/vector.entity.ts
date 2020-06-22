@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import tableIdType from '../../libs/tableIdTypeResolver';
 import { ExpressionEntity } from './expression.entity';
-import { ValueEntity } from './value.entity';
+import { ScalarEntity } from './scalar.entity';
 
 //todo 이거 테이블 이름을 vector 로변경
 @Entity({ name: 'columns' })
@@ -47,6 +47,6 @@ export class VectorEntity {
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
 
-	@OneToMany(() => ValueEntity, (values) => values.column)
-	values: ValueEntity[];
+	@OneToMany(() => ScalarEntity, (scalars) => scalars.vector)
+	scalars: ScalarEntity[];
 }

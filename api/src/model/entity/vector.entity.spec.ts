@@ -3,7 +3,7 @@ import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { VectorEntity } from './vector.entity';
 import { ExpressionEntity } from './expression.entity';
-import { ValueEntity } from './value.entity';
+import { ScalarEntity } from './scalar.entity';
 
 describe('column entity', () => {
 	let vectorRepository;
@@ -109,25 +109,25 @@ describe('column entity', () => {
 			assert.equal(result.expression.id, expression.id);
 		});
 
-		it('should relate with value entity', async () => {
-			const value = new ValueEntity();
-			value.index = 0;
-			value.value = 0;
+		it('should relate with scalar entity', async () => {
+			const scalar = new ScalarEntity();
+			scalar.index = 0;
+			scalar.value = 0;
 
-			await connection.manager.save(value);
+			await connection.manager.save(scalar);
 
-			value.column = vector;
-			await connection.manager.save(value);
+			scalar.vector = vector;
+			await connection.manager.save(scalar);
 
-			vector.values = [value];
+			vector.scalars = [scalar];
 			await connection.manager.save(vector);
 
 			const result = await vectorRepository.findOne({
 				where: { id: vector.id },
-				relations: ['values'],
+				relations: ['scalars'],
 			});
 
-			assert.equal(result.values[0].id, value.id);
+			assert.equal(result.scalars[0].id, scalar.id);
 		});
 	});
 });

@@ -12,9 +12,8 @@ import tableIdType from '../../libs/tableIdTypeResolver';
 import { VectorEntity } from './vector.entity';
 
 // todo scalar 로 테이블 이름 변경
-// todo scalar 로 엔티티 이름 변
 @Entity({ name: 'values' })
-export class ValueEntity {
+export class ScalarEntity {
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: bigint;
 
@@ -39,7 +38,7 @@ export class ValueEntity {
 	})
 	deletedAt: Date;
 
-	@ManyToOne(() => VectorEntity, (column) => column.values)
+	@ManyToOne(() => VectorEntity, (vector) => vector.scalars)
 	@JoinColumn({ name: 'column_id', referencedColumnName: 'id' })
-	column: VectorEntity;
+	vector: VectorEntity;
 }

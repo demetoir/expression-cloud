@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
-import { ValueEntity } from './value.entity';
+import { ScalarEntity } from './scalar.entity';
 import { VectorEntity } from './vector.entity';
 
 describe('value entity', () => {
@@ -11,7 +11,7 @@ describe('value entity', () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		valueRepository = await connection.getRepository(ValueEntity);
+		valueRepository = await connection.getRepository(ScalarEntity);
 	});
 
 	afterAll(async () => {
@@ -23,7 +23,7 @@ describe('value entity', () => {
 	});
 
 	it('should create new entity', async function () {
-		const value = new ValueEntity();
+		const value = new ScalarEntity();
 		value.index = 0;
 		value.value = 1;
 		await connection.manager.save(value);
@@ -39,7 +39,7 @@ describe('value entity', () => {
 				const index = null;
 				const value = 0;
 
-				const valueEntity = new ValueEntity();
+				const valueEntity = new ScalarEntity();
 				valueEntity.index = index;
 				valueEntity.value = value;
 				await connection.manager.save(valueEntity);
@@ -56,7 +56,7 @@ describe('value entity', () => {
 				const index = 0;
 				const value = null;
 
-				const valueEntity = new ValueEntity();
+				const valueEntity = new ScalarEntity();
 				valueEntity.index = index;
 				valueEntity.value = value;
 				await connection.manager.save(valueEntity);
@@ -72,7 +72,7 @@ describe('value entity', () => {
 			const index = 0;
 			const value = 4.12345678901234567890123456789;
 
-			const valueEntity = new ValueEntity();
+			const valueEntity = new ScalarEntity();
 			valueEntity.index = index;
 			valueEntity.value = value;
 			await connection.manager.save(valueEntity);
@@ -82,40 +82,42 @@ describe('value entity', () => {
 	});
 
 	describe('relation', () => {
-		let value;
+		let scalar;
 
-		it('should prepare value', async () => {
-			value = new ValueEntity();
-			value.value = 0;
-			value.index = 0;
+		it('should prepare entity', async () => {
+			scalar = new ScalarEntity();
+			scalar.value = 0;
+			scalar.index = 0;
 
-			await connection.manager.save(value);
+			await connection.manager.save(scalar);
 
 			const result = await valueRepository.findOne({
-				where: { id: value.id },
-				relations: ['column'],
+				where: { id: scalar.id },
+				relations: ['vector'],
 			});
-			console.log(result);
+
+			assert.equal(result.value, scalar.value);
+			assert.equal(result.index, scalar.index);
 		});
 
-		it('should relate with column entity', async () => {
-			const column = new VectorEntity();
-			column.index = 0;
-			column.name = 'name';
-			await connection.manager.save(column);
+		it('should relate with vector entity', async () => {
+			const vector = new VectorEntity();
+			vector.index = 0;
+			vector.name = 'name';
+			await connection.manager.save(vector);
 
-			column.values = [value];
-			await connection.manager.save(column);
+			vector.scalars = [scalar];
+			await connection.manager.save(vector);
 
-			value.column = column;
-			await connection.manager.save(value);
+			scalar.vector = vector;
+			await connection.manager.save(scalar);
 
 			const result = await valueRepository.findOne({
-				where: { id: value.id },
-				relations: ['column'],
+				where: { id: scalar.id },
+				relations: ['vector'],
 			});
 
-			assert.equal(result.column.id, column.id);
+			assert.equal(result.vector.id, vector.id);
 		});
 	});
 });
