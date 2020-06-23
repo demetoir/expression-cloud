@@ -1,23 +1,10 @@
-import {
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	JoinColumn,
-	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
-import tableIdType from '../../libs/tableIdTypeResolver';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { VectorEntity } from './vector.entity';
 import { ProjectEntity } from './project.entity';
+import { AbstractBaseEntity } from './abstractBase.entity';
 
 @Entity({ name: 'expressions' })
-export class ExpressionEntity {
-	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
-
+export class ExpressionEntity extends AbstractBaseEntity {
 	@Column({ name: 'type', type: 'tinyint', nullable: false })
 	type: number;
 
@@ -26,19 +13,6 @@ export class ExpressionEntity {
 
 	@Column({ name: 'description', type: 'text', nullable: false })
 	description: string;
-
-	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-	createdAt: Date;
-
-	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-	updatedAt: Date;
-
-	@DeleteDateColumn({
-		type: 'datetime',
-		name: 'deleted_at',
-		nullable: true,
-	})
-	deletedAt: Date;
 
 	@ManyToOne(() => ProjectEntity, (project) => project.expressions)
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })

@@ -1,31 +1,24 @@
 import {
 	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
 	Entity,
 	JoinTable,
 	ManyToMany,
 	OneToMany,
 	OneToOne,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
 } from 'typeorm';
 import { UserSettingEntity } from './userSetting.entity';
 import { RoleEntity } from './role.entity';
 import { NoticeEntity } from './notice.entity';
-import tableIdType from '../../libs/tableIdTypeResolver';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
 import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
 import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
+import { AbstractBaseEntity } from './abstractBase.entity';
 
 @Entity({ name: 'users' })
-export class UserEntity {
-	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
-
+export class UserEntity extends AbstractBaseEntity {
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
 	name: string;
 
@@ -39,19 +32,7 @@ export class UserEntity {
 	})
 	description: string;
 
-	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-	createdAt: Date;
-
-	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-	updatedAt: Date;
-
-	@DeleteDateColumn({
-		type: 'datetime',
-		name: 'deleted_at',
-		nullable: true,
-	})
-	deletedAt: Date;
-
+	// todo 여기 순서 정리하기
 	@OneToOne(() => UserSettingEntity, (setting) => setting.user)
 	setting: Promise<UserSettingEntity>;
 

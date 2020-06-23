@@ -1,24 +1,11 @@
-import {
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	JoinColumn,
-	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
-import tableIdType from '../../libs/tableIdTypeResolver';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ExpressionEntity } from './expression.entity';
 import { ScalarEntity } from './scalar.entity';
+import { AbstractBaseEntity } from './abstractBase.entity';
 
 //todo 이거 테이블 이름을 vector 로변경
 @Entity({ name: 'columns' })
-export class VectorEntity {
-	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
-
+export class VectorEntity extends AbstractBaseEntity {
 	@Column({
 		name: 'name',
 		type: 'varchar',
@@ -29,19 +16,6 @@ export class VectorEntity {
 
 	@Column({ name: 'index', type: 'int', nullable: false })
 	index: number;
-
-	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-	createdAt: Date;
-
-	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-	updatedAt: Date;
-
-	@DeleteDateColumn({
-		type: 'datetime',
-		name: 'deleted_at',
-		nullable: true,
-	})
-	deletedAt: Date;
 
 	@ManyToOne(() => ExpressionEntity, (expression) => expression.vectors)
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })

@@ -1,19 +1,8 @@
-import {
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
-import tableIdType from '../../libs/tableIdTypeResolver';
+import { Column, Entity } from 'typeorm';
+import { AbstractBaseEntity } from './abstractBase.entity';
 
-// todo created, updated, delete at 이거는 상속 처리 해버리기
 @Entity({ name: 'images' })
-export class ImageEntity {
-	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
-
+export class ImageEntity extends AbstractBaseEntity {
 	@Column({ name: 'url', type: 'text', nullable: false })
 	url: string;
 
@@ -48,17 +37,4 @@ export class ImageEntity {
 
 	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
 	refId: bigint;
-
-	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-	createdAt: Date;
-
-	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-	updatedAt: Date;
-
-	@DeleteDateColumn({
-		type: 'datetime',
-		name: 'deleted_at',
-		nullable: true,
-	})
-	deletedAt: Date;
 }

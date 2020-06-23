@@ -1,22 +1,10 @@
-import {
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	JoinColumn,
-	ManyToOne,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
-import tableIdType from '../../libs/tableIdTypeResolver';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { VectorEntity } from './vector.entity';
+import { AbstractBaseEntity } from './abstractBase.entity';
 
 // todo scalar 로 테이블 이름 변경
 @Entity({ name: 'values' })
-export class ScalarEntity {
-	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
-
+export class ScalarEntity extends AbstractBaseEntity {
 	// todo 이거 정밀도 때문에 문제 발생가능성 있으니 테코 만들기, string 으로 바꾸든 어떻게든 해야한
 	// todo 이거랑 연관된 테이블인 edit history 테이블의 값도 변경하기
 	@Column({ name: 'value', type: 'double precision', nullable: false })
@@ -24,19 +12,6 @@ export class ScalarEntity {
 
 	@Column({ name: 'index', type: 'int', nullable: false })
 	index: number;
-
-	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-	createdAt: Date;
-
-	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-	updatedAt: Date;
-
-	@DeleteDateColumn({
-		type: 'datetime',
-		name: 'deleted_at',
-		nullable: true,
-	})
-	deletedAt: Date;
 
 	@ManyToOne(() => VectorEntity, (vector) => vector.scalars)
 	@JoinColumn({ name: 'column_id', referencedColumnName: 'id' })
