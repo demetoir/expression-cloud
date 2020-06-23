@@ -30,6 +30,7 @@
 		"@nestjs/platform-express": "^7.0.0",
 		"@nestjs/typeorm": "^7.1.0",
 		"@types/morgan": "^1.9.1",
+		"@types/uuid": "^8.0.0",
 		"@types/winston": "^2.4.4",
 		"morgan": "^1.10.0",
 		"mysql": "^2.18.1",
@@ -40,6 +41,7 @@
 		"rimraf": "^3.0.2",
 		"rxjs": "^6.5.4",
 		"typeorm": "^0.2.25",
+		"uuid": "^8.1.0",
 		"winston": "^3.2.1",
 		"winston-daily-rotate-file": "^4.5.0"
 	},
