@@ -60,7 +60,4 @@ if (node_env === 'dev') {
 	throw new Error(`node_env expect one of dev, test, prod, but ${node_env}`);
 }
 
-console.info(`load typeorm config as ${node_env}`);
-console.log(config);
-
 module.exports = config;
