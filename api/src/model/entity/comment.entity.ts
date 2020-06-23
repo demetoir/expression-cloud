@@ -1,21 +1,9 @@
-import {
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	JoinColumn,
-	ManyToOne,
-	PrimaryGeneratedColumn,
-	UpdateDateColumn,
-} from 'typeorm';
-import tableIdType from '../../libs/tableIdTypeResolver';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { AbstractBaseEntity } from './abstractBase.entity';
 
 @Entity({ name: 'comments' })
-export class CommentEntity {
-	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
-
+export class CommentEntity extends AbstractBaseEntity {
 	@Column({ name: 'content', type: 'text', nullable: false })
 	content: string;
 
@@ -24,19 +12,6 @@ export class CommentEntity {
 
 	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
 	refId: bigint;
-
-	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })
-	createdAt: Date;
-
-	@UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: false })
-	updatedAt: Date;
-
-	@DeleteDateColumn({
-		type: 'datetime',
-		name: 'deleted_at',
-		nullable: true,
-	})
-	deletedAt: Date;
 
 	@ManyToOne(() => UserEntity, (user) => user.comments)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
