@@ -36,16 +36,16 @@ export class ProjectEntity extends AbstractBaseEntity {
 	@Column({ name: 'description', type: 'text', nullable: false })
 	description: string;
 
-	@ManyToOne(() => UserEntity, (user) => user.projects)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
+	@OneToOne(() => ProjectSettingEntity, (setting) => setting.project)
+	setting: ProjectSettingEntity;
 
 	@OneToMany(() => TagEntity, (tags) => tags.project)
 	tags: TagEntity[];
 
-	@OneToOne(() => ProjectSettingEntity, (setting) => setting.project)
-	setting: ProjectSettingEntity;
-
 	@OneToMany(() => ExpressionEntity, (expressions) => expressions.project)
 	expressions: ExpressionEntity[];
+
+	@ManyToOne(() => UserEntity, (user) => user.projects)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }

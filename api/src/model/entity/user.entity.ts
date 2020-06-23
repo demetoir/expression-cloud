@@ -17,6 +17,7 @@ import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { AbstractBaseEntity } from './abstractBase.entity';
 
+// todo 상수로 테이블 이름 분리하기
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractBaseEntity {
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
@@ -32,9 +33,30 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	description: string;
 
-	// todo 여기 순서 정리하기
 	@OneToOne(() => UserSettingEntity, (setting) => setting.user)
 	setting: Promise<UserSettingEntity>;
+
+	@OneToOne(() => OauthEntity, (oauth) => oauth.user)
+	oauth: OauthEntity;
+
+	@OneToMany(() => NoticeEntity, (notices) => notices.user, {
+		eager: false,
+	})
+	notices: NoticeEntity[];
+
+	@OneToMany(() => EditHistoryEntity, (editHistory) => editHistory.user, {
+		eager: false,
+	})
+	editHistories: EditHistoryEntity[];
+
+	@OneToMany(() => ProjectEntity, (project) => project.user, { eager: false })
+	projects: ProjectEntity[];
+
+	@OneToMany(() => LikeEntity, (likes) => likes.user)
+	likes: LikeEntity[];
+
+	@OneToMany(() => CommentEntity, (comments) => comments.user)
+	comments: CommentEntity[];
 
 	@ManyToMany(() => RoleEntity, {
 		eager: true,
@@ -53,11 +75,6 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	roles: RoleEntity[];
 
-	@OneToMany(() => NoticeEntity, (notices) => notices.user, {
-		eager: false,
-	})
-	notices: NoticeEntity[];
-
 	@ManyToMany(() => TeamEntity, (team) => team.users, {
 		eager: false,
 	})
@@ -73,21 +90,4 @@ export class UserEntity extends AbstractBaseEntity {
 		},
 	})
 	teams: TeamEntity[];
-
-	@OneToMany(() => EditHistoryEntity, (editHistory) => editHistory.user, {
-		eager: false,
-	})
-	editHistories: EditHistoryEntity[];
-
-	@OneToMany(() => ProjectEntity, (project) => project.user, { eager: false })
-	projects: ProjectEntity[];
-
-	@OneToMany(() => LikeEntity, (likes) => likes.user)
-	likes: LikeEntity[];
-
-	@OneToMany(() => CommentEntity, (comments) => comments.user)
-	comments: CommentEntity[];
-
-	@OneToOne(() => OauthEntity, (oauth) => oauth.user)
-	oauth: OauthEntity;
 }

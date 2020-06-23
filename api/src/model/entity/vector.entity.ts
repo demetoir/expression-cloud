@@ -17,10 +17,10 @@ export class VectorEntity extends AbstractBaseEntity {
 	@Column({ name: 'index', type: 'int', nullable: false })
 	index: number;
 
+	@OneToMany(() => ScalarEntity, (scalars) => scalars.vector)
+	scalars: ScalarEntity[];
+
 	@ManyToOne(() => ExpressionEntity, (expression) => expression.vectors)
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
-
-	@OneToMany(() => ScalarEntity, (scalars) => scalars.vector)
-	scalars: ScalarEntity[];
 }

@@ -13,13 +13,13 @@ export class EditHistoryEntity extends AbstractBaseEntity {
 	@Column({ name: 'edit_type', type: 'smallint', nullable: false })
 	editType: number;
 
-	@ManyToOne(() => UserEntity, (user) => user.editHistories)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
-
 	@OneToOne(() => EditHistoryEntity, undefined, {
 		eager: false,
 	})
 	@JoinColumn({ name: 'prev_id', referencedColumnName: 'id' })
 	prev: EditHistoryEntity;
+
+	@ManyToOne(() => UserEntity, (user) => user.editHistories)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }

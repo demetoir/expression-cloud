@@ -14,10 +14,10 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@Column({ name: 'description', type: 'text', nullable: false })
 	description: string;
 
+	@OneToMany(() => VectorEntity, (vector) => vector.expression)
+	vectors: VectorEntity[];
+
 	@ManyToOne(() => ProjectEntity, (project) => project.expressions)
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
 	project: ProjectEntity;
-
-	@OneToMany(() => VectorEntity, (vector) => vector.expression)
-	vectors: VectorEntity[];
 }
