@@ -24,18 +24,28 @@ describe('comment entity', () => {
 	});
 
 	it('should create new expression', async function () {
-		const expression = new CommentEntity();
-		expression.content = 'content';
-		await connection.manager.save(expression);
+		const comment = new CommentEntity();
+		comment.content = 'content';
+		await connection.manager.save(comment);
 
 		const newExpression = await commentRepository.findOne({
-			id: expression.id,
+			id: comment.id,
 		});
 
-		assert.equal(newExpression.id, expression.id);
+		assert.equal(newExpression.id, comment.id);
 	});
 
 	describe('column type check', () => {
+		it('should generate id ', async function () {
+			const content = 'content';
+			const comment = new CommentEntity();
+			comment.content = content;
+
+			await connection.manager.save(comment);
+
+			assert(comment.id > 0);
+		});
+
 		it('should not null on content column', async function () {
 			try {
 				const content = null;
@@ -74,15 +84,17 @@ describe('comment entity', () => {
 			user.comments = [comment];
 			await connection.manager.save(user);
 
-			comment.columns = [user];
+			comment.user = user;
 			await connection.manager.save(comment);
 
-			const resultExpression = await commentRepository.findOne({
+			const result = await commentRepository.findOne({
 				where: { id: comment.id },
 				relations: ['user'],
 			});
 
-			assert.equal(resultExpression.user.id, user.id);
+			assert.isNotNull(result.user.id);
+			assert.isNotNull(user.id);
+			assert.equal(result.user.id, user.id);
 		});
 	});
 });
