@@ -24,11 +24,16 @@
   - [*] prettier-quik
   - [ ] ./app 을 prettier 설정으로 변경
 - [*] 각 엔티티 정의
-- [ ] 각 엔티티 관계 정의 및 테스트코드 작성
+- [*] 각 엔티티 관계 정의 및 테스트코드 작성
 - [*] 좋은 윈스턴 로거 추가하기
 - [*] 모건 로거 추가
 - [*] travis-ci build 및 배포 설정
 - [*] github todo issue auto maker 설정하기
+- [ ] redis session 설정하기
+- [ ] rest api 문서 정리 툴설정 swagger 라던
+- [ ] 히스토리 관련 테이블 정의
+- [ ] 히스토리 관련 엔티티 정의
+- [ ] 히스토리 관련 엔티티 관계 설
 - [ ] nest.js 보안 모듈 적용 helmet 등등
 - [ ] nest.js 문서 읽기
 - [ ] github action setting
@@ -47,6 +52,10 @@
 - [ ] nest.js typeorm migration
 - [ ] vue ant design theme 적용
 - [ ] vue app server proxy
+- [ ] 프론트 디자인 샘플 뽑기
+- [ ] vue 용 상태관리 스토어 알아보기
+- [ ] vue 문서보기
+- [ ] nuxt.js 설정하기
 
 # 개발환경
 
