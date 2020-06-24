@@ -2,62 +2,6 @@
 
 [![Build Status](https://travis-ci.com/demetoir/expressionCloud.svg?branch=master)](https://travis-ci.com/demetoir/expressionCloud)
 
-# todo checklist
-
-- [ ] nuxt 로 바뀐거 루트 스크립트에도 적용하기
-- [ ] 프로젝트 루트에서도 nuxt 허스키 적용되는지 확인하기
-- [ ] redis session 설정하기
-- [ ] rest api 문서 정리 툴설정 swagger 라던
-- [ ] 히스토리 관련 테이블 정의가 추가
-- [ ] 히스토리 관련 엔티티 정의가 추가
-- [ ] 히스토리 관련 엔티티 관계 추가
-- [ ] nest.js 보안 모듈 적용 helmet 등등
-- [ ] nest.js 문서 읽기
-- [ ] github action setting
-- [ ] script one shot start
-- [ ] script one shot start dev
-- [ ] docker mongo setting
-- [ ] docker dotenv expend
-- [ ] docker nginx and proxy express server
-- [ ] nest.js/typeorm setting
-- [ ] nest.js passort redis session
-- [ ] nest.js passort google
-- [ ] nest.js passort facebook
-- [ ] nest.js passort github
-- [ ] nest.js passort naver
-- [ ] nest.js passort kakao
-- [ ] vue app server proxy
-- [ ] 프론트 디자인 샘플 뽑기
-- [ ] vue 용 상태관리 스토어 알아보기
-- [ ] vue 문서보기
-- [*] nest.js boilerplate
-- [*] vue front setting
-- [*] docker dotenv setting
-- [*] docker mysql setting
-- [*] docker redis setting
-- [*] docker prestart, prestop script
-- [*] sqlite setting 하기
-- [*] mysql sql setting
-- [*] root build script
-- [XXX] prod docker compose setting
-- [*] nodeCluster.dockerFile
-- [*] nginx.dockerFile
-- [*] travis-ci test 라도 달아놓기
-- [*] typeorm 문서 읽기
-- [*] script one shot build
-- [*] git hook setting
-  - [*] husky
-  - [*] prettier-quik
-- [*] 각 엔티티 정의
-- [*] 각 엔티티 관계 정의 및 테스트코드 작성
-- [*] 좋은 윈스턴 로거 추가하기
-- [*] 모건 로거 추가
-- [*] travis-ci build 및 배포 설정
-- [*] github todo issue auto maker 설정하기
-- [*] nuxt.js 설정하기
-- [*] vue ant design theme 적용
-- [*] nest.js typeorm migration
-
 # 개발환경
 
 vue dev server
