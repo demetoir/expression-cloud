@@ -29,6 +29,10 @@
 - [*] 모건 로거 추가
 - [*] travis-ci build 및 배포 설정
 - [*] github todo issue auto maker 설정하기
+- [*] nuxt.js 설정하기
+- [*] vue ant design theme 적용
+- [*] nest.js typeorm migration
+- [ ] nuxt 로 바뀐거 루트 스크립트에도 적용하
 - [ ] redis session 설정하기
 - [ ] rest api 문서 정리 툴설정 swagger 라던
 - [ ] 히스토리 관련 테이블 정의
@@ -49,13 +53,10 @@
 - [ ] nest.js passort github
 - [ ] nest.js passort naver
 - [ ] nest.js passort kakao
-- [ ] nest.js typeorm migration
-- [ ] vue ant design theme 적용
 - [ ] vue app server proxy
 - [ ] 프론트 디자인 샘플 뽑기
 - [ ] vue 용 상태관리 스토어 알아보기
 - [ ] vue 문서보기
-- [ ] nuxt.js 설정하기
 
 # 개발환경
 
