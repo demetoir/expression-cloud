@@ -52,7 +52,7 @@ describe('column entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: columns.name',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: vectors.name',
 				);
 			}
 		});
@@ -71,7 +71,7 @@ describe('column entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: columns.index',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: vectors.index',
 				);
 			}
 		});
