@@ -46,7 +46,7 @@ describe('value entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: values.index',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: scalars.index',
 				);
 			}
 		});
@@ -63,7 +63,7 @@ describe('value entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: values.value',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: scalars.value',
 				);
 			}
 		});
