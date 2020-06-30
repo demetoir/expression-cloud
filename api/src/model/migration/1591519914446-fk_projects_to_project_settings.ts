@@ -11,6 +11,9 @@ export class fkProjectsToProjectSettings1591519914446
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`project_settings\`  
+	            drop constraint \`fk_projects_to_project_settings\`   
+	`);
 	}
 }

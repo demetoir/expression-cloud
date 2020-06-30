@@ -11,6 +11,9 @@ export class fkEditHistoriesToEditHistories1591519907845
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`edit_histories\`  
+	            drop constraint \`fk_edit_histories_to_edit_histories\`   
+	`);
 	}
 }

@@ -10,6 +10,9 @@ export class fkUsersToLikes1591519901505 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`likes\`  
+	            drop constraint \`fk_users_to_likes\`   
+	`);
 	}
 }

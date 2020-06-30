@@ -9,6 +9,9 @@ export class fkRolesToUserRole1591519898381 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`user_role\`  
+	            drop constraint \`fk_roles_to_user_role\`   
+	`);
 	}
 }

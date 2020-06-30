@@ -10,6 +10,9 @@ export class fkUsersToUserSettings1591519899417 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`user_settings\`  
+	            drop constraint \`fk_users_to_user_settings\`   
+	`);
 	}
 }

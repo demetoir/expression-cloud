@@ -10,6 +10,9 @@ export class fkProjectsToTags1591519903586 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`tags\`  
+	            drop constraint \`fk_projects_to_tags\`   
+	`);
 	}
 }

@@ -10,6 +10,9 @@ export class fkUsersToNotice1591519900458 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`notice\`  
+	            drop constraint \`fk_users_to_notice\`   
+	`);
 	}
 }

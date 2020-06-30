@@ -10,6 +10,9 @@ export class fkColumnsToValues1591519910924 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`values\`  
+	            drop constraint \`fk_columns_to_values\`   
+	`);
 	}
 }

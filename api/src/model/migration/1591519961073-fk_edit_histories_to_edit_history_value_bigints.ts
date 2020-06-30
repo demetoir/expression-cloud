@@ -11,6 +11,9 @@ export class fkEditHistoriesToEditHistoryValueBigints1591519961073
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`edit_history_value_bigints\`  
+	            drop constraint \`fk_edit_histories_to_edit_history_value_bigints\`   
+	`);
 	}
 }

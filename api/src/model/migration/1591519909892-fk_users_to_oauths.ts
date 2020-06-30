@@ -10,6 +10,9 @@ export class fkUsersToOauths1591519909892 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`oauths\`  
+	            drop constraint \`fk_users_to_oauths\`   
+	`);
 	}
 }

@@ -10,6 +10,9 @@ export class fkUsersToComments1591519913395 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`comments\`  
+	            drop constraint \`fk_users_to_comments\`   
+	`);
 	}
 }

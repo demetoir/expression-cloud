@@ -9,8 +9,10 @@ export class fkProjectsToExpressions1591519902554
                     REFERENCES \`projects\` (id);
 		`);
 	}
-
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`expressions\`  
+	            drop constraint \`fk_projects_to_expressions\`   
+	`);
 	}
 }

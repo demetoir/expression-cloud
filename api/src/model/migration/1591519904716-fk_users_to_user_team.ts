@@ -10,6 +10,9 @@ export class fkUsersToUserTeam1591519904716 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`user_team\`  
+	            drop constraint \`fk_users_to_user_team\`   
+	`);
 	}
 }

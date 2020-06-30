@@ -10,6 +10,9 @@ export class fkUsersToEditHistories1591519906829 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('');
+		await queryRunner.query(`
+	        alter table \`edit_histories\`  
+	            drop constraint \`fk_users_to_edit_histories\`   
+	`);
 	}
 }
