@@ -7,10 +7,10 @@ import { NoticeEntity } from './notice.entity';
 import { UserSettingEntity } from './userSetting.entity';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
-import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
 import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
+import { ExpressionEntity } from './expression.entity';
 
 describe('user entity', () => {
 	let userRepository;
@@ -210,23 +210,25 @@ describe('user entity', () => {
 		});
 
 		it('should relate with project', async function () {
-			const project = new ProjectEntity();
-			project.name = 'name';
-			project.description = 'description';
-			await connection.manager.save(project);
+			const expression = new ExpressionEntity();
+			expression.name = 'project';
+			expression.description = 'description';
+			expression.type = 1;
+			expression.content = '1';
+			await connection.manager.save(expression);
 
-			project.user = user;
-			await connection.manager.save(project);
+			expression.user = user;
+			await connection.manager.save(expression);
 
-			user.projects = [project];
+			user.expressions = [expression];
 			await connection.manager.save(user);
 
 			const resultUser = await userRepository.findOne({
 				where: { id: user.id },
-				relations: ['projects'],
+				relations: ['expressions'],
 			});
 
-			assert.equal(resultUser.projects[0].id, project.id);
+			assert.equal(resultUser.expressions[0].id, expression.id);
 		});
 
 		it('should relate with like', async function () {

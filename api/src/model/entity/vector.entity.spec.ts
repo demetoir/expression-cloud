@@ -93,6 +93,7 @@ describe('column entity', () => {
 			expression.name = 'user';
 			expression.description = 'description';
 			expression.type = 1;
+			expression.content = '1';
 			await connection.manager.save(expression);
 
 			expression.vectors = [vector];

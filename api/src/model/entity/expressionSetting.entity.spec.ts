@@ -1,8 +1,7 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
-import { ProjectEntity } from './project.entity';
-import { ProjectSettingEntity } from './projectSetting.entity';
+import { ExpressionSettingEntity } from './expressionSetting.entity';
 
 describe('projectSetting entity', () => {
 	let projectSettingRepository;
@@ -13,7 +12,7 @@ describe('projectSetting entity', () => {
 		await connection.synchronize();
 
 		projectSettingRepository = connection.getRepository(
-			ProjectSettingEntity,
+			ExpressionSettingEntity,
 		);
 	});
 
@@ -26,7 +25,7 @@ describe('projectSetting entity', () => {
 	});
 
 	it('should create new entity', async function () {
-		const role = new ProjectSettingEntity();
+		const role = new ExpressionSettingEntity();
 		await connection.manager.save(role);
 
 		const newTeam = await projectSettingRepository.findOne({ id: role.id });
@@ -38,32 +37,11 @@ describe('projectSetting entity', () => {
 		let projectSetting;
 
 		it('should prepare projectSetting', async () => {
-			projectSetting = new ProjectSettingEntity();
+			projectSetting = new ExpressionSettingEntity();
 
 			projectSetting.name = 'projectSetting';
 
 			await connection.manager.save(projectSetting);
-		});
-
-		it('should relate with project entity', async () => {
-			const project = new ProjectEntity();
-			project.name = 'user';
-			project.description = 'description';
-			await connection.manager.save(project);
-
-			project.setting = projectSetting;
-			await connection.manager.save(project);
-
-			projectSetting.project = project;
-			await connection.manager.save(projectSetting);
-
-			const resultRole = await projectSettingRepository.findOne({
-				where: { id: projectSetting.id },
-				relations: ['project'],
-			});
-			await connection.manager.save(resultRole);
-
-			assert.equal(resultRole.project.id, project.id);
 		});
 	});
 });

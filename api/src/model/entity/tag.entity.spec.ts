@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { TagEntity } from './tag.entity';
-import { ProjectEntity } from './project.entity';
+import { ExpressionEntity } from './expression.entity';
 
 describe('tag entity', () => {
 	let connection;
@@ -62,25 +62,27 @@ describe('tag entity', () => {
 		});
 
 		it('should relate with project entity', async () => {
-			const project = new ProjectEntity();
+			const expression = new ExpressionEntity();
 
-			project.name = 'project';
-			project.description = 'description';
-			await connection.manager.save(project);
+			expression.name = 'project';
+			expression.description = 'description';
+			expression.type = 1;
+			expression.content = '1';
+			await connection.manager.save(expression);
 
-			project.tags = [tag];
-			await connection.manager.save(project);
+			expression.tags = [tag];
+			await connection.manager.save(expression);
 
-			tag.project = project;
+			tag.expression = expression;
 			await connection.manager.save(tag);
 
 			const resultProject = await tagRepository.findOne({
 				where: { id: tag.id },
-				relations: ['project'],
+				relations: ['expression'],
 			});
 			await connection.manager.save(resultProject);
 
-			assert.equal(resultProject.project.id, project.id);
+			assert.equal(resultProject.expression.id, expression.id);
 		});
 	});
 });

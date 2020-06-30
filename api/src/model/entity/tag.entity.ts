@@ -1,13 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { ProjectEntity } from './project.entity';
 import { AbstractBaseEntity } from './abstractBase.entity';
+import { ExpressionEntity } from './expression.entity';
 
 @Entity({ name: 'tags' })
 export class TagEntity extends AbstractBaseEntity {
 	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
 	name: string;
 
-	@ManyToOne(() => ProjectEntity, (project) => project.tags)
+	@ManyToOne(() => ExpressionEntity, (expression) => expression.tags)
 	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
-	project: ProjectEntity;
+	expression: ExpressionEntity;
 }

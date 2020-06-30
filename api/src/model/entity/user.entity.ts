@@ -11,11 +11,11 @@ import { RoleEntity } from './role.entity';
 import { NoticeEntity } from './notice.entity';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
-import { ProjectEntity } from './project.entity';
 import { LikeEntity } from './like.entity';
 import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { AbstractBaseEntity } from './abstractBase.entity';
+import { ExpressionEntity } from './expression.entity';
 
 // todo 상수로 테이블 이름 분리하기
 @Entity({ name: 'users' })
@@ -49,8 +49,10 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	editHistories: EditHistoryEntity[];
 
-	@OneToMany(() => ProjectEntity, (project) => project.user, { eager: false })
-	projects: ProjectEntity[];
+	@OneToMany(() => ExpressionEntity, (expresion) => expresion.user, {
+		eager: false,
+	})
+	expressions: ExpressionEntity[];
 
 	@OneToMany(() => LikeEntity, (likes) => likes.user)
 	likes: LikeEntity[];

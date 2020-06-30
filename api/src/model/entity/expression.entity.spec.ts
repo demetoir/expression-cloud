@@ -2,7 +2,6 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
-import { ProjectEntity } from './project.entity';
 import { VectorEntity } from './vector.entity';
 
 describe('expression entity', () => {
@@ -29,6 +28,7 @@ describe('expression entity', () => {
 		expression.name = 'content';
 		expression.description = 'expression';
 		expression.type = 1;
+		expression.content = 'content';
 		await connection.manager.save(expression);
 
 		const newExpression = await expressionRepository.findOne({
@@ -48,6 +48,7 @@ describe('expression entity', () => {
 				expression.description = description;
 				expression.name = name;
 				expression.type = type;
+				expression.content = 'content';
 
 				await connection.manager.save(expression);
 
@@ -69,6 +70,7 @@ describe('expression entity', () => {
 				expression.description = description;
 				expression.name = name;
 				expression.type = type;
+				expression.content = 'content';
 
 				await connection.manager.save(expression);
 
@@ -90,6 +92,7 @@ describe('expression entity', () => {
 				expression.description = description;
 				expression.name = name;
 				expression.type = type;
+				expression.content = 'content';
 
 				await connection.manager.save(expression);
 
@@ -111,28 +114,9 @@ describe('expression entity', () => {
 			expression.type = 1;
 			expression.name = 'name';
 			expression.description = 'description';
+			expression.content = 'content';
 
 			await connection.manager.save(expression);
-		});
-
-		it('should relate with project entity', async () => {
-			const project = new ProjectEntity();
-			project.name = 'user';
-			project.description = 'desript';
-			await connection.manager.save(project);
-
-			project.expressions = [expression];
-			await connection.manager.save(project);
-
-			expression.project = project;
-			await connection.manager.save(expression);
-
-			const resultExpression = await expressionRepository.findOne({
-				where: { id: expression.id },
-				relations: ['project'],
-			});
-
-			assert.equal(resultExpression.project.id, project.id);
 		});
 
 		it('should relate with column entity', async () => {
