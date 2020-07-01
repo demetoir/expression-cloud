@@ -36,6 +36,42 @@ describe('ExpressionSetting entity', () => {
 		assert.isNotNull(result);
 	});
 
+	describe('column type check', () => {
+		it('should not null at isPublic', async () => {
+			try {
+				const setting = new ExpressionSettingEntity();
+				setting.isLocked = false;
+				setting.isPublic = null;
+
+				await connection.manager.save(setting);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expression_settings.is_public',
+				);
+			}
+		});
+
+		it('should not null at isLocked', async () => {
+			try {
+				const setting = new ExpressionSettingEntity();
+				setting.isLocked = null;
+				setting.isPublic = false;
+
+				await connection.manager.save(setting);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expression_settings.is_locked',
+				);
+			}
+		});
+	});
+
 	describe('relation', () => {
 		let expressionSetting;
 
