@@ -2,16 +2,17 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ExpressionSettingEntity } from './expressionSetting.entity';
+import { ExpressionEntity } from './expression.entity';
 
-describe('projectSetting entity', () => {
-	let projectSettingRepository;
+describe('ExpressionSetting entity', () => {
+	let expressionSettingRepository;
 	let connection;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		projectSettingRepository = connection.getRepository(
+		expressionSettingRepository = connection.getRepository(
 			ExpressionSettingEntity,
 		);
 	});
@@ -21,27 +22,51 @@ describe('projectSetting entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(projectSettingRepository);
+		assert.isNotNull(expressionSettingRepository);
 	});
 
 	it('should create new entity', async function () {
-		const role = new ExpressionSettingEntity();
-		await connection.manager.save(role);
+		const setting = new ExpressionSettingEntity();
+		await connection.manager.save(setting);
 
-		const newTeam = await projectSettingRepository.findOne({ id: role.id });
+		const result = await expressionSettingRepository.findOne({
+			id: setting.id,
+		});
 
-		assert.isNotNull(newTeam);
+		assert.isNotNull(result);
 	});
 
 	describe('relation', () => {
-		let projectSetting;
+		let expressionSetting;
 
 		it('should prepare projectSetting', async () => {
-			projectSetting = new ExpressionSettingEntity();
+			expressionSetting = new ExpressionSettingEntity();
 
-			projectSetting.name = 'projectSetting';
+			expressionSetting.name = 'setting';
 
-			await connection.manager.save(projectSetting);
+			await connection.manager.save(expressionSetting);
+		});
+
+		it('should relate with expression entity', async () => {
+			const expression = new ExpressionEntity();
+			expression.type = 1;
+			expression.content = 'content';
+			expression.description = 'description';
+			expression.name = 'tab';
+			await connection.manager.save(expression);
+
+			expression.setting = expressionSetting;
+			await connection.manager.save(expression);
+
+			expressionSetting.expression = expression;
+			await connection.manager.save(expression);
+
+			const result = await expressionSettingRepository.findOne({
+				where: { id: expressionSetting.id },
+				relations: ['expression'],
+			});
+
+			assert.equal(result.expression.id, expression.id);
 		});
 	});
 });

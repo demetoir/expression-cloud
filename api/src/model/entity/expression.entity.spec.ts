@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
 import { VectorEntity } from './vector.entity';
+import { ExpressionSettingEntity } from './expressionSetting.entity';
 
 describe('expression entity', () => {
 	let expressionRepository;
@@ -138,6 +139,24 @@ describe('expression entity', () => {
 			});
 
 			assert.equal(result.vectors[0].id, vector.id);
+		});
+
+		it('should relate with expression setting entity', async () => {
+			const setting = new ExpressionSettingEntity();
+			await connection.manager.save(setting);
+
+			setting.expression = expression;
+			await connection.manager.save(setting);
+
+			expression.setting = setting;
+			await connection.manager.save(expression);
+
+			const resultUserSetting = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['setting'],
+			});
+
+			assert.equal(resultUserSetting.setting.id, setting.id);
 		});
 	});
 });

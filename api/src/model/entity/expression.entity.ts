@@ -30,7 +30,6 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@OneToMany(() => VectorEntity, (vector) => vector.expression)
 	vectors: VectorEntity[];
 
-	// todo test relation
 	@OneToOne(() => ExpressionSettingEntity, (setting) => setting.expression)
 	setting: ExpressionSettingEntity;
 
