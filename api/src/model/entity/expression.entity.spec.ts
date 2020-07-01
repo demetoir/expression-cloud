@@ -86,7 +86,7 @@ describe('expression entity', () => {
 
 		it('should not null on type', async function () {
 			try {
-				const description = null;
+				const description = 'expression';
 				const name = 'name';
 				const type = null;
 				const expression = new ExpressionEntity();
@@ -102,6 +102,28 @@ describe('expression entity', () => {
 				assert.equal(
 					e.message,
 					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.type',
+				);
+			}
+		});
+
+		it('should not null on content', async function () {
+			try {
+				const description = '1';
+				const name = 'name';
+				const type = 1;
+				const expression = new ExpressionEntity();
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
+				expression.content = null;
+
+				await connection.manager.save(expression);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.content',
 				);
 			}
 		});

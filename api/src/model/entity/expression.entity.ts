@@ -20,7 +20,6 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
 	name: string;
 
-	// todo test this
 	@Column({ name: 'content', type: 'text', nullable: false })
 	content: string;
 
