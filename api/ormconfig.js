@@ -8,11 +8,13 @@ const dev = {
 	synchronize: false,
 	logging: false,
 	bigNumberStrings: false,
-	entities: [`../model/entity/**/*.entity.ts`],
-	migrations: [`../src/model/migration/**/*.ts`],
+	// entities dose not use in nest.js configLoader intercept properties
+	entities: [`../src/model/entity/**/*.entity.ts`],
+	migrations: [`${__dirname}/src/model/migration/**/*.ts`],
 	cli: {
-		migrationsDir: `../src/model/migration`,
+		migrationsDir: `${__dirname}/src/model/migration`,
 	},
+	// subscribers dose not use in nest.js configLoader intercept properties
 	subscribers: [`../src/model/subscriber/**/*.ts`],
 };
 
@@ -26,11 +28,13 @@ const prod = {
 	synchronize: false,
 	logging: false,
 	bigNumberStrings: false,
+	// entities dose not use in nest.js configLoader intercept properties
 	entities: [`../src/model/entity/**/*.entity.js`],
-	migrations: [`../src/model/migration/**/*.js`],
+	migrations: [`${__dirname}/src/model/migration/**/*.ts`],
 	cli: {
-		migrationsDir: `../src/model/migration`,
+		migrationsDir: `${__dirname}/src/model/migration`,
 	},
+	// subscribers dose not use in nest.js configLoader intercept properties
 	subscribers: [`../src/model/subscriber/**/*.js`],
 };
 
