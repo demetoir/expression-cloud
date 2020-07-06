@@ -1,6 +1,7 @@
 import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { logger } from 'src/libs/winstonToolkit';
 
+// TODO implement and test user controller
 @Controller('users')
 export class UserController {
 	private logger: any;

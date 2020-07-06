@@ -31,7 +31,7 @@ function initSecurity(app) {
 
 	// helmet
 	app.use(helmet());
-	// todo: set additional helmet setting
+	// TODO: set additional helmet setting
 	// app.use(helmet.contentSecurityPolicy({
 	//     directives: {
 	//         defaultSrc: ["'self'"],
@@ -48,7 +48,7 @@ function initSecurity(app) {
 		}),
 	);
 
-	// todo 이거 옵션 조정하기
+	// TODO 이거 옵션 조정하기
 	// app.use(csurf({cookie: true}));
 
 	// todo 이거 옵션 조정하기
@@ -59,11 +59,11 @@ function initSecurity(app) {
 		}),
 	);
 
-	// todo: add html sanitize
+	// TODO: add html sanitize
 
-	// todo: add xss protector
+	// TODO: add xss protector
 
-	// todo: add sql injection protector
+	// TODO: add sql injection protector
 }
 
 function initSwagger(app) {
