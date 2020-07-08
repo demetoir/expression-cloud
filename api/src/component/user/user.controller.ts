@@ -1,5 +1,14 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { logger } from 'src/libs/winstonToolkit';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Post,
+	Put,
+	Query,
+} from '@nestjs/common';
+import { logger } from '../../libs/winstonToolkit';
 
 // TODO implement and test user controller
 @Controller('users')
@@ -11,29 +20,30 @@ export class UserController {
 	}
 
 	@Get('/')
-	getManyUsers(): string {
+	async getManyUsers(): Promise<string> {
 		return 'get many user';
 	}
 
 	@Get('/:id')
-	getUser(@Param() params): string {
+	async getUser(@Param() params, @Query() queries): Promise<string> {
 		const { id } = params;
-
+		console.log(queries);
 		console.log(id);
 		return 'get User';
 	}
 
 	@Post('/:id')
-	createUser(@Param() params): string {
+	async createUser(@Param() params, @Body() body): Promise<string> {
 		const { id } = params;
 
 		console.log(id);
+		console.log(body);
 
 		return 'create user';
 	}
 
 	@Put('/:id')
-	updateUser(@Param() params): string {
+	async updateUser(@Param() params, @Body() body): Promise<string> {
 		const { id } = params;
 
 		console.log(id);
@@ -42,7 +52,7 @@ export class UserController {
 	}
 
 	@Delete('/:id')
-	deleteUser(@Param() params): string {
+	async deleteUser(@Param() params): Promise<string> {
 		const { id } = params;
 
 		console.log(id);
