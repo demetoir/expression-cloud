@@ -33,6 +33,8 @@ https://florimond.dev/blog/articles/2018/08/restful-api-design-13-best-practices
 
 https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
 
+https://blog.restcase.com/5-basic-rest-api-design-guidelines/
+
 ## restful api 공통 요구사항
 
 - 주소 형식
@@ -134,37 +136,10 @@ https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
   - 어쨌든 이경우 처리가 길기 때문에 비동기 처리해야
   - 배치 처리시 크기 제한도 고려해야
 
-- response body
-
-  - status 는 넣지 않는다
-
-  ```javascript
-  const ok = {
-    data: {
-      a: 1,
-    },
-  };
-
-  const error = {
-    code: 1024,
-    message: "Validation Failed",
-    errors: [
-      {
-        code: 5432,
-        field: "first_name",
-        message: "First name cannot have fancy characters",
-      },
-      {
-        code: 5622,
-        field: "password",
-        message: "Password cannot be blank",
-      },
-    ],
-  };
-  ```
-
 options???
 head???
+
+## resource model and endpoint
 
 ### teams
 
@@ -192,8 +167,26 @@ get /notices/{noticeId}
 patch /notices/{noticeId}
 delete /notices/{noticeId}
 
-??? post /notices/{noticeId}/actions/read
-??? post /notices/{noticeId}/actions/unread
+post /notices/{noticeId}/actions/read
+post /notices/{noticeId}/actions/undo-read
+
+### expression star
+
+get /expression-star
+post /expression-star
+get /expression-star/{expressionStarId}
+put /expression-star/{expressionStarId}
+patch /expression-star/{expressionStarId}
+delete /expression-star/{expressionStarId}
+
+### user star
+
+get /user-star
+post /user-star
+get /user-star/{userStarId}
+put /user-star/{userStarId}
+patch /user-star/{userStarId}
+delete /user-star/{userStarId}
 
 ### expressions
 
@@ -203,15 +196,44 @@ get /expressions/{expressionId}
 put /expressions/{expressionId}
 patch /expressions/{expressionId}
 delete /expressions/{expressionId}
-??? post /expressions/{expressionId}/actions/like
-??? post /expressions/{expressionId}/actions/unlike
-??? post /expressions/{expressionId}/actions/fork
-??? expression setting
 
-get /expressions/{expressionId}/thumbnail_images
-post /expressions/{expressionId}/thumbnail_images
-get /expressions/{expressionId}/thumbnail_images/{thumbnailImageId}
-delete /expressions/{expressionId}/thumbnail_images/{thumbnailImageId}
+post /expressions/{expressionId}/actions/fork
+
+### expression setting
+
+get /expression-setting
+post /expression-setting
+get /expression-setting/{expressionSettingId}
+put /expression-setting/{expressionSettingId}
+patch /expression-setting/{expressionSettingId}
+delete /expression-setting/{expressionSettingId}
+
+### team thumbnail images
+
+get /team-thumbnail-images
+post /team-thumbnail-images
+get /team-thumbnail-images/{teamThumbnailImageId}
+put /team-thumbnail-images/{teamThumbnailImageId}
+patch /team-thumbnail-images/{teamThumbnailImageId}
+delete /team-thumbnail-images/{teamThumbnailImageId}
+
+### expression thumbnail images
+
+get /expression-thumbnail-images
+post /expression-thumbnail-images
+get /expression-thumbnail-images/{expressionThumbnailImageId}
+put /expression-thumbnail-images/{expressionThumbnailImageId}
+patch /expression-thumbnail-images/{expressionThumbnailImageId}
+delete /expression-thumbnail-images/{expressionThumbnailImageId}
+
+### user profile images
+
+get /user-profile-images
+post /user-profile-images
+get /user-profile-images/{userProfileImageId}
+put /user-profile-images/{userProfileImageId}
+patch /user-profile-images/{userProfileImageId}
+delete /user-profile-images/{userProfileImageId}
 
 ### comments
 
@@ -231,9 +253,23 @@ put /vectors/{vectorId}
 patch /vectors/{vectorId}
 delete /vectors/{vectorId}
 
-get /vectors/{vectorId}/histories
-post /vectors/{vectorId}/histories
-get /vectors/{vectorId}/histories/{historyId}
+### vector histories
+
+get /vector-histories
+post /vector-histories
+get /vector-histories/{vectorHistoryId}
+put /vector-histories/{vectorHistoryId}
+patch /vector-histories/{vectorHistoryId}
+delete /vector-histories/{vectorHistoryId}
+
+### scalar histories
+
+get /scalar-histories
+post /scalar-histories
+get /scalar-histories/{scalarHistoryId}
+put /scalar-histories/{scalarHistoryId}
+patch /scalar-histories/{scalarHistoryId}
+delete /scalar-histories/{scalarHistoryId}
 
 ### scalars
 
@@ -244,15 +280,13 @@ put /scalars/{scalarId}
 patch /scalars/{scalarId}
 delete /scalars/{scalarId}
 
-get /scalars/{scalarId}/histories
-post /scalars/{scalarId}/histories
-get /scalars/{scalarId}/histories/{historyId}
-
 ### tags
 
 get /tags
 post /tags
 get /tags/{tagId}
+put /tags/{tagId}
+patch /tags/{tagId}
 delete /tags/{tagId}
 
 ### users
@@ -263,18 +297,21 @@ get /users/{userId}
 put /users/{userId}
 patch /users/{userId}
 delete /users/{userId}
-??? user setting
 
-get /users/{userId}/profile_images
-post /users/{userId}/profile_images
-get /users/{userId}/profile_images/{profileImageId}
-delete /users/{userId}/profile_images/{profileImageId}
+### user settings
+
+get /user-settings
+post /user-settings
+get /user-settings/{userSettingId}
+put /user-settings/{userSettingId}
+patch /user-settings/{userSettingId}
+delete /user-settings/{userSettingId}
 
 ### auth
 
 post /auth/login
-post /auth/signin
-get /auth/whoami
+post /auth/sign-in
+get /auth/who-am-i
 get /auth/token
 
 ## body scheme
