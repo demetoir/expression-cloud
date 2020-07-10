@@ -145,10 +145,10 @@ head???
 
 get /teams
 post /teams
-get /teams/{id}
-put /teams/{id}
-delete /teams/{id}
-patch /teams/{id}
+get /teams/{teamId}
+put /teams/{teamId}
+delete /teams/{teamId}
+patch /teams/{teamId}
 
 ### collections
 
