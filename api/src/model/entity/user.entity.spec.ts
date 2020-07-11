@@ -7,7 +7,6 @@ import { NoticeEntity } from './notice.entity';
 import { UserSettingEntity } from './userSetting.entity';
 import { TeamEntity } from './team.entity';
 import { EditHistoryEntity } from './editHistory.entity';
-import { LikeEntity } from './like.entity';
 import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { ExpressionEntity } from './expression.entity';
@@ -229,24 +228,6 @@ describe('user entity', () => {
 			});
 
 			assert.equal(resultUser.expressions[0].id, expression.id);
-		});
-
-		it('should relate with like', async function () {
-			const like = new LikeEntity();
-			await connection.manager.save(like);
-
-			like.user = user;
-			await connection.manager.save(like);
-
-			user.likes = [like];
-			await connection.manager.save(user);
-
-			const resultUser = await userRepository.findOne({
-				where: { id: user.id },
-				relations: ['likes'],
-			});
-
-			assert.equal(resultUser.likes[0].id, like.id);
 		});
 
 		it('should relate with comments', async function () {

@@ -3,7 +3,6 @@ import { EditHistoryEntity } from './editHistory.entity';
 import { ExpressionEntity } from './expression.entity';
 import { ExpressionSettingEntity } from './expressionSetting.entity';
 import { ImageEntity } from './image.entity';
-import { LikeEntity } from './like.entity';
 import { NoticeEntity } from './notice.entity';
 import { OauthEntity } from './oauth.entity';
 import { RoleEntity } from './role.entity';
@@ -20,7 +19,6 @@ const entities = [
 	ExpressionSettingEntity,
 	ExpressionEntity,
 	ImageEntity,
-	LikeEntity,
 	NoticeEntity,
 	OauthEntity,
 	RoleEntity,
