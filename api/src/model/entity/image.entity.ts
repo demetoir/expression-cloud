@@ -31,10 +31,4 @@ export class ImageEntity extends AbstractBaseEntity {
 
 	@Column({ name: 'file_name', type: 'text', nullable: false })
 	fileName: string;
-
-	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
-	refType: bigint;
-
-	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
-	refId: bigint;
 }
