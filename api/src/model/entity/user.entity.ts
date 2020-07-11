@@ -15,7 +15,6 @@ import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { AbstractBaseEntity } from './abstractBase.entity';
 import { ExpressionEntity } from './expression.entity';
-import { UserLikeEntity } from './userLike.entity';
 import { UserProfileImage } from './userProfileImage.entity';
 
 // todo 상수로 테이블 이름 분리하기
@@ -56,14 +55,6 @@ export class UserEntity extends AbstractBaseEntity {
 	expressions: ExpressionEntity[];
 
 	// todo add test
-	@OneToMany(() => UserLikeEntity, (likes) => likes.to)
-	likeTo: UserLikeEntity[];
-
-	// todo add test
-	@OneToMany(() => UserLikeEntity, (object) => object.from)
-	likeFrom: UserLikeEntity[];
-
-	// todo add test
 	@OneToMany(() => UserProfileImage, (object) => object.user)
 	profileImage: UserProfileImage;
 
@@ -102,4 +93,32 @@ export class UserEntity extends AbstractBaseEntity {
 		},
 	})
 	teams: TeamEntity[];
+
+	@ManyToMany(() => UserEntity, (object) => object.likeFrom, { eager: false })
+	@JoinTable({
+		name: 'user_likes',
+		joinColumn: {
+			name: 'to_user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+	})
+	likeTo: UserEntity[];
+
+	@ManyToMany(() => UserEntity, (object) => object.likeTo)
+	@JoinTable({
+		name: 'user_likes',
+		joinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'to_user_id',
+			referencedColumnName: 'id',
+		},
+	})
+	likeFrom: UserEntity[];
 }

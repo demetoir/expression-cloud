@@ -105,6 +105,14 @@ describe('user entity', () => {
 		let user;
 		let anotherUser;
 
+		async function getNewUser(): Promise<UserEntity> {
+			const user = new UserEntity();
+			user.name = 'Me and Bears';
+			user.description = 'I am near polar bears';
+			user.email = 'email';
+			return await connection.manager.save(user);
+		}
+
 		it('should prepare user', async function () {
 			user = new UserEntity();
 			user.name = 'Me and Bears';
@@ -268,6 +276,29 @@ describe('user entity', () => {
 			});
 
 			assert.equal(resultUser.oauth.id, oauth.id);
+		});
+
+		it('should relate like user', async function () {
+			const user1 = await getNewUser();
+			const user2 = await getNewUser();
+
+			user1.likeTo = [user2];
+			await connection.manager.save(user1);
+
+			user2.likeFrom = [user1];
+			await connection.manager.save(user2);
+
+			const result1 = await userRepository.findOne({
+				where: { id: user1.id },
+				relations: ['likeTo'],
+			});
+			assert.equal(result1.likeTo[0].id, user2.id);
+
+			const result2 = await userRepository.findOne({
+				where: { id: user2.id },
+				relations: ['likeFrom'],
+			});
+			assert.equal(result2.likeFrom[0].id, user1.id);
 		});
 	});
 });
