@@ -12,6 +12,8 @@ import { TeamEntity } from './team.entity';
 import { UserEntity } from './user.entity';
 import { UserSettingEntity } from './userSetting.entity';
 import { VectorEntity } from './vector.entity';
+import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
+import { UserProfileImage } from './userProfileImage.entity';
 
 const entities = [
 	CommentEntity,
@@ -28,6 +30,8 @@ const entities = [
 	UserEntity,
 	UserSettingEntity,
 	VectorEntity,
+	ExpressionThumbnailImageEntity,
+	UserProfileImage,
 ];
 
 export { entities };
