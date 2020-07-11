@@ -36,14 +36,14 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@OneToMany(() => TagEntity, (tags) => tags.expression)
 	tags: TagEntity[];
 
-	@ManyToOne(() => UserEntity, (user) => user.expressions)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
-
 	// todo add test
 	@OneToMany(
 		() => ExpressionThumbnailImageEntity,
 		(object) => object.expression,
 	)
 	thumbnailImage: ExpressionThumbnailImageEntity[];
+
+	@ManyToOne(() => UserEntity, (user) => user.expressions)
+	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	user: UserEntity;
 }
