@@ -15,7 +15,7 @@ import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { AbstractBaseEntity } from './abstractBase.entity';
 import { ExpressionEntity } from './expression.entity';
-import { UserProfileImage } from './userProfileImage.entity';
+import { UserProfileImageEntity } from './userProfileImage.entity';
 
 // todo 상수로 테이블 이름 분리하기
 @Entity({ name: 'users' })
@@ -54,9 +54,8 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	expressions: ExpressionEntity[];
 
-	// todo add test
-	@OneToMany(() => UserProfileImage, (object) => object.user)
-	profileImage: UserProfileImage;
+	@OneToOne(() => UserProfileImageEntity, (object) => object.user)
+	profileImage: UserProfileImageEntity;
 
 	@OneToMany(() => CommentEntity, (comments) => comments.user)
 	comments: CommentEntity[];

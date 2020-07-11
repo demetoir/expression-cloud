@@ -3,7 +3,7 @@ import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
-import { ExpressionEntity } from './expression.entity';
+import { UserProfileImageEntity } from './userProfileImage.entity';
 
 describe('image entity', () => {
 	let connection;
@@ -202,6 +202,24 @@ describe('image entity', () => {
 			});
 
 			assert.equal(result.expressionThumbnail.id, thumbnailImage.id);
+		});
+
+		it('should relate with expression thumbnail image entity', async () => {
+			const userProfileImageEntity = new UserProfileImageEntity();
+			await connection.manager.save(userProfileImageEntity);
+
+			userProfileImageEntity.image = image;
+			await connection.manager.save(userProfileImageEntity);
+
+			image.userProfile = userProfileImageEntity;
+			await connection.manager.save(userProfileImageEntity);
+
+			const result = await repository.findOne({
+				where: { id: image.id },
+				relations: ['userProfile'],
+			});
+
+			assert.equal(result.userProfile.id, userProfileImageEntity.id);
 		});
 	});
 });

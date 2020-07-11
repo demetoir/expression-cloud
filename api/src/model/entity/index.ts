@@ -13,7 +13,7 @@ import { UserEntity } from './user.entity';
 import { UserSettingEntity } from './userSetting.entity';
 import { VectorEntity } from './vector.entity';
 import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
-import { UserProfileImage } from './userProfileImage.entity';
+import { UserProfileImageEntity } from './userProfileImage.entity';
 
 const entities = [
 	CommentEntity,
@@ -31,7 +31,7 @@ const entities = [
 	UserSettingEntity,
 	VectorEntity,
 	ExpressionThumbnailImageEntity,
-	UserProfileImage,
+	UserProfileImageEntity,
 ];
 
 export { entities };

@@ -10,6 +10,7 @@ import { EditHistoryEntity } from './editHistory.entity';
 import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { ExpressionEntity } from './expression.entity';
+import { UserProfileImageEntity } from './userProfileImage.entity';
 
 describe('user entity', () => {
 	let userRepository;
@@ -299,6 +300,25 @@ describe('user entity', () => {
 				relations: ['likeFrom'],
 			});
 			assert.equal(result2.likeFrom[0].id, user1.id);
+		});
+
+		it('should relate with user profile image entity', async function () {
+			const userProfileImage = new UserProfileImageEntity();
+
+			await connection.manager.save(userProfileImage);
+
+			userProfileImage.user = user;
+			await connection.manager.save(userProfileImage);
+
+			user.profileImage = userProfileImage;
+			await connection.manager.save(user);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['profileImage'],
+			});
+
+			assert.equal(resultUser.profileImage.id, userProfileImage.id);
 		});
 	});
 });
