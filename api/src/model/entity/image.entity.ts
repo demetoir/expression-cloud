@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { AbstractBaseEntity } from './abstractBase.entity';
+import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
 
 @Entity({ name: 'images' })
 export class ImageEntity extends AbstractBaseEntity {
@@ -31,4 +32,7 @@ export class ImageEntity extends AbstractBaseEntity {
 
 	@Column({ name: 'file_name', type: 'text', nullable: false })
 	fileName: string;
+
+	@OneToOne(() => ExpressionThumbnailImageEntity, (object) => object.image)
+	expressionThumbnail: ExpressionThumbnailImageEntity;
 }

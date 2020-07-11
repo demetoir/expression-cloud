@@ -4,6 +4,8 @@ import * as config from '../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
 import { VectorEntity } from './vector.entity';
 import { ExpressionSettingEntity } from './expressionSetting.entity';
+import { ImageEntity } from './image.entity';
+import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
 
 describe('expression entity', () => {
 	let expressionRepository;
@@ -132,6 +134,16 @@ describe('expression entity', () => {
 	describe('relation', () => {
 		let expression;
 
+		async function getNewExpressionEntity() {
+			expression = new ExpressionEntity();
+			expression.type = 1;
+			expression.name = 'name';
+			expression.description = 'description';
+			expression.content = 'content';
+
+			return await connection.manager.save(expression);
+		}
+
 		it('should prepare notice', async () => {
 			expression = new ExpressionEntity();
 			expression.type = 1;
@@ -173,12 +185,63 @@ describe('expression entity', () => {
 			expression.setting = setting;
 			await connection.manager.save(expression);
 
-			const resultUserSetting = await expressionRepository.findOne({
+			const result = await expressionRepository.findOne({
 				where: { id: expression.id },
 				relations: ['setting'],
 			});
 
-			assert.equal(resultUserSetting.setting.id, setting.id);
+			assert.equal(result.setting.id, setting.id);
+		});
+
+		it('should relate with thumbnail image', async () => {
+			const thumbnailImage = new ExpressionThumbnailImageEntity();
+
+			thumbnailImage.expression = expression;
+			await connection.manager.save(thumbnailImage);
+
+			expression.thumbnailImage = thumbnailImage;
+			await connection.manager.save(expression);
+
+			const result = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['thumbnailImage'],
+			});
+
+			assert.equal(result.thumbnailImage.id, thumbnailImage.id);
+		});
+
+		it('should eager load image entity in thumbnailImage', async () => {
+			const expression = await getNewExpressionEntity();
+
+			const url = 'dfd';
+			const extension = 'extension';
+			const fileName = 'filename';
+			const path = 'path';
+			const type = 1;
+
+			const image = new ImageEntity();
+			image.url = url;
+			image.extension = extension;
+			image.fileName = fileName;
+			image.path = path;
+			image.type = type;
+			await connection.manager.save(image);
+
+			const thumbnailImage = new ExpressionThumbnailImageEntity();
+
+			thumbnailImage.expression = expression;
+			thumbnailImage.image = image;
+			await connection.manager.save(thumbnailImage);
+
+			expression.thumbnailImage = thumbnailImage;
+			await connection.manager.save(expression);
+
+			const result = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['thumbnailImage'],
+			});
+
+			assert.equal(result.thumbnailImage.image.id, image.id);
 		});
 	});
 });

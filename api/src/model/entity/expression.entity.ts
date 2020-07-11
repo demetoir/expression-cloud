@@ -37,11 +37,11 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	tags: TagEntity[];
 
 	// todo add test
-	@OneToMany(
+	@OneToOne(
 		() => ExpressionThumbnailImageEntity,
 		(object) => object.expression,
 	)
-	thumbnailImage: ExpressionThumbnailImageEntity[];
+	thumbnailImage: ExpressionThumbnailImageEntity;
 
 	@ManyToOne(() => UserEntity, (user) => user.expressions)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })

@@ -2,16 +2,18 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../ormconfig.js';
 import { ImageEntity } from './image.entity';
+import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
+import { ExpressionEntity } from './expression.entity';
 
 describe('image entity', () => {
 	let connection;
-	let imageRepository;
+	let repository;
 
 	beforeAll(async () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		imageRepository = connection.getRepository(ImageEntity);
+		repository = connection.getRepository(ImageEntity);
 	});
 
 	afterAll(async () => {
@@ -19,7 +21,7 @@ describe('image entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(imageRepository);
+		assert.isNotNull(repository);
 	});
 
 	it('should create new Entity', async function () {
@@ -32,7 +34,7 @@ describe('image entity', () => {
 
 		await connection.manager.save(image);
 
-		const newImage = await imageRepository.findOne({ id: image.id });
+		const newImage = await repository.findOne({ id: image.id });
 
 		assert.equal(newImage.id, image.id);
 	});
@@ -167,6 +169,39 @@ describe('image entity', () => {
 					'SQLITE_CONSTRAINT: NOT NULL constraint failed: images.type',
 				);
 			}
+		});
+	});
+
+	describe('relation', () => {
+		let image;
+
+		it('should prepare projectSetting', async () => {
+			image = new ImageEntity();
+			image.url = 'url';
+			image.extension = 'eeee';
+			image.fileName = 'file';
+			image.path = 'path';
+			image.type = 1;
+
+			await connection.manager.save(image);
+		});
+
+		it('should relate with expression thumbnail image entity', async () => {
+			const thumbnailImage = new ExpressionThumbnailImageEntity();
+			await connection.manager.save(thumbnailImage);
+
+			thumbnailImage.image = image;
+			await connection.manager.save(thumbnailImage);
+
+			image.expressionThumbnail = thumbnailImage;
+			await connection.manager.save(thumbnailImage);
+
+			const result = await repository.findOne({
+				where: { id: image.id },
+				relations: ['expressionThumbnail'],
+			});
+
+			assert.equal(result.expressionThumbnail.id, thumbnailImage.id);
 		});
 	});
 });
