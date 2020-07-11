@@ -38,7 +38,7 @@ describe('ExpressionThumbnailImage entity', () => {
 	describe('relation', () => {
 		let expressionThumbnailImage;
 
-		it('should prepare projectSetting', async () => {
+		it('should prepare entity', async () => {
 			expressionThumbnailImage = new ExpressionThumbnailImageEntity();
 
 			await connection.manager.save(expressionThumbnailImage);
