@@ -56,6 +56,14 @@ export class UserEntity extends AbstractBaseEntity {
 	expressions: ExpressionEntity[];
 
 	// todo add test
+	@OneToMany(() => UserLikeEntity, (likes) => likes.to)
+	likeTo: UserLikeEntity[];
+
+	// todo add test
+	@OneToMany(() => UserLikeEntity, (object) => object.from)
+	likeFrom: UserLikeEntity[];
+
+	// todo add test
 	@OneToMany(() => UserProfileImage, (object) => object.user)
 	profileImage: UserProfileImage;
 
