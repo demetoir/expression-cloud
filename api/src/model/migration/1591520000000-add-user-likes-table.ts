@@ -5,12 +5,12 @@ export class add_user_likes_table_1591520000000 implements MigrationInterface {
 		await queryRunner.query(`
             CREATE TABLE \`user_likes\`
             (
-                id             bigint primary key NOT NULL auto_increment,
-                \`user_id\`    bigint             NULL,
-                \`like_id\`    bigint             NULL,
-                \`created_at\` DATETIME           NOT NULL default now(),
-                \`updated_at\` DATETIME           NOT NULL default now(),
-                \`deleted_at\` DATETIME           NULL
+                id               bigint primary key NOT NULL auto_increment,
+                \`to_user_id\`   bigint             NULL,
+                \`from_user_id\` bigint             NULL,
+                \`created_at\`   DATETIME           NOT NULL default now(),
+                \`updated_at\`   DATETIME           NOT NULL default now(),
+                \`deleted_at\`   DATETIME           NULL
             );
         `);
 	}
