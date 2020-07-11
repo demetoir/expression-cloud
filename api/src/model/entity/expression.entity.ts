@@ -11,6 +11,7 @@ import { AbstractBaseEntity } from './abstractBase.entity';
 import { TagEntity } from './tag.entity';
 import { UserEntity } from './user.entity';
 import { ExpressionSettingEntity } from './expressionSetting.entity';
+import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
 
 @Entity({ name: 'expressions' })
 export class ExpressionEntity extends AbstractBaseEntity {
@@ -38,4 +39,11 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@ManyToOne(() => UserEntity, (user) => user.expressions)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
+
+	// todo add test
+	@OneToMany(
+		() => ExpressionThumbnailImageEntity,
+		(object) => object.expression,
+	)
+	thumbnailImage: ExpressionThumbnailImageEntity[];
 }
