@@ -170,24 +170,6 @@ delete /notices/{noticeId}
 post /notices/{noticeId}/actions/read
 post /notices/{noticeId}/actions/undo-read
 
-### expression star
-
-get /expression-star
-post /expression-star
-get /expression-star/{expressionStarId}
-put /expression-star/{expressionStarId}
-patch /expression-star/{expressionStarId}
-delete /expression-star/{expressionStarId}
-
-### user star
-
-get /user-star
-post /user-star
-get /user-star/{userStarId}
-put /user-star/{userStarId}
-patch /user-star/{userStarId}
-delete /user-star/{userStarId}
-
 ### expressions
 
 get /expressions
@@ -198,42 +180,34 @@ patch /expressions/{expressionId}
 delete /expressions/{expressionId}
 
 post /expressions/{expressionId}/actions/fork
+post /expressions/{expressionId}/actions/like
+post /expressions/{expressionId}/actions/unLike
 
-### expression setting
+get /expressions/{expressionId}/setting
+put /expressions/{expressionId}/setting
+patch /expressions/{expressionId}/setting
 
-get /expression-setting
-post /expression-setting
-get /expression-setting/{expressionSettingId}
-put /expression-setting/{expressionSettingId}
-patch /expression-setting/{expressionSettingId}
-delete /expression-setting/{expressionSettingId}
+임베디드 리소스면 그냥 집어넣는게 더 좋을듯
 
-### team thumbnail images
+### images
 
-get /team-thumbnail-images
-post /team-thumbnail-images
-get /team-thumbnail-images/{teamThumbnailImageId}
-put /team-thumbnail-images/{teamThumbnailImageId}
-patch /team-thumbnail-images/{teamThumbnailImageId}
-delete /team-thumbnail-images/{teamThumbnailImageId}
+type by user profile, expression thumbnail, team profile image
 
-### expression thumbnail images
+get /images
+post /images
+get /images/{imageId}
+put /images/{imageId}
+patch /images/{imageId}
+delete /images/{imageId}
 
-get /expression-thumbnail-images
-post /expression-thumbnail-images
-get /expression-thumbnail-images/{expressionThumbnailImageId}
-put /expression-thumbnail-images/{expressionThumbnailImageId}
-patch /expression-thumbnail-images/{expressionThumbnailImageId}
-delete /expression-thumbnail-images/{expressionThumbnailImageId}
+리소스가 상속관계라면 그냥 하나로 통일하고 type 으로 처리하는것이 더 좋을듯
 
-### user profile images
+post /users/{userId}/actions/like
+post /users/{userId}/actions/unlike
 
-get /user-profile-images
-post /user-profile-images
-get /user-profile-images/{userProfileImageId}
-put /user-profile-images/{userProfileImageId}
-patch /user-profile-images/{userProfileImageId}
-delete /user-profile-images/{userProfileImageId}
+get /users/{userId}/setting
+put /users/{userId}/setting
+patch /users/{userId}/setting
 
 ### comments
 
@@ -253,24 +227,6 @@ put /vectors/{vectorId}
 patch /vectors/{vectorId}
 delete /vectors/{vectorId}
 
-### vector histories
-
-get /vector-histories
-post /vector-histories
-get /vector-histories/{vectorHistoryId}
-put /vector-histories/{vectorHistoryId}
-patch /vector-histories/{vectorHistoryId}
-delete /vector-histories/{vectorHistoryId}
-
-### scalar histories
-
-get /scalar-histories
-post /scalar-histories
-get /scalar-histories/{scalarHistoryId}
-put /scalar-histories/{scalarHistoryId}
-patch /scalar-histories/{scalarHistoryId}
-delete /scalar-histories/{scalarHistoryId}
-
 ### scalars
 
 get /scalars
@@ -280,6 +236,12 @@ put /scalars/{scalarId}
 patch /scalars/{scalarId}
 delete /scalars/{scalarId}
 
+### histories
+
+type= scalar, vector
+get /histories
+get /histories/{historyId}
+
 ### tags
 
 get /tags
@@ -288,24 +250,6 @@ get /tags/{tagId}
 put /tags/{tagId}
 patch /tags/{tagId}
 delete /tags/{tagId}
-
-### users
-
-get /users
-post /users
-get /users/{userId}
-put /users/{userId}
-patch /users/{userId}
-delete /users/{userId}
-
-### user settings
-
-get /user-settings
-post /user-settings
-get /user-settings/{userSettingId}
-put /user-settings/{userSettingId}
-patch /user-settings/{userSettingId}
-delete /user-settings/{userSettingId}
 
 ### auth
 
