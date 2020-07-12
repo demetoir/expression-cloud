@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { logger } from '../../libs/winstonToolkit';
 
 @Controller('auth')
@@ -7,5 +7,27 @@ export class AuthController {
 
 	constructor() {
 		this.logger = logger;
+	}
+
+	// todo: implement this
+
+	@Post('/login')
+	async login() {
+		return 'login';
+	}
+
+	@Post('/sign-in')
+	async signIn() {
+		return 'sign-in';
+	}
+
+	@Get('/who-am-i')
+	async whoAmI() {
+		return 'whoAmI';
+	}
+
+	@Get('token')
+	async getToken() {
+		return 'token';
 	}
 }
