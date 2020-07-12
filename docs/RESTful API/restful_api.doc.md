@@ -181,7 +181,7 @@ delete /expressions/{expressionId}
 
 post /expressions/{expressionId}/actions/fork
 post /expressions/{expressionId}/actions/like
-post /expressions/{expressionId}/actions/unLike
+post /expressions/{expressionId}/actions/undo-like
 
 get /expressions/{expressionId}/setting
 put /expressions/{expressionId}/setting
@@ -203,7 +203,7 @@ delete /images/{imageId}
 리소스가 상속관계라면 그냥 하나로 통일하고 type 으로 처리하는것이 더 좋을듯
 
 post /users/{userId}/actions/like
-post /users/{userId}/actions/unlike
+post /users/{userId}/actions/undo-like
 
 get /users/{userId}/setting
 put /users/{userId}/setting
@@ -239,6 +239,7 @@ delete /scalars/{scalarId}
 ### histories
 
 type= scalar, vector
+
 get /histories
 get /histories/{historyId}
 
