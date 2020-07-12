@@ -1,4 +1,22 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { logger } from '../../libs/winstonToolkit';
 
-@Controller('history')
-export class HistoryController {}
+@Controller('histories')
+export class HistoryController {
+	private logger: any;
+
+	constructor() {
+		this.logger = logger;
+	}
+
+	// type by scalar, vector
+	@Get('/')
+	async getMany() {
+		return 'get many histories';
+	}
+
+	@Get('/:id')
+	async getOne() {
+		return 'get history';
+	}
+}
