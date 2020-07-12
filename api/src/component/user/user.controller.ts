@@ -4,6 +4,7 @@ import {
 	Delete,
 	Get,
 	Param,
+	Patch,
 	Post,
 	Put,
 	Query,
@@ -51,11 +52,41 @@ export class UserController {
 		return 'put user';
 	}
 
+	@Patch('/:id')
+	async updateUserPartial() {
+		return 'patch user';
+	}
+
 	@Delete('/:id')
 	async deleteUser(@Param() params): Promise<string> {
 		const { id } = params;
 
 		console.log(id);
 		return 'delete user';
+	}
+
+	@Post('/:id/actions/like')
+	async likeUser(): Promise<string> {
+		return 'like user';
+	}
+
+	@Post('/:id/actions/undo-like')
+	async undoLikeUser(): Promise<string> {
+		return 'like user';
+	}
+
+	@Get('/:id/setting')
+	async getUserSetting() {
+		return 'get user setting';
+	}
+
+	@Put('/:id/setting')
+	async updateUserSetting() {
+		return 'put user setting';
+	}
+
+	@Patch('/:id/setting')
+	async updateUserSettingPartial() {
+		return 'patch user setting';
 	}
 }
