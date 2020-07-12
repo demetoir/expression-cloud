@@ -3,8 +3,6 @@ import { AbstractBaseEntity } from './abstractBase.entity';
 import { ImageEntity } from './image.entity';
 import { UserEntity } from './user.entity';
 
-// todo add test of UserProfileImage
-
 @Entity({ name: 'user_profile_images' })
 export class UserProfileImageEntity extends AbstractBaseEntity {
 	@OneToOne(() => ImageEntity)
