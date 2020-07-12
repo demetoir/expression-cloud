@@ -93,7 +93,9 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	teams: TeamEntity[];
 
-	@ManyToMany(() => UserEntity, (object) => object.likeFrom, { eager: false })
+	@ManyToMany(() => UserEntity, (object) => object.likeFromUsers, {
+		eager: false,
+	})
 	@JoinTable({
 		name: 'user_likes',
 		joinColumn: {
@@ -105,9 +107,9 @@ export class UserEntity extends AbstractBaseEntity {
 			referencedColumnName: 'id',
 		},
 	})
-	likeTo: UserEntity[];
+	likeToUsers: UserEntity[];
 
-	@ManyToMany(() => UserEntity, (object) => object.likeTo)
+	@ManyToMany(() => UserEntity, (object) => object.likeToUsers)
 	@JoinTable({
 		name: 'user_likes',
 		joinColumn: {
@@ -119,5 +121,5 @@ export class UserEntity extends AbstractBaseEntity {
 			referencedColumnName: 'id',
 		},
 	})
-	likeFrom: UserEntity[];
+	likeFromUsers: UserEntity[];
 }

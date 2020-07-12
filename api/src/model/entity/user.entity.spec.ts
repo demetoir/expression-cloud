@@ -283,23 +283,23 @@ describe('user entity', () => {
 			const user1 = await getNewUser();
 			const user2 = await getNewUser();
 
-			user1.likeTo = [user2];
+			user1.likeToUsers = [user2];
 			await connection.manager.save(user1);
 
-			user2.likeFrom = [user1];
+			user2.likeFromUsers = [user1];
 			await connection.manager.save(user2);
 
 			const result1 = await userRepository.findOne({
 				where: { id: user1.id },
-				relations: ['likeTo'],
+				relations: ['likeToUsers'],
 			});
-			assert.equal(result1.likeTo[0].id, user2.id);
+			assert.equal(result1.likeToUsers[0].id, user2.id);
 
 			const result2 = await userRepository.findOne({
 				where: { id: user2.id },
-				relations: ['likeFrom'],
+				relations: ['likeFromUsers'],
 			});
-			assert.equal(result2.likeFrom[0].id, user1.id);
+			assert.equal(result2.likeFromUsers[0].id, user1.id);
 		});
 
 		it('should relate with user profile image entity', async function () {
