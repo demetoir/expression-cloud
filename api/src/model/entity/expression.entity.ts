@@ -46,4 +46,15 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@ManyToOne(() => UserEntity, (user) => user.expressions)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
+
+	// todo: add migration, test, implement
+	likeCount: number;
+
+	likeFrom: UserEntity[];
+
+	isForked: boolean;
+
+	forkedFrom: ExpressionEntity;
+
+	forkCount: number;
 }

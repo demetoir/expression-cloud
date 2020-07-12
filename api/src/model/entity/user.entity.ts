@@ -122,4 +122,13 @@ export class UserEntity extends AbstractBaseEntity {
 		},
 	})
 	likeFromUsers: UserEntity[];
+
+	// todo: add migration, test, implement
+	likeToExpressions: ExpressionEntity[];
+
+	isAnonymous: boolean;
+
+	likedCount: number;
+
+	forkedCount: number;
 }
