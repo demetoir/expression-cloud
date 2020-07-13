@@ -131,6 +131,120 @@ describe('expression entity', () => {
 				);
 			}
 		});
+
+		it('should not null on likeCount', async function () {
+			try {
+				const description = '1';
+				const name = 'name';
+				const type = 1;
+				const likeCount = null;
+				const expression = new ExpressionEntity();
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
+				expression.content = '123';
+				expression.likeCount = likeCount;
+
+				await connection.manager.save(expression);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.like_count',
+				);
+			}
+		});
+
+		it('should not null on isForked', async function () {
+			try {
+				const description = '1';
+				const name = 'name';
+				const type = 1;
+				const isForked = null;
+				const expression = new ExpressionEntity();
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
+				expression.content = '1234';
+				expression.isForked = isForked;
+
+				await connection.manager.save(expression);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.is_forked',
+				);
+			}
+		});
+
+		it('should not null on forkCount`', async function () {
+			try {
+				const description = '1';
+				const name = 'name';
+				const type = 1;
+				const expression = new ExpressionEntity();
+				const forkCount = null;
+				expression.description = description;
+				expression.name = name;
+				expression.type = type;
+				expression.content = '1234';
+				expression.forkCount = forkCount;
+
+				await connection.manager.save(expression);
+
+				assert(false, 'should throw this error');
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.fork_count',
+				);
+			}
+		});
+
+		it('should be false on isForked as default', async function () {
+			const description = '1';
+			const name = 'name';
+			const type = 1;
+			const expression = new ExpressionEntity();
+			expression.description = description;
+			expression.name = name;
+			expression.type = type;
+			expression.content = '1234';
+
+			await connection.manager.save(expression);
+			assert.equal(expression.isForked, false);
+		});
+
+		it('should be 0 on forkCount as default', async function () {
+			const description = '1';
+			const name = 'name';
+			const type = 1;
+			const expression = new ExpressionEntity();
+			expression.description = description;
+			expression.name = name;
+			expression.type = type;
+			expression.content = '1234';
+
+			await connection.manager.save(expression);
+			assert.equal(expression.forkCount, 0);
+		});
+
+		it('should be 0 on likeCount as default', async function () {
+			const description = '1';
+			const name = 'name';
+			const type = 1;
+			const expression = new ExpressionEntity();
+			expression.description = description;
+			expression.name = name;
+			expression.type = type;
+			expression.content = '1234';
+
+			await connection.manager.save(expression);
+			assert.equal(expression.likeCount, 0);
+		});
 	});
 
 	describe('relation', () => {

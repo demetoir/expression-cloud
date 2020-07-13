@@ -17,17 +17,61 @@ import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entit
 
 @Entity({ name: 'expressions' })
 export class ExpressionEntity extends AbstractBaseEntity {
-	@Column({ name: 'type', type: 'tinyint', nullable: false })
+	@Column({
+		name: 'type',
+		type: 'tinyint',
+		nullable: false,
+	})
 	type: number;
 
-	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
+	@Column({
+		name: 'name',
+		type: 'varchar',
+		length: 255,
+		nullable: false,
+	})
 	name: string;
 
-	@Column({ name: 'content', type: 'text', nullable: false })
+	@Column({
+		name: 'content',
+		type: 'text',
+		nullable: false,
+	})
 	content: string;
 
-	@Column({ name: 'description', type: 'text', nullable: false })
+	@Column({
+		name: 'description',
+		type: 'text',
+		nullable: false,
+	})
 	description: string;
+
+	@Column({
+		type: 'integer',
+		name: 'like_count',
+		nullable: false,
+		default: 0,
+	})
+	likeCount: number;
+
+	@Column({
+		type: 'boolean',
+		name: 'is_forked',
+		nullable: false,
+		default: false,
+	})
+	isForked: boolean;
+
+	@Column({
+		type: 'integer',
+		name: 'fork_count',
+		nullable: false,
+		default: 0,
+	})
+	forkCount: number;
+
+	@OneToMany(() => ExpressionEntity, (expression) => expression.forkedTo)
+	forkedTo: ExpressionEntity[];
 
 	@OneToMany(() => VectorEntity, (vector) => vector.expression)
 	vectors: VectorEntity[];
