@@ -270,5 +270,19 @@ describe('expression entity', () => {
 
 			assert.equal(result.likeFrom[0].id, user.id);
 		});
+
+		it('should relate with origin expression ', async () => {
+			const forked = await getNewExpressionEntity();
+
+			forked.forkedFrom = expression;
+			await connection.manager.save(forked);
+
+			const result = await expressionRepository.findOne({
+				where: { id: forked.id },
+				relations: ['forkedFrom'],
+			});
+
+			assert.equal(result.forkedFrom.id, expression.id);
+		});
 	});
 });

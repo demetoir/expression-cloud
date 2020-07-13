@@ -38,7 +38,6 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@OneToMany(() => TagEntity, (tags) => tags.expression)
 	tags: TagEntity[];
 
-	// todo add test
 	@OneToOne(
 		() => ExpressionThumbnailImageEntity,
 		(object) => object.expression,
@@ -48,6 +47,13 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@ManyToOne(() => UserEntity, (user) => user.expressions)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
+
+	@ManyToOne(() => ExpressionEntity)
+	@JoinColumn({
+		name: 'origin_id',
+		referencedColumnName: 'id',
+	})
+	forkedFrom: ExpressionEntity;
 
 	@ManyToMany(() => UserEntity, (user) => user.likeToExpressions)
 	@JoinTable({
