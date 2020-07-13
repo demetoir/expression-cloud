@@ -320,5 +320,33 @@ describe('user entity', () => {
 
 			assert.equal(resultUser.profileImage.id, userProfileImage.id);
 		});
+
+		async function getNewExpressionEntity(): Promise<ExpressionEntity> {
+			const expression = new ExpressionEntity();
+			expression.type = 1;
+			expression.name = 'name';
+			expression.description = 'description';
+			expression.content = 'content';
+
+			return await connection.manager.save(expression);
+		}
+
+		it('should relate with like expression', async function () {
+			const expression = await getNewExpressionEntity();
+
+			expression.likeFrom = [user];
+
+			await connection.manager.save(expression);
+
+			user.likeToExpressions = [expression];
+			await connection.manager.save(user);
+
+			const resultUser = await userRepository.findOne({
+				where: { id: user.id },
+				relations: ['likeToExpressions'],
+			});
+
+			assert.equal(resultUser.likeToExpressions[0].id, expression.id);
+		});
 	});
 });

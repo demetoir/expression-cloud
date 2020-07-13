@@ -6,6 +6,7 @@ import { VectorEntity } from './vector.entity';
 import { ExpressionSettingEntity } from './expressionSetting.entity';
 import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
+import { UserEntity } from './user.entity';
 
 describe('expression entity', () => {
 	let expressionRepository;
@@ -68,6 +69,7 @@ describe('expression entity', () => {
 			try {
 				const description = 'description';
 				const name = null;
+
 				const type = 1;
 				const expression = new ExpressionEntity();
 				expression.description = description;
@@ -134,8 +136,8 @@ describe('expression entity', () => {
 	describe('relation', () => {
 		let expression;
 
-		async function getNewExpressionEntity() {
-			expression = new ExpressionEntity();
+		async function getNewExpressionEntity(): Promise<ExpressionEntity> {
+			const expression = new ExpressionEntity();
 			expression.type = 1;
 			expression.name = 'name';
 			expression.description = 'description';
@@ -242,6 +244,31 @@ describe('expression entity', () => {
 			});
 
 			assert.equal(result.thumbnailImage.image.id, image.id);
+		});
+
+		async function getNewUser(): Promise<UserEntity> {
+			const user = new UserEntity();
+			user.name = 'Me and Bears';
+			user.description = 'I am near polar bears';
+			user.email = 'email';
+			return await connection.manager.save(user);
+		}
+
+		it('should relate with expression likes ', async () => {
+			const user = await getNewUser();
+
+			expression.likeFrom = [user];
+			await connection.manager.save(expression);
+
+			user.likeToExpressions = [expression];
+			await connection.manager.save(user);
+
+			const result = await expressionRepository.findOne({
+				where: { id: expression.id },
+				relations: ['likeFrom'],
+			});
+
+			assert.equal(result.likeFrom[0].id, user.id);
 		});
 	});
 });

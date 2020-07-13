@@ -2,6 +2,8 @@ import {
 	Column,
 	Entity,
 	JoinColumn,
+	JoinTable,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	OneToOne,
@@ -47,14 +49,17 @@ export class ExpressionEntity extends AbstractBaseEntity {
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 
-	// todo: add migration, test, implement
-	likeCount: number;
-
+	@ManyToMany(() => UserEntity, (user) => user.likeToExpressions)
+	@JoinTable({
+		name: 'expression_likes',
+		joinColumn: {
+			name: 'to_expression_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+	})
 	likeFrom: UserEntity[];
-
-	isForked: boolean;
-
-	forkedFrom: ExpressionEntity;
-
-	forkCount: number;
 }

@@ -124,11 +124,18 @@ export class UserEntity extends AbstractBaseEntity {
 	likeFromUsers: UserEntity[];
 
 	// todo: add migration, test, implement
+
+	@ManyToMany(() => ExpressionEntity, (expression) => expression.likeFrom)
+	@JoinTable({
+		name: 'expression_likes',
+		joinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'to_expression_id',
+			referencedColumnName: 'id',
+		},
+	})
 	likeToExpressions: ExpressionEntity[];
-
-	isAnonymous: boolean;
-
-	likedCount: number;
-
-	forkedCount: number;
 }
