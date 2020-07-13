@@ -33,6 +33,30 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	description: string;
 
+	@Column({
+		type: 'boolean',
+		name: 'is_anonymous',
+		nullable: false,
+		default: false,
+	})
+	isAnonymous: boolean;
+
+	@Column({
+		type: 'integer',
+		name: 'liked_count',
+		nullable: false,
+		default: 0,
+	})
+	likedCount: number;
+
+	@Column({
+		type: 'integer',
+		name: 'forked_count',
+		nullable: false,
+		default: 0,
+	})
+	forkedCount: number;
+
 	@OneToOne(() => UserSettingEntity, (setting) => setting.user)
 	setting: Promise<UserSettingEntity>;
 
@@ -122,8 +146,6 @@ export class UserEntity extends AbstractBaseEntity {
 		},
 	})
 	likeFromUsers: UserEntity[];
-
-	// todo: add migration, test, implement
 
 	@ManyToMany(() => ExpressionEntity, (expression) => expression.likeFrom)
 	@JoinTable({

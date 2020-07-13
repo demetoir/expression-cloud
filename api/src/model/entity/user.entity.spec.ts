@@ -82,7 +82,7 @@ describe('user entity', () => {
 			}
 		});
 
-		it('should not null on  description', async function () {
+		it('should not null on description', async function () {
 			try {
 				const name = 'Me and Bears';
 				const description = undefined;
@@ -99,6 +99,108 @@ describe('user entity', () => {
 					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.description',
 				);
 			}
+		});
+
+		it('should not null on forkedCount', async function () {
+			try {
+				const name = 'Me and Bears';
+				const description = 'description';
+				const email = 'email';
+
+				const user = new UserEntity();
+				user.name = name;
+				user.description = description;
+				user.email = email;
+				user.forkedCount = null;
+				await connection.manager.save(user);
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.forked_count',
+				);
+			}
+		});
+
+		it('should not null on like_count', async function () {
+			try {
+				const name = 'Me and Bears';
+				const description = 'description';
+				const email = 'email';
+
+				const user = new UserEntity();
+				user.name = name;
+				user.description = description;
+				user.email = email;
+				user.likedCount = null;
+				await connection.manager.save(user);
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.liked_count',
+				);
+			}
+		});
+
+		it('should not null on isAnonymous', async function () {
+			try {
+				const name = 'Me and Bears';
+				const description = 'description';
+				const email = 'email';
+
+				const user = new UserEntity();
+				user.name = name;
+				user.description = description;
+				user.email = email;
+				user.isAnonymous = null;
+				await connection.manager.save(user);
+			} catch (e) {
+				assert.equal(
+					e.message,
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.is_anonymous',
+				);
+			}
+		});
+
+		it('should be false on likedCount as default', async function () {
+			const name = 'Me and Bears';
+			const description = 'description';
+			const email = 'email';
+
+			const user = new UserEntity();
+			user.name = name;
+			user.description = description;
+			user.email = email;
+			await connection.manager.save(user);
+
+			assert.equal(user.likedCount, 0);
+		});
+
+		it('should be false on isAnonymous as default', async function () {
+			const name = 'Me and Bears';
+			const description = 'description';
+			const email = 'email';
+
+			const user = new UserEntity();
+			user.name = name;
+			user.description = description;
+			user.email = email;
+			await connection.manager.save(user);
+
+			assert.equal(user.forkedCount, 0);
+		});
+
+		it('should be false on isAnonymous as default', async function () {
+			const name = 'Me and Bears';
+			const description = 'description';
+			const email = 'email';
+
+			const user = new UserEntity();
+			user.name = name;
+			user.description = description;
+			user.email = email;
+			await connection.manager.save(user);
+
+			assert.equal(user.isAnonymous, false);
 		});
 	});
 
@@ -334,12 +436,11 @@ describe('user entity', () => {
 		it('should relate with like expression', async function () {
 			const expression = await getNewExpressionEntity();
 
-			expression.likeFrom = [user];
-
-			await connection.manager.save(expression);
-
 			user.likeToExpressions = [expression];
 			await connection.manager.save(user);
+
+			expression.likeFrom = [user];
+			await connection.manager.save(expression);
 
 			const resultUser = await userRepository.findOne({
 				where: { id: user.id },
