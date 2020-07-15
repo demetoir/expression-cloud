@@ -1,40 +1,35 @@
 <template>
   <div class="container">
-    <div>
-      <Bam></Bam>
-      <Boom></Boom>
-      <h1 class="title">
-        app
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+    inner page
+
+    <p>{{ id }}</p>
+    <a-input-group size="large">
+      <a-row :gutter="8">
+        <a-col :span="5">
+          <a-input default-value="0571" />
+        </a-col>
+        <a-col :span="8">
+          <a-input default-value="26888888" />
+        </a-col>
+      </a-row>
+    </a-input-group>
+    <nuxt-link to="/">Home page</nuxt-link>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Bam from '~/components/atoms/Bam.vue'
-import Boom from '~/components/atoms/Boom.vue'
 
 export default Vue.extend({
-  components: { Boom, Bam },
+  data() {
+    const id = this.$route.params.id || null
+    const fullPath = this.$route.fullPath
+
+    return {
+      show_me: fullPath,
+      id,
+    }
+  },
 })
 </script>
 
