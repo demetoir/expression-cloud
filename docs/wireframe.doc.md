@@ -7,6 +7,47 @@
 
 - code sandbox 페이지 보고 참고할것
 
+## 페이지 and URL
+
+### 공용
+
+/
+메인
+
+/login
+로그인
+
+/search
+검색
+
+/uptime
+업타임
+
+/user/{id}
+유저 상세
+
+/team/{id}
+팀 상세
+
+/collection/{id}
+콜렉션 상세
+
+### 대시 보드
+
+/dashboard
+/dashboard/my-collection
+/dashboard/my-expression
+/dashboard/my-team
+/dashboard/recently-viewed
+/dashboard/trash-can
+/dashboard/notices
+
+### App
+
+/app/{appId}
+
+## sketch
+
 - [*] app
 
   - [*] nav bar
