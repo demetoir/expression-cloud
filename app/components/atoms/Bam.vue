@@ -7,7 +7,7 @@
 <script lang="ts">
 export default {
   name: 'Bam',
-}
+};
 </script>
 <style>
 @keyframes appear {
