@@ -29,13 +29,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Bam from '~/components/atoms/Bam.vue'
-import Boom from '~/components/atoms/Boom.vue'
+import Vue from 'vue';
+import Bam from '~/components/atoms/Bam.vue';
+import Boom from '~/components/atoms/Boom.vue';
 
 export default Vue.extend({
   components: { Boom, Bam },
-})
+});
 </script>
 
 <style>

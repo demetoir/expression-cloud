@@ -18,19 +18,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   data() {
-    const id = this.$route.params.id || null
-    const fullPath = this.$route.fullPath
+    const id = this.$route.params.id || null;
+    const fullPath = this.$route.fullPath;
 
     return {
       show_me: fullPath,
       id,
-    }
+    };
   },
-})
+});
 </script>
 
 <style>

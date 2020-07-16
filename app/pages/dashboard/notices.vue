@@ -43,18 +43,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   methods: {
     onCollapse(collapsed: any, type: any) {
-      console.log(collapsed, type)
+      console.log(collapsed, type);
     },
     onBreakpoint(broken: any) {
-      console.log(broken)
+      console.log(broken);
     },
   },
-})
+});
 </script>
 
 <style>
