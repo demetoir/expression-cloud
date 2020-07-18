@@ -1,6 +1,6 @@
 # aws lambda function directory
 
-# 삽질 순서
+# 삽질 logging
 
 - serverless 가입
 - serverless dash board 에서 app 생성
@@ -33,6 +33,10 @@
 - 강제 삭제 할려면 cloud formation 가서 스택을 삭제해야함. 이경우에는 버킷은 따로 지워줘야함
 
 - 대시보드의 ci/cd 설정가서 리포 선택, 리전 선택, 이거는 서비스 마다 다해줘야함
+
+- node.js dependency 처리는 serverless-plugin-include-dependencies 으로 처리
+
+
 
 # tech stack
 
