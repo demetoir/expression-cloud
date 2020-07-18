@@ -36,7 +36,9 @@
 
 - node.js dependency 처리는 serverless-plugin-include-dependencies 으로 처리
 
-
+- 레이어 추가해서 하는 방식은 deploy 시 필요한 놈만 가져오도록 해야함
+- /layer 폴더 하나 만들어서 package.json, lock 파 복붙 한뒤 prod mode 로 node_module 설치하고, package 지우는 과정을 빌드에 추가해야함
+- 이거 할려면 레이어 동일하면 안올라가게 만드는거랑, 패키지 파일 버전 체크도 하도록 만들어야함
 
 # tech stack
 
