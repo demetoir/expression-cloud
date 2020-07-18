@@ -48,18 +48,23 @@ provider:
 #  environment:
 #    variable1: value1
 
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+
+package:
+  excludeDevDependencies: false
+  exclude:
+    - node_modules/** # no need to add this yourself, this plugin does it for you
+
+plugins:
+  - serverless-plugin-include-dependencies
+
+custom:
+  includeDependencies:
+    always:
+      - 'src/lib/**' # (optional) always include these globs and their dependencies
 
 functions:
   hello:
-    handler: handler.hello
+    handler: src/handler.hello
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

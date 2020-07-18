@@ -1,0 +1,12 @@
+{
+  "name": "expression-cloud-image-resizer",
+  "version": "1.0.0",
+  "dependencies": {
+    "lodash": "^4.17.19",
+    "serverless-plugin-include-dependencies": "^4.1.0"
+  },
+  "devDependencies": {
+    "serverless": "^1.75.1",
+    "serverless-layers": "^2.2.4"
+  }
+}
