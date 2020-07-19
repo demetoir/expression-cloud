@@ -40,6 +40,15 @@
 - /layer 폴더 하나 만들어서 package.json, lock 파 복붙 한뒤 prod mode 로 node_module 설치하고, package 지우는 과정을 빌드에 추가해야함
 - 이거 할려면 레이어 동일하면 안올라가게 만드는거랑, 패키지 파일 버전 체크도 하도록 만들어야함
 
+
+- 배포시 사용되는 aws IAM 은 이정도 해도 배포, 실행, 로깅은 잘된다 
+    - AmazonAPIGatewayInvokeFullAccess
+    - AmazonAPIGatewayPushToCloudWatchLogs
+    - AWSLambdaBasicExecutionRole
+    - RDS???
+    - S3???
+- 추가적으로 s3랑 RDS 권한 필요한지 봐야한다
+
 # tech stack
 
 - node 12
@@ -49,9 +58,13 @@
 # todo
 
 - [ ] dot env 설정하
-- [ ] 배포 설정
-- [ ] layer 설정 및 자동 업로드
+- [*] 배포 설정
+- [*] layer 설정 및 자동 업로드
 - [ ] 권한 설정하기
+    - AmazonAPIGatewayInvokeFullAccess
+    - AmazonAPIGatewayPushToCloudWatchLogs
+    - AWSLambdaBasicExecutionRole
+    - RDS???
 - [ ] api gateway enpoint 설정하기 설정
 - [ ] VPC 설정하기
 - [ ] 로컬 e2e test
