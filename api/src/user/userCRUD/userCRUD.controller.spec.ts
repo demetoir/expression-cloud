@@ -1,5 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserCRUDController } from './userCRUD.controller';
+import { UserCRUDService } from './userCRUD.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserRepository } from '../userRepository/user.repository';
+
+class MockRepository {
+	public create(user: any) {
+		return user;
+	}
+}
 
 describe('UserCRUD Controller', () => {
 	let controller: UserCRUDController;
@@ -7,9 +16,18 @@ describe('UserCRUD Controller', () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			controllers: [UserCRUDController],
+
+			providers: [
+				UserCRUDService,
+
+				{
+					provide: getRepositoryToken(UserRepository),
+					useClass: MockRepository,
+				},
+			],
 		}).compile();
 
-		controller = module.get<UserCRUDController>(UserCRUDController);
+		controller = module.get(UserCRUDController);
 	});
 
 	it('should be defined controller', () => {
@@ -25,13 +43,14 @@ describe('UserCRUD Controller', () => {
 	});
 
 	it('should run method createUser', async () => {
-		const params = {
-			id: 1,
+		const body = {
+			name: 'name',
+			email: 'email',
+			description: 'description',
 		};
-		const body = {};
 
-		const response = await controller.createOne(params, body);
+		const response = await controller.createOne(body);
 
-		expect(response).toEqual('create user');
+		expect(response).toEqual(body);
 	});
 });
