@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { CustomMorgan } from './middlewares/loggerMiddlewares';
+import { CustomMorgan } from './common/middlewares/loggerMiddlewares';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as helmet from 'helmet';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { logger } from '../libs/winstonToolkit';
+import { logger } from '../common/libs/winstonToolkit';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 class readDto {

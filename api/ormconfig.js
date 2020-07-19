@@ -9,13 +9,13 @@ const dev = {
 	logging: false,
 	bigNumberStrings: false,
 	// entities dose not use in nest.js configLoader intercept properties
-	entities: [`../src/model/entity/**/*.entity.ts`],
-	migrations: [`${__dirname}/src/model/migration/**/*.ts`],
+	entities: [`../src/common/model/entity/**/*.entity.ts`],
+	migrations: [`${__dirname}/src/common/model/migration/**/*.ts`],
 	cli: {
-		migrationsDir: `${__dirname}/src/model/migration`,
+		migrationsDir: `${__dirname}/src/common/model/migration`,
 	},
 	// subscribers dose not use in nest.js configLoader intercept properties
-	subscribers: [`../src/model/subscriber/**/*.ts`],
+	subscribers: [`../src/common/model/subscriber/**/*.ts`],
 };
 
 const prod = {
@@ -29,13 +29,13 @@ const prod = {
 	logging: false,
 	bigNumberStrings: false,
 	// entities dose not use in nest.js configLoader intercept properties
-	entities: [`../src/model/entity/**/*.entity.js`],
-	migrations: [`${__dirname}/src/model/migration/**/*.ts`],
+	entities: [`../src/common/model/entity/**/*.entity.js`],
+	migrations: [`${__dirname}/src/common/model/migration/**/*.ts`],
 	cli: {
-		migrationsDir: `${__dirname}/src/model/migration`,
+		migrationsDir: `${__dirname}/src/common/model/migration`,
 	},
 	// subscribers dose not use in nest.js configLoader intercept properties
-	subscribers: [`../src/model/subscriber/**/*.js`],
+	subscribers: [`../src/common/model/subscriber/**/*.js`],
 };
 
 const test = {
@@ -44,12 +44,12 @@ const test = {
 	synchronize: true,
 	logging: false,
 	bigNumberStrings: false,
-	entities: [`${__dirname}/src/model/entity/**/*.entity.ts`],
-	migrations: [`${__dirname}/src/model/migration/**/*.ts`],
+	entities: [`${__dirname}/src/common/model/entity/**/*.entity.ts`],
+	migrations: [`${__dirname}/src/common/model/migration/**/*.ts`],
 	cli: {
-		migrationsDir: `${__dirname}/src/model/migration`,
+		migrationsDir: `${__dirname}/src/common/model/migration`,
 	},
-	subscribers: [`${__dirname}/src/model/subscriber/**/*.ts`],
+	subscribers: [`${__dirname}/src/common/model/subscriber/**/*.ts`],
 };
 
 let config;
