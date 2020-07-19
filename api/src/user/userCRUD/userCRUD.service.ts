@@ -3,7 +3,7 @@ import { logger } from '../../common/libs/winstonToolkit';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../../common/model/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRepository } from '../user.repository';
+import { UserRepository } from '../userRepository/user.repository';
 
 @Injectable()
 export class UserCRUDService {

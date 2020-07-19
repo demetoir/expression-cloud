@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserCRUDService } from './userCRUD.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserRepository } from '../user.repository';
+import { UserRepository } from '../userRepository/user.repository';
 
 class MockRepository {
 	public create(user: any) {
