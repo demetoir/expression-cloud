@@ -10,58 +10,53 @@ import {
 	Query,
 } from '@nestjs/common';
 import { logger } from '../../common/libs/winstonToolkit';
+import { UserCRUDService } from './userCRUD.service';
 
 // TODO implement and test user controller
 @Controller('users')
 export class UserCRUDController {
 	private logger: any;
+	private userCRUDService: UserCRUDService;
 
-	constructor() {
+	constructor(userCRUDService: UserCRUDService) {
+		this.userCRUDService = userCRUDService;
 		this.logger = logger;
 	}
 
 	@Get('/')
-	async getMany(): Promise<string> {
-		return 'get many user';
+	async getMany(@Query() queries: any): Promise<any> {
+		return this.userCRUDService.getMany(queries);
 	}
 
 	@Get('/:id')
-	async getOne(@Param() params, @Query() queries): Promise<string> {
+	async getOne(@Param() params: any, @Query() queries: any): Promise<any> {
 		const { id } = params;
-		console.log(queries);
-		console.log(id);
-		return 'get User';
+
+		return this.userCRUDService.getOne(id, queries);
 	}
 
-	@Post('/:id')
-	async createOne(@Param() params, @Body() body): Promise<string> {
-		const { id } = params;
-
-		console.log(id);
-		console.log(body);
-
-		return 'create user';
+	@Post('/')
+	async createOne(@Body() body): Promise<any> {
+		return this.userCRUDService.createOne(body);
 	}
 
 	@Put('/:id')
-	async updateOne(@Param() params, @Body() body): Promise<string> {
+	async updateOne(@Param() params, @Body() body): Promise<any> {
 		const { id } = params;
 
-		console.log(id);
-
-		return 'put user';
+		return this.userCRUDService.updateOne(id, body);
 	}
 
 	@Patch('/:id')
-	async updateOnePartial() {
-		return 'patch user';
+	async updateOnePartial(@Param() params, @Body() body): Promise<any> {
+		const { id } = params;
+		return this.userCRUDService.updateOnePartial(id, body);
 	}
 
 	@Delete('/:id')
-	async deleteOne(@Param() params): Promise<string> {
+	async deleteOne(@Param() params): Promise<any> {
 		const { id } = params;
 
-		console.log(id);
-		return 'delete user';
+		return this.userCRUDService.deleteOne(id);
 	}
 }
