@@ -19,7 +19,9 @@
     "test:e2e": "sh scripts/test-e2e.sh",
     "pre-commit": "sh scripts/husky/pre-commit.sh",
     "start:storage": "sh scripts/start-storage.sh",
-    "stop:storage": "sh scripts/stop-storage.sh"
+    "stop:storage": "sh scripts/stop-storage.sh",
+    "start:api-server": "sh scripts/start-api-server.sh",
+    "stop:api-server": "sh scripts/stop-api-server.sh"
   },
   "dependencies": {
     "chalk": "^4.1.0",
