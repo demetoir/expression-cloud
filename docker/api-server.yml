@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  nodejs:
+  node:
     container_name: expression-cloud.node
     build:
       context: ../
@@ -12,8 +12,9 @@ services:
     environment:
       - NODE_ENV=production
       - IS_DOCKER_CONTAINER=true
+    restart: always
     networks:
-      - expression-cloud.network
+      - expression-cloud.network.api-server
 
   nginx:
     container_name: expression-cloud.nginx
@@ -22,18 +23,19 @@ services:
       dockerfile: ./docker/dockerFiles/nginx.dockerFile
     tty: true
     stdin_open: true
+    restart: always
     ports:
       - 80:80
       - 443:443
     environment:
       - SERVER_HOST=${PROD_HOST}
     networks:
-      - expression-cloud.network
+      - expression-cloud.network.api-server
     links:
       - node
     depends_on:
       - node
 
 networks:
-  expression-cloud.network:
+  expression-cloud.network.api-server:
     driver: "bridge"
