@@ -1,12 +1,12 @@
 FROM node:14
 
 WORKDIR /usr/src/app
+EXPOSE 3000
 
-COPY ./dist/api/package.json ./
-COPY ./dist/api/yarn.lock ./
+COPY ./api/package.json .
+COPY ./api/yarn.lock .
 RUN yarn install --production
 
-COPY ./dist/api .
+COPY ./api .
 
-EXPOSE 3000
 CMD ['yarn', 'start:prod']
