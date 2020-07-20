@@ -1,11 +1,9 @@
 FROM nginx:1.19.0
 
-
-
-# copy nginx.conf
+EXPOSE 80
 
 # todo add volume for loggig
 
+COPY ../nginx /etc/nginx
 
-EXPOSE 80
-CMD []
+#CMD ["nginx", "-t"]
