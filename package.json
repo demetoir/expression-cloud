@@ -10,16 +10,16 @@
     "prebuild": "sh scripts/prebuild.sh",
     "build": "sh scripts/build.sh",
     "postbuild": "sh scripts/postbuild.sh",
-    "prestart": "sh scripts/prestart.sh",
     "start": "sh scripts/start.sh",
-    "prestop": "sh scripts/prestop.sh",
     "stop": "sh scripts/stop.sh",
     "start:prod": "sh scripts/",
     "format": "sh scripts/format.sh",
     "lint": "sh scripts/lint.sh",
     "test": "sh scripts/test-unit.sh",
     "test:e2e": "sh scripts/test-e2e.sh",
-    "pre-commit": "sh scripts/husky/pre-commit.sh"
+    "pre-commit": "sh scripts/husky/pre-commit.sh",
+    "start:storage": "sh scripts/start-storage.sh",
+    "stop:storage": "sh scripts/stop-storage.sh"
   },
   "dependencies": {
     "chalk": "^4.1.0",
