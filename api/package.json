@@ -33,6 +33,7 @@
 		"@types/morgan": "^1.9.1",
 		"@types/uuid": "^8.0.0",
 		"@types/winston": "^2.4.4",
+		"chalk": "^4.1.0",
 		"expect-ct": "^0.3.0",
 		"express-rate-limit": "^5.1.3",
 		"helmet": "^3.23.3",
@@ -43,6 +44,7 @@
 		"pm2": "^4.4.0",
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",
+		"rotating-file-stream": "^2.1.3",
 		"rxjs": "^6.5.4",
 		"swagger-ui-express": "^4.1.4",
 		"typeorm": "^0.2.25",
@@ -51,7 +53,7 @@
 		"winston-daily-rotate-file": "^4.5.0"
 	},
 	"devDependencies": {
-		"@nestjs/cli": "^7.0.0",
+		"@nestjs/cli": "^7.4.1",
 		"@nestjs/schematics": "^7.0.0",
 		"@nestjs/testing": "^7.0.0",
 		"@types/chai": "^4.2.11",
