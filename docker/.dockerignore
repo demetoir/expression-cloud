@@ -2,3 +2,6 @@
 /logs
 /.log
 /test
+/api/node_modules
+/api/.log
+/api/test
