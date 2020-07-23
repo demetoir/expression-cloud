@@ -21,7 +21,8 @@
     "start:storage": "sh scripts/start-storage.sh",
     "stop:storage": "sh scripts/stop-storage.sh",
     "start:api-server": "sh scripts/start-api-server.sh",
-    "stop:api-server": "sh scripts/stop-api-server.sh"
+    "stop:api-server": "sh scripts/stop-api-server.sh",
+    "build:api-server" : "sh scripts/build-api-server.sh"
   },
   "dependencies": {
     "chalk": "^4.1.0",
