@@ -15,8 +15,6 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: always
-    networks:
-      - expression-cloud.network.storage
 
   redis:
     container_name: ${CONTAINER_PREFIX}.${REDIS_CONTAINER_NAME}
@@ -26,10 +24,4 @@ services:
     volumes:
       - ${VOLUMNS_PATH}/${CONTAINER_PREFIX}.${REDIS_CONTAINER_NAME}:/data
     restart: always
-    networks:
-      - expression-cloud.network.storage
 
-
-networks:
-  expression-cloud.network.storage:
-    driver: "bridge"

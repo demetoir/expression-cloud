@@ -5,16 +5,16 @@ services:
     container_name: expression-cloud.node
     build:
       context: ../
-      dockerfile: ./docker/dockerfiles/node.dockerFile
-    entrypoint: yarn pm2-runtime start ./build/express/index.js
+      dockerfile: ./docker/dockerFiles/node.dockerFile
+    entrypoint: yarn pm2-runtime ./ecosystem.config.js
+    env_file:
+      - ../.env/api-server.env
     expose:
-      - ${NODE_PORT}
+      - 3000
     environment:
       - NODE_ENV=production
       - IS_DOCKER_CONTAINER=true
     restart: always
-    networks:
-      - expression-cloud.network.api-server
 
   nginx:
     container_name: expression-cloud.nginx
@@ -27,15 +27,3 @@ services:
     ports:
       - 80:80
       - 443:443
-    environment:
-      - SERVER_HOST=${PROD_HOST}
-    networks:
-      - expression-cloud.network.api-server
-    links:
-      - node
-    depends_on:
-      - node
-
-networks:
-  expression-cloud.network.api-server:
-    driver: "bridge"
