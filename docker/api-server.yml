@@ -6,7 +6,7 @@ services:
     build:
       context: ../
       dockerfile: ./docker/dockerFiles/node.dockerFile
-    entrypoint: yarn pm2-runtime ./ecosystem.config.js
+    entrypoint: pm2-runtime ./ecosystem.config.js
     env_file:
       - ../.env/api-server.env
     expose:
