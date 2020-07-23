@@ -1,2 +1,2 @@
 echo 'start docker containers'
-docker-compose -f ./docker/storage.yml --env-file ./.env/storage.env down
+docker-compose -f ./docker/api-server.yml --env-file ./.env/api-server.env  down
