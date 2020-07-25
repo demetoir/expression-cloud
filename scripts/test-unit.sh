@@ -1,5 +1,4 @@
-pwd
-
+set -e
 # goto root directory
 
 cd ./api

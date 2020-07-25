@@ -1,4 +1,4 @@
-pwd
+set -e
 
 # goto root directory
 
