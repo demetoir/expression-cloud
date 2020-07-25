@@ -7,5 +7,5 @@ cd ..
 
 
 cd ./app
-yarn test:unit
+yarn test
 cd ..
