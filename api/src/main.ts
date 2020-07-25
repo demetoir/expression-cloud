@@ -21,7 +21,12 @@ async function bootstrap() {
 	await app.listen(3000);
 }
 
-bootstrap();
+bootstrap().then(() => {
+	console.log('complete bootstrapping app');
+}).catch((e)=>{
+	console.error('fail to bootstrap app')
+	console.error(e)
+});
 
 function initSecurity(app) {
 	//cors
