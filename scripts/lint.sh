@@ -1,4 +1,5 @@
-pwd
+# exit on any error raised
+set -e
 
 # goto root directory
 

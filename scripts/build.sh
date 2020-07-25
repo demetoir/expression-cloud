@@ -1,3 +1,6 @@
+# exit on any error raised
+set -e
+
 echo 'remove /dist'
 rm -rf ./dist
 

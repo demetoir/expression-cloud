@@ -43,6 +43,9 @@
 - [*] typescript
 - [*] typeorm
 - [*] jest
+- [ ] serverless
+- [ ] ElasticStack
+
 
 ## 테스트 환경
 

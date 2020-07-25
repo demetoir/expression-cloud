@@ -1,6 +1,5 @@
-# move root directory
-
-pwd
+# exit on any error raised
+set -e
 
 echo 'build dockerFile'
 
