@@ -8,6 +8,6 @@ export class TagEntity extends AbstractBaseEntity {
 	name: string;
 
 	@ManyToOne(() => ExpressionEntity, (expression) => expression.tags)
-	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
+	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
 }

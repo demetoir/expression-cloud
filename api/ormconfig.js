@@ -9,13 +9,13 @@ const dev = {
 	logging: false,
 	bigNumberStrings: false,
 	// entities dose not use in nest.js configLoader intercept properties
-	entities: [`../src/common/model/entity/**/*.entity.ts`],
-	migrations: [`${__dirname}/src/common/model/migration/**/*.ts`],
+	entities: [`./src/common/model/entity/**/*.entity.ts`],
+	migrations: [`./src/common/model/migration/**/*.ts`],
 	cli: {
-		migrationsDir: `${__dirname}/src/common/model/migration`,
+		migrationsDir: `./src/common/model/migration`,
 	},
 	// subscribers dose not use in nest.js configLoader intercept properties
-	subscribers: [`../src/common/model/subscriber/**/*.ts`],
+	subscribers: [`./src/common/model/subscriber/**/*.ts`],
 };
 
 const prod = {
