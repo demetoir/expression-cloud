@@ -8,6 +8,16 @@ export class RoleEntity extends AbstractBaseEntity {
 	name: string;
 
 	@ManyToMany(() => UserEntity)
-	@JoinTable()
+	@JoinTable({
+		name: 'user_role',
+		joinColumn: {
+			name: 'role_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'user_id',
+			referencedColumnName: 'id',
+		},
+	})
 	users: UserEntity[];
 }
