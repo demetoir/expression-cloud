@@ -3,6 +3,8 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpException,
+	HttpStatus,
 	Param,
 	Patch,
 	Post,
@@ -11,6 +13,21 @@ import {
 } from '@nestjs/common';
 import { logger } from '../../common/libs/winstonToolkit';
 import { UserCRUDService } from './userCRUD.service';
+import { ResourceNumberId } from '../../common/decorators/resourceId.decorator';
+import { Fields } from '../../common/decorators/fields.decorator';
+import { Includes } from '../../common/decorators/includes.decorator';
+
+class ResourceNotExistException extends HttpException {
+	constructor(id) {
+		super(
+			{
+				error: 'resource not exist',
+				message: `user resource of id: ${id} dose not exist`,
+			},
+			HttpStatus.NOT_FOUND,
+		);
+	}
+}
 
 // TODO implement and test user controller
 @Controller('users')
@@ -29,10 +46,22 @@ export class UserCRUDController {
 	}
 
 	@Get('/:id')
-	async getOne(@Param() params: any, @Query() queries: any): Promise<any> {
-		const { id } = params;
+	async getOne(
+		@ResourceNumberId('id') userId: number,
+		@Fields() fields: string[],
+		@Includes() includes: string[],
+	): Promise<any> {
+		const user = await this.userCRUDService.getOne(
+			userId,
+			fields,
+			includes,
+		);
 
-		return this.userCRUDService.getOne(id, queries);
+		if (user === null) {
+			throw new ResourceNotExistException(userId);
+		}
+
+		return user;
 	}
 
 	@Post('/')

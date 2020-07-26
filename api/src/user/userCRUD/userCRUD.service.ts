@@ -20,8 +20,18 @@ export class UserCRUDService {
 		// this.userRepository.get;
 	}
 
-	async getOne(id: number, queries) {
-		return this.userRepository.findOne(id);
+	async getOne(
+		id: number,
+		fields: string[],
+		includes: string[],
+	): Promise<any> {
+		const user: UserEntity = await this.userRepository.findOne(id);
+
+		if (user === null) {
+			return null;
+		}
+
+		return user;
 	}
 
 	async createOne(body: any) {
