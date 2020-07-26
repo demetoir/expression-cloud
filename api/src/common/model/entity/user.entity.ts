@@ -20,38 +20,50 @@ import { UserProfileImageEntity } from './userProfileImage.entity';
 // todo 상수로 테이블 이름 분리하기
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractBaseEntity {
-	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
+	@Column({
+		name: 'name',
+		type: 'varchar',
+		length: 255,
+		nullable: false,
+	})
 	name: string;
 
-	@Column({ type: 'varchar', length: 255, name: 'email', nullable: false })
+	@Column({
+		name: 'email',
+		type: 'varchar',
+		length: 255,
+		nullable: true,
+		default: null,
+	})
 	email: string;
 
 	@Column({
-		type: 'text',
 		name: 'description',
-		nullable: false,
+		type: 'text',
+		nullable: true,
+		default: null,
 	})
 	description: string;
 
 	@Column({
-		type: 'boolean',
 		name: 'is_anonymous',
+		type: 'boolean',
 		nullable: false,
 		default: false,
 	})
 	isAnonymous: boolean;
 
 	@Column({
-		type: 'integer',
 		name: 'liked_count',
+		type: 'integer',
 		nullable: false,
 		default: 0,
 	})
 	likedCount: number;
 
 	@Column({
-		type: 'integer',
 		name: 'forked_count',
+		type: 'integer',
 		nullable: false,
 		default: 0,
 	})
