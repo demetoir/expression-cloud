@@ -21,6 +21,6 @@ export class ExpressionSettingEntity extends AbstractBaseEntity {
 	isLocked = false;
 
 	@OneToOne(() => ExpressionEntity, (expression) => expression.setting)
-	@JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
+	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
 }
