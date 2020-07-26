@@ -36,6 +36,7 @@ describe('user entity', () => {
 		user.name = 'Me and Bears';
 		user.description = 'I am near polar bears';
 		user.email = 'email';
+
 		await connection.manager.save(user);
 
 		const newUser = await userRepository.findOne({ id: user.id });
@@ -43,18 +44,21 @@ describe('user entity', () => {
 		assert.isNotNull(newUser);
 	});
 
-	describe('check column type', () => {
-		it('should not null on name', async function () {
-			try {
-				const name = undefined;
-				const description = 'description ';
-				const email = 'email';
+	describe('check column constraint', () => {
+		const name = 'Me and Bears';
+		const description = 'description';
+		const email = 'email';
 
+		it('name should not be undefined', async function () {
+			try {
 				const user = new UserEntity();
-				user.name = name;
+				user.name = undefined;
 				user.description = description;
 				user.email = email;
+
 				await connection.manager.save(user);
+
+				assert(false, 'should not call this');
 			} catch (e) {
 				assert.equal(
 					e.message,
@@ -63,56 +67,30 @@ describe('user entity', () => {
 			}
 		});
 
-		it('should not null at email', async function () {
-			try {
-				const name = 'Me and Bears';
-				const description = 'description ';
-				const email = undefined;
+		it('email should default null, while it is undefined', async function () {
+			const user = new UserEntity();
+			user.name = name;
+			user.description = description;
+			user.email = undefined;
 
-				const user = new UserEntity();
-				user.name = name;
-				user.description = description;
-				user.email = email;
-				await connection.manager.save(user);
-			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.email',
-				);
-			}
+			await connection.manager.save(user);
+
+			const result = await userRepository.findOne({ id: user.id });
+
+			assert.equal(result.email, null);
 		});
 
-		it('should not null on description', async function () {
+		it('forkedCount should not be null', async function () {
 			try {
-				const name = 'Me and Bears';
-				const description = undefined;
-				const email = 'email';
-
-				const user = new UserEntity();
-				user.name = name;
-				user.description = description;
-				user.email = email;
-				await connection.manager.save(user);
-			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.description',
-				);
-			}
-		});
-
-		it('should not null on forkedCount', async function () {
-			try {
-				const name = 'Me and Bears';
-				const description = 'description';
-				const email = 'email';
-
 				const user = new UserEntity();
 				user.name = name;
 				user.description = description;
 				user.email = email;
 				user.forkedCount = null;
+
 				await connection.manager.save(user);
+
+				assert(false, 'should not call this');
 			} catch (e) {
 				assert.equal(
 					e.message,
@@ -121,18 +99,34 @@ describe('user entity', () => {
 			}
 		});
 
-		it('should not null on like_count', async function () {
-			try {
-				const name = 'Me and Bears';
-				const description = 'description';
-				const email = 'email';
+		it('forkedCount should be 0 as default', async function () {
+			const user = new UserEntity();
+			user.name = name;
+			user.description = description;
+			user.email = email;
 
+			await connection.manager.save(user);
+
+			assert.equal(user.forkedCount, 0);
+
+			const result: UserEntity = await userRepository.findOne({
+				id: user.id,
+			});
+
+			assert.equal(result.forkedCount, 0);
+		});
+
+		it('likeCount should be not null', async function () {
+			try {
 				const user = new UserEntity();
 				user.name = name;
 				user.description = description;
 				user.email = email;
 				user.likedCount = null;
+
 				await connection.manager.save(user);
+
+				assert(false, 'should not call this');
 			} catch (e) {
 				assert.equal(
 					e.message,
@@ -141,7 +135,24 @@ describe('user entity', () => {
 			}
 		});
 
-		it('should not null on isAnonymous', async function () {
+		it('likeCount should be 0 as default', async function () {
+			const user = new UserEntity();
+			user.name = name;
+			user.description = description;
+			user.email = email;
+
+			await connection.manager.save(user);
+
+			assert.equal(user.likedCount, 0);
+
+			const result: UserEntity = await userRepository.findOne({
+				id: user.id,
+			});
+
+			assert.equal(result.likedCount, 0);
+		});
+
+		it('isAnonymous should not null', async function () {
 			try {
 				const name = 'Me and Bears';
 				const description = 'description';
@@ -152,7 +163,10 @@ describe('user entity', () => {
 				user.description = description;
 				user.email = email;
 				user.isAnonymous = null;
+
 				await connection.manager.save(user);
+
+				assert(false, 'should not call this');
 			} catch (e) {
 				assert.equal(
 					e.message,
@@ -161,7 +175,7 @@ describe('user entity', () => {
 			}
 		});
 
-		it('should be false on likedCount as default', async function () {
+		it('isAnonymous should be false as default', async function () {
 			const name = 'Me and Bears';
 			const description = 'description';
 			const email = 'email';
@@ -170,34 +184,7 @@ describe('user entity', () => {
 			user.name = name;
 			user.description = description;
 			user.email = email;
-			await connection.manager.save(user);
 
-			assert.equal(user.likedCount, 0);
-		});
-
-		it('should be false on isAnonymous as default', async function () {
-			const name = 'Me and Bears';
-			const description = 'description';
-			const email = 'email';
-
-			const user = new UserEntity();
-			user.name = name;
-			user.description = description;
-			user.email = email;
-			await connection.manager.save(user);
-
-			assert.equal(user.forkedCount, 0);
-		});
-
-		it('should be false on isAnonymous as default', async function () {
-			const name = 'Me and Bears';
-			const description = 'description';
-			const email = 'email';
-
-			const user = new UserEntity();
-			user.name = name;
-			user.description = description;
-			user.email = email;
 			await connection.manager.save(user);
 
 			assert.equal(user.isAnonymous, false);
@@ -213,6 +200,7 @@ describe('user entity', () => {
 			user.name = 'Me and Bears';
 			user.description = 'I am near polar bears';
 			user.email = 'email';
+
 			return await connection.manager.save(user);
 		}
 
@@ -221,6 +209,7 @@ describe('user entity', () => {
 			user.name = 'Me and Bears';
 			user.description = 'I am near polar bears';
 			user.email = 'email';
+
 			await connection.manager.save(user);
 
 			assert.isNotNull(user.id);
