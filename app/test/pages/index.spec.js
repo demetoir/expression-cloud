@@ -4,6 +4,10 @@ import request from 'supertest';
 const { Builder, Nuxt } = require('nuxt');
 const config = require('../../nuxt.config.js').default;
 
+// todo: 로컬에서는 잘되지만 travis-ci에서는 testing 이 되지 않음
+//    에러는 아래 참조
+//    https://travis-ci.com/github/demetoir/expressionCloud/builds/177147267
+// resource
 // We keep the nuxt and server instance
 // So we can close them at the end of the test
 let nuxt = null;
@@ -14,7 +18,7 @@ describe('router test', () => {
     await new Builder(nuxt).build();
     await nuxt.server.listen(3000, 'localhost');
     done();
-  }, 30000);
+  }, 3000);
 
   // Example of testing only generated html
   describe('GET /', () => {
