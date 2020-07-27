@@ -1,16 +1,20 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
 
-export const _decorator = (token: string, ctx: ExecutionContext): number => {
-	const request = ctx.switchToHttp().getRequest();
-
-	const id = request.params[token] || null;
-
-	if (id === null || isNaN(id)) {
-		throw new ResourceIdTypeException(id, typeof Number);
+export const _ResourceId = (token: string, ctx: ExecutionContext): number => {
+	if (token === undefined || token === null) {
+		throw new TypeError(`token should be string, not ${typeof token}`);
 	}
 
-	return Number.parseInt(id, 10);
+	const request = ctx.switchToHttp().getRequest();
+
+	const resourceId = request.params[token] || null;
+
+	if (resourceId === null || isNaN(resourceId)) {
+		throw new ResourceIdTypeException(resourceId, typeof Number);
+	}
+
+	return Number.parseInt(resourceId, 10);
 };
 
-export const ResourceNumberId = createParamDecorator(_decorator);
+export const ResourceNumberId = createParamDecorator(_ResourceId);
