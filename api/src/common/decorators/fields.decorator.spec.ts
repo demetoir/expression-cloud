@@ -81,4 +81,18 @@ describe('fields param decorator', () => {
 
 		expect(result).toStrictEqual(['11', '5&&']);
 	});
+
+	it('should be parse parse split query', function () {
+		// case of ?fields=a,v,c&fields=b,t,o
+		const request = {
+			query: {
+				fields: ['a,v,c', 'b,t,o'],
+			},
+		};
+
+		const context = getExecutionContextMock(request);
+		const result = _Fields(null, context);
+
+		expect(result).toStrictEqual(['a', 'v', 'c', 'b', 't', 'o']);
+	});
 });

@@ -3,7 +3,11 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export const _Fields = (token: string, ctx: ExecutionContext): string[] => {
 	const request = ctx.switchToHttp().getRequest();
 
-	const fields = request.query.fields || null;
+	let fields = request.query.fields || null;
+
+	if (Array.isArray(fields)) {
+		fields = fields.join(',');
+	}
 
 	if (fields === null) {
 		return [];

@@ -81,4 +81,18 @@ describe('includes param decorator', () => {
 
 		expect(result).toStrictEqual(['11', '5&&']);
 	});
+
+	it('should be parse parse split query', function () {
+		// case of ?includes=a,v,c&includes=b,t,o
+		const request = {
+			query: {
+				includes: ['a,v,c', 'b,t,o'],
+			},
+		};
+
+		const context = getExecutionContextMock(request);
+		const result = _Includes(null, context);
+
+		expect(result).toStrictEqual(['a', 'v', 'c', 'b', 't', 'o']);
+	});
 });

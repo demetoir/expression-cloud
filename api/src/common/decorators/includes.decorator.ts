@@ -3,7 +3,11 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export const _Includes = (data: string, ctx: ExecutionContext): string[] => {
 	const request = ctx.switchToHttp().getRequest();
 
-	const includes = request.query.includes || null;
+	let includes = request.query.includes || null;
+
+	if (Array.isArray(includes)) {
+		includes = includes.join(',');
+	}
 
 	if (includes === null) {
 		return [];
