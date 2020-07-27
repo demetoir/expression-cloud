@@ -71,7 +71,7 @@ describe('oauth entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: oauths.authId',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: oauths.auth_id',
 				);
 			}
 		});
