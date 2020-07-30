@@ -259,26 +259,167 @@ post /auth/sign-in
 get /auth/who-am-i
 get /auth/token
 
-## body scheme
+## response body scheme
 
+###error 4xx,5xx
+
+```json
 {
-meta:{
-
-    },
-    data:{
-
-    },
-    errorCode:1234,
-    error: "error",
-    message: ""
-
+  "meta": {},
+  "errorCode": 1234,
+  "error": "error",
+  "message": ""
 }
+```
 
-## query scheme
+### get one
+
+200 ok
+
+```json
+{
+  "meta": {},
+  "data": {
+    "user": {
+      "id": 1,
+      "name": "name",
+      "email": "email"
+    }
+  },
+  "message": ""
+}
+```
+
+### get many
+
+200 ok
+
+```json
+{
+  "meta": {},
+  "data": {
+    "_total": 4,
+    "users": []
+  }
+}
+```
+
+### post one
+
+201 created
+
+```json
+{
+  "meta": {},
+  "data": {
+    "_id": 1,
+    "user": {
+      "id": 3,
+      "name": 123
+    }
+  }
+}
+```
+
+### put one
+
+204 no content with no body
+
+### delete one
+
+204 no content with no body
+
+or
+
+200 ok
+
+```json
+{
+  "meta": {},
+  "data": {
+    "_id": 4
+  }
+}
+```
+
+### patch one
+
+204 no content with no body
+
+### post action
+
+200 ok
+
+```json
+{
+  "meta": {},
+  "data": {
+    "_id": 4
+  }
+}
+```
+
+## query string scheme
+
+### ',' base array
 
 fields
+includes
+orders
+sort
+group by
+
+### 특별한놈
+
 q
-include
+DB query 할때 필요한 옵션으로 사용
+
+typeorm find option 은 이정도 이다
+https://typeorm.io/#/find-options
+
+https://www.npmjs.com/package/typeorm-express-query-builder
+typeorm 전용 query url builder 를 사용하는게...
+
+아니면 query builder 로 검색하면 좀 찾을 수 있을
+
+- 고려해야할것들
+  - URL이 읽기 쉬울것
+  - 서버측 파싱이 쉬울것
+  - 직접 파싱하기보다는 모듈로 끌어다 쓸수 있어야한다
+  - urlencode 하는경우에도 되어야함
+  - url attack 을 막을 수 있어야함
+
+#### 독자 규격인경우
+
+?q=a=3,b=8,c<=0 이건 and 조건
+?q=a=4&q=b=8 이거는 or 조건으로
+
+한 q 안에 있는 놈은 and 조건으로 묶이고
+분리되어있는 q 들은 서로 or 조건으로 처리된다
+
+비교연산자 되야하는놈들
+
+```text
+=
+<
+>
+>=
+<=
+like
+in
+
+```
+
+#### json 으로 하는경우
+
+https://restdb.io/docs/querying-with-the-api
+이놈처럼 json형식으로 박는 놈도 있고
+
+### 단순 정수형 양수
+
 offset
 limit
-order
+
+### string enum type
+
+type
