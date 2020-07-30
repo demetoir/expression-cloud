@@ -30,26 +30,12 @@ describe('UserService', () => {
 		repository = module.get(getRepositoryToken(UserRepository));
 	});
 
-	it('should be defined', () => {
+	it('should be defined method', () => {
 		expect(service).toBeDefined();
 		expect(service.getOne).toBeDefined();
 		expect(service.getMany).toBeDefined();
 		expect(service.createOne).toBeDefined();
 		expect(service.updateOne).toBeDefined();
-		expect(service.updateOnePartial).toBeDefined();
 		expect(service.deleteOne).toBeDefined();
-	});
-
-	it('should getOne', () => {});
-
-	it('should createOne', async () => {
-		const body = {
-			name: 'name',
-			description: 'description',
-			email: 'email',
-		};
-		const user = await service.createOne(body);
-
-		// expect(user).toBe(body);
 	});
 });

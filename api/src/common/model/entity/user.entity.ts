@@ -16,10 +16,14 @@ import { OauthEntity } from './oauth.entity';
 import { AbstractBaseEntity } from './abstractBase.entity';
 import { ExpressionEntity } from './expression.entity';
 import { UserProfileImageEntity } from './userProfileImage.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 // todo 상수로 테이블 이름 분리하기
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractBaseEntity {
+	@ApiProperty({
+		required: false,
+	})
 	@Column({
 		name: 'name',
 		type: 'varchar',
@@ -28,6 +32,7 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	name: string;
 
+	@ApiProperty()
 	@Column({
 		name: 'email',
 		type: 'varchar',
@@ -37,6 +42,7 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	email: string;
 
+	@ApiProperty()
 	@Column({
 		name: 'description',
 		type: 'text',
@@ -45,6 +51,7 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	description: string;
 
+	@ApiProperty()
 	@Column({
 		name: 'is_anonymous',
 		type: 'boolean',
@@ -53,6 +60,7 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	isAnonymous: boolean;
 
+	@ApiProperty()
 	@Column({
 		name: 'liked_count',
 		type: 'integer',
@@ -61,6 +69,7 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	likedCount: number;
 
+	@ApiProperty()
 	@Column({
 		name: 'forked_count',
 		type: 'integer',
@@ -69,33 +78,41 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	forkedCount: number;
 
+	@ApiProperty()
 	@OneToOne(() => UserSettingEntity, (setting) => setting.user)
 	setting: Promise<UserSettingEntity>;
 
+	@ApiProperty()
 	@OneToOne(() => OauthEntity, (oauth) => oauth.user)
 	oauth: OauthEntity;
 
+	@ApiProperty()
 	@OneToMany(() => NoticeEntity, (notices) => notices.user, {
 		eager: false,
 	})
 	notices: NoticeEntity[];
 
+	@ApiProperty()
 	@OneToMany(() => EditHistoryEntity, (editHistory) => editHistory.user, {
 		eager: false,
 	})
 	editHistories: EditHistoryEntity[];
 
+	@ApiProperty()
 	@OneToMany(() => ExpressionEntity, (expresion) => expresion.user, {
 		eager: false,
 	})
 	expressions: ExpressionEntity[];
 
+	@ApiProperty()
 	@OneToOne(() => UserProfileImageEntity, (object) => object.user)
 	profileImage: UserProfileImageEntity;
 
+	@ApiProperty()
 	@OneToMany(() => CommentEntity, (comments) => comments.user)
 	comments: CommentEntity[];
 
+	@ApiProperty()
 	@ManyToMany(() => RoleEntity, {
 		eager: true,
 		cascade: true,
@@ -113,6 +130,7 @@ export class UserEntity extends AbstractBaseEntity {
 	})
 	roles: RoleEntity[];
 
+	@ApiProperty()
 	@ManyToMany(() => TeamEntity, (team) => team.users, {
 		eager: false,
 	})
