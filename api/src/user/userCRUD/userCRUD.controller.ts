@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller } from '@nestjs/common';
 import { UserCRUDService } from './userCRUD.service';
 import {
 	CreateManyDto,
@@ -11,11 +11,13 @@ import {
 } from '@nestjsx/crud';
 import { UserEntity } from '../../common/model/entity/user.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { UserReplaceDto } from './dto/userReplaceDto';
 import { logger } from '../../common/libs/winstonToolkit';
-import { UserUpdateDto } from './dto/userUpdateDto';
 import { UserCreateDto } from './dto/userCreate.dto';
 import { GetManyDefaultResponse } from '@nestjsx/crud/lib/interfaces';
+import { DTOTransformPipe } from '../../common/pipe/dtoTransform.pipe';
+import { UserReplaceDto } from './dto/userReplace.dto';
+import { UserUpdateDto } from './dto/userUpdate.dto';
+
 // TODO implement and test user controller
 
 // @ApiHeader({
@@ -63,11 +65,8 @@ export class UserCRUDController implements CrudController<UserEntity> {
 	@Override('createOneBase')
 	async createOne(
 		@ParsedRequest() req: CrudRequest,
-		@ParsedBody() body: UserCreateDto,
+		@Body(new DTOTransformPipe(UserCreateDto)) dto: UserCreateDto,
 	): Promise<UserEntity> {
-		// todo: nest.js pipe 를 사용해서 자동으로 dto class 가 되도록 만들
-		const dto: UserCreateDto = UserCreateDto.fromBody(body);
-
 		return this.base.createOneBase(req, dto.toEntity());
 	}
 
@@ -75,19 +74,16 @@ export class UserCRUDController implements CrudController<UserEntity> {
 	@Override('updateOneBase')
 	updateOne(
 		@ParsedRequest() req: CrudRequest,
-		@ParsedBody() body: UserUpdateDto,
+		@Body(new DTOTransformPipe(UserUpdateDto)) dto: UserUpdateDto,
 	): Promise<UserEntity> {
-		const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
-
 		return this.base.updateOneBase(req, dto.toEntity());
 	}
 
 	@Override('replaceOneBase')
 	replaceOne(
 		@ParsedRequest() req: CrudRequest,
-		@ParsedBody() body: UserReplaceDto,
+		@Body(new DTOTransformPipe(UserReplaceDto)) dto: UserReplaceDto,
 	): Promise<UserEntity> {
-		const dto = UserReplaceDto.fromBody(body);
 		const entity: UserEntity = dto.toEntity();
 
 		return this.base.replaceOneBase(req, entity);
