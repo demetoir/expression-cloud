@@ -2,24 +2,19 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserCRUDService } from './userCRUD.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserRepository } from '../userRepository/user.repository';
-
-class MockRepository {
-	public create(user: any) {
-		return user;
-	}
-}
+import { UserEntity } from '../../common/model/entity/user.entity';
+import { MockRepository } from '../../../test/lib/MockRepository';
 
 describe('UserService', () => {
 	let service: UserCRUDService;
-	let repository: Repository<UserRepository>;
+	let repository: Repository<UserEntity>;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
 				UserCRUDService,
 				{
-					provide: getRepositoryToken(UserRepository),
+					provide: getRepositoryToken(UserEntity),
 					useClass: MockRepository,
 				},
 			],
@@ -27,15 +22,11 @@ describe('UserService', () => {
 
 		service = module.get(UserCRUDService);
 
-		repository = module.get(getRepositoryToken(UserRepository));
+		repository = module.get(getRepositoryToken(UserEntity));
 	});
 
 	it('should be defined method', () => {
 		expect(service).toBeDefined();
-		expect(service.getOne).toBeDefined();
-		expect(service.getMany).toBeDefined();
-		expect(service.createOne).toBeDefined();
-		expect(service.updateOne).toBeDefined();
-		expect(service.deleteOne).toBeDefined();
+		expect(repository).toBeDefined();
 	});
 });

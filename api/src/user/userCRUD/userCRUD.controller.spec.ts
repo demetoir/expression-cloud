@@ -2,13 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserCRUDController } from './userCRUD.controller';
 import { UserCRUDService } from './userCRUD.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserRepository } from '../userRepository/user.repository';
-
-class MockRepository {
-	public create(user: any) {
-		return user;
-	}
-}
+import { MockRepository } from '../../../test/lib/MockRepository';
+import { UserEntity } from '../../common/model/entity/user.entity';
 
 describe('UserCRUD Controller', () => {
 	let controller: UserCRUDController;
@@ -21,7 +16,7 @@ describe('UserCRUD Controller', () => {
 				UserCRUDService,
 
 				{
-					provide: getRepositoryToken(UserRepository),
+					provide: getRepositoryToken(UserEntity),
 					useClass: MockRepository,
 				},
 			],
@@ -32,25 +27,5 @@ describe('UserCRUD Controller', () => {
 
 	it('should be defined controller', () => {
 		expect(controller).toBeDefined();
-	});
-
-	it('should be defined methods', () => {
-		expect(controller.createOne).toBeDefined();
-		expect(controller.deleteOne).toBeDefined();
-		expect(controller.getMany).toBeDefined();
-		expect(controller.getOne).toBeDefined();
-		expect(controller.updateOne).toBeDefined();
-	});
-
-	it('should run method createUser', async () => {
-		const body = {
-			name: 'name',
-			email: 'email',
-			description: 'description',
-		};
-
-		const response = await controller.createOne(body);
-
-		expect(response).toEqual(body);
 	});
 });
