@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../../common/model/entity/user.entity';
+import { AbstractBaseDto } from '../../../common/abstractBaseDto';
 
-export class UserUpdateDto {
+export class UserUpdateDto extends AbstractBaseDto {
 	@ApiProperty({})
 	name: string;
 
