@@ -1,36 +1,19 @@
 import { Controller } from '@nestjs/common';
 import { UserCRUDService } from './userCRUD.service';
-import { Crud, CrudController } from '@nestjsx/crud';
+import {
+	Crud,
+	CrudController,
+	CrudRequest,
+	Override,
+	ParsedBody,
+	ParsedRequest,
+} from '@nestjsx/crud';
 import { UserEntity } from '../../common/model/entity/user.entity';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
-
-// todo 각 CRUD마다 DTO class 선언하기
-// todo 도메인 별 DTO class를 따로 폴더 파서 넣기
-
-class UserCreateDto {
-	@ApiProperty({
-		required: true,
-		default: 'name',
-		example: 'name',
-	})
-	name: string;
-
-	@ApiProperty()
-	email: string;
-
-	@ApiProperty()
-	description: string;
-
-	@ApiProperty()
-	isAnonymous: boolean;
-
-	@ApiProperty()
-	likedCount: number;
-
-	@ApiProperty()
-	forkedCount: number;
-}
-
+import { ApiTags } from '@nestjs/swagger';
+import { UserCreateDto } from './dto/createUser.dto';
+import { UserReplaceDto } from './dto/userReplaceDto';
+import { logger } from '../../common/libs/winstonToolkit';
+import { UserUpdateDto } from './dto/userUpdateDto';
 // TODO implement and test user controller
 
 // @ApiHeader({
@@ -47,49 +30,100 @@ class UserCreateDto {
 	},
 	dto: {
 		create: UserCreateDto,
+		replace: UserReplaceDto,
+		update: UserUpdateDto,
 	},
 })
 @Controller('/v1/users')
 export class UserCRUDController implements CrudController<UserEntity> {
-	constructor(public service: UserCRUDService) {}
+	private logger: any;
 
-	// todo: 기본놈에대가 오버라이드 하는 예제 만들기
-	// get base(): CrudController<UserEntity> {
-	// 	return this;
-	// }
+	constructor(public service: UserCRUDService) {
+		this.logger = logger;
+	}
+
+	// // todo: 기본놈에대가 오버라이드 하는 예제 만들기
+	get base(): CrudController<UserEntity> {
+		return this;
+	}
+
+	@Override('getManyBase')
+	getMany(@ParsedRequest() req: CrudRequest) {
+		return this.base.getManyBase(req);
+	}
+
+	@Override('getOneBase')
+	getOneAndDoStuff(@ParsedRequest() req: CrudRequest) {
+		return this.base.getOneBase(req);
+	}
+
+	@Override('createOneBase')
+	createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() body: any) {
+		// todo: nest.js pipe 를 사용해서 자동으로 dto class 가 되도록 만들
+		const dto: UserCreateDto = UserCreateDto.fromBody(body);
+		return this.base.createOneBase(req, dto.toEntity());
+	}
+
 	//
-	// @Override()
-	// getMany(@ParsedRequest() req: CrudRequest) {
-	// 	return this.base.getManyBase(req);
-	// }
+	// @Override('updateOneBase')
+	// updateOneBase(req: CrudRequest, body: any): Promise<UserEntity> {
+	// 	this.logger.info(body);
+	// 	this.logger.info(req);
 	//
-	// @Override('getOneBase')
-	// getOneAndDoStuff(@ParsedRequest() req: CrudRequest) {
-	// 	return this.base.getOneBase(req);
-	// }
+	// 	const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
+	// 	console.log(dto);
 	//
-	// @Override()
-	// createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: Hero) {
-	// 	return this.base.createOneBase(req, dto);
+	// 	return null;
+	// 	// return this.base.updateOneBase(req, dto.toEntity());
 	// }
-	//
+
 	// @Override()
 	// createMany(
 	// 	@ParsedRequest() req: CrudRequest,
-	// 	@ParsedBody() dto: CreateManyDto<Hero>,
+	// 	@ParsedBody() dto: CreateManyDto<UserCreateDto>,
 	// ) {
-	// 	return this.base.createManyBase(req, dto);
+	// 	const entityList: UserEntity[] = dto.bulk.map((x) => x.toEntity());
+	// 	return this.base.createManyBase(req, entityList);
 	// }
-	//
+
 	// @Override('updateOneBase')
-	// coolFunction(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: Hero) {
-	// 	return this.base.updateOneBase(req, dto);
-	// }
+	// updateOneBase(
+	// 	@ParsedRequest() req: CrudRequest,
+	// 	@ParsedBody() body: any,
+	// ): Promise<UserEntity> {
+	// 	this.logger.info(body);
+	// 	this.logger.info(req);
 	//
-	// @Override('replaceOneBase')
-	// awesomePUT(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: Hero) {
-	// 	return this.base.replaceOneBase(req, dto);
+	// 	const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
+	// 	console.log(dto);
+	//
+	// 	return null
+	// 	// return this.base.updateOneBase(req, dto.toEntity());
+	//
+	// 	// return null
 	// }
+
+	// @Override('updateOneBase')
+	// updateOneBase(@ParsedRequest() req: CrudRequest, @ParsedBody() body: any) {
+	// 	console.log(body)
+	//
+	// 	// const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
+	// 	return this.base.updateOneBase(req, null);
+	// }
+
+	// @Override('replaceOneBase')
+	// replaceOneBase(@ParsedRequest() req: CrudRequest, @ParsedBody() body: any) {
+	// 	console.log(body);
+	//
+	// 	// console.log(req);
+	// 	// console.log();
+	// 	const id = req.parsed.paramsFilter[0].value;
+	// 	const dto = UserReplaceDto.fromBody(body, id);
+	// 	const entity: UserEntity = dto.toEntity();
+	// 	console.log(entity);
+	// 	return this.base.replaceOneBase(req, entity);
+	// }
+
 	//
 	// @Override()
 	// async deleteOne(@ParsedRequest() req: CrudRequest) {
