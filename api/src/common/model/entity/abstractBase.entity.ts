@@ -10,7 +10,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 export abstract class AbstractBaseEntity {
 	@ApiPropertyOptional()
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
-	id: bigint;
+	id: number;
 
 	@ApiPropertyOptional()
 	@CreateDateColumn({ type: 'datetime', name: 'created_at', nullable: false })

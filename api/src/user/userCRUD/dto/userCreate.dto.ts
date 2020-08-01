@@ -18,15 +18,15 @@ export class UserCreateDto {
 	@ApiProperty()
 	isAnonymous: boolean;
 
-	constructor({ name, email, description, isAnonymous }) {
-		this.email = email;
-		this.name = name;
-		this.description = description;
-		this.isAnonymous = isAnonymous;
-	}
-
 	static fromBody(body: any): UserCreateDto {
-		return new UserCreateDto(body);
+		const dto = new UserCreateDto();
+
+		dto.email = body.email;
+		dto.name = body.name;
+		dto.description = body.description;
+		dto.isAnonymous = body.isAnonymous;
+
+		return dto;
 	}
 
 	public toEntity(): UserEntity {

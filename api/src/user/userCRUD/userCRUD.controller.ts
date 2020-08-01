@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { UserCRUDService } from './userCRUD.service';
 import {
+	CreateManyDto,
 	Crud,
 	CrudController,
 	CrudRequest,
@@ -10,10 +11,11 @@ import {
 } from '@nestjsx/crud';
 import { UserEntity } from '../../common/model/entity/user.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { UserCreateDto } from './dto/createUser.dto';
 import { UserReplaceDto } from './dto/userReplaceDto';
 import { logger } from '../../common/libs/winstonToolkit';
 import { UserUpdateDto } from './dto/userUpdateDto';
+import { UserCreateDto } from './dto/userCreate.dto';
+import { GetManyDefaultResponse } from '@nestjsx/crud/lib/interfaces';
 // TODO implement and test user controller
 
 // @ApiHeader({
@@ -42,91 +44,74 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		this.logger = logger;
 	}
 
-	// // todo: 기본놈에대가 오버라이드 하는 예제 만들기
 	get base(): CrudController<UserEntity> {
 		return this;
 	}
 
 	@Override('getManyBase')
-	getMany(@ParsedRequest() req: CrudRequest) {
+	async getMany(
+		@ParsedRequest() req: CrudRequest,
+	): Promise<GetManyDefaultResponse<UserEntity> | UserEntity[]> {
 		return this.base.getManyBase(req);
 	}
 
 	@Override('getOneBase')
-	getOneAndDoStuff(@ParsedRequest() req: CrudRequest) {
+	async getOne(@ParsedRequest() req: CrudRequest): Promise<UserEntity> {
 		return this.base.getOneBase(req);
 	}
 
 	@Override('createOneBase')
-	createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() body: any) {
+	async createOne(
+		@ParsedRequest() req: CrudRequest,
+		@ParsedBody() body: UserCreateDto,
+	): Promise<UserEntity> {
 		// todo: nest.js pipe 를 사용해서 자동으로 dto class 가 되도록 만들
 		const dto: UserCreateDto = UserCreateDto.fromBody(body);
+
 		return this.base.createOneBase(req, dto.toEntity());
 	}
 
-	//
-	// @Override('updateOneBase')
-	// updateOneBase(req: CrudRequest, body: any): Promise<UserEntity> {
-	// 	this.logger.info(body);
-	// 	this.logger.info(req);
-	//
-	// 	const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
-	// 	console.log(dto);
-	//
-	// 	return null;
-	// 	// return this.base.updateOneBase(req, dto.toEntity());
-	// }
+	// @Override 데코에서 이름 지정하고 메소드명을 같이하면 오버라이딩이 되지않는다...  shit
+	@Override('updateOneBase')
+	updateOne(
+		@ParsedRequest() req: CrudRequest,
+		@ParsedBody() body: UserUpdateDto,
+	): Promise<UserEntity> {
+		const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
 
-	// @Override()
-	// createMany(
-	// 	@ParsedRequest() req: CrudRequest,
-	// 	@ParsedBody() dto: CreateManyDto<UserCreateDto>,
-	// ) {
-	// 	const entityList: UserEntity[] = dto.bulk.map((x) => x.toEntity());
-	// 	return this.base.createManyBase(req, entityList);
-	// }
+		return this.base.updateOneBase(req, dto.toEntity());
+	}
 
-	// @Override('updateOneBase')
-	// updateOneBase(
-	// 	@ParsedRequest() req: CrudRequest,
-	// 	@ParsedBody() body: any,
-	// ): Promise<UserEntity> {
-	// 	this.logger.info(body);
-	// 	this.logger.info(req);
-	//
-	// 	const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
-	// 	console.log(dto);
-	//
-	// 	return null
-	// 	// return this.base.updateOneBase(req, dto.toEntity());
-	//
-	// 	// return null
-	// }
+	@Override('replaceOneBase')
+	replaceOne(
+		@ParsedRequest() req: CrudRequest,
+		@ParsedBody() body: UserReplaceDto,
+	): Promise<UserEntity> {
+		const dto = UserReplaceDto.fromBody(body);
+		const entity: UserEntity = dto.toEntity();
 
-	// @Override('updateOneBase')
-	// updateOneBase(@ParsedRequest() req: CrudRequest, @ParsedBody() body: any) {
-	// 	console.log(body)
-	//
-	// 	// const dto: UserUpdateDto = UserUpdateDto.fromBody(body);
-	// 	return this.base.updateOneBase(req, null);
-	// }
+		return this.base.replaceOneBase(req, entity);
+	}
 
-	// @Override('replaceOneBase')
-	// replaceOneBase(@ParsedRequest() req: CrudRequest, @ParsedBody() body: any) {
-	// 	console.log(body);
-	//
-	// 	// console.log(req);
-	// 	// console.log();
-	// 	const id = req.parsed.paramsFilter[0].value;
-	// 	const dto = UserReplaceDto.fromBody(body, id);
-	// 	const entity: UserEntity = dto.toEntity();
-	// 	console.log(entity);
-	// 	return this.base.replaceOneBase(req, entity);
-	// }
+	@Override('deleteOneBase')
+	async deleteOne(
+		@ParsedRequest() req: CrudRequest,
+	): Promise<UserEntity | void> {
+		return this.base.deleteOneBase(req);
+	}
 
-	//
-	// @Override()
-	// async deleteOne(@ParsedRequest() req: CrudRequest) {
-	// 	return this.base.deleteOneBase(req);
-	// }
+	@Override('createManyBase')
+	async createMany(
+		@ParsedRequest() req: CrudRequest,
+		@ParsedBody() body: CreateManyDto<UserCreateDto>,
+	): Promise<UserEntity[]> {
+		const entityList: UserCreateDto[] = body.bulk.map((x) => {
+			return UserCreateDto.fromBody(x);
+		});
+
+		const dto: CreateManyDto = {
+			bulk: entityList,
+		};
+		return this.base.createManyBase(req, dto);
+	}
 }

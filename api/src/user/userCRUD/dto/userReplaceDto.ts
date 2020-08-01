@@ -12,15 +12,8 @@ export class UserReplaceDto {
 
 	@ApiProperty({})
 	description: string;
-	//
-	// constructor({ name, email, description, id }) {
-	// 	this.email = email;
-	// 	this.name = name;
-	// 	this.description = description;
-	// 	// this.id = id;
-	// }
-	//
-	static fromBody(body: any, id: number): UserReplaceDto {
+
+	static fromBody(body: any): UserReplaceDto {
 		const dto = new UserReplaceDto();
 
 		dto.description = body.description;
