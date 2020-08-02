@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { config as ormConfig } from '../common/model/configLoader';
 import { UserModule } from '../user/user.module';
 import { AuthModule } from '../auth/auth.module';
 import { CollectionModule } from '../collection/collection.module';
@@ -14,10 +12,11 @@ import { TagModule } from '../tag/tag.module';
 import { TeamModule } from '../team/team.module';
 import { VectorModule } from '../vector/vector.module';
 import { ImageModule } from '../image/image.module';
+import { GlobalTypeOrmModule } from '../database/GlobalTypeOrm.module';
 
 @Module({
 	imports: [
-		TypeOrmModule.forRoot(ormConfig),
+		GlobalTypeOrmModule,
 		UserModule,
 		AuthModule,
 		CollectionModule,
