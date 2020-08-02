@@ -1,12 +1,10 @@
 import { Body, Controller } from '@nestjs/common';
 import { UserCRUDService } from './userCRUD.service';
 import {
-	CreateManyDto,
 	Crud,
 	CrudController,
 	CrudRequest,
 	Override,
-	ParsedBody,
 	ParsedRequest,
 } from '@nestjsx/crud';
 import { UserEntity } from '../../common/model/entity/user.entity';
@@ -17,6 +15,8 @@ import { GetManyDefaultResponse } from '@nestjsx/crud/lib/interfaces';
 import { DTOTransformPipe } from '../../common/pipe/dtoTransform.pipe';
 import { UserReplaceDto } from './dto/userReplace.dto';
 import { UserUpdateDto } from './dto/userUpdate.dto';
+import { BulkDtoTransformPipe } from '../../common/pipe/bulkDtoTransform.pipe';
+import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
 
 // TODO implement and test user controller
 
@@ -99,15 +99,9 @@ export class UserCRUDController implements CrudController<UserEntity> {
 	@Override('createManyBase')
 	async createMany(
 		@ParsedRequest() req: CrudRequest,
-		@ParsedBody() body: CreateManyDto<UserCreateDto>,
+		@Body(new BulkDtoTransformPipe(UserCreateBulkDto))
+		dto: UserCreateBulkDto,
 	): Promise<UserEntity[]> {
-		const entityList: UserCreateDto[] = body.bulk.map((x) => {
-			return UserCreateDto.fromBody(x);
-		});
-
-		const dto: CreateManyDto = {
-			bulk: entityList,
-		};
-		return this.base.createManyBase(req, dto);
+		return this.base.createManyBase(req, dto.toEntity());
 	}
 }
