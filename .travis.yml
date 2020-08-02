@@ -18,6 +18,8 @@ jobs:
       name: backend node
       script:
         - yarn test
+        - yarn test:e2e
+        - yarn test:cov
 
 notifications:
   email:
