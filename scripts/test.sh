@@ -4,6 +4,7 @@ set -e
 cd ./api
 yarn test
 yarn test:e2e
+yarn test:cov
 cd ..
 
 
