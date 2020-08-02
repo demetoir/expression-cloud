@@ -17,6 +17,7 @@ jobs:
     - stage: test
       name: backend node
       script:
+        - cd /api
         - yarn test
         - yarn test:e2e
         - yarn test:cov
