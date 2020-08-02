@@ -11,10 +11,8 @@ describe('UserCRUD Controller', () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			controllers: [UserCRUDController],
-
 			providers: [
 				UserCRUDService,
-
 				{
 					provide: getRepositoryToken(UserEntity),
 					useClass: MockRepository,
@@ -25,7 +23,17 @@ describe('UserCRUD Controller', () => {
 		controller = module.get(UserCRUDController);
 	});
 
-	it('should be defined controller', () => {
+	it('should be create by DI', function () {
 		expect(controller).toBeDefined();
+	});
+
+	it('should be define CRUD method', () => {
+		expect(controller.getOne).toBeDefined();
+		expect(controller.getMany).toBeDefined();
+		expect(controller.createOne).toBeDefined();
+		expect(controller.createMany).toBeDefined();
+		expect(controller.updateOne).toBeDefined();
+		expect(controller.replaceOne).toBeDefined();
+		expect(controller.deleteOne).toBeDefined();
 	});
 });
