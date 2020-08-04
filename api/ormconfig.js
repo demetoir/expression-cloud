@@ -53,8 +53,8 @@ const test = {
 };
 
 let config;
-const node_env = process.env.NODE_ENV || 'dev';
-if (node_env === 'dev') {
+const node_env = process.env.NODE_ENV || 'development';
+if (node_env === 'development') {
 	config = dev;
 } else if (node_env === 'test') {
 	config = test;
