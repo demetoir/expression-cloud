@@ -16,6 +16,4 @@ export function loadDotEnv({ devPath, prodPath }): void {
 
 	path = resolve(path);
 	require('dotenv').config({ path });
-
-	console.log(process.env.MYSQL_PORT);
 }
