@@ -9,7 +9,19 @@ import * as expectCt from 'expect-ct';
 import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
+import { loadDotEnv } from './common/libs/dotenvLoader';
+
+const DEFAULT_DEV_DOT_ENV_PATH = __dirname + '/../../.env/api-server.dev.env';
+const DEFAULT_PROD_DOT_ENV_PATH = __dirname + '/../../.env/api-server.env';
+
 async function bootstrap() {
+	loadDotEnv({
+		devPath: DEFAULT_DEV_DOT_ENV_PATH,
+		prodPath: DEFAULT_PROD_DOT_ENV_PATH,
+	});
+
+	const port = process.env.NODE_PORT || 3000;
+
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	app.use(CustomMorgan());
@@ -18,15 +30,19 @@ async function bootstrap() {
 
 	initSwagger(app);
 
-	await app.listen(3000);
+	await app.listen(port);
+
+	console.log(`app listen port ${port}`);
 }
 
-bootstrap().then(() => {
-	console.log('complete bootstrapping app');
-}).catch((e)=>{
-	console.error('fail to bootstrap app')
-	console.error(e)
-});
+bootstrap()
+	.then(() => {
+		console.log('complete bootstrapping app');
+	})
+	.catch((e) => {
+		console.error('fail to bootstrap app');
+		console.error(e);
+	});
 
 function initSecurity(app) {
 	//cors
