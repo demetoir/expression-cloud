@@ -1,26 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
+import { LocalAuthModule } from './localAuth/localAuth.module';
+import { JWTAuthModule } from './JWTAuth/JWTAuth.module';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './local/local.strategy';
-import { JwtStrategy } from './jwt/jwt.strategy';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './jwt/jwtEnv';
 
 describe('Auth Controller', () => {
 	let controller: AuthController;
+	const secret = 'secret';
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
+			imports: [LocalAuthModule, JWTAuthModule],
+			providers: [AuthService],
 			controllers: [AuthController],
-			providers: [AuthService, LocalStrategy, JwtStrategy],
-			imports: [
-				PassportModule,
-				JwtModule.register({
-					secret: jwtConstants.secret,
-					signOptions: { expiresIn: '60h' },
-				}),
-			],
 		}).compile();
 
 		controller = module.get<AuthController>(AuthController);

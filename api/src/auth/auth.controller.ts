@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { logger } from '../common/libs/winstonToolkit';
-import { LocalAuthGuard } from './local/local-auth.guard';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt/jwt-auth.guard';
+import { LocalAuthGuard } from './localAuth/guard/localAuth.guard';
+import { JWTGuard } from './JWTAuth/guard/JWT.guard';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -22,7 +22,7 @@ export class AuthController {
 		return 'sign-in';
 	}
 
-	@UseGuards(JwtAuthGuard)
+	@UseGuards(JWTGuard)
 	@Get('/who-am-i')
 	async whoAmI(@Request() req) {
 		return req.user;
