@@ -17,6 +17,15 @@ import { UserReplaceDto } from './dto/userReplace.dto';
 import { UserUpdateDto } from './dto/userUpdate.dto';
 import { BulkDtoTransformPipe } from '../../common/pipe/bulkDtoTransform.pipe';
 import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
+import {
+	ApiCreateManyResponse,
+	ApiCreateOneResponse,
+	ApiDeleteOneResponse,
+	ApiReadManyResponse,
+	ApiReadOneResponse,
+	ApiReplaceOneResponse,
+	ApiUpdateOneResponse,
+} from '../../common/libs/nestjsCRUDswaggerToolkit';
 
 // TODO implement and test user controller
 
@@ -50,6 +59,7 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		return this;
 	}
 
+	@ApiReadManyResponse({ type: UserEntity })
 	@Override('getManyBase')
 	async getMany(
 		@ParsedRequest() req: CrudRequest,
@@ -57,11 +67,13 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		return this.base.getManyBase(req);
 	}
 
+	@ApiReadOneResponse({ type: UserEntity })
 	@Override('getOneBase')
 	async getOne(@ParsedRequest() req: CrudRequest): Promise<UserEntity> {
 		return this.base.getOneBase(req);
 	}
 
+	@ApiCreateOneResponse({ type: UserEntity })
 	@Override('createOneBase')
 	async createOne(
 		@ParsedRequest() req: CrudRequest,
@@ -71,6 +83,7 @@ export class UserCRUDController implements CrudController<UserEntity> {
 	}
 
 	// @Override 데코에서 이름 지정하고 메소드명을 같이하면 오버라이딩이 되지않는다...  shit
+	@ApiUpdateOneResponse({ type: UserEntity })
 	@Override('updateOneBase')
 	updateOne(
 		@ParsedRequest() req: CrudRequest,
@@ -79,6 +92,7 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		return this.base.updateOneBase(req, dto.toEntity());
 	}
 
+	@ApiReplaceOneResponse({ type: UserEntity })
 	@Override('replaceOneBase')
 	replaceOne(
 		@ParsedRequest() req: CrudRequest,
@@ -89,6 +103,7 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		return this.base.replaceOneBase(req, entity);
 	}
 
+	@ApiDeleteOneResponse()
 	@Override('deleteOneBase')
 	async deleteOne(
 		@ParsedRequest() req: CrudRequest,
@@ -96,6 +111,7 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		return this.base.deleteOneBase(req);
 	}
 
+	@ApiCreateManyResponse({ type: UserEntity })
 	@Override('createManyBase')
 	async createMany(
 		@ParsedRequest() req: CrudRequest,

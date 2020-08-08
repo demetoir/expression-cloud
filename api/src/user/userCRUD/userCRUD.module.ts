@@ -4,9 +4,7 @@ import { UserCRUDService } from './userCRUD.service';
 import { UserRepositoryModule } from '../userRepository/userRepository.module';
 
 @Module({
-	imports: [
-		UserRepositoryModule,
-	],
+	imports: [UserRepositoryModule],
 	controllers: [UserCRUDController],
 	providers: [UserCRUDService],
 })
