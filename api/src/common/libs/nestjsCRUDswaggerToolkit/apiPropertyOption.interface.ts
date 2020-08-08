@@ -9,4 +9,5 @@ export interface ApiCRUDOption extends Omit<ResponseObject, 'description'> {
 	isArray?: boolean;
 	description?: string;
 }
+
 export declare type ApiCRUDDecorator = MethodDecorator & ClassDecorator;
