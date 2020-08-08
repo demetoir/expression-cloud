@@ -17,4 +17,10 @@ function morganToolkit(format: any, option: any): any {
 	return morgan(format, option);
 }
 
-export { morganToolkit, TokenParser, TokenPainter, FormatBuilder, createRotateLogStream };
+export {
+	morganToolkit,
+	TokenParser,
+	TokenPainter,
+	FormatBuilder,
+	createRotateLogStream,
+};

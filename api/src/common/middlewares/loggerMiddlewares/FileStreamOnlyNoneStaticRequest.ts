@@ -1,4 +1,9 @@
-import { createRotateLogStream, FormatBuilder, morganToolkit, TokenParser } from '../../libs/morganToolkit';
+import {
+	createRotateLogStream,
+	FormatBuilder,
+	morganToolkit,
+	TokenParser,
+} from '../../libs/morganToolkit';
 
 /**
  *
@@ -17,7 +22,14 @@ const FileStreamOnlyNoneStaticRequest = morganToolkit(
 		skip: function (req, res) {
 			const { url } = req;
 			// ignore static route request
-			const skipFilter = [/\/font/, /\/image/, /\/js/, /\/scss/, /\/thridParty/, /\/ELB-HealthChecker/];
+			const skipFilter = [
+				/\/font/,
+				/\/image/,
+				/\/js/,
+				/\/scss/,
+				/\/thridParty/,
+				/\/ELB-HealthChecker/,
+			];
 
 			return skipFilter.some((reg) => reg.test(url));
 		},

@@ -1,4 +1,9 @@
-import { FormatBuilder, morganToolkit, TokenPainter, TokenParser } from '../../libs/morganToolkit';
+import {
+	FormatBuilder,
+	morganToolkit,
+	TokenPainter,
+	TokenParser,
+} from '../../libs/morganToolkit';
 
 /**
  *
@@ -16,7 +21,14 @@ const StdOut = morganToolkit(
 		skip: function (req) {
 			const { url } = req;
 			// ignore static route request
-			const skipFilter = [/\/font/, /\/image/, /\/js/, /\/scss/, /\/thridParty/, /\/ELB-HealthChecker/];
+			const skipFilter = [
+				/\/font/,
+				/\/image/,
+				/\/js/,
+				/\/scss/,
+				/\/thridParty/,
+				/\/ELB-HealthChecker/,
+			];
 
 			return skipFilter.some((reg) => reg.test(url));
 		},

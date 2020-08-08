@@ -9,7 +9,12 @@ import { StdOut } from './StdOut';
  * @constructor
  */
 const CustomMorgan = function () {
-	return [StdOut, FileStreamOnlyError, FileStreamOnlyNoneStaticRequest, FileStreamAll];
+	return [
+		StdOut,
+		FileStreamOnlyError,
+		FileStreamOnlyNoneStaticRequest,
+		FileStreamAll,
+	];
 };
 
 export { CustomMorgan };

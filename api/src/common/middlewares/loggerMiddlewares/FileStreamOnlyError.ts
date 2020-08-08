@@ -1,4 +1,9 @@
-import { createRotateLogStream, FormatBuilder, morganToolkit, TokenParser } from '../../libs/morganToolkit';
+import {
+	createRotateLogStream,
+	FormatBuilder,
+	morganToolkit,
+	TokenParser,
+} from '../../libs/morganToolkit';
 
 /**
  *
