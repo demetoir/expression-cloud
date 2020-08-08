@@ -8,6 +8,7 @@ import { ApiForbiddenResponse } from '../responseDecorator/apiForbiddenReponse.d
 import { ApiNotFoundResponse } from '../responseDecorator/apiNotFoundResponse.decorator';
 import { ApiOkResponse } from '../responseDecorator/apiOkReponse.decorator';
 import { ApiBadRequestResponse } from '../responseDecorator/apiBadRequestResoponse.decorator';
+import { ApiNotModifiedResponse } from '../responseDecorator/apiNotModifiedResponse.decorator';
 
 export function ApiReadOneResponse(option: ApiCRUDOption): ApiCRUDDecorator {
 	return applyDecorators(
@@ -16,8 +17,8 @@ export function ApiReadOneResponse(option: ApiCRUDOption): ApiCRUDDecorator {
 			isArray: false,
 			description: 'get one resource',
 		}),
+		ApiNotModifiedResponse(),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 		ApiNotFoundResponse(),

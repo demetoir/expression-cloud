@@ -15,7 +15,6 @@ export function ApiCreateOneResponse(
 			description: 'success create',
 		}),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 	);

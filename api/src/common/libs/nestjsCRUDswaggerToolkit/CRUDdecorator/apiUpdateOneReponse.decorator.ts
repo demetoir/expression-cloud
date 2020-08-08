@@ -15,7 +15,6 @@ export function ApiUpdateOneResponse(
 			description: 'success update resource',
 		}),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 		ApiNotFoundResponse(),

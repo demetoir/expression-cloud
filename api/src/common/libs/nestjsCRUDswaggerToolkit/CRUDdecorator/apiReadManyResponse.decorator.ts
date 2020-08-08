@@ -4,6 +4,7 @@ import { ApiOkResponse } from '../responseDecorator/apiOkReponse.decorator';
 import { ApiUnauthorizedResponse } from '../responseDecorator/apiUnauthorizedResponse.decorator';
 import { ApiForbiddenResponse } from '../responseDecorator/apiForbiddenReponse.decorator';
 import { ApiBadRequestResponse } from '../responseDecorator/apiBadRequestResoponse.decorator';
+import { ApiNotModifiedResponse } from '../responseDecorator/apiNotModifiedResponse.decorator';
 
 export function ApiReadManyResponse(
 	option: ApiCRUDOption,
@@ -14,8 +15,8 @@ export function ApiReadManyResponse(
 			isArray: true,
 			description: 'get many resource',
 		}),
+		ApiNotModifiedResponse(),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 	);

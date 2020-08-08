@@ -15,7 +15,6 @@ export function ApiCreateManyResponse(
 			description: 'success create bulk resource',
 		}),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 	);

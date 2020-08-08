@@ -16,7 +16,6 @@ export function ApiReplaceOneResponse(
 			description: 'success replace resource',
 		}),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 		ApiNotFoundResponse(),

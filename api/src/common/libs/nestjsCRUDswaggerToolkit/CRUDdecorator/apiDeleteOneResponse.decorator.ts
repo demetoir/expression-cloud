@@ -12,7 +12,6 @@ export function ApiDeleteOneResponse(): MethodDecorator & ClassDecorator {
 			description: 'success delete resource',
 		}),
 		ApiBadRequestResponse(),
-
 		ApiUnauthorizedResponse(),
 		ApiForbiddenResponse(),
 		ApiNotFoundResponse(),
