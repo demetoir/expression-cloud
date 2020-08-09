@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 
-export function loadDotEnv({ devPath, prodPath }): void {
+export function loadDotEnv({ devPath, prodPath }): any {
 	const NODE_ENV = process.env.NODE_ENV || 'development';
 
 	console.log(`load dot env as ${NODE_ENV} mode`);
@@ -15,5 +15,5 @@ export function loadDotEnv({ devPath, prodPath }): void {
 	}
 
 	path = resolve(path);
-	require('dotenv').config({ path });
+	return require('dotenv').config({ path }).parsed;
 }
