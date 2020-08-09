@@ -17,4 +17,8 @@ export class NodeConfigService {
 	get nodeEnv(): string {
 		return this.configService.get<string>('NODE_ENV');
 	}
+
+	public isDevMode(): boolean {
+		return this.nodeEnv === 'development';
+	}
 }
