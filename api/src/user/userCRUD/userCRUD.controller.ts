@@ -4,25 +4,24 @@ import {
 	Crud,
 	CrudController,
 	CrudRequest,
+	GetManyDefaultResponse,
 	Override,
 	ParsedRequest,
 } from '@nestjsx/crud';
 import { UserEntity } from '../../common/model/entity/user.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { logger } from '../../common/libs/winstonToolkit';
 import { UserCreateDto } from './dto/userCreate.dto';
-import { GetManyDefaultResponse } from '@nestjsx/crud/lib/interfaces';
 import { DTOTransformPipe } from '../../common/pipe/dtoTransform.pipe';
 import { UserReplaceDto } from './dto/userReplace.dto';
 import { UserUpdateDto } from './dto/userUpdate.dto';
 import { BulkDtoTransformPipe } from '../../common/pipe/bulkDtoTransform.pipe';
 import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
+import { ApiGetManyResponse } from '../../common/libs/nestjsCRUDswaggerToolkit/CRUDdecorator/apiGetManyResponse.decorator';
 import {
 	ApiCreateManyResponse,
 	ApiCreateOneResponse,
 	ApiDeleteOneResponse,
-	ApiReadManyResponse,
-	ApiReadOneResponse,
+	ApiGetOneResponse,
 	ApiReplaceOneResponse,
 	ApiUpdateOneResponse,
 } from '../../common/libs/nestjsCRUDswaggerToolkit';
@@ -33,6 +32,13 @@ import {
 // 	name: 'X-MyHeader',
 // 	description: 'Custom header',
 // })
+const dtoTransformPipe = new DTOTransformPipe(UserUpdateDto);
+const bulkDtoTransformPipe = new BulkDtoTransformPipe(UserCreateBulkDto);
+
+declare type GetManyResponse<T> =
+	| GetManyDefaultResponse<UserEntity>
+	| UserEntity[];
+
 @ApiTags('User')
 // nest.js/crud 상에서 dto를 안사용하면 자동으로 entity를 request body 그대로 사용하니
 // create, update, replace(partial_update)dto 를 따로 주입해야한다기
@@ -46,78 +52,91 @@ import {
 		replace: UserReplaceDto,
 		update: UserUpdateDto,
 	},
+
+	routes: {
+		// getOneBase: {
+		// 	decorators: [ApiGetOneResponse()],
+		// },
+		// // getManyBase: {
+		// // 	decorators: [ApiGetManyResponse({ type: UserEntity })],
+		// // },
+		// createOneBase: {
+		// 	decorators: [ApiCreateOneResponse()],
+		// },
+		// createManyBase: {
+		// 	decorators: [ApiCreateManyResponse()],
+		// },
+		// replaceOneBase: {
+		// 	decorators: [ApiReplaceOneResponse()],
+		// },
+		// updateOneBase: {
+		// 	decorators: [ApiUpdateOneResponse()],
+		// },
+		// deleteOneBase: {
+		// 	decorators: [ApiDeleteOneResponse()],
+		// },
+	},
 })
 @Controller('/v1/users')
 export class UserCRUDController implements CrudController<UserEntity> {
-	private logger: any;
+	constructor(public readonly service: UserCRUDService) {}
 
-	constructor(public service: UserCRUDService) {
-		this.logger = logger;
-	}
-
-	get base(): CrudController<UserEntity> {
+	protected get base(): CrudController<UserEntity> {
 		return this;
 	}
 
-	@ApiReadManyResponse({ type: UserEntity })
+	@ApiGetManyResponse({ type: UserEntity })
 	@Override('getManyBase')
 	async getMany(
 		@ParsedRequest() req: CrudRequest,
-	): Promise<GetManyDefaultResponse<UserEntity> | UserEntity[]> {
+	): Promise<GetManyResponse<UserEntity>> {
 		return this.base.getManyBase(req);
 	}
 
-	@ApiReadOneResponse({ type: UserEntity })
-	@Override('getOneBase')
-	async getOne(@ParsedRequest() req: CrudRequest): Promise<UserEntity> {
+	@Override()
+	public async getOne(
+		@ParsedRequest() req: CrudRequest,
+	): Promise<UserEntity> {
 		return this.base.getOneBase(req);
 	}
 
-	@ApiCreateOneResponse({ type: UserEntity })
-	@Override('createOneBase')
-	async createOne(
+	@Override()
+	public async createOne(
 		@ParsedRequest() req: CrudRequest,
-		@Body(new DTOTransformPipe(UserCreateDto)) dto: UserCreateDto,
+		@Body(dtoTransformPipe) dto: UserCreateDto,
 	): Promise<UserEntity> {
 		return this.base.createOneBase(req, dto.toEntity());
 	}
 
-	// @Override 데코에서 이름 지정하고 메소드명을 같이하면 오버라이딩이 되지않는다...  shit
-	@ApiUpdateOneResponse({ type: UserEntity })
-	@Override('updateOneBase')
-	updateOne(
+	@Override()
+	public async createMany(
 		@ParsedRequest() req: CrudRequest,
-		@Body(new DTOTransformPipe(UserUpdateDto)) dto: UserUpdateDto,
+		@Body(bulkDtoTransformPipe)
+		dto: UserCreateBulkDto,
+	): Promise<UserEntity[]> {
+		return this.base.createManyBase(req, dto.toEntity());
+	}
+
+	@Override()
+	public async updateOne(
+		@ParsedRequest() req: CrudRequest,
+		@Body(dtoTransformPipe) dto: UserUpdateDto,
 	): Promise<UserEntity> {
 		return this.base.updateOneBase(req, dto.toEntity());
 	}
 
-	@ApiReplaceOneResponse({ type: UserEntity })
-	@Override('replaceOneBase')
-	replaceOne(
+	@Override()
+	public async replaceOne(
 		@ParsedRequest() req: CrudRequest,
-		@Body(new DTOTransformPipe(UserReplaceDto)) dto: UserReplaceDto,
+		@Body(dtoTransformPipe) dto: UserReplaceDto,
 	): Promise<UserEntity> {
-		const entity: UserEntity = dto.toEntity();
-
-		return this.base.replaceOneBase(req, entity);
+		return this.base.replaceOneBase(req, dto.toEntity());
 	}
 
-	@ApiDeleteOneResponse()
-	@Override('deleteOneBase')
-	async deleteOne(
+	@Override()
+	public async deleteOne(
 		@ParsedRequest() req: CrudRequest,
 	): Promise<UserEntity | void> {
 		return this.base.deleteOneBase(req);
-	}
-
-	@ApiCreateManyResponse({ type: UserEntity })
-	@Override('createManyBase')
-	async createMany(
-		@ParsedRequest() req: CrudRequest,
-		@Body(new BulkDtoTransformPipe(UserCreateBulkDto))
-		dto: UserCreateBulkDto,
-	): Promise<UserEntity[]> {
-		return this.base.createManyBase(req, dto.toEntity());
 	}
 }
