@@ -81,7 +81,7 @@ function initSecurity(app) {
 	// TODO: add sql injection protector
 }
 
-function initSwagger(app, path = 'docs') {
+function initSwagger(app, path = '/docs') {
 	const options = new DocumentBuilder()
 		.setTitle('Expression Cloud')
 		.setDescription('Expression Cloud')
