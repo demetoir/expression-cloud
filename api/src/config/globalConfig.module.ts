@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import configuration from './configuration';
+import { configurationLoader } from './configurationLoader';
+import { NodeConfigService } from './NodeConfig.service';
+import { SwaggerUIConfigService } from './swaggerUIConfig.service';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			load: [configuration],
+			load: [configurationLoader],
 			isGlobal: true,
 		}),
 	],
+	providers: [NodeConfigService, SwaggerUIConfigService],
 })
 export class GlobalConfigModule {}
