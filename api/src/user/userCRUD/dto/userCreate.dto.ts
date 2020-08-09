@@ -1,11 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../../common/model/entity/user.entity';
 import { AbstractBaseDto } from '../../../common/abstractBaseDto';
-import { IsBoolean, IsString, MaxLength } from 'class-validator';
 
 export class UserCreateDto extends AbstractBaseDto {
-	@IsString({ always: true })
-	@MaxLength(100, { always: true })
 	@ApiProperty({
 		required: true,
 		default: 'name',
@@ -13,17 +10,12 @@ export class UserCreateDto extends AbstractBaseDto {
 	})
 	name: string;
 
-	@IsString({ always: true })
-	@MaxLength(100, { always: true })
 	@ApiProperty()
 	email: string;
 
-	@IsString({ always: true })
-	@MaxLength(100, { always: true })
 	@ApiProperty()
 	description: string;
 
-	@IsBoolean({ always: true })
 	@ApiProperty()
 	isAnonymous: boolean;
 
