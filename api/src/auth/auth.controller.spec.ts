@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { LocalAuthModule } from './localAuth/localAuth.module';
-import { JWTAuthModule } from './JWTAuth/JWTAuth.module';
 import { AuthService } from './auth.service';
+import { JWTAuthModule } from './JWTAuth/JWTAuth.module';
 
 describe('Auth Controller', () => {
 	let controller: AuthController;

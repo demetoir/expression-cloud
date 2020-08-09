@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
 import { LocalAuthModule } from './localAuth/localAuth.module';
+import { AuthService } from './auth.service';
 import { JWTAuthModule } from './JWTAuth/JWTAuth.module';
 
 describe('AuthService', () => {
