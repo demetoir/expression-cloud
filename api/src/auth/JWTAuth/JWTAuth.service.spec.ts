@@ -4,7 +4,7 @@ import { JWTAuthService } from './JWTAuth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JWTOptionService } from './config/JWTOption.service';
 import { JWTStrategy } from './strategy/JWT.strategy';
-import { TokenService } from './token/Token.service';
+import { TokenService } from './token/token.service';
 
 describe('JWTAuthService', () => {
 	let service: JWTAuthService;
