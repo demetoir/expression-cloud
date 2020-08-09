@@ -8,31 +8,25 @@ import * as helmet from 'helmet';
 import * as expectCt from 'expect-ct';
 import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
-
-import { loadDotEnv } from './common/libs/dotenvLoader';
-
-const DEFAULT_DEV_DOT_ENV_PATH = __dirname + '/../../.env/api-server.dev.env';
-const DEFAULT_PROD_DOT_ENV_PATH = __dirname + '/../../.env/api-server.env';
+import { NodeConfigService } from './config/NodeConfig.service';
+import { SwaggerUIConfigService } from './config/swaggerUIConfig.service';
 
 async function bootstrap() {
-	loadDotEnv({
-		devPath: DEFAULT_DEV_DOT_ENV_PATH,
-		prodPath: DEFAULT_PROD_DOT_ENV_PATH,
-	});
-
-	const port = process.env.NODE_PORT || 3000;
-
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
+	const nodeConfigService = app.get(NodeConfigService);
 
-	app.use(CustomMorgan());
+	if (nodeConfigService.isDevMode()) {
+		app.use(CustomMorgan());
+	}
 
 	initSecurity(app);
 
-	initSwagger(app);
+	const swaggerUIConfigService = app.get(SwaggerUIConfigService);
+	await initSwagger(app, swaggerUIConfigService.path);
 
-	await app.listen(port);
+	await app.listen(nodeConfigService.port);
 
-	console.log(`app listen port ${port}`);
+	console.log(`app listen port ${nodeConfigService.port}`);
 }
 
 bootstrap()
@@ -87,7 +81,7 @@ function initSecurity(app) {
 	// TODO: add sql injection protector
 }
 
-function initSwagger(app) {
+function initSwagger(app, path = 'docs') {
 	const options = new DocumentBuilder()
 		.setTitle('Expression Cloud')
 		.setDescription('Expression Cloud')
@@ -96,5 +90,5 @@ function initSwagger(app) {
 
 	const document = SwaggerModule.createDocument(app, options);
 
-	SwaggerModule.setup('/api/v1', app, document);
+	SwaggerModule.setup(path, app, document);
 }
