@@ -14,6 +14,7 @@ export function ApiReadManyResponse(
 			type: option.type,
 			isArray: true,
 			description: 'get many resource',
+			name: 'name',
 		}),
 		ApiNotModifiedResponse(),
 		ApiBadRequestResponse(),

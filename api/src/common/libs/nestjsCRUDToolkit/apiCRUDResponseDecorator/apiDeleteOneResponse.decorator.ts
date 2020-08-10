@@ -1,5 +1,4 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiCRUDOption } from '../apiPropertyOption.interface';
 import { ApiOkResponse } from '../responseDecorator/apiOkReponse.decorator';
 import { ApiForbiddenResponse } from '../responseDecorator/apiForbiddenReponse.decorator';
 import { ApiUnauthorizedResponse } from '../responseDecorator/apiUnauthorizedResponse.decorator';

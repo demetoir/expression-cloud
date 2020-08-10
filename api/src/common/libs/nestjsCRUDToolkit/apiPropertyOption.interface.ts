@@ -1,5 +1,6 @@
 import { ResponseObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { Type } from '@nestjs/common';
+import { GetManyDefaultResponse } from '@nestjsx/crud/lib/interfaces';
 
 export interface ApiCRUDOption extends Omit<ResponseObject, 'description'> {
 	// status?: number | 'default';
@@ -11,3 +12,5 @@ export interface ApiCRUDOption extends Omit<ResponseObject, 'description'> {
 }
 
 export declare type ApiCRUDDecorator = MethodDecorator & ClassDecorator;
+
+export declare type getManyResponse<T> = GetManyDefaultResponse<T> | T[];
