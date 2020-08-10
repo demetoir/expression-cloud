@@ -1,6 +1,7 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { INestApplication } from '@nestjs/common';
 
-export class SwaggerHelper {
+export class SwaggerUIHelper {
 	public readonly swaggerDocumentBuilder: DocumentBuilder;
 
 	constructor() {
@@ -11,7 +12,7 @@ export class SwaggerHelper {
 		return this.swaggerDocumentBuilder;
 	}
 
-	setup(app, path = '/docs') {
+	setup(app: INestApplication, path = '/docs'): void {
 		const options = this.swaggerDocumentBuilder.build();
 		const document = SwaggerModule.createDocument(app, options);
 
@@ -19,4 +20,4 @@ export class SwaggerHelper {
 	}
 }
 
-export const swaggerHelperSingleton: SwaggerHelper = new SwaggerHelper();
+export const swaggerHelperSingleton: SwaggerUIHelper = new SwaggerUIHelper();

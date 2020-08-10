@@ -15,3 +15,5 @@ export {
 } from './apiPropertyOption.interface';
 
 export { CrudPlus } from './crudPlus.decorator';
+
+export { swaggerHelperSingleton, SwaggerUIHelper } from './openApiHelper';

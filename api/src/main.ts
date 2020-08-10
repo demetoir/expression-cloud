@@ -9,7 +9,7 @@ import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NodeConfigService } from './config/NodeConfig.service';
 import { SwaggerUIConfigService } from './config/swaggerUIConfig.service';
-import { swaggerHelperSingleton } from './openApiHelper';
+import { swaggerHelperSingleton } from './common/libs/nestjsCRUDToolkit';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
