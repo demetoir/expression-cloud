@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { CustomMorgan } from './common/middlewares/loggerMiddlewares';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as helmet from 'helmet';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -10,6 +9,7 @@ import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NodeConfigService } from './config/NodeConfig.service';
 import { SwaggerUIConfigService } from './config/swaggerUIConfig.service';
+import { swaggerHelperSingleton } from './openApiHelper';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -21,8 +21,14 @@ async function bootstrap() {
 
 	initSecurity(app);
 
+	swaggerHelperSingleton.documentBuilder
+		.setTitle('Expression Cloud')
+		.setDescription('Expression Cloud')
+		.setVersion('1.0')
+		.addTag('User', 'description');
+
 	const swaggerUIConfigService = app.get(SwaggerUIConfigService);
-	await initSwagger(app, swaggerUIConfigService.path);
+	await swaggerHelperSingleton.setup(app, swaggerUIConfigService.path);
 
 	await app.listen(nodeConfigService.port);
 
@@ -79,16 +85,4 @@ function initSecurity(app) {
 	// TODO: add xss protector
 
 	// TODO: add sql injection protector
-}
-
-function initSwagger(app, path = '/docs') {
-	const options = new DocumentBuilder()
-		.setTitle('Expression Cloud')
-		.setDescription('Expression Cloud')
-		.setVersion('1.0')
-		.build();
-
-	const document = SwaggerModule.createDocument(app, options);
-
-	SwaggerModule.setup(path, app, document);
 }
