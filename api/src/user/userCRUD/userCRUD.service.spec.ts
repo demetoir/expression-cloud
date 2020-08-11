@@ -3,7 +3,7 @@ import { UserCRUDService } from './userCRUD.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../../common/model/entity/user.entity';
-import { MockRepository } from '../../../test/lib/MockRepository';
+import { MockRepository } from '../../../test/lib/mock/MockRepository';
 
 describe('UserService', () => {
 	let service: UserCRUDService;

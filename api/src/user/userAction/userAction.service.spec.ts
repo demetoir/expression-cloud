@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserRepository } from '../userRepository/user.repository';
 import { UserActionService } from './userAction.service';
-import { MockRepository } from '../../../test/lib/MockRepository';
+import { MockRepository } from '../../../test/lib/mock/MockRepository';
 
 describe('UserActionService', () => {
 	let service: UserActionService;

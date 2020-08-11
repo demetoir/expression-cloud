@@ -55,6 +55,7 @@ export const configurationLoader = (): any => ({
 	// JWT
 	JWT_SECRET: env.JWT_SECRET,
 
-	//api doc path
+	//api doc end point path
 	SWAGGER_UI_PATH: env.SWAGGER_UI_PATH,
+	REDOC_PATH: env.REDOC_PATH,
 });

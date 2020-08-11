@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserCRUDController } from './userCRUD.controller';
 import { UserCRUDService } from './userCRUD.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { MockRepository } from '../../../test/lib/MockRepository';
+import { MockRepository } from '../../../test/lib/mock/MockRepository';
 import { UserEntity } from '../../common/model/entity/user.entity';
 
 describe('UserCRUD Controller', () => {
