@@ -8,9 +8,10 @@ import * as expectCt from 'expect-ct';
 import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NodeConfigService } from './config/NodeConfig.service';
-import { SwaggerUIConfigService } from './config/swaggerUIConfig.service';
+import { OpenApiDocConfigService } from './config/openApiDocConfig.service';
 import { documentBuilderSingleton } from './common/libs/nestjsCRUDToolkit';
 import { SwaggerModule } from '@nestjs/swagger';
+import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -22,7 +23,7 @@ async function bootstrap() {
 
 	initSecurity(app);
 
-	initSwaggerUI(app);
+	await initOpenApiDoc(app);
 
 	await app.listen(nodeConfigService.port);
 
@@ -81,18 +82,38 @@ function initSecurity(app) {
 	// TODO: add sql injection protector
 }
 
-function initSwaggerUI(app) {
+async function initOpenApiDoc(app) {
 	documentBuilderSingleton
 		.setTitle('Expression Cloud')
 		.setDescription('Expression Cloud')
 		.setVersion('1.0');
 
-	const swaggerUIConfigService = app.get(SwaggerUIConfigService);
+	const openApiDocConfig: OpenApiDocConfigService = app.get(
+		OpenApiDocConfigService,
+	);
 
 	const document = SwaggerModule.createDocument(
 		app,
 		documentBuilderSingleton.build(),
 	);
 
-	SwaggerModule.setup(swaggerUIConfigService.path || '/docs', app, document);
+	SwaggerModule.setup(openApiDocConfig.swaggerUIPath, app, document);
+
+	const redocOptions: RedocOptions = {
+		title: 'Hello Nest',
+		logo: {
+			url: 'https://redocly.github.io/redoc/petstore-logo.png',
+			backgroundColor: '#F0F0F0',
+			altText: 'PetStore logo',
+		},
+		sortPropsAlphabetically: true,
+		hideDownloadButton: false,
+		hideHostname: false,
+	};
+	await RedocModule.setup(
+		openApiDocConfig.redocPath,
+		app,
+		document,
+		redocOptions,
+	);
 }

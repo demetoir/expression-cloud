@@ -7,10 +7,14 @@ import { ConfigService } from '@nestjs/config';
  * @class
  */
 @Injectable()
-export class SwaggerUIConfigService {
+export class OpenApiDocConfigService {
 	constructor(private configService: ConfigService) {}
 
-	get path(): string {
+	get swaggerUIPath(): string {
 		return this.configService.get<string>('SWAGGER_UI_PATH');
+	}
+
+	get redocPath(): string {
+		return this.configService.get<string>('REDOC_PATH');
 	}
 }

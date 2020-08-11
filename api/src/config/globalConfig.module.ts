@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { configurationLoader } from './configurationLoader';
 import { NodeConfigService } from './NodeConfig.service';
-import { SwaggerUIConfigService } from './swaggerUIConfig.service';
+import { OpenApiDocConfigService } from './openApiDocConfig.service';
 
 @Module({
 	imports: [
@@ -11,6 +11,6 @@ import { SwaggerUIConfigService } from './swaggerUIConfig.service';
 			isGlobal: true,
 		}),
 	],
-	providers: [NodeConfigService, SwaggerUIConfigService],
+	providers: [NodeConfigService, OpenApiDocConfigService],
 })
 export class GlobalConfigModule {}
