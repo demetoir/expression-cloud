@@ -9,7 +9,8 @@ import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NodeConfigService } from './config/NodeConfig.service';
 import { SwaggerUIConfigService } from './config/swaggerUIConfig.service';
-import { swaggerHelperSingleton } from './common/libs/nestjsCRUDToolkit';
+import { documentBuilderSingleton } from './common/libs/nestjsCRUDToolkit';
+import { SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -21,14 +22,7 @@ async function bootstrap() {
 
 	initSecurity(app);
 
-	swaggerHelperSingleton.documentBuilder
-		.setTitle('Expression Cloud')
-		.setDescription('Expression Cloud')
-		.setVersion('1.0')
-		.addTag('User', 'description');
-
-	const swaggerUIConfigService = app.get(SwaggerUIConfigService);
-	await swaggerHelperSingleton.setup(app, swaggerUIConfigService.path);
+	initSwaggerUI(app);
 
 	await app.listen(nodeConfigService.port);
 
@@ -85,4 +79,20 @@ function initSecurity(app) {
 	// TODO: add xss protector
 
 	// TODO: add sql injection protector
+}
+
+function initSwaggerUI(app) {
+	documentBuilderSingleton
+		.setTitle('Expression Cloud')
+		.setDescription('Expression Cloud')
+		.setVersion('1.0');
+
+	const swaggerUIConfigService = app.get(SwaggerUIConfigService);
+
+	const document = SwaggerModule.createDocument(
+		app,
+		documentBuilderSingleton.build(),
+	);
+
+	SwaggerModule.setup(swaggerUIConfigService.path || '/docs', app, document);
 }

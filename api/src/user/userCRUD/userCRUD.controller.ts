@@ -7,7 +7,7 @@ import {
 	ParsedRequest,
 } from '@nestjsx/crud';
 import { UserEntity } from '../../common/model/entity/user.entity';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation } from '@nestjs/swagger';
 import { logger } from '../../common/libs/winstonToolkit';
 import { UserCreateDto } from './dto/userCreate.dto';
 import { UserReplaceDto } from './dto/userReplace.dto';
@@ -16,10 +16,11 @@ import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
 import { CrudPlus, getManyResponse } from '../../common/libs/nestjsCRUDToolkit';
 import { dtoTransformPipe } from './pipe/userDtoTransfrom.pipe';
 import { userBulkDtoTransformPipe } from './pipe/userBulkDtoTransform.pipe';
+import { ApiAddTag } from '../../common/libs/nestjsCRUDToolkit';
 
 // TODO implement and test user controller
 
-@ApiTags('User')
+@ApiAddTag({ name: 'User', description: 'this is shit' })
 @CrudPlus({
 	model: {
 		type: UserEntity,
@@ -43,11 +44,8 @@ export class UserCRUDController implements CrudController<UserEntity> {
 	}
 
 	@ApiOperation({
-		description: 'shit',
-		summary: 'test',
-		tags: ['tag1', 'tag2'],
-		deprecated: true,
-		operationId: 'operation id',
+		description: 'description',
+		summary: 'summary',
 	})
 	@Override('getManyBase')
 	public async getMany(

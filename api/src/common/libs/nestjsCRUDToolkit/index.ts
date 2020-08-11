@@ -16,4 +16,6 @@ export {
 
 export { CrudPlus } from './crudPlus.decorator';
 
-export { swaggerHelperSingleton, SwaggerUIHelper } from './openApiHelper';
+export { ApiAddTag } from './openApi/ApiAddTag';
+
+export { documentBuilderSingleton } from './openApi/documentBuilder.singleton';
