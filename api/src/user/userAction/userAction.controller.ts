@@ -1,9 +1,14 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { logger } from '../../common/libs/winstonToolkit';
 import { UserActionService } from './userAction.service';
+import { UndoLikeActionDto } from './dto/undoLikeAction.dto';
+import { LikeActionDto } from './dto/likeAction.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 // TODO implement and test user controller
-@Controller('/:id/actions')
+
+@ApiTags('User')
+@Controller('v1/users/:id/actions')
 export class UserActionController {
 	private logger: any;
 
@@ -12,12 +17,18 @@ export class UserActionController {
 	}
 
 	@Post('/like')
-	async like(): Promise<string> {
-		return this.userActionService.like();
+	async like(
+		@Param('id') toUserId: number,
+		@Body() dto: LikeActionDto,
+	): Promise<string> {
+		return this.userActionService.like(toUserId, dto);
 	}
 
 	@Post('/undo-like')
-	async undoLike(): Promise<string> {
-		return this.userActionService.undoLike();
+	async undoLike(
+		@Param('id') toUserId: number,
+		@Body() dto: UndoLikeActionDto,
+	): Promise<string> {
+		return this.userActionService.undoLike(toUserId, dto);
 	}
 }

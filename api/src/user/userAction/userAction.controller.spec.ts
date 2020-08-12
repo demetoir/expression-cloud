@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserActionController } from './userAction.controller';
 import { UserActionService } from './userAction.service';
+import { LikeActionDto } from './dto/likeAction.dto';
 
 class MockService {
 	public async like(): Promise<string> {
@@ -37,13 +38,22 @@ describe('UserCRUD Controller', () => {
 	});
 
 	it('should run method like', async () => {
-		const response = await controller.like();
+		const toUserId = 2;
+		const dto: LikeActionDto = {
+			fromUserId: 4,
+		};
+		const response = await controller.like(toUserId, dto);
 
 		expect(response).toEqual('like user');
 	});
 
 	it('should run method undoLike', async () => {
-		const response = await controller.undoLike();
+		const toUserId = 2;
+		const dto: LikeActionDto = {
+			fromUserId: 4,
+		};
+
+		const response = await controller.undoLike(toUserId, dto);
 
 		expect(response).toEqual('undo like user');
 	});
