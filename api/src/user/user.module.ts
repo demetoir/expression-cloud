@@ -6,8 +6,8 @@ import { UserRepositoryModule } from './userRepository/userRepository.module';
 
 @Module({
 	imports: [
-		UserActionModule,
 		UserCRUDModule,
+		UserActionModule,
 		UserSettingModule,
 		UserRepositoryModule,
 	],
