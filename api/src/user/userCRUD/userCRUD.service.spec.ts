@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../../common/model/entity/user.entity';
 import { MockRepository } from '../../../test/lib/mock/MockRepository';
 
-describe('UserService', () => {
+describe('UserCRUDService', () => {
 	let service: UserCRUDService;
 	let repository: Repository<UserEntity>;
 
@@ -25,7 +25,7 @@ describe('UserService', () => {
 		repository = module.get(getRepositoryToken(UserEntity));
 	});
 
-	it('should be defined method', () => {
+	it('should be DI for init', () => {
 		expect(service).toBeDefined();
 		expect(repository).toBeDefined();
 	});
