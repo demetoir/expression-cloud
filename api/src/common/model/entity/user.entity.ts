@@ -123,7 +123,7 @@ export class UserEntity extends AbstractBaseEntity {
 
 	@ApiProperty()
 	@ManyToMany(() => RoleEntity, {
-		eager: true,
+		eager: false,
 		cascade: true,
 	})
 	@JoinTable({
