@@ -85,7 +85,7 @@ describe('UserModule (e2e)', () => {
 				.expect(expectedBody);
 		});
 
-		it('return 404 on not exist resource', async function () {
+		it('404 on not exist resource', async function () {
 			const id = 4321;
 			const shouldNotExist = await userRepository.findOne({ id: id });
 
@@ -98,34 +98,81 @@ describe('UserModule (e2e)', () => {
 	});
 
 	// describe('/v1/users/{id} (PUT)', () => {
-	//     it('should return empty', async function () {
-	//         const emptyBody = {}
-	//         let id = 2;
-	//         return request(app.getHttpServer())
-	//             .put(`/v1/users/${id}`)
-	//             .expect(200).expect(emptyBody)
-	//     });
+	// 	it('success', async function () {
+	// 		const emptyBody = {};
+	// 		let id = 2;
+	// 		return request(app.getHttpServer())
+	// 			.put(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(emptyBody);
+	// 	});
+	//
+	// 	it('400 on invalid', async function () {
+	// 		const emptyBody = {};
+	// 		let id = 2;
+	// 		return request(app.getHttpServer())
+	// 			.put(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(emptyBody);
+	// 	});
+	//
+	// 	it('404 on not exist resource', async function () {
+	// 		const emptyBody = {};
+	// 		let id = 2;
+	// 		return request(app.getHttpServer())
+	// 			.put(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(emptyBody);
+	// 	});
 	// });
 	//
-	//
 	// describe('/v1/users/{id} (PATCH)', () => {
-	//     it('should return empty', async function () {
-	//         const expectBody = []
-	//         let id = 1;
-	//         return request(app.getHttpServer())
-	//             .patch(`/v1/users/${id}`)
-	//             .expect(200).expect(expectBody)
-	//     });
+	// 	it('success', async function () {
+	// 		const expectBody = [];
+	// 		let id = 1;
+	// 		return request(app.getHttpServer())
+	// 			.patch(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(expectBody);
+	// 	});
+	//
+	// 	it('404 on not exist resource', async function () {
+	// 		const expectBody = [];
+	// 		let id = 1;
+	// 		return request(app.getHttpServer())
+	// 			.patch(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(expectBody);
+	// 	});
+	//
+	// 	it('400 invalid ', async function () {
+	// 		const expectBody = [];
+	// 		let id = 1;
+	// 		return request(app.getHttpServer())
+	// 			.patch(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(expectBody);
+	// 	});
 	// });
 	//
 	// describe('/v1/users/{id} (DELETE)', () => {
-	//     it('should return empty', async function () {
-	//         const expectBody = []
-	//         let id = 1;
-	//         return request(app.getHttpServer())
-	//             .delete(`/v1/users/${id}`)
-	//             .expect(200).expect(expectBody)
-	//     });
+	// 	it('success', async function () {
+	// 		const expectBody = [];
+	// 		let id = 1;
+	// 		return request(app.getHttpServer())
+	// 			.delete(`/v1/users/${id}`)
+	// 			.expect(200)
+	// 			.expect(expectBody);
+	// 	});
+	//
+	// 	it('404 not exist resource', async function () {
+	// 		const expectBody = [];
+	// 		let id = 1;
+	// 		return request(app.getHttpServer())
+	// 			.delete(`/v1/users/${id}`)
+	// 			.expect(404)
+	// 			.expect(expectBody);
+	// 	});
 	// });
 
 	afterAll(async () => {
