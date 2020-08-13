@@ -5,7 +5,6 @@ import { JWTAuthModule } from './JWTAuth/JWTAuth.module';
 
 describe('AuthService', () => {
 	let service: AuthService;
-	const secret = 'secret';
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -16,7 +15,19 @@ describe('AuthService', () => {
 		service = module.get<AuthService>(AuthService);
 	});
 
-	it('should be defined', () => {
+	it('should be DI', () => {
 		expect(service).toBeDefined();
 	});
+
+	it('should define method', function () {
+		expect(service.issueToken).toBeDefined();
+		expect(service.refreshToken).toBeDefined();
+		expect(service.revokeToken).toBeDefined();
+	});
+
+	describe('method issueToken', function () {});
+
+	describe('method refreshToken', function () {});
+
+	describe('method revokeToken', function () {});
 });

@@ -1,7 +1,7 @@
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
-import { JWTOptionService } from './token/config/JWTOption.service';
+import { JWTOptionService } from './JWTOption.service';
 import { TokenModule } from './token/token.module';
 import { JWTAuthService } from './JWTAuth.service';
 import { JWTStrategy } from './strategy/JWT.strategy';
