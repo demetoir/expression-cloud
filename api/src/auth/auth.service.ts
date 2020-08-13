@@ -6,6 +6,6 @@ export class AuthService {
 	constructor(private jwtAuthService: JWTAuthService) {}
 
 	async issueRefreshToken(user) {
-		return this.jwtAuthService.reissueToken(user);
+		return this.jwtAuthService.issueToken(user);
 	}
 }

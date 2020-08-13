@@ -9,7 +9,15 @@ export class JWTAuthService {
 		return { userId: payload.sub, username: payload.username };
 	}
 
-	async reissueToken(user: any): Promise<any> {
+	async issueToken(user: any): Promise<any> {
 		return this.tokenService.issueRefreshToken(user);
 	}
+
+	async reissueAccessToken() {}
+
+	async revokeAccessToken() {}
+
+	async revokeRefreshToken() {}
+
+	async issueRefreshToken() {}
 }

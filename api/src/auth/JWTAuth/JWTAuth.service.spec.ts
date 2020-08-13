@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PassportModule } from '@nestjs/passport';
 import { JWTAuthService } from './JWTAuth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { JWTOptionService } from './config/JWTOption.service';
+import { JWTOptionService } from './token/config/JWTOption.service';
 import { JWTStrategy } from './strategy/JWT.strategy';
-import { TokenService } from './token/token.service';
+import { TokenModule } from './token/token.module';
 
 describe('JWTAuthService', () => {
 	let service: JWTAuthService;
@@ -16,13 +16,9 @@ describe('JWTAuthService', () => {
 				JwtModule.registerAsync({
 					useClass: JWTOptionService,
 				}),
+				TokenModule,
 			],
-			providers: [
-				JWTOptionService,
-				JWTStrategy,
-				JWTAuthService,
-				TokenService,
-			],
+			providers: [JWTOptionService, JWTStrategy, JWTAuthService],
 		}).compile();
 
 		service = module.get<JWTAuthService>(JWTAuthService);
