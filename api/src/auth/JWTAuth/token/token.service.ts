@@ -24,7 +24,7 @@ export class TokenService {
 		return token;
 	}
 
-	async issueRefreshToken(user: any): Promise<string> {
+	async issueRefreshToken(user: UserAuthInfo): Promise<string> {
 		const [token, tokenUuid] = await this.signToken(user, 'refreshToken');
 
 		await this.tokenStorageService.save(token, tokenUuid);
@@ -52,7 +52,17 @@ export class TokenService {
 		await this.tokenStorageService.delete(token, payload.uuid);
 	}
 
-	private async signToken(
+	async validate(token: string, type: JWTType): Promise<JWTPayload> {
+		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
+
+		if (payload.type !== type) {
+			throw new Error(`token expect ${type} but ${payload.type}`);
+		}
+
+		return payload;
+	}
+
+	async signToken(
 		userAuthInfo: UserAuthInfo,
 		type: JWTType,
 	): Promise<[string, string]> {

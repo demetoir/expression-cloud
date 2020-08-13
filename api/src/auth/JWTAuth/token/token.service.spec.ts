@@ -202,6 +202,77 @@ describe('TokenService', () => {
 		});
 	});
 
+	describe('validate', function () {
+		it('should success access token', async function () {
+			// when
+			const payload = await service.validate(accessToken, 'accessToken');
+
+			expect(payload).toBeDefined();
+		});
+
+		it('should success refresh token', async function () {
+			// when
+			const payload = await service.validate(
+				refreshToken,
+				'refreshToken',
+			);
+
+			expect(payload).toBeDefined();
+		});
+
+		it('should success expired access token', async function () {
+			// when
+			const payload = await service.validate(
+				expiredAccessToken,
+				'accessToken',
+			);
+
+			expect(payload).toBeDefined();
+		});
+
+		it('should success expired refresh token', async function () {
+			// when
+			const payload = await service.validate(
+				expiredRefreshToken,
+				'refreshToken',
+			);
+
+			expect(payload).toBeDefined();
+		});
+
+		it('raise error if token is not access token', async function () {
+			try {
+				await service.validate(refreshToken, 'accessToken');
+
+				throw new Error('not this error');
+			} catch (e) {
+				expect(e.message).toEqual(
+					'token expect accessToken but refreshToken',
+				);
+			}
+		});
+
+		it('raise error if token is broken', async function () {
+			try {
+				await service.validate(brokenToken, 'accessToken');
+
+				throw new Error('not this error');
+			} catch (e) {
+				expect(e.message).toEqual('invalid token');
+			}
+		});
+
+		it('raise error if wrong secret', async function () {
+			try {
+				await service.validate(wrongSecretToken, 'accessToken');
+
+				throw new Error('not this error');
+			} catch (e) {
+				expect(e.message).toEqual('invalid signature');
+			}
+		});
+	});
+
 	describe('revokeAccessToken', function () {
 		it('should revoke ', async function () {
 			// given token is in storage
@@ -241,7 +312,7 @@ describe('TokenService', () => {
 			}
 		});
 
-		it('raise error if token is expired', async function () {
+		it('raise error if token is broken', async function () {
 			try {
 				await service.revokeAccessToken(brokenToken);
 
