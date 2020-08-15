@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { JWTPayload, UserAuthInfo } from './token/interface';
+import { IJwtPayload, UserAuthInfo } from './token/interface';
 import { JWT_AUD, JWT_ISS, JWT_SECRET } from './token/constants';
 import { LocalTokenStorageService } from './token/local-token-storage.service';
 import * as moment from 'moment';
@@ -8,11 +8,12 @@ import { v4 as uuid } from 'uuid';
 import { TokenModule } from './token/token.module';
 import { JWTAuthService } from './JWTAuth.service';
 import {
+	InvalidJwtPayloadError,
+	JWTExpiredError,
 	JWTInvalidSignatureError,
 	JWTMalformedError,
-	JWTPayloadTypeError,
 } from './error';
-import { expectShouldNotCallThis } from '../../../test/lib/helper';
+import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
 
 describe('JWTService', () => {
 	let service: JWTAuthService;
@@ -34,41 +35,24 @@ describe('JWTService', () => {
 
 	let wrongSecretToken;
 
-	it('should prepare tokens for test', async function () {
-		// given
-		const user: UserAuthInfo = {
-			role: 'user',
-			userName: 'username',
-			userId: 1,
-		};
+	async function signExpiredToken(userAuthInfo, type) {
+		let duration;
+		if (type === 'accessToken') {
+			duration = 1;
+		} else if (type === 'refreshToken') {
+			duration = 10;
+		}
 
-		// generate access token and uuid
-		[accessToken, accessTokenUUid] = await service['signToken'](
-			user,
-			'accessToken',
-		);
-		expect(accessToken).toBeDefined();
-		expect(accessTokenUUid).toBeDefined();
-
-		// generate refresh token and uuid
-		[refreshToken, refreshTokenUUid] = await service['signToken'](
-			user,
-			'refreshToken',
-		);
-		expect(refreshToken).toBeDefined();
-		expect(refreshTokenUUid).toBeDefined();
-
-		// generate expired access token
 		const now = moment();
-		const iat = now.valueOf();
-		const exp = now.add(-1, 'hour').valueOf();
+		const iat = now.add(-duration * 2, 'hour').valueOf();
+		const exp = now.add(-duration, 'hour').valueOf();
 		const tokenUuid = uuid();
-		const payload: JWTPayload = {
-			type: 'accessToken',
-			role: user.role,
-			userName: user.userName,
-			userId: user.userId,
-			sub: user.userId.toString(),
+		const payload: IJwtPayload = {
+			type: type,
+			role: userAuthInfo.role,
+			userName: userAuthInfo.userName,
+			userId: userAuthInfo.userId,
+			sub: userAuthInfo.userId.toString(),
 			iss: JWT_ISS,
 			aud: JWT_AUD,
 			iat: iat,
@@ -76,25 +60,59 @@ describe('JWTService', () => {
 			uuid: tokenUuid,
 		};
 
-		[expiredAccessToken, expiredAccessTokenUuid] = await service[
-			'signToken'
-		](user, 'accessToken');
+		return [await jwtService.signAsync(payload), tokenUuid];
+	}
+
+	it('should prepare tokens for test', async function () {
+		// given
+		const userAuthInfo: UserAuthInfo = {
+			role: 'user',
+			userName: 'username',
+			userId: 1,
+		};
+
+		// generate access token and uuid
+		[accessToken, accessTokenUUid] = await service['signToken'](
+			userAuthInfo,
+			'accessToken',
+		);
+		expect(accessToken).toBeDefined();
+		expect(accessTokenUUid).toBeDefined();
+
+		// generate refresh token and uuid
+		[refreshToken, refreshTokenUUid] = await service['signToken'](
+			userAuthInfo,
+			'refreshToken',
+		);
+		expect(refreshToken).toBeDefined();
+		expect(refreshTokenUUid).toBeDefined();
+
+		// generate expired access token
+		[expiredAccessToken, expiredAccessTokenUuid] = await signExpiredToken(
+			userAuthInfo,
+			'accessToken',
+		);
 		expect(expiredAccessToken).toBeDefined();
 		expect(expiredAccessTokenUuid).toBeDefined();
 
+		await jwtService.verifyAsync(expiredAccessToken);
+
 		// generate expired refresh token
-		payload.type = 'refreshToken';
-		[expiredRefreshToken, expiredRefreshTokenUuid] = await service[
-			'signToken'
-		](user, 'refreshToken');
+		[expiredRefreshToken, expiredRefreshTokenUuid] = await signExpiredToken(
+			userAuthInfo,
+			'refreshToken',
+		);
 		expect(expiredRefreshToken).toBeDefined();
 		expect(expiredRefreshTokenUuid).toBeDefined();
+		await jwtService.verifyAsync(expiredRefreshToken);
 
 		// generate wrong secret token
-		payload.type = 'accessToken';
-		wrongSecretToken = await jwtService.signAsync(payload, {
-			secret: 'this is not secret',
-		});
+		wrongSecretToken = await jwtService.signAsync(
+			{},
+			{
+				secret: 'this is not secret',
+			},
+		);
 		expect(wrongSecretToken).toBeDefined();
 
 		//generate broken token
@@ -150,7 +168,7 @@ describe('JWTService', () => {
 			);
 
 			//than able to verify
-			const payload: JWTPayload = await jwtService.verifyAsync(token);
+			const payload: IJwtPayload = await jwtService.verifyAsync(token);
 
 			// than expect payload property
 			expect(typeof payload).toEqual('object');
@@ -186,7 +204,7 @@ describe('JWTService', () => {
 			);
 
 			//than able to verify
-			const payload: JWTPayload = await jwtService.verifyAsync(token);
+			const payload: IJwtPayload = await jwtService.verifyAsync(token);
 
 			// than expect payload property
 			expect(typeof payload).toEqual('object');
@@ -227,24 +245,26 @@ describe('JWTService', () => {
 			expect(payload).toBeDefined();
 		});
 
-		it('should success expired access token', async function () {
-			// when
-			const payload = await service.validate(
-				expiredAccessToken,
-				'accessToken',
-			);
-
-			expect(payload).toBeDefined();
+		it('should raise error, if expired access token', async function () {
+			try {
+				// when
+				await service.validate(expiredAccessToken, 'accessToken');
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(JWTExpiredError);
+				expect(e.message).toBe('accessToken is expired');
+			}
 		});
 
-		it('should success expired refresh token', async function () {
-			// when
-			const payload = await service.validate(
-				expiredRefreshToken,
-				'refreshToken',
-			);
-
-			expect(payload).toBeDefined();
+		it('should raise error, if expired refresh token', async function () {
+			try {
+				// when
+				await service.validate(expiredRefreshToken, 'refreshToken');
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(JWTExpiredError);
+				expect(e.message).toBe('refreshToken is expired');
+			}
 		});
 
 		it('raise error if token is not access token', async function () {
@@ -253,7 +273,7 @@ describe('JWTService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(JWTPayloadTypeError);
+				expect(e).toBeInstanceOf(InvalidJwtPayloadError);
 			}
 		});
 
@@ -313,7 +333,7 @@ describe('JWTService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(JWTPayloadTypeError);
+				expect(e).toBeInstanceOf(InvalidJwtPayloadError);
 			}
 		});
 
@@ -373,7 +393,7 @@ describe('JWTService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(JWTPayloadTypeError);
+				expect(e).toBeInstanceOf(InvalidJwtPayloadError);
 			}
 		});
 
@@ -414,7 +434,7 @@ describe('JWTService', () => {
 			expect(tokenUuid).toBeDefined();
 
 			//than able to verify
-			const payload: JWTPayload = await jwtService.verifyAsync(token);
+			const payload: IJwtPayload = await jwtService.verifyAsync(token);
 
 			// than expect payload property
 			expect(typeof payload).toEqual('object');
@@ -451,7 +471,7 @@ describe('JWTService', () => {
 			expect(tokenUuid).toBeDefined();
 
 			// than able to verify
-			const payload: JWTPayload = await jwtService.verifyAsync(token);
+			const payload: IJwtPayload = await jwtService.verifyAsync(token);
 
 			// than expect payload property
 			expect(typeof payload).toEqual('object');

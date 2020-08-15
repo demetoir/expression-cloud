@@ -1,4 +1,4 @@
-export declare interface JWTPayload {
+export declare interface IJwtPayload {
 	//reserved jwt claims
 	exp: number;
 	nbf?: number;

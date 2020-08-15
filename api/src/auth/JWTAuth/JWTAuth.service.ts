@@ -2,15 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
 import { JWT_AUD, JWT_ISS } from './token/constants';
-import { JWTPayload, JWTType, UserAuthInfo } from './token/interface';
+import { IJwtPayload, JWTType, UserAuthInfo } from './token/interface';
 import { v4 as uuid } from 'uuid';
 import { LocalTokenStorageService } from './token/local-token-storage.service';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import {
+	InvalidJwtPayloadError,
 	JWTInvalidSignatureError,
 	JWTMalformedError,
-	JWTPayloadTypeError,
 } from './error';
+import { validate, ValidationError } from 'class-validator';
+import { TokenPayload } from './token/token-payload';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class JWTAuthService {
@@ -50,21 +53,21 @@ export class JWTAuthService {
 	}
 
 	async revokeAccessToken(token: string): Promise<void> {
-		const payload: JWTPayload = await this.validate(token, 'accessToken');
+		const payload: IJwtPayload = await this.validate(token, 'accessToken');
 
 		await this.tokenStorageService.delete(token, payload.uuid);
 	}
 
 	async revokeRefreshToken(token: string): Promise<void> {
-		const payload: JWTPayload = await this.validate(token, 'refreshToken');
+		const payload: IJwtPayload = await this.validate(token, 'refreshToken');
 
 		await this.tokenStorageService.delete(token, payload.uuid);
 	}
 
-	async validate(token: string, type: JWTType): Promise<JWTPayload> {
-		let payload: JWTPayload;
+	async validate(token: string, type: JWTType): Promise<IJwtPayload> {
+		let decoded: any;
 		try {
-			payload = await this.jwtService.verifyAsync(token);
+			decoded = await this.jwtService.verifyAsync(token);
 		} catch (e) {
 			if (e instanceof JsonWebTokenError) {
 				if (e.message === 'invalid signature') {
@@ -82,8 +85,15 @@ export class JWTAuthService {
 			throw e;
 		}
 
+		const payload: TokenPayload = plainToClass(TokenPayload, decoded);
+
+		const errors: ValidationError[] = await validate(payload);
+		if (errors.length > 0) {
+			throw new InvalidJwtPayloadError('validate error', errors);
+		}
+
 		if (payload.type !== type) {
-			throw new JWTPayloadTypeError(
+			throw new InvalidJwtPayloadError(
 				`token payload expect ${type} but ${payload.type}`,
 			);
 		}
@@ -106,7 +116,7 @@ export class JWTAuthService {
 		const iat = now.valueOf();
 		const exp = now.add(duration, 'hour').valueOf();
 		const tokenUuid = uuid();
-		const payload: JWTPayload = {
+		const payload: IJwtPayload = {
 			type: type,
 			role: userAuthInfo.role,
 			userName: userAuthInfo.userName,
