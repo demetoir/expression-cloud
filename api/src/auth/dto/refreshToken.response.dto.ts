@@ -1,1 +1,6 @@
-export class RefreshTokenResponseDto {}
+export class RefreshTokenResponseDto {
+	tokenType: 'bearer' | string;
+	expiresIn: number;
+	refreshToken: string;
+	accessToken: string;
+}
