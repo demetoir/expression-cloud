@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JWTPayload, UserAuthInfo } from './token/interface';
 import { JWT_AUD, JWT_ISS, JWT_SECRET } from './token/constants';
-import { TokenStorageService } from './token/tokenStorage.service';
+import { LocalTokenStorageService } from './token/local-token-storage.service';
 import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { TokenModule } from './token/token.module';
@@ -12,11 +12,12 @@ import {
 	JWTMalformedError,
 	JWTPayloadTypeError,
 } from './error';
+import { expectShouldNotCallThis } from '../../../test/lib/helper';
 
 describe('JWTService', () => {
 	let service: JWTAuthService;
 	let jwtService: JwtService;
-	let tokenStorageService: TokenStorageService;
+	let tokenStorageService: LocalTokenStorageService;
 
 	let accessToken;
 	let accessTokenUUid;
@@ -114,8 +115,8 @@ describe('JWTService', () => {
 
 		service = module.get<JWTAuthService>(JWTAuthService);
 		jwtService = module.get<JwtService>(JwtService);
-		tokenStorageService = module.get<TokenStorageService>(
-			TokenStorageService,
+		tokenStorageService = module.get<LocalTokenStorageService>(
+			LocalTokenStorageService,
 		);
 	});
 
@@ -250,7 +251,7 @@ describe('JWTService', () => {
 			try {
 				await service.validate(refreshToken, 'accessToken');
 
-				throw new Error('not this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(JWTPayloadTypeError);
 			}
@@ -260,7 +261,7 @@ describe('JWTService', () => {
 			try {
 				await service.validate(brokenToken, 'accessToken');
 
-				throw new Error('not this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(JWTMalformedError);
 			}
@@ -270,7 +271,7 @@ describe('JWTService', () => {
 			try {
 				await service.validate(wrongSecretToken, 'accessToken');
 
-				throw new Error('not this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(JWTInvalidSignatureError);
 			}
@@ -310,7 +311,7 @@ describe('JWTService', () => {
 			try {
 				await service.revokeAccessToken(refreshToken);
 
-				throw new Error('not this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(JWTPayloadTypeError);
 			}
@@ -320,7 +321,7 @@ describe('JWTService', () => {
 			try {
 				await service.revokeAccessToken(brokenToken);
 
-				throw new Error('not this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(JWTMalformedError);
 			}
@@ -330,14 +331,72 @@ describe('JWTService', () => {
 			try {
 				await service.revokeAccessToken(wrongSecretToken);
 
-				throw new Error('not this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(JWTInvalidSignatureError);
 			}
 		});
 	});
 
-	describe('revokeRefreshToken', function () {});
+	describe('revokeRefreshToken', function () {
+		it('should revoke ', async function () {
+			// given token is in storage
+			await tokenStorageService.save(refreshToken, refreshTokenUUid);
+
+			// when
+			await service.revokeRefreshToken(refreshToken);
+
+			//than remove in storage
+			expect(
+				tokenStorageService['storage'][refreshTokenUUid],
+			).not.toBeDefined();
+		});
+
+		it('should revoke expired token', async function () {
+			// given token is in storage
+			await tokenStorageService.save(
+				expiredRefreshToken,
+				expiredRefreshTokenUuid,
+			);
+
+			// when
+			await service.revokeRefreshToken(expiredRefreshToken);
+
+			expect(
+				tokenStorageService['storage'][expiredRefreshTokenUuid],
+			).not.toBeDefined();
+		});
+
+		it('raise error if token is not access token', async function () {
+			try {
+				await service.revokeRefreshToken(accessToken);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(JWTPayloadTypeError);
+			}
+		});
+
+		it('raise error if token is broken', async function () {
+			try {
+				await service.revokeRefreshToken(brokenToken);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(JWTMalformedError);
+			}
+		});
+
+		it('raise error if wrong secret', async function () {
+			try {
+				await service.revokeRefreshToken(wrongSecretToken);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(JWTInvalidSignatureError);
+			}
+		});
+	});
 
 	describe('issueAccessToken', function () {
 		it('issueAccessToken', async function () {
