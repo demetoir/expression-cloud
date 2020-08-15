@@ -1,9 +1,13 @@
-export class BaseNestedError extends Error {
-	private readonly inner: Error | void;
+import { ValidationError } from 'class-validator';
 
-	constructor(message: string | void, e: Error | void) {
-		super();
-		this.message = message || '';
+export class BaseNestedError extends Error {
+	private readonly inner: any;
+
+	constructor(
+		message: string | void,
+		e: Error | Error[] | ValidationError[] | void,
+	) {
+		super(message || '');
 		this.inner = e;
 	}
 }
