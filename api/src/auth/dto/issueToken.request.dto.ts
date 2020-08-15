@@ -1,1 +1,4 @@
-export class IssueTokenRequestDto {}
+export class IssueTokenRequestDto {
+	username: string;
+	password: string;
+}
