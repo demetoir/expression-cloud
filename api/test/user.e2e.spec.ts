@@ -6,13 +6,12 @@ import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../src/common/model/entity/user.entity';
 import { Repository } from 'typeorm';
-
 import { serialize } from 'class-transformer';
 
 function entityToResponse(entity) {
 	return JSON.parse(serialize(entity));
 }
-
+// todo: moduleFixture에서 typeorm connection 가져와서 sync 해야함
 describe('UserModule (e2e)', () => {
 	let app: INestApplication;
 	let userRepository: Repository<UserEntity>;
@@ -72,7 +71,7 @@ describe('UserModule (e2e)', () => {
 			const newUser = new UserEntity();
 			newUser.name = 'name';
 			newUser.description = 'description';
-			newUser.email = 'email';
+			newUser.email = 'email2';
 
 			const user = await userRepository.save(newUser);
 			const id = user.id;

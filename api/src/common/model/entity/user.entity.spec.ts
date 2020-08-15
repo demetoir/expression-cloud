@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnection, Repository } from 'typeorm';
 import * as config from '../../../../ormconfig.js';
 import { UserEntity } from './user.entity';
 import { RoleEntity } from './role.entity';
@@ -11,9 +11,10 @@ import { CommentEntity } from './comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { ExpressionEntity } from './expression.entity';
 import { UserProfileImageEntity } from './userProfileImage.entity';
+import { v4 as uuid } from 'uuid';
 
 describe('user entity', () => {
-	let userRepository;
+	let userRepository: Repository<UserEntity>;
 	let connection;
 
 	beforeAll(async () => {
@@ -21,6 +22,10 @@ describe('user entity', () => {
 		await connection.synchronize();
 
 		userRepository = connection.getRepository(UserEntity);
+	});
+
+	beforeEach(async () => {
+		await getConnection().synchronize(true);
 	});
 
 	afterAll(async () => {
@@ -199,29 +204,14 @@ describe('user entity', () => {
 			const user = new UserEntity();
 			user.name = 'Me and Bears';
 			user.description = 'I am near polar bears';
-			user.email = 'email';
+			user.email = 'email ' + uuid();
 
 			return await connection.manager.save(user);
 		}
 
-		it('should prepare user', async function () {
-			user = new UserEntity();
-			user.name = 'Me and Bears';
-			user.description = 'I am near polar bears';
-			user.email = 'email';
-
-			await connection.manager.save(user);
-
-			assert.isNotNull(user.id);
-
-			anotherUser = new UserEntity();
-			anotherUser.name = 'another';
-			anotherUser.description = 'description';
-			anotherUser.email = 'email';
-			await connection;
-		});
-
 		it('should relate with role entity', async function () {
+			user = await getNewUser();
+
 			const adminRole = new RoleEntity();
 			adminRole.name = 'admin';
 			await connection.manager.save(adminRole);
@@ -241,6 +231,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with notice entity', async function () {
+			user = await getNewUser();
+
 			const notice1 = new NoticeEntity();
 			notice1.content = 'content';
 			notice1.user = user;
@@ -259,6 +251,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with user setting entity', async function () {
+			user = await getNewUser();
+
 			const userSetting = new UserSettingEntity();
 			userSetting.user = user;
 			await connection.manager.save(userSetting);
@@ -273,6 +267,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with team entity', async function () {
+			user = await getNewUser();
+
 			const team = new TeamEntity();
 			team.name = 'team 1';
 			team.description = 'description';
@@ -293,6 +289,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with edit history entity', async function () {
+			user = await getNewUser();
+
 			const editHistoryEntity = new EditHistoryEntity();
 			editHistoryEntity.editType = 1;
 			editHistoryEntity.refId = null;
@@ -309,6 +307,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with project', async function () {
+			user = await getNewUser();
+
 			const expression = new ExpressionEntity();
 			expression.name = 'project';
 			expression.description = 'description';
@@ -331,6 +331,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with comments', async function () {
+			user = await getNewUser();
+
 			const comment = new CommentEntity();
 			comment.content = 'content';
 			await connection.manager.save(comment);
@@ -350,6 +352,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with oauth', async function () {
+			user = await getNewUser();
+
 			const oauth = new OauthEntity();
 			oauth.type = 1;
 			oauth.authId = 'id';
@@ -371,6 +375,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate like user', async function () {
+			user = await getNewUser();
+
 			const user1 = await getNewUser();
 			const user2 = await getNewUser();
 
@@ -394,6 +400,8 @@ describe('user entity', () => {
 		});
 
 		it('should relate with user profile image entity', async function () {
+			user = await getNewUser();
+
 			const userProfileImage = new UserProfileImageEntity();
 
 			await connection.manager.save(userProfileImage);
@@ -423,6 +431,8 @@ describe('user entity', () => {
 		}
 
 		it('should relate with like expression', async function () {
+			user = await getNewUser();
+
 			const expression = await getNewExpressionEntity();
 
 			user.likeToExpressions = [expression];
