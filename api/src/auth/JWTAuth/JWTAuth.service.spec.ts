@@ -346,7 +346,10 @@ describe('JWTService', () => {
 			};
 
 			// when
-			const token = await service.issueAccessToken(user);
+			const [token, tokenUuid] = await service.issueAccessToken(user);
+
+			// than expect tokenUuid
+			expect(tokenUuid).toBeDefined();
 
 			//than able to verify
 			const payload: JWTPayload = await jwtService.verifyAsync(token);
@@ -380,7 +383,10 @@ describe('JWTService', () => {
 			};
 
 			// when
-			const token = await service.issueRefreshToken(user);
+			const [token, tokenUuid] = await service.issueRefreshToken(user);
+
+			// than expect tokenUuid
+			expect(tokenUuid).toBeDefined();
 
 			// than able to verify
 			const payload: JWTPayload = await jwtService.verifyAsync(token);

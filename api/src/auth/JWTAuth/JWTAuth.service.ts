@@ -22,7 +22,9 @@ export class JWTAuthService {
 		return 'bearer';
 	}
 
-	async issueAccessToken(userAuthInfo: UserAuthInfo): Promise<string> {
+	async issueAccessToken(
+		userAuthInfo: UserAuthInfo,
+	): Promise<[string, string]> {
 		const [token, tokenUuid] = await this.signToken(
 			userAuthInfo,
 			'accessToken',
@@ -30,15 +32,15 @@ export class JWTAuthService {
 
 		await this.tokenStorageService.save(token, tokenUuid);
 
-		return token;
+		return [token, tokenUuid];
 	}
 
-	async issueRefreshToken(user: UserAuthInfo): Promise<string> {
+	async issueRefreshToken(user: UserAuthInfo): Promise<[string, string]> {
 		const [token, tokenUuid] = await this.signToken(user, 'refreshToken');
 
 		await this.tokenStorageService.save(token, tokenUuid);
 
-		return token;
+		return [token, tokenUuid];
 	}
 
 	async revokeAccessToken(token: string): Promise<void> {
