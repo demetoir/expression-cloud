@@ -7,8 +7,11 @@ import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { TokenModule } from './token/token.module';
 import { JWTAuthService } from './JWTAuth.service';
-import { JWTAuthException } from './error/JWTAuth.exception';
-import { JsonWebTokenError } from 'jsonwebtoken';
+import {
+	JWTInvalidSignatureError,
+	JWTMalformedError,
+	JWTPayloadTypeError,
+} from './error';
 
 describe('JWTService', () => {
 	let service: JWTAuthService;
@@ -249,10 +252,7 @@ describe('JWTService', () => {
 
 				throw new Error('not this error');
 			} catch (e) {
-				expect(e).toBeInstanceOf(JWTAuthException);
-				expect(e.message).toEqual(
-					'token expect accessToken but refreshToken',
-				);
+				expect(e).toBeInstanceOf(JWTPayloadTypeError);
 			}
 		});
 
@@ -262,9 +262,7 @@ describe('JWTService', () => {
 
 				throw new Error('not this error');
 			} catch (e) {
-				expect(e).toBeInstanceOf(JsonWebTokenError);
-
-				expect(e.message).toEqual('invalid token');
+				expect(e).toBeInstanceOf(JWTMalformedError);
 			}
 		});
 
@@ -274,9 +272,7 @@ describe('JWTService', () => {
 
 				throw new Error('not this error');
 			} catch (e) {
-				expect(e).toBeInstanceOf(JsonWebTokenError);
-
-				expect(e.message).toEqual('invalid signature');
+				expect(e).toBeInstanceOf(JWTInvalidSignatureError);
 			}
 		});
 	});
@@ -316,8 +312,7 @@ describe('JWTService', () => {
 
 				throw new Error('not this error');
 			} catch (e) {
-				expect(e).toBeInstanceOf(JWTAuthException);
-				expect(e.message).toEqual('token is not access token');
+				expect(e).toBeInstanceOf(JWTPayloadTypeError);
 			}
 		});
 
@@ -327,8 +322,7 @@ describe('JWTService', () => {
 
 				throw new Error('not this error');
 			} catch (e) {
-				expect(e).toBeInstanceOf(JsonWebTokenError);
-				expect(e.message).toEqual('invalid token');
+				expect(e).toBeInstanceOf(JWTMalformedError);
 			}
 		});
 
@@ -338,8 +332,7 @@ describe('JWTService', () => {
 
 				throw new Error('not this error');
 			} catch (e) {
-				expect(e).toBeInstanceOf(JsonWebTokenError);
-				expect(e.message).toEqual('invalid signature');
+				expect(e).toBeInstanceOf(JWTInvalidSignatureError);
 			}
 		});
 	});

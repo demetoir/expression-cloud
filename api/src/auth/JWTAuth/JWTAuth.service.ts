@@ -5,7 +5,12 @@ import { JWT_AUD, JWT_ISS } from './token/constants';
 import { JWTPayload, JWTType, UserAuthInfo } from './token/interface';
 import { v4 as uuid } from 'uuid';
 import { TokenStorageService } from './token/tokenStorage.service';
-import { JWTAuthException } from './error/JWTAuth.exception';
+import { JsonWebTokenError } from 'jsonwebtoken';
+import {
+	JWTInvalidSignatureError,
+	JWTMalformedError,
+	JWTPayloadTypeError,
+} from './error';
 
 @Injectable()
 export class JWTAuthService {
@@ -45,30 +50,37 @@ export class JWTAuthService {
 	}
 
 	async revokeAccessToken(token: string): Promise<void> {
-		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
-
-		if (payload.type !== 'accessToken') {
-			throw new JWTAuthException('token is not access token');
-		}
+		const payload: JWTPayload = await this.validate(token, 'accessToken');
 
 		await this.tokenStorageService.delete(token, payload.uuid);
 	}
 
 	async revokeRefreshToken(token: string): Promise<void> {
-		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
-
-		if (payload.type !== 'refreshToken') {
-			throw new JWTAuthException('token is not refresh token');
-		}
+		const payload: JWTPayload = await this.validate(token, 'refreshToken');
 
 		await this.tokenStorageService.delete(token, payload.uuid);
 	}
 
 	async validate(token: string, type: JWTType): Promise<JWTPayload> {
-		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
+		let payload: JWTPayload;
+		try {
+			payload = await this.jwtService.verifyAsync(token);
+		} catch (e) {
+			if (e instanceof JsonWebTokenError) {
+				if (e.message === 'invalid signature') {
+					throw new JWTInvalidSignatureError(e.message, e);
+				}
+
+				if (e.message === 'invalid token') {
+					throw new JWTMalformedError(e.message, e);
+				}
+			}
+
+			throw e;
+		}
 
 		if (payload.type !== type) {
-			throw new JWTAuthException(
+			throw new JWTPayloadTypeError(
 				`token expect ${type} but ${payload.type}`,
 			);
 		}
