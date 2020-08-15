@@ -48,6 +48,7 @@ export class UserEntity extends AbstractBaseEntity {
 		length: 255,
 		nullable: true,
 		default: null,
+		unique: true,
 	})
 	email: string;
 
