@@ -5,6 +5,8 @@ import { JWTOptionService } from './JWTOption.service';
 import { TokenModule } from './token/token.module';
 import { JWTAuthService } from './JWTAuth.service';
 import { JWTStrategy } from './strategy/JWT.strategy';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from '../../common/model/entity/user.entity';
 
 @Module({
 	imports: [
@@ -13,6 +15,7 @@ import { JWTStrategy } from './strategy/JWT.strategy';
 			useClass: JWTOptionService,
 		}),
 		TokenModule,
+		TypeOrmModule.forFeature([UserEntity]),
 	],
 	providers: [JWTOptionService, JWTStrategy, JWTAuthService],
 	exports: [JWTAuthService],
