@@ -20,7 +20,7 @@ describe('JWTService', () => {
 	let refreshTokenUUid;
 
 	let expiredAccessToken;
-	let expiredAccesstokenUuid;
+	let expiredAccessTokenUuid;
 	let expiredRefreshToken;
 	let expiredRefreshTokenUuid;
 
@@ -70,11 +70,11 @@ describe('JWTService', () => {
 			uuid: tokenUuid,
 		};
 
-		[expiredAccessToken, expiredAccesstokenUuid] = await service[
+		[expiredAccessToken, expiredAccessTokenUuid] = await service[
 			'signToken'
 		](user, 'accessToken');
 		expect(expiredAccessToken).toBeDefined();
-		expect(expiredAccesstokenUuid).toBeDefined();
+		expect(expiredAccessTokenUuid).toBeDefined();
 
 		// generate expired refresh token
 		payload.type = 'refreshToken';
@@ -292,14 +292,14 @@ describe('JWTService', () => {
 			// given token is in storage
 			await tokenStorageService.save(
 				expiredAccessToken,
-				expiredAccesstokenUuid,
+				expiredAccessTokenUuid,
 			);
 
 			// when
 			await service.revokeAccessToken(expiredAccessToken);
 
 			expect(
-				tokenStorageService['storage'][expiredAccesstokenUuid],
+				tokenStorageService['storage'][expiredAccessTokenUuid],
 			).not.toBeDefined();
 		});
 
