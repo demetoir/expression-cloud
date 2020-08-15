@@ -13,6 +13,9 @@ import { JWTGuard } from './JWTAuth/guard/JWT.guard';
 import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
 import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
 import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
+import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
+import { RefreshTokenResponseDto } from './dto/refreshToken.response.dto';
+import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -38,7 +41,6 @@ export class AuthController {
 		return req.user;
 	}
 
-	// @UseGuards(LocalAuthGuard)
 	@Post('/token')
 	async issueToken(
 		@Body() dto: IssueTokenRequestDto,
