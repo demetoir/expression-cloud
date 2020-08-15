@@ -13,6 +13,15 @@ export class JWTAuthService {
 		private readonly tokenStorageService: TokenStorageService,
 	) {}
 
+	// todo: inject from env
+	public get expiredIn(): number {
+		return 3600;
+	}
+
+	public get tokenType(): string {
+		return 'bearer';
+	}
+
 	async issueAccessToken(userAuthInfo: UserAuthInfo): Promise<string> {
 		const [token, tokenUuid] = await this.signToken(
 			userAuthInfo,
