@@ -68,11 +68,14 @@ export class JWTAuthService {
 		} catch (e) {
 			if (e instanceof JsonWebTokenError) {
 				if (e.message === 'invalid signature') {
-					throw new JWTInvalidSignatureError(e.message, e);
+					throw new JWTInvalidSignatureError(
+						`${type} is ${e.message}`,
+						e,
+					);
 				}
 
 				if (e.message === 'invalid token') {
-					throw new JWTMalformedError(e.message, e);
+					throw new JWTMalformedError(`${type} is ${e.message}`, e);
 				}
 			}
 
@@ -81,7 +84,7 @@ export class JWTAuthService {
 
 		if (payload.type !== type) {
 			throw new JWTPayloadTypeError(
-				`token expect ${type} but ${payload.type}`,
+				`token payload expect ${type} but ${payload.type}`,
 			);
 		}
 
