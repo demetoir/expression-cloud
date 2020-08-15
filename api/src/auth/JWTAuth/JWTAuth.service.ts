@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { JWT_AUD, JWT_ISS } from './token/constants';
 import { JWTPayload, JWTType, UserAuthInfo } from './token/interface';
 import { v4 as uuid } from 'uuid';
-import { TokenStorageService } from './token/tokenStorage.service';
+import { LocalTokenStorageService } from './token/local-token-storage.service';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import {
 	JWTInvalidSignatureError,
@@ -16,7 +16,7 @@ import {
 export class JWTAuthService {
 	constructor(
 		private jwtService: JwtService,
-		private readonly tokenStorageService: TokenStorageService,
+		private readonly tokenStorageService: LocalTokenStorageService,
 	) {}
 
 	// todo: inject from env

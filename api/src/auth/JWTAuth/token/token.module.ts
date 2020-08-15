@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TokenStorageService } from './tokenStorage.service';
+import { LocalTokenStorageService } from './local-token-storage.service';
 
 @Module({
-	providers: [TokenStorageService],
-	exports: [TokenStorageService],
+	providers: [LocalTokenStorageService],
+	exports: [LocalTokenStorageService],
 })
 export class TokenModule {}

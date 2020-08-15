@@ -2,7 +2,7 @@ import { ITokenStorageService } from './interface';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class TokenStorageService implements ITokenStorageService {
+export class LocalTokenStorageService implements ITokenStorageService {
 	private readonly storage: any;
 
 	constructor() {
