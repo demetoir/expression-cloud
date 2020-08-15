@@ -5,6 +5,7 @@ import { JWT_AUD, JWT_ISS } from './token/constants';
 import { JWTPayload, JWTType, UserAuthInfo } from './token/interface';
 import { v4 as uuid } from 'uuid';
 import { TokenStorageService } from './token/tokenStorage.service';
+import { JWTAuthException } from './error/JWTAuth.exception';
 
 @Injectable()
 export class JWTAuthService {
@@ -47,7 +48,7 @@ export class JWTAuthService {
 		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
 
 		if (payload.type !== 'accessToken') {
-			throw new Error('token is not access token');
+			throw new JWTAuthException('token is not access token');
 		}
 
 		await this.tokenStorageService.delete(token, payload.uuid);
@@ -57,7 +58,7 @@ export class JWTAuthService {
 		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
 
 		if (payload.type !== 'refreshToken') {
-			throw new Error('token is not refresh token');
+			throw new JWTAuthException('token is not refresh token');
 		}
 
 		await this.tokenStorageService.delete(token, payload.uuid);
@@ -67,7 +68,9 @@ export class JWTAuthService {
 		const payload: JWTPayload = await this.jwtService.verifyAsync(token);
 
 		if (payload.type !== type) {
-			throw new Error(`token expect ${type} but ${payload.type}`);
+			throw new JWTAuthException(
+				`token expect ${type} but ${payload.type}`,
+			);
 		}
 
 		return payload;
