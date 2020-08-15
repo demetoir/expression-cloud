@@ -1,7 +1,7 @@
-import { baseNestedError } from '../../../common/error/BaseNested.error';
+import { BaseNestedError } from '../../../common/error/BaseNestedError';
 
-export class JWTPayloadTypeError extends baseNestedError {}
+export class JWTPayloadTypeError extends BaseNestedError {}
 
-export class JWTMalformedError extends baseNestedError {}
+export class JWTMalformedError extends BaseNestedError {}
 
-export class JWTInvalidSignatureError extends baseNestedError {}
+export class JWTInvalidSignatureError extends BaseNestedError {}
