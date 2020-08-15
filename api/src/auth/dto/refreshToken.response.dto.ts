@@ -1,1 +1,1 @@
-class RefreshTokenResponseDto {}
+export class RefreshTokenResponseDto {}

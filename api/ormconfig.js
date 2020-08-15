@@ -5,7 +5,7 @@ const dev = {
 	username: 'user',
 	password: 'password',
 	database: 'expression_cloud',
-	synchronize: false,
+	synchronize: true,
 	logging: false,
 	bigNumberStrings: false,
 	// entities dose not use in nest.js configLoader intercept properties

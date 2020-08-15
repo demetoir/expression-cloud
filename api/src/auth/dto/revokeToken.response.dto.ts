@@ -1,1 +1,1 @@
-class RevokeTokenResponseDto {}
+export class RevokeTokenResponseDto {}
