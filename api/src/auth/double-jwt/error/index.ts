@@ -8,3 +8,10 @@ export class InvalidJWTSignatureError extends BaseNestedError {}
 export class ExpiredJwtError extends BaseNestedError {}
 
 export class InvalidJwtPayloadError extends BaseNestedError {}
+
+export const ExpectedErrors = [
+	MalformedJWTError,
+	InvalidJwtPayloadError,
+	ExpiredJwtError,
+	InvalidJwtPayloadError,
+];
