@@ -1,10 +1,10 @@
 import { JwtModuleOptions, JwtOptionsFactory } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
-import { JWT_SECRET } from './token/constants';
+import { JWT_SECRET } from '../constants';
 
 // todo: add more option for jwt module
 @Injectable()
-export class JWTOptionService implements JwtOptionsFactory {
+export class JwtOptionService implements JwtOptionsFactory {
 	createJwtOptions(): JwtModuleOptions {
 		return {
 			secret: JWT_SECRET,

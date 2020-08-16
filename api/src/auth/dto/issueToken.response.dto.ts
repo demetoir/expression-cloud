@@ -1,6 +1,6 @@
 export class IssueTokenResponseDto {
 	accessToken: string;
 	tokenType: 'bearer' | string;
-	expiresIn: number;
+	expiredIn: number;
 	refreshToken: string;
 }

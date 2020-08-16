@@ -9,7 +9,7 @@ import {
 import { logger } from '../common/libs/winstonToolkit';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth/guard/localAuth.guard';
-import { JWTGuard } from './JWTAuth/guard/JWT.guard';
+import { JwtGuard } from './double-jwt/guard/JWT.guard';
 import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
 import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
 import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
@@ -35,7 +35,7 @@ export class AuthController {
 		return 'sign-in';
 	}
 
-	@UseGuards(JWTGuard)
+	@UseGuards(JwtGuard)
 	@Get('/who-am-i')
 	async whoAmI(@Request() req) {
 		return req.user;

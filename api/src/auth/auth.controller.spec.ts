@@ -53,7 +53,7 @@ describe('Auth Controller', () => {
 			const responseDto = new IssueTokenResponseDto();
 			responseDto.refreshToken = 'refreshToken';
 			responseDto.accessToken = 'accessToken';
-			responseDto.expiresIn = 3600;
+			responseDto.expiredIn = 3600;
 			responseDto.tokenType = 'bearer';
 
 			service.issueToken.mockReturnValue(responseDto);

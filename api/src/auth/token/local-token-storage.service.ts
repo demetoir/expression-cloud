@@ -1,4 +1,4 @@
-import { ITokenStorageService } from './interface';
+import { ITokenStorageService } from '../interface';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

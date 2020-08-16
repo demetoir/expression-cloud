@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { JWTAuthService } from './JWTAuth/JWTAuth.service';
 import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
-import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
 import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
 import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
-import { RefreshTokenResponseDto } from './dto/refreshToken.response.dto';
 import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../common/model/entity/user.entity';
-import { UserAuthInfo } from './JWTAuth/token/interface';
-import { InvalidUserException } from './error/invalidUserException.error';
+import { AuthenticationError } from './error';
+import { DoubleJwtService } from './double-jwt/double-jwt.service';
+import { ITokenPayload } from './token/token-payload';
+import { RefreshTokenResponseDto } from './dto/refreshToken.response.dto';
+import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
 
 @Injectable()
 export class AuthService {
-	private readonly jwtAuthService: JWTAuthService;
+	private readonly jwtAuthService: DoubleJwtService<ITokenPayload>;
 
 	@InjectRepository(UserEntity)
 	private readonly userRepository: Repository<UserEntity>;
 
 	constructor(
-		jwtAuthService: JWTAuthService,
+		jwtAuthService: DoubleJwtService<ITokenPayload>,
 		@InjectRepository(UserEntity)
 		userRepository: Repository<UserEntity>,
 	) {
@@ -35,56 +35,80 @@ export class AuthService {
 		//   get user id and role from db
 		//   validate request dto
 		if (!(dto.username === 'root' && dto.password === 'pass')) {
-			throw new InvalidUserException();
+			throw new AuthenticationError('user is not authenticated');
 		}
 
-		const userAuthInfo: UserAuthInfo = {
-			userId: 1,
+		const userAuthInfo: ITokenPayload = {
 			role: 'user',
 			userName: dto.username,
 		};
-
 		// find recent issued token
-
-		const [accessToken] = await this.jwtAuthService.issueAccessToken(
-			userAuthInfo,
-		);
-		const [refreshToken] = await this.jwtAuthService.issueRefreshToken(
+		const [accessToken, _] = await this.jwtAuthService.signAccessToken(
 			userAuthInfo,
 		);
 
-		const res = new IssueTokenResponseDto();
-		res.accessToken = accessToken;
-		res.refreshToken = refreshToken;
-		res.expiresIn = this.jwtAuthService.expiredIn;
-		res.tokenType = this.jwtAuthService.tokenType;
+		userAuthInfo.type = 'refreshToken';
+		const [refreshToken] = await this.jwtAuthService.signRefreshToken(
+			userAuthInfo,
+		);
 
-		return res;
+		return new IssueTokenResponseDto({
+			accessToken,
+			refreshToken,
+			expiredIn: 3600,
+			tokenType: 'bearer',
+		});
 	}
 
-	async refreshToken(
-		dto: RefreshTokenRequestDto,
-	): Promise<RefreshTokenResponseDto> {
+	async refreshToken({
+		accessToken: oldAccessToken,
+		refreshToken,
+	}: RefreshTokenRequestDto): Promise<RefreshTokenResponseDto> {
+		return null;
 		// todo: implement this
 		//
-		// const accessToken;
+		// // validate
+		// let payload: IJwtPayload;
+		// try {
+		// 	payload = await this.jwtAuthService.validate(
+		// 		refreshToken,
+		// 		'refreshToken',
+		// 	);
 		//
-		// const refreshToken;
+		// 	// todo: validate custom claim in payload
 		//
-		// await this.jwtAuthService.revokeAccessToken(accessToken);
+		// 	await this.jwtAuthService.validate(oldAccessToken, 'accessToken');
+		// } catch (e) {
+		// 	if (e instanceof JWTMalformedError) {
+		// 		throw new AuthenticationError(e.message, e);
+		// 	}
 		//
-		// const userAuthInfo;
-		// const newAccessToken = await this.jwtAuthService.issueAccessToken(
+		// 	if (e instanceof JWTInvalidSignatureError) {
+		// 		throw new AuthenticationError(e.message, e);
+		// 	}
+		//
+		// 	throw e;
+		// }
+		//
+		// // revoke and reissue access token
+		// await this.jwtAuthService.revokeAccessToken(oldAccessToken);
+		//
+		// const userAuthInfo: UserAuthInfo = {
+		// 	userId: payload.userId,
+		// 	userName: payload.userName,
+		// 	role: payload.role,
+		// };
+		// const [newAccessToken] = await this.jwtAuthService.issueAccessToken(
 		// 	userAuthInfo,
 		// );
-
+		//
 		// const res = new RefreshTokenResponseDto();
-		// res.accessToken = accessToken;
+		// res.accessToken = newAccessToken;
 		// res.refreshToken = refreshToken;
 		// res.expiresIn = this.jwtAuthService.expiredIn;
 		// res.tokenType = this.jwtAuthService.tokenType;
-
-		return null;
+		//
+		// return res;
 	}
 
 	async revokeToken(

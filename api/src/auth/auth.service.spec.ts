@@ -3,27 +3,28 @@ import { LocalAuthModule } from './localAuth/localAuth.module';
 import { AuthService } from './auth.service';
 import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
 import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
-import { JWTAuthService } from './JWTAuth/JWTAuth.service';
+import { DoubleJwtService } from './double-jwt/double-jwt.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../common/model/entity/user.entity';
 import { MockRepository } from '../../test/lib/mock/MockRepository';
 import { Repository } from 'typeorm';
 import { UserRepository } from '../user/userRepository/user.repository';
-import { InvalidUserException } from './error/invalidUserException.error';
-import { ShouldNotRaiseThisError } from '../../test/lib/error/shouldNotRaiseThis.error';
+import { AuthenticationError } from './error';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import {
+	InvalidJWTSignatureError,
+	MalformedJWTError,
+} from './double-jwt/error';
+import assert from 'assert';
+import { JWTType } from './interface';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';
 
 export class MockJWTAuthService {
-	expiredIn = expiredIn;
-	tokenType = tokenType;
-	issueAccessToken = jest.fn();
-	issueRefreshToken = jest.fn();
-	revokeAccessToken = jest.fn();
-	revokeRefreshToken = jest.fn();
-	validate = jest.fn();
-	signToken = jest.fn();
+	signAccessToken = jest.fn();
+	signRefreshToken = jest.fn();
+	verify = jest.fn();
 }
 
 describe('AuthService', () => {
@@ -37,7 +38,7 @@ describe('AuthService', () => {
 			providers: [
 				AuthService,
 				{
-					provide: JWTAuthService,
+					provide: DoubleJwtService,
 					useClass: MockJWTAuthService,
 				},
 				{
@@ -48,7 +49,7 @@ describe('AuthService', () => {
 		}).compile();
 
 		service = module.get(AuthService);
-		mockJWTAuthService = module.get(JWTAuthService);
+		mockJWTAuthService = module.get(DoubleJwtService);
 		userRepository = module.get(getRepositoryToken(UserEntity));
 	});
 
@@ -67,14 +68,13 @@ describe('AuthService', () => {
 	describe('method issueToken', function () {
 		it('should success', async function () {
 			// given mockJWTAuthService
-
 			const accessToken = 'access token';
 			const refreshToken = 'refresh token';
-			mockJWTAuthService.issueAccessToken.mockReturnValue([
+			mockJWTAuthService.signAccessToken.mockReturnValue([
 				'access token',
 				'1',
 			]);
-			mockJWTAuthService.issueRefreshToken.mockReturnValue([
+			mockJWTAuthService.signRefreshToken.mockReturnValue([
 				'refresh token',
 				'2',
 			]);
@@ -91,7 +91,7 @@ describe('AuthService', () => {
 			expect(res).toBeInstanceOf(IssueTokenResponseDto);
 
 			expect(res.tokenType).toBe(tokenType);
-			expect(res.expiresIn).toBe(expiredIn);
+			expect(res.expiredIn).toBe(expiredIn);
 			expect(res.accessToken).toBe(accessToken);
 			expect(res.refreshToken).toBe(refreshToken);
 		});
@@ -106,22 +106,143 @@ describe('AuthService', () => {
 				//when
 				await service.issueToken(dto);
 
-				throw new ShouldNotRaiseThisError();
+				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(InvalidUserException);
+				expect(e).toBeInstanceOf(AuthenticationError);
 			}
 		});
 	});
 
 	describe('method refreshToken', function () {
-		it('should success', async function () {
+		it('should refresh both token', function () {
+			assert(false);
+
+			// service.refreshToken();refreshToken
+		});
+
+		it('should success, even if access token is expired', async function () {
 			// todo: add test
+			assert(false);
+		});
+
+		it('should success, even if access token is not expired', async function () {
+			// todo: add test
+			assert(false);
+		});
+
+		it('raise error, if refresh token is broken', async function () {
+			// given mockJWTAuthService and tokens
+			const accessToken = 'access token';
+			const refreshToken = 'refresh token';
+			mockJWTAuthService.signAccessToken.mockReturnValue([
+				'access token',
+				'1',
+			]);
+			mockJWTAuthService.signRefreshToken.mockReturnValue([
+				'refresh token',
+				'2',
+			]);
+			mockJWTAuthService.verify.mockImplementation((_, type: JWTType) => {
+				if (type === 'refreshToken') {
+					throw new MalformedJWTError();
+				}
+			});
+
+			try {
+				//
+				await service.refreshToken({
+					refreshToken,
+					accessToken,
+				});
+				// todo: add test
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+			}
+		});
+
+		it('raise error, if refresh token is expired', async function () {
+			// given tokens
+			const accessToken = 'access token';
+			const refreshToken = 'refresh token';
+
+			// given mock jwt auth service, raise error if validate refresh token
+			mockJWTAuthService.verify.mockImplementation((_, type: JWTType) => {
+				if (type === 'refreshToken') {
+					throw new InvalidJWTSignatureError(
+						'refresh token Invalid signature',
+					);
+				}
+			});
+
+			try {
+				// when
+				await service.refreshToken({
+					refreshToken,
+					accessToken,
+				});
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe('refresh token Invalid signature');
+			}
+		});
+
+		it('raise error, if refresh token is not found in token storage', async function () {
+			// todo: add test
+			assert(false);
+		});
+
+		it('raise error, if invalid custom claim in refresh token', async function () {
+			// todo: add test
+			assert(false);
+		});
+
+		it('raise error, if access token is broken', async function () {
+			// given tokens
+			const accessToken = 'access token';
+			const refreshToken = 'refresh token';
+
+			// given mock jwt auth service, raise error if validate access token
+			mockJWTAuthService.verify.mockImplementation((_, type: JWTType) => {
+				if (type === 'accessToken') {
+					throw new MalformedJWTError('accessToken is broken');
+				}
+			});
+
+			try {
+				// when
+				await service.refreshToken({
+					refreshToken,
+					accessToken,
+				});
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				//than
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe('accessToken is broken');
+			}
+		});
+
+		it('raise error, if access token is not found in token storage', async function () {
+			// todo: add test
+			assert(false);
+		});
+
+		it('raise error, if payload of access token and refresh token is not same', async function () {
+			// todo: add test
+			assert(false);
 		});
 	});
 
 	describe('method revokeToken', function () {
 		it('should success', async function () {
 			//todo: add test
+			assert(false);
 		});
 	});
 });
