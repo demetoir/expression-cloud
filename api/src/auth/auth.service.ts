@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
 import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
-import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
 import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,28 +7,42 @@ import { UserEntity } from '../common/model/entity/user.entity';
 import { AuthenticationError } from './error';
 import { DoubleJwtService } from './double-jwt/double-jwt.service';
 import { ITokenPayload } from './token/token-payload';
-import { RefreshTokenResponseDto } from './dto/refreshToken.response.dto';
-import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
+import { IssueTokenResponse } from './dto/issue-token.response.interface';
+import { IssueTokenDto } from './dto/issue-token.dto';
+import { ExpectedErrors } from './double-jwt/error';
+import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+
+function isInstanceOfErrors(errorArray, e) {
+	for (const error of errorArray) {
+		if (e instanceof error) {
+			return true;
+		}
+	}
+	return false;
+}
+
+const tokenType = 'bearer';
+
+const expiredIn = 3600;
 
 @Injectable()
 export class AuthService {
-	private readonly jwtAuthService: DoubleJwtService<ITokenPayload>;
+	private readonly jwtService: DoubleJwtService<ITokenPayload>;
 
 	@InjectRepository(UserEntity)
 	private readonly userRepository: Repository<UserEntity>;
 
 	constructor(
-		jwtAuthService: DoubleJwtService<ITokenPayload>,
+		jwtService: DoubleJwtService<ITokenPayload>,
 		@InjectRepository(UserEntity)
 		userRepository: Repository<UserEntity>,
 	) {
 		this.userRepository = userRepository;
-		this.jwtAuthService = jwtAuthService;
+		this.jwtService = jwtService;
 	}
 
-	async issueToken(
-		dto: IssueTokenRequestDto,
-	): Promise<IssueTokenResponseDto> {
+	async issueToken(dto: IssueTokenDto): Promise<IssueTokenResponse> {
 		// todo: implement
 		//   get user id and role from db
 		//   validate request dto
@@ -43,55 +55,43 @@ export class AuthService {
 			userName: dto.username,
 		};
 		// find recent issued token
-		const [accessToken, _] = await this.jwtAuthService.signAccessToken(
+		const [accessToken] = await this.jwtService.signAccessToken(
 			userAuthInfo,
 		);
 
-		userAuthInfo.type = 'refreshToken';
-		const [refreshToken] = await this.jwtAuthService.signRefreshToken(
+		const [refreshToken] = await this.jwtService.signRefreshToken(
 			userAuthInfo,
 		);
 
-		return new IssueTokenResponseDto({
+		return {
 			accessToken,
 			refreshToken,
-			expiredIn: 3600,
-			tokenType: 'bearer',
-		});
+			expiredIn,
+			tokenType,
+		};
 	}
 
-	async refreshToken({
-		accessToken: oldAccessToken,
-		refreshToken,
-	}: RefreshTokenRequestDto): Promise<RefreshTokenResponseDto> {
-		return null;
+	async refreshToken(dto: RefreshTokenDto): Promise<RefreshTokenResponse> {
 		// todo: implement this
-		//
-		// // validate
-		// let payload: IJwtPayload;
-		// try {
-		// 	payload = await this.jwtAuthService.validate(
-		// 		refreshToken,
-		// 		'refreshToken',
-		// 	);
-		//
-		// 	// todo: validate custom claim in payload
-		//
-		// 	await this.jwtAuthService.validate(oldAccessToken, 'accessToken');
-		// } catch (e) {
-		// 	if (e instanceof JWTMalformedError) {
-		// 		throw new AuthenticationError(e.message, e);
-		// 	}
-		//
-		// 	if (e instanceof JWTInvalidSignatureError) {
-		// 		throw new AuthenticationError(e.message, e);
-		// 	}
-		//
-		// 	throw e;
-		// }
-		//
-		// // revoke and reissue access token
-		// await this.jwtAuthService.revokeAccessToken(oldAccessToken);
+
+		// validate
+		let payload: ITokenPayload;
+		try {
+			payload = await this.jwtService.verify(dto.refreshToken);
+
+			// todo: validate custom claim in payload
+
+			await this.jwtService.verify(dto.accessToken);
+		} catch (e) {
+			if (isInstanceOfErrors(ExpectedErrors, e)) {
+				throw new AuthenticationError(e.message, e);
+			}
+
+			throw e;
+		}
+
+		// revoke and reissue access token
+		// await this.jwtService.revokeAccessToken(oldAccessToken);
 		//
 		// const userAuthInfo: UserAuthInfo = {
 		// 	userId: payload.userId,
@@ -101,14 +101,15 @@ export class AuthService {
 		// const [newAccessToken] = await this.jwtAuthService.issueAccessToken(
 		// 	userAuthInfo,
 		// );
-		//
-		// const res = new RefreshTokenResponseDto();
-		// res.accessToken = newAccessToken;
-		// res.refreshToken = refreshToken;
-		// res.expiresIn = this.jwtAuthService.expiredIn;
-		// res.tokenType = this.jwtAuthService.tokenType;
-		//
-		// return res;
+
+		const [newAccessToken] = await this.jwtService.signAccessToken(payload);
+
+		return {
+			accessToken: newAccessToken,
+			refreshToken: dto.refreshToken,
+			expiresIn: expiredIn,
+			tokenType: tokenType,
+		};
 	}
 
 	async revokeToken(

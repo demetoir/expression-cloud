@@ -10,12 +10,12 @@ import { logger } from '../common/libs/winstonToolkit';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth/guard/localAuth.guard';
 import { JwtGuard } from './double-jwt/guard/JWT.guard';
-import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
-import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
 import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
 import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
-import { RefreshTokenResponseDto } from './dto/refreshToken.response.dto';
-import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
+import { IssueTokenResponse } from './dto/issue-token.response.interface';
+import { IssueTokenDto } from './dto/issue-token.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -42,16 +42,14 @@ export class AuthController {
 	}
 
 	@Post('/token')
-	async issueToken(
-		@Body() dto: IssueTokenRequestDto,
-	): Promise<IssueTokenResponseDto> {
+	async issueToken(@Body() dto: IssueTokenDto): Promise<IssueTokenResponse> {
 		return this.authService.issueToken(dto);
 	}
 
 	@Post('/token/refresh')
 	async refreshToken(
-		@Body() dto: RefreshTokenRequestDto,
-	): Promise<RefreshTokenResponseDto> {
+		@Body() dto: RefreshTokenDto,
+	): Promise<RefreshTokenResponse> {
 		return this.authService.refreshToken(dto);
 	}
 

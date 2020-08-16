@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { LocalAuthModule } from './localAuth/localAuth.module';
 import { AuthService } from './auth.service';
-import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
-import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
-import { RefreshTokenRequestDto } from './dto/refreshToken.request.dto';
-import { RefreshTokenResponseDto } from './dto/refreshToken.response.dto';
 import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
+import { IssueTokenDto } from './dto/issue-token.dto';
+import { IssueTokenResponse } from './dto/issue-token.response.interface';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 
 export class MockAuthService {
 	issueToken = jest.fn();
@@ -50,19 +50,20 @@ describe('Auth Controller', () => {
 	describe('method issue token', function () {
 		it('should success', async function () {
 			// given mockService
-			const responseDto = new IssueTokenResponseDto();
-			responseDto.refreshToken = 'refreshToken';
-			responseDto.accessToken = 'accessToken';
-			responseDto.expiredIn = 3600;
-			responseDto.tokenType = 'bearer';
+			const responseDto: IssueTokenResponse = {
+				refreshToken: 'refreshToken',
+				accessToken: 'accessToken',
+				expiredIn: 3600,
+				tokenType: 'bearer',
+			};
 
 			service.issueToken.mockReturnValue(responseDto);
 
 			// given dto
-			const dto = new IssueTokenRequestDto();
+			const dto = new IssueTokenDto();
 
 			// when
-			const res: IssueTokenResponseDto = await controller.issueToken(dto);
+			const res: IssueTokenResponse = await controller.issueToken(dto);
 
 			//than
 
@@ -81,10 +82,10 @@ describe('Auth Controller', () => {
 			service.refreshToken.mockReturnValue(null);
 
 			// given dto
-			const dto = new RefreshTokenRequestDto();
+			const dto = new RefreshTokenDto();
 
 			// when
-			const res: RefreshTokenResponseDto = await controller.refreshToken(
+			const res: RefreshTokenResponse = await controller.refreshToken(
 				dto,
 			);
 

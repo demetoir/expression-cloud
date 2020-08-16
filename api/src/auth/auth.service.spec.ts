@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocalAuthModule } from './localAuth/localAuth.module';
 import { AuthService } from './auth.service';
-import { IssueTokenRequestDto } from './dto/issueToken.request.dto';
-import { IssueTokenResponseDto } from './dto/issueToken.response.dto';
 import { DoubleJwtService } from './double-jwt/double-jwt.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../common/model/entity/user.entity';
@@ -17,6 +15,8 @@ import {
 } from './double-jwt/error';
 import assert from 'assert';
 import { JWTType } from './interface';
+import { IssueTokenDto } from './dto/issue-token.dto';
+import { IssueTokenResponse } from './dto/issue-token.response.interface';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';
@@ -80,16 +80,14 @@ describe('AuthService', () => {
 			]);
 
 			// given dto
-			const dto = new IssueTokenRequestDto();
+			const dto = new IssueTokenDto();
 			dto.username = 'root';
 			dto.password = 'pass';
 
 			//when
-			const res: IssueTokenResponseDto = await service.issueToken(dto);
+			const res: IssueTokenResponse = await service.issueToken(dto);
 
 			//than
-			expect(res).toBeInstanceOf(IssueTokenResponseDto);
-
 			expect(res.tokenType).toBe(tokenType);
 			expect(res.expiredIn).toBe(expiredIn);
 			expect(res.accessToken).toBe(accessToken);
@@ -98,7 +96,7 @@ describe('AuthService', () => {
 
 		it('raise error if invalid user', async function () {
 			// given dto
-			const dto = new IssueTokenRequestDto();
+			const dto = new IssueTokenDto();
 			dto.username = 'root1234';
 			dto.password = 'pass';
 
