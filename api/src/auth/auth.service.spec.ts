@@ -14,6 +14,8 @@ import {
 } from './double-jwt/error';
 import { EPayloadType } from './double-jwt/interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import * as _ from 'lodash';
+import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';
@@ -23,7 +25,7 @@ const payloadFixtures = {
 		exp: 1231231233333233,
 		nbf: 123,
 		iat: 123,
-		uuid: 'uuid2',
+		uuid: 'uuid1',
 		type: EPayloadType.refresh,
 
 		iss: 'iss',
@@ -37,7 +39,7 @@ const payloadFixtures = {
 		exp: 12312312312312312,
 		nbf: 123,
 		iat: 123,
-		uuid: 'uuid1',
+		uuid: 'uuid2',
 		type: EPayloadType.access,
 
 		iss: 'iss',
@@ -54,7 +56,19 @@ const payloadFixtures = {
 		iat: 123,
 		uuid: 'uuid2',
 		type: EPayloadType.refresh,
-
+		iss: 'iss',
+		aud: 'aud',
+		role: 'role',
+		sub: 'sub',
+		userId: 1,
+		userName: 'username',
+	},
+	newAccess: {
+		exp: 12312312312312312,
+		nbf: 123,
+		iat: 123,
+		uuid: 'uuid3',
+		type: EPayloadType.access,
 		iss: 'iss',
 		aud: 'aud',
 		role: 'role',
@@ -330,8 +344,93 @@ describe('AuthService', () => {
 	});
 
 	describe('method refreshToken', function () {
-		it('should success', function () {
-			assert(false);
+		it('should success', async function () {
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given new access token
+			const newAccessToken = 'new access token';
+
+			// given payloads
+			const accessPayload = payloadFixtures.access;
+			const refreshPayload = payloadFixtures.refresh;
+
+			// given mock jwt service mock
+			mockJWTAuthService.verify.mockImplementation((token) => {
+				if (token === accessToken) {
+					return accessPayload;
+				}
+
+				if (token === refreshToken) {
+					return refreshPayload;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			const newPayload = payloadFixtures.newAccess;
+
+			mockJWTAuthService.isExpired.mockReturnValue(false);
+
+			mockJWTAuthService.signAccessToken.mockReturnValue([
+				newAccessToken,
+				newPayload,
+			]);
+
+			// given mock token service
+			// return stored payload
+			mockTokenService.findOne.mockImplementation((uuid) => {
+				if (uuid === accessPayload.uuid) {
+					return accessPayload;
+				}
+
+				if (uuid === refreshPayload.uuid) {
+					return refreshPayload;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			// delete old payload
+			mockTokenService.deleteOne.mockImplementation((uuid) => {
+				if (uuid === accessPayload.uuid) {
+					return;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			// create new payload
+			mockTokenService.createOne.mockImplementation((dto) => {
+				if (_.isEqual(dto, newPayload)) {
+					return;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			// when
+			const res: RefreshTokenResponse = await service.refreshToken(dto);
+
+			//than return response dto
+			const expectationResult: RefreshTokenResponse = {
+				refreshToken: refreshToken,
+				accessToken: newAccessToken,
+				tokenType: 'bearer',
+				expiresIn: 3600,
+			};
+			expect(res).toEqual(expectationResult);
+
+			// than call mock token service
+			expect(mockTokenService.deleteOne.mock.calls.length).toBe(1);
+			expect(mockTokenService.createOne.mock.calls.length).toBe(1);
+			expect(mockTokenService.findOne.mock.calls.length).toBe(2);
 		});
 
 		// case of refresh token and payload problem
@@ -360,6 +459,7 @@ describe('AuthService', () => {
 			} catch (e) {
 				expect(e).toBeInstanceOf(AuthenticationError);
 				expect(e.message).toBe('invalid refresh token of malformed');
+				expect(mockJWTAuthService.verify.mock.calls.length).toBe(1);
 			}
 		});
 
@@ -394,15 +494,119 @@ describe('AuthService', () => {
 		});
 
 		it('should raise error, if invalid refresh payload', async function () {
-			assert(false);
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock, throw AuthenticationError
+			service.verifyToken = jest
+				.fn()
+				.mockImplementation((token, type) => {
+					expect(token).toEqual(refreshToken);
+
+					if (type === 'refresh') {
+						const errors = [];
+						throw new AuthenticationError(
+							`invalid custom claims in ${type} token`,
+							errors,
+						);
+					}
+
+					expectShouldNotCallThis();
+				});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe(
+					'invalid custom claims in refresh token',
+				);
+			}
 		});
 
 		it('should raise error, if refresh payload is not found in storage', async function () {
-			assert(false);
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock, throw AuthenticationError
+			service.verifyToken = jest
+				.fn()
+				.mockImplementation((token, type) => {
+					expect(token).toEqual(refreshToken);
+
+					if (type === 'refresh') {
+						throw new AuthenticationError(
+							`${type} token is not found in token storage`,
+						);
+					}
+
+					expectShouldNotCallThis();
+				});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe(
+					'refresh token is not found in token storage',
+				);
+			}
 		});
 
 		it('should raise error, if refresh payload is not same as stored payload', async function () {
-			assert(false);
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock, throw AuthenticationError
+			service.verifyToken = jest
+				.fn()
+				.mockImplementation((token, type) => {
+					expect(token).toEqual(refreshToken);
+
+					if (type === 'refresh') {
+						throw new AuthenticationError(
+							'payload is not same with stored payload',
+						);
+					}
+
+					expectShouldNotCallThis();
+				});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe(
+					'payload is not same with stored payload',
+				);
+			}
 		});
 
 		it('should raise error, if expired refresh token', async function () {
@@ -415,20 +619,25 @@ describe('AuthService', () => {
 			dto.accessToken = accessToken;
 			dto.refreshToken = refreshToken;
 
+			// given mock method of service
+			const mockMethod_verifyToken = jest
+				.fn()
+				.mockImplementation((token) => {
+					if (token === refreshToken) {
+						return payloadFixtures.expiredRefresh;
+					}
+
+					expectShouldNotCallThis();
+				});
+			service.verifyToken = mockMethod_verifyToken;
+
 			// given mock jwt service
-			mockJWTAuthService.verify.mockImplementation((token) => {
-				if (token === refreshToken) {
-					return payloadFixtures.expiredRefresh;
-				}
-			});
 
-			mockJWTAuthService.isExpired.mockReturnValue(true);
-
-			// given mock token service
-			mockTokenService.findOne.mockImplementation((uuid) => {
-				if (uuid === payloadFixtures.refresh.uuid) {
-					return payloadFixtures.expiredRefresh;
+			mockJWTAuthService.isExpired.mockImplementation((payload) => {
+				if (payload === payloadFixtures.expiredRefresh) {
+					return true;
 				}
+				expectShouldNotCallThis();
 			});
 
 			try {
@@ -437,9 +646,11 @@ describe('AuthService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				console.log(e);
 				expect(e).toBeInstanceOf(AuthenticationError);
 				expect(e.message).toBe('expired refresh token');
+
+				expect(mockMethod_verifyToken.mock.calls.length).toBe(1);
+				expect(mockJWTAuthService.isExpired.mock.calls.length).toBe(1);
 			}
 		});
 
@@ -455,22 +666,31 @@ describe('AuthService', () => {
 			dto.refreshToken = refreshToken;
 
 			// given mock, throw
-			mockJWTAuthService.verify.mockImplementation((token) => {
+			// given mock method verifyToken
+			const verifyToken = jest.fn().mockImplementation((token, type) => {
 				if (token === refreshToken) {
 					return payloadFixtures.refresh;
 				}
 
 				if (token === accessToken) {
-					throw new MalformedJWTError('malformed');
+					throw new AuthenticationError(
+						`invalid ${type} token of malformed`,
+					);
 				}
-			});
 
-			// given mock
-			mockTokenService.findOne.mockImplementation((uuid) => {
-				if (uuid === payloadFixtures.refresh.uuid) {
-					return payloadFixtures.refresh;
-				}
+				expectShouldNotCallThis();
 			});
+			service.verifyToken = verifyToken;
+
+			mockJWTAuthService.isExpired = jest
+				.fn()
+				.mockImplementation((payload) => {
+					if (payload === payloadFixtures.refresh) {
+						return false;
+					}
+
+					expectShouldNotCallThis();
+				});
 
 			try {
 				// when
@@ -480,31 +700,219 @@ describe('AuthService', () => {
 			} catch (e) {
 				expect(e).toBeInstanceOf(AuthenticationError);
 				expect(e.message).toBe('invalid access token of malformed');
+				expect(verifyToken.mock.calls.length).toBe(2);
+				expect(mockJWTAuthService.isExpired.mock.calls.length).toBe(1);
 			}
 		});
 
-		it('should raise error, if raise invalidSignatureError from verify access token ', function () {
-			assert(false);
+		it('should raise error, if raise invalidSignatureError from verify access token ', async function () {
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock method verifyToken
+			const verifyToken = jest.fn().mockImplementation((token, type) => {
+				if (token === refreshToken) {
+					return payloadFixtures.refresh;
+				}
+
+				if (token === accessToken) {
+					throw new AuthenticationError(
+						`invalid ${type} token of InvalidSignatureError`,
+					);
+				}
+
+				expectShouldNotCallThis();
+			});
+			service.verifyToken = verifyToken;
+
+			// given mock jwt service
+			mockJWTAuthService.isExpired.mockImplementation((payload) => {
+				if (payload === payloadFixtures.refresh) {
+					return false;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe(
+					'invalid access token of InvalidSignatureError',
+				);
+
+				expect(verifyToken.mock.calls.length).toBe(2);
+				expect(mockJWTAuthService.isExpired.mock.calls.length).toBe(1);
+			}
 		});
 
-		it('should raise error, if invalid access payload', async function () {
-			// todo: add test
-			assert(false);
+		it('should raise error, if invalid custom claims of access payload', async function () {
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock method verifyToken
+			const verifyToken = jest.fn().mockImplementation((token, type) => {
+				if (token === refreshToken) {
+					return payloadFixtures.refresh;
+				}
+
+				if (token === accessToken) {
+					const errors = [];
+					throw new AuthenticationError(
+						`invalid custom claims in ${type} token`,
+						errors,
+					);
+				}
+
+				expectShouldNotCallThis();
+			});
+			service.verifyToken = verifyToken;
+
+			// given mock jwt service
+			mockJWTAuthService.isExpired.mockImplementation((payload) => {
+				if (payload === payloadFixtures.refresh) {
+					return false;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe('invalid custom claims in access token');
+
+				expect(verifyToken.mock.calls.length).toBe(2);
+				expect(mockJWTAuthService.isExpired.mock.calls.length).toBe(1);
+			}
 		});
 
 		it('should raise error, if access payload is not found in storage', async function () {
-			// todo: add test
-			assert(false);
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock method verifyToken
+			const verifyToken = jest.fn().mockImplementation((token, type) => {
+				if (token === refreshToken) {
+					return payloadFixtures.refresh;
+				}
+
+				if (token === accessToken) {
+					const errors = [];
+					throw new AuthenticationError(
+						`${type} token is not found in token storage`,
+						errors,
+					);
+				}
+
+				expectShouldNotCallThis();
+			});
+			service.verifyToken = verifyToken;
+
+			// given mock jwt service
+			mockJWTAuthService.isExpired.mockImplementation((payload) => {
+				if (payload === payloadFixtures.refresh) {
+					return false;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe(
+					'access token is not found in token storage',
+				);
+
+				expect(verifyToken.mock.calls.length).toBe(2);
+				expect(mockJWTAuthService.isExpired.mock.calls.length).toBe(1);
+			}
 		});
 
 		it('should raise error, if access payload is not same as stored payload', async function () {
-			// todo: add test
-			assert(false);
-		});
+			// given token
+			const accessToken = 'access';
+			const refreshToken = 'refresh';
 
-		it('should raise error, if payload of access token and refresh token is not same', async function () {
-			// todo: add test
-			assert(false);
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			// given mock method verifyToken
+			const verifyToken = jest.fn().mockImplementation((token, type) => {
+				if (token === refreshToken) {
+					return payloadFixtures.refresh;
+				}
+
+				if (token === accessToken) {
+					const errors = [];
+					throw new AuthenticationError(
+						'payload is not same with stored payload',
+						errors,
+					);
+				}
+
+				expectShouldNotCallThis();
+			});
+			service.verifyToken = verifyToken;
+
+			// given mock jwt service
+			mockJWTAuthService.isExpired.mockImplementation((payload) => {
+				if (payload === payloadFixtures.refresh) {
+					return false;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			try {
+				// when
+				await service.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				// than expect error
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe(
+					'payload is not same with stored payload',
+				);
+
+				// than expect call mock
+				expect(verifyToken.mock.calls.length).toBe(2);
+				expect(mockJWTAuthService.isExpired.mock.calls.length).toBe(1);
+			}
 		});
 	});
 

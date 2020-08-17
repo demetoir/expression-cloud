@@ -72,6 +72,7 @@ export class AuthService {
 	async refreshToken(dto: RefreshTokenDto): Promise<RefreshTokenResponse> {
 		const { accessToken, refreshToken } = dto;
 
+		// validate tokens
 		const refreshPayload: ITokenPayload = await this.verifyToken(
 			refreshToken,
 			'refresh',
@@ -86,12 +87,16 @@ export class AuthService {
 			'access',
 		);
 
-		// delete access token in storage
+		// delete old access token in storage
 		await this.tokenService.deleteOne(accessPayload.uuid);
 
-		const [newAccessToken] = await this.jwtService.signAccessToken(
-			accessPayload,
-		);
+		// issue new token and save to storage
+		const [
+			newAccessToken,
+			newPayload,
+		] = await this.jwtService.signAccessToken(accessPayload);
+
+		await this.tokenService.createOne(newPayload);
 
 		return {
 			accessToken: newAccessToken,
