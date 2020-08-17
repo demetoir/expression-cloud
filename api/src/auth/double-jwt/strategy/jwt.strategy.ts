@@ -2,11 +2,12 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { JWT_SECRET, JWT_STRATEGY } from '../../constants';
+import { plainToClass } from 'class-transformer';
+import { TokenPayload } from '../../token/token-payload';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
-	constructor() // private jwtAuthService: JWTAuthService, // private jwtOptionService: JWTOptionService,
-	{
+	constructor() {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			ignoreExpiration: false,
@@ -14,10 +15,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
 		});
 	}
 
-	async validate(payload): Promise<any> {
-		// todo: implement this
-		console.log(payload);
-		return null;
-		// return this.jwtAuthService.validateUser(payload);
+	async validate(payload: TokenPayload): Promise<any> {
+		const user = plainToClass(TokenPayload, payload);
+
+		// todo: check if userId, userName, role
+
+		return user;
 	}
 }

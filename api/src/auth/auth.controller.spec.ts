@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { LocalAuthModule } from './localAuth/localAuth.module';
 import { AuthService } from './auth.service';
-import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
+import { RevokeTokenDto } from './dto/revoke-token.dto';
 
 export class MockAuthService {
 	issueToken = jest.fn();
@@ -66,12 +66,9 @@ describe('Auth Controller', () => {
 			const res: IssueTokenResponse = await controller.issueToken(dto);
 
 			//than
-
 			expect(res).toBeDefined();
 			expect(res).toEqual(responseDto);
 		});
-
-		it('should rate limit', function () {});
 	});
 
 	describe('method refresh token', function () {
@@ -107,15 +104,12 @@ describe('Auth Controller', () => {
 			service.revokeToken.mockReturnValue(null);
 
 			// given dto
-			const dto = new RevokeTokenResponseDto();
+			const dto = new RevokeTokenDto();
 
 			// when
-			const res: RevokeTokenResponseDto = await controller.revokeToken(
-				dto,
-			);
+			await controller.revokeToken(dto);
 
 			// than
-			expect(res).toBeDefined();
 		});
 	});
 

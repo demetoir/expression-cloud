@@ -3,19 +3,14 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JWT_AUD, JWT_ISS, JWT_SECRET } from '../constants';
 import { DoubleJwtService } from './double-jwt.service';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import {
-	ExpiredJwtError,
-	InvalidJwtPayloadError,
-	InvalidJWTSignatureError,
-	MalformedJWTError,
-} from './error';
+import { InvalidJWTSignatureError, MalformedJWTError } from './error';
 import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
 
 import * as jwt from 'jsonwebtoken';
-import { IJwtPayload } from './interface';
+import { IPayload } from './interface';
 
-interface TestIJwtPayload extends IJwtPayload {
+interface TestIJwtPayload extends IPayload {
 	userName: string;
 	role: string;
 }
@@ -47,6 +42,7 @@ describe('DoubleJWTService', () => {
 		expect(service.verify).toBeDefined();
 		expect(service.signAccessToken).toBeDefined();
 		expect(service.signRefreshToken).toBeDefined();
+		expect(service.isExpired).toBeDefined();
 	});
 
 	describe('signAccessToken', function () {
@@ -59,7 +55,7 @@ describe('DoubleJWTService', () => {
 			};
 
 			// when
-			const [token, tokenUuid] = await service.signAccessToken(user);
+			const [token, tokenPayload] = await service.signAccessToken(user);
 
 			//than able to verify
 			const payload: TestIJwtPayload = await jwtService.verifyAsync(
@@ -67,13 +63,13 @@ describe('DoubleJWTService', () => {
 			);
 
 			// than expect payload property
-			expect(payload.type).toEqual('accessToken');
+			expect(payload.type).toEqual('access');
 			expect(payload.iss).toEqual(JWT_ISS);
 			expect(payload.aud).toEqual(JWT_AUD);
 			expect(payload.role).toEqual(user.role);
 			expect(payload.userName).toEqual(user.userName);
 			expect(payload.userId).toEqual(user.userId);
-			expect(payload.uuid).toEqual(tokenUuid);
+			expect(payload.uuid).toEqual(tokenPayload.uuid);
 
 			// expect(uuidValidate(payload.uuid)).toBeTruthy();
 			// expect(uuidVersion(payload.uuid)).toEqual(4);
@@ -83,8 +79,8 @@ describe('DoubleJWTService', () => {
 			const time = duration * 60 * 60 * 1000;
 			expect(payload.exp - payload.iat).toEqual(time);
 
-			expect(tokenUuid).toBeDefined();
-			expect(tokenUuid).toEqual(payload.uuid);
+			expect(tokenPayload.uuid).toBeDefined();
+			expect(tokenPayload.uuid).toEqual(payload.uuid);
 		});
 	});
 
@@ -98,7 +94,7 @@ describe('DoubleJWTService', () => {
 			};
 
 			// when
-			const [token, tokenUuid] = await service.signRefreshToken(user);
+			const [token, tokenPayload] = await service.signRefreshToken(user);
 
 			//than able to verify
 			const payload: TestIJwtPayload = await jwtService.verifyAsync(
@@ -106,21 +102,21 @@ describe('DoubleJWTService', () => {
 			);
 
 			// than expect payload property
-			expect(payload.type).toEqual('refreshToken');
+			expect(payload.type).toEqual('refresh');
 			expect(payload.iss).toEqual(JWT_ISS);
 			expect(payload.aud).toEqual(JWT_AUD);
 			expect(payload.role).toEqual(user.role);
 			expect(payload.userName).toEqual(user.userName);
 			expect(payload.userId).toEqual(user.userId);
-			expect(payload.uuid).toEqual(tokenUuid);
+			expect(payload.uuid).toEqual(tokenPayload.uuid);
 			// than expect exact time from exp to issue
 
 			const duration = 10;
 			const time = duration * 60 * 60 * 1000;
 			expect(payload.exp - payload.iat).toEqual(time);
 
-			expect(tokenUuid).toBeDefined();
-			expect(tokenUuid).toEqual(payload.uuid);
+			expect(payload.uuid).toBeDefined();
+			expect(tokenPayload.uuid).toEqual(payload.uuid);
 		});
 	});
 
@@ -157,39 +153,6 @@ describe('DoubleJWTService', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(MalformedJWTError);
-			}
-		});
-
-		it('should raise error, if expired token', async function () {
-			const duration = 10;
-
-			const iat = moment()
-				.add(-duration * 2, 'hour')
-				.valueOf();
-			const exp = moment().add(-duration, 'hour').valueOf();
-			const tokenUuid = uuid();
-			const payload: TestIJwtPayload = {
-				sub: 'any',
-				iss: JWT_ISS,
-				aud: JWT_AUD,
-				iat: iat,
-				exp: exp,
-				uuid: tokenUuid,
-				type: 'refreshToken',
-				userId: 1,
-				userName: 'username',
-				role: 'user',
-			};
-
-			const expiredToken = await jwt.sign(payload, JWT_SECRET);
-
-			try {
-				// when
-				await service.verify(expiredToken);
-
-				expectShouldNotCallThis();
-			} catch (e) {
-				expect(e).toBeInstanceOf(ExpiredJwtError);
 			}
 		});
 
@@ -233,8 +196,48 @@ describe('DoubleJWTService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(InvalidJwtPayloadError);
+				expect(e).toBeInstanceOf(MalformedJWTError);
 			}
+		});
+	});
+
+	describe('isExpired', function () {
+		it('should return false', async function () {
+			const duration = 10;
+			const iat = moment().valueOf();
+			const exp = moment().add(duration, 'hour').valueOf();
+			const tokenUuid = uuid();
+			const payload: IPayload = {
+				sub: 'any',
+				iss: JWT_ISS,
+				aud: JWT_AUD,
+				iat: iat,
+				exp: exp,
+				uuid: tokenUuid,
+			};
+
+			const res = await service.isExpired(payload);
+
+			expect(res).toBeFalsy();
+		});
+
+		it('should return true', async function () {
+			const duration = 10;
+			const iat = moment().valueOf();
+			const exp = moment().add(-duration, 'hour').valueOf();
+			const tokenUuid = uuid();
+			const payload: IPayload = {
+				sub: 'any',
+				iss: JWT_ISS,
+				aud: JWT_AUD,
+				iat: iat,
+				exp: exp,
+				uuid: tokenUuid,
+			};
+
+			const res = await service.isExpired(payload);
+
+			expect(res).toBeTruthy();
 		});
 	});
 });

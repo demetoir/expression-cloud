@@ -1,26 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
-import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../common/model/entity/user.entity';
+import * as _ from 'lodash';
 import { AuthenticationError } from './error';
 import { DoubleJwtService } from './double-jwt/double-jwt.service';
-import { ITokenPayload } from './token/token-payload';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { ExpectedErrors } from './double-jwt/error';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-
-function isInstanceOfErrors(errorArray, e) {
-	for (const error of errorArray) {
-		if (e instanceof error) {
-			return true;
-		}
-	}
-	return false;
-}
+import { RevokeTokenDto } from './dto/revoke-token.dto';
+import { ITokenPayload } from './token/interface';
+import { TokenService } from './token/token.service';
+import { validate } from 'class-validator';
+import { isOneOfInstance } from '../common/libs/util';
+import { plainToClass } from 'class-transformer';
+import { TokenPayloadDto } from './token/token-payload.dto';
 
 const tokenType = 'bearer';
 
@@ -29,39 +22,44 @@ const expiredIn = 3600;
 @Injectable()
 export class AuthService {
 	private readonly jwtService: DoubleJwtService<ITokenPayload>;
-
-	@InjectRepository(UserEntity)
-	private readonly userRepository: Repository<UserEntity>;
+	private readonly tokenService: TokenService;
 
 	constructor(
 		jwtService: DoubleJwtService<ITokenPayload>,
-		@InjectRepository(UserEntity)
-		userRepository: Repository<UserEntity>,
+		tokenService: TokenService,
 	) {
-		this.userRepository = userRepository;
 		this.jwtService = jwtService;
+		this.tokenService = tokenService;
 	}
 
 	async issueToken(dto: IssueTokenDto): Promise<IssueTokenResponse> {
 		// todo: implement
 		//   get user id and role from db
 		//   validate request dto
-		if (!(dto.username === 'root' && dto.password === 'pass')) {
+		//   validate request dto
+		if (!(await this.isValidUserByBasic(dto.username, dto.password))) {
 			throw new AuthenticationError('user is not authenticated');
 		}
 
 		const userAuthInfo: ITokenPayload = {
 			role: 'user',
 			userName: dto.username,
+			userId: 1,
 		};
-		// find recent issued token
-		const [accessToken] = await this.jwtService.signAccessToken(
-			userAuthInfo,
-		);
 
-		const [refreshToken] = await this.jwtService.signRefreshToken(
-			userAuthInfo,
-		);
+		// find recent issued token
+		const [
+			accessToken,
+			accessPayload,
+		] = await this.jwtService.signAccessToken(userAuthInfo);
+
+		const [
+			refreshToken,
+			refreshPayload,
+		] = await this.jwtService.signRefreshToken(userAuthInfo);
+
+		await this.tokenService.createOne(accessPayload);
+		await this.tokenService.createOne(refreshPayload);
 
 		return {
 			accessToken,
@@ -72,51 +70,101 @@ export class AuthService {
 	}
 
 	async refreshToken(dto: RefreshTokenDto): Promise<RefreshTokenResponse> {
-		// todo: implement this
+		const { accessToken, refreshToken } = dto;
 
-		// validate
-		let payload: ITokenPayload;
-		try {
-			payload = await this.jwtService.verify(dto.refreshToken);
+		const refreshPayload: ITokenPayload = await this.verifyToken(
+			refreshToken,
+			'refresh',
+		);
 
-			// todo: validate custom claim in payload
-
-			await this.jwtService.verify(dto.accessToken);
-		} catch (e) {
-			if (isInstanceOfErrors(ExpectedErrors, e)) {
-				throw new AuthenticationError(e.message, e);
-			}
-
-			throw e;
+		if (await this.jwtService.isExpired(refreshPayload)) {
+			throw new AuthenticationError('expired refresh token');
 		}
 
-		// revoke and reissue access token
-		// await this.jwtService.revokeAccessToken(oldAccessToken);
-		//
-		// const userAuthInfo: UserAuthInfo = {
-		// 	userId: payload.userId,
-		// 	userName: payload.userName,
-		// 	role: payload.role,
-		// };
-		// const [newAccessToken] = await this.jwtAuthService.issueAccessToken(
-		// 	userAuthInfo,
-		// );
+		const accessPayload: ITokenPayload = await this.verifyToken(
+			accessToken,
+			'access',
+		);
 
-		const [newAccessToken] = await this.jwtService.signAccessToken(payload);
+		// delete access token in storage
+		await this.tokenService.deleteOne(accessPayload.uuid);
+
+		const [newAccessToken] = await this.jwtService.signAccessToken(
+			accessPayload,
+		);
 
 		return {
 			accessToken: newAccessToken,
-			refreshToken: dto.refreshToken,
+			refreshToken: refreshToken,
 			expiresIn: expiredIn,
 			tokenType: tokenType,
 		};
 	}
 
-	async revokeToken(
-		dto: RevokeTokenRequestDto,
-	): Promise<RevokeTokenResponseDto> {
-		// todo: implement this
+	async revokeToken(dto: RevokeTokenDto): Promise<void> {
+		const { accessToken, refreshToken } = dto;
 
-		return null;
+		const refreshPayload: ITokenPayload = await this.verifyToken(
+			refreshToken,
+			'refresh token',
+		);
+
+		const accessPayload: ITokenPayload = await this.verifyToken(
+			accessToken,
+			'access token',
+		);
+
+		// delete
+		await this.tokenService.deleteOne(refreshPayload.uuid);
+		await this.tokenService.deleteOne(accessPayload.uuid);
+	}
+
+	async verifyToken(token: string, type: string): Promise<ITokenPayload> {
+		let payload: ITokenPayload;
+		try {
+			payload = await this.jwtService.verify(token);
+		} catch (e) {
+			if (isOneOfInstance(e, ...ExpectedErrors)) {
+				throw new AuthenticationError(
+					`invalid ${type} token of ${e.message}`,
+					e,
+				);
+			}
+
+			throw e;
+		}
+
+		// validate custom claims in payload
+		const payloadDto = plainToClass(TokenPayloadDto, payload);
+
+		const errors = await validate(payloadDto);
+
+		if (errors.length > 0) {
+			throw new AuthenticationError(
+				`invalid custom claims in ${type} token`,
+				errors,
+			);
+		}
+
+		// token not found in storage
+		const storedPayload = await this.tokenService.findOne(payload.uuid);
+		if (storedPayload === null) {
+			throw new AuthenticationError(
+				`${type} token is not found in token storage`,
+			);
+		}
+
+		// check payload is same as stored payload
+		if (!_.isEqual(payload, storedPayload)) {
+			throw new AuthenticationError(
+				'payload is not same with stored payload',
+			);
+		}
+
+		return payload;
+	}
+
+	async isValidUserByBasic(username, password): Promise<boolean> {
+		return username === 'root' && password === 'pass';
 	}
 }

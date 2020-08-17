@@ -10,12 +10,11 @@ import { logger } from '../common/libs/winstonToolkit';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth/guard/localAuth.guard';
 import { JwtGuard } from './double-jwt/guard/JWT.guard';
-import { RevokeTokenRequestDto } from './dto/revokeToken.request.dto';
-import { RevokeTokenResponseDto } from './dto/revokeToken.response.dto';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
+import { RevokeTokenDto } from './dto/revoke-token.dto';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -46,6 +45,7 @@ export class AuthController {
 		return this.authService.issueToken(dto);
 	}
 
+	@UseGuards(JwtGuard)
 	@Post('/token/refresh')
 	async refreshToken(
 		@Body() dto: RefreshTokenDto,
@@ -53,10 +53,9 @@ export class AuthController {
 		return this.authService.refreshToken(dto);
 	}
 
+	@UseGuards(JwtGuard)
 	@Post('/token/revocation')
-	async revokeToken(
-		@Body() dto: RevokeTokenRequestDto,
-	): Promise<RevokeTokenResponseDto> {
+	async revokeToken(@Body() dto: RevokeTokenDto): Promise<void> {
 		return this.authService.revokeToken(dto);
 	}
 }

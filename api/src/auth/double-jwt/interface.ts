@@ -1,4 +1,4 @@
-export declare interface IJwtPayload {
+export declare interface IPayload {
 	//reserved jwt claims
 	exp?: number;
 	nbf?: number;
@@ -10,7 +10,14 @@ export declare interface IJwtPayload {
 	sub?: string;
 
 	//custom jwt claim
-	type?: 'accessToken' | 'refreshToken';
+	type?: IPayloadType;
 	uuid?: string;
 	userId?: number;
 }
+
+export enum EPayloadType {
+	access = 'access',
+	refresh = 'refresh',
+}
+
+export declare type IPayloadType = EPayloadType;
