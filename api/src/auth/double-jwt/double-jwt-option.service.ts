@@ -4,7 +4,7 @@ import { JWT_SECRET } from './constants';
 
 // todo: add more option for jwt module
 @Injectable()
-export class JwtOptionService implements JwtOptionsFactory {
+export class DoubleJwtOptionService implements JwtOptionsFactory {
 	createJwtOptions(): JwtModuleOptions {
 		return {
 			secret: JWT_SECRET,
