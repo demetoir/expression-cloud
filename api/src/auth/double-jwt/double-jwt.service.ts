@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
-import { JWT_AUD, JWT_ISS } from '../constants';
+import { JWT_AUD, JWT_ISS } from './constants';
 import { v4 as uuid } from 'uuid';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';

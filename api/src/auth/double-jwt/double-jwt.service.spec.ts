@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { JWT_AUD, JWT_ISS, JWT_SECRET } from '../constants';
+import { JWT_AUD, JWT_ISS, JWT_SECRET } from './constants';
 import { DoubleJwtService } from './double-jwt.service';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';
