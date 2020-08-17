@@ -25,3 +25,14 @@ services:
       - ${VOLUMNS_PATH}/${CONTAINER_PREFIX}.${REDIS_CONTAINER_NAME}:/data
     restart: always
 
+  mongo:
+    container_name: ${CONTAINER_PREFIX}.mongodb
+    image: mongo
+    ports:
+      - ${MONGODB_PORT}:27017
+    volumes:
+      - ${VOLUMNS_PATH}/${CONTAINER_PREFIX}.mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+    restart: always
