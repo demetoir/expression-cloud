@@ -165,7 +165,9 @@ describe('AuthService', () => {
 			const type = 'access token';
 
 			// given mock
-			mockJWTAuthService.verify.mockReturnValue(brokenPayload);
+			mockJWTAuthService.verify.mockImplementation(() => {
+				throw new MalformedJWTError('malformed');
+			});
 
 			try {
 				// when
@@ -176,7 +178,7 @@ describe('AuthService', () => {
 				// than
 				expect(e).toBeInstanceOf(AuthenticationError);
 				expect(e.message).toBe(
-					'invalid custom claims in access token token',
+					'invalid access token token of malformed',
 				);
 			}
 		});
@@ -186,7 +188,9 @@ describe('AuthService', () => {
 			const type = 'access token';
 
 			// given mock
-			mockJWTAuthService.verify.mockReturnValue(brokenPayload);
+			mockJWTAuthService.verify.mockImplementation(() => {
+				throw new InvalidJWTSignatureError('invalid JWT');
+			});
 
 			try {
 				// when
@@ -197,7 +201,7 @@ describe('AuthService', () => {
 				// than
 				expect(e).toBeInstanceOf(AuthenticationError);
 				expect(e.message).toBe(
-					'invalid custom claims in access token token',
+					'invalid access token token of invalid JWT',
 				);
 			}
 		});
@@ -237,7 +241,7 @@ describe('AuthService', () => {
 
 			try {
 				// when
-				const payload = await service.verifyToken(token, type);
+				await service.verifyToken(token, type);
 
 				expectShouldNotCallThis();
 			} catch (e) {
@@ -254,7 +258,9 @@ describe('AuthService', () => {
 			const type = 'access token';
 
 			// given mock
-			mockJWTAuthService.verify.mockReturnValue(payloadFixtures.access);
+			mockJWTAuthService.verify.mockImplementation(
+				() => payloadFixtures.access,
+			);
 
 			mockTokenService.findOne.mockReturnValue({ a: 1 });
 
@@ -271,7 +277,7 @@ describe('AuthService', () => {
 			}
 		});
 
-		it('should raise error, if raise error from jwtService.verify', async function () {
+		it('should raise error, if raise any error from jwtService.verify', async function () {
 			// given
 
 			const token = 'any token';
@@ -279,19 +285,17 @@ describe('AuthService', () => {
 
 			// given mock
 			mockJWTAuthService.verify.mockImplementation(() => {
-				throw new MalformedJWTError('malformed');
+				throw new TypeError('shit');
 			});
 
 			try {
 				// when
-				const payload = await service.verifyToken(token, type);
+				await service.verifyToken(token, type);
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(AuthenticationError);
-				expect(e.message).toBe(
-					'invalid access token token of malformed',
-				);
+				expect(e).toBeInstanceOf(TypeError);
+				expect(e.message).toBe('shit');
 			}
 		});
 	});
@@ -870,7 +874,7 @@ describe('AuthService', () => {
 			dto.refreshToken = refreshToken;
 
 			// given mock method verifyToken
-			const verifyToken = jest.fn().mockImplementation((token, type) => {
+			const verifyToken = jest.fn().mockImplementation((token) => {
 				if (token === refreshToken) {
 					return payloadFixtures.refresh;
 				}
@@ -998,7 +1002,6 @@ describe('AuthService', () => {
 			dto.accessToken = accessToken;
 			dto.refreshToken = refreshToken;
 
-			const accessPayload = 'access';
 			const refreshPayload = 'refresh';
 
 			const verifyToken = jest.fn().mockImplementation((token) => {
