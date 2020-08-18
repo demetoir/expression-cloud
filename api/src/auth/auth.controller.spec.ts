@@ -7,6 +7,9 @@ import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
+import { UnauthorizedException } from '@nestjs/common';
+import { AuthenticationError } from './error';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
 
 export class MockAuthService {
 	issueToken = jest.fn();
@@ -49,7 +52,6 @@ describe('Auth Controller', () => {
 
 	describe('method issue token', function () {
 		it('should success', async function () {
-			// given mockService
 			const responseDto: IssueTokenResponse = {
 				refreshToken: 'refreshToken',
 				accessToken: 'accessToken',
@@ -57,10 +59,19 @@ describe('Auth Controller', () => {
 				tokenType: 'bearer',
 			};
 
-			service.issueToken.mockReturnValue(responseDto);
-
 			// given dto
 			const dto = new IssueTokenDto();
+			dto.username = 'user';
+			dto.password = 'password';
+
+			// given mockService
+			service.issueToken.mockImplementation((reqDto) => {
+				if (reqDto === dto) {
+					return responseDto;
+				}
+
+				expectShouldNotCallThis();
+			});
 
 			// when
 			const res: IssueTokenResponse = await controller.issueToken(dto);
@@ -68,18 +79,88 @@ describe('Auth Controller', () => {
 			//than
 			expect(res).toBeDefined();
 			expect(res).toEqual(responseDto);
+
+			expect(service.issueToken.mock.calls.length).toBe(1);
+		});
+
+		it('should raise error, if service raise AuthenticationError', async function () {
+			// given dto
+			const dto = new IssueTokenDto();
+			dto.username = 'user';
+			dto.password = 'password';
+
+			// given mockService
+			service.issueToken.mockImplementation((reqDto) => {
+				if (reqDto === dto) {
+					throw new AuthenticationError('shit');
+				}
+
+				expectShouldNotCallThis();
+			});
+			try {
+				// when
+				const res: IssueTokenResponse = await controller.issueToken(
+					dto,
+				);
+			} catch (e) {
+				//than
+				expect(e).toBeInstanceOf(UnauthorizedException);
+				expect(e.message).toBe('shit');
+
+				expect(service.issueToken.mock.calls.length).toBe(1);
+			}
+		});
+
+		it('should raise error, if service raise other error', async function () {
+			// given dto
+			const dto = new IssueTokenDto();
+			dto.username = 'user';
+			dto.password = 'password';
+
+			// given mockService
+			service.issueToken.mockImplementation((reqDto) => {
+				if (reqDto === dto) {
+					throw new TypeError('shit');
+				}
+
+				expectShouldNotCallThis();
+			});
+			try {
+				// when
+				const res: IssueTokenResponse = await controller.issueToken(
+					dto,
+				);
+			} catch (e) {
+				//than
+				expect(e).toBeInstanceOf(TypeError);
+				expect(e.message).toBe('shit');
+
+				expect(service.issueToken.mock.calls.length).toBe(1);
+			}
 		});
 	});
 
 	describe('method refresh token', function () {
 		it('should success', async function () {
-			// todo: implement this
-
-			// given mock service
-			service.refreshToken.mockReturnValue(null);
+			const refreshToken = 'refresh';
+			const accessToken = 'access';
+			const newAccessToken = 'new access';
 
 			// given dto
 			const dto = new RefreshTokenDto();
+			dto.refreshToken = refreshToken;
+			dto.accessToken = accessToken;
+
+			const expectResponse: RefreshTokenResponse = {
+				refreshToken: refreshToken,
+				accessToken: newAccessToken,
+				expiredIn: 3600,
+				tokenType: 'bearer',
+			};
+
+			service.refreshToken.mockImplementation(() => {
+				return expectResponse;
+			});
 
 			// when
 			const res: RefreshTokenResponse = await controller.refreshToken(
@@ -87,14 +168,56 @@ describe('Auth Controller', () => {
 			);
 
 			//than
-			expect(res).toBeDefined();
+			expect(res).toEqual(expectResponse);
+			expect(service.refreshToken.mock.calls.length).toEqual(1);
 		});
 
-		it('raise error if refreshToken is broken', function () {});
+		it('raise error, if catch AuthenticationError and raise UnauthorizedException', async function () {
+			const refreshToken = 'refresh';
+			const accessToken = 'access';
 
-		it('raise error if refreshToken is expired', function () {});
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.refreshToken = refreshToken;
+			dto.accessToken = accessToken;
 
-		it('raise error if token not exist in header', function () {});
+			service.refreshToken.mockImplementation(() => {
+				throw new AuthenticationError('shit');
+			});
+
+			try {
+				await controller.refreshToken(dto);
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(UnauthorizedException);
+				expect(e.message).toEqual('shit');
+				expect(service.refreshToken.mock.calls.length).toBe(1);
+			}
+		});
+
+		it('raise error, if raise rest error from auth service', async function () {
+			const refreshToken = 'refresh';
+			const accessToken = 'access';
+
+			// given dto
+			const dto = new RefreshTokenDto();
+			dto.refreshToken = refreshToken;
+			dto.accessToken = accessToken;
+
+			service.refreshToken.mockImplementation(() => {
+				throw new Error('shit');
+			});
+
+			try {
+				await controller.refreshToken(dto);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(Error);
+				expect(e.message).toEqual('shit');
+				expect(service.refreshToken.mock.calls.length).toBe(1);
+			}
+		});
 	});
 
 	describe('method revoke token', function () {
