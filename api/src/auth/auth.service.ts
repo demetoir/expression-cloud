@@ -101,7 +101,7 @@ export class AuthService {
 		return {
 			accessToken: newAccessToken,
 			refreshToken: refreshToken,
-			expiresIn: expiredIn,
+			expiredIn: expiredIn,
 			tokenType: tokenType,
 		};
 	}
