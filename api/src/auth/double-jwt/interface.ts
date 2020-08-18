@@ -15,9 +15,9 @@ export declare interface IPayload {
 	userId?: number;
 }
 
-export enum EPayloadType {
+export enum PayloadTypes {
 	access = 'access',
 	refresh = 'refresh',
 }
 
-export declare type IPayloadType = EPayloadType;
+export declare type IPayloadType = PayloadTypes;

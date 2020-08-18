@@ -12,7 +12,7 @@ import {
 	InvalidJWTSignatureError,
 	MalformedJWTError,
 } from './double-jwt/error';
-import { EPayloadType } from './double-jwt/interface';
+import { PayloadTypes } from './double-jwt/interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import * as _ from 'lodash';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
@@ -26,7 +26,7 @@ const payloadFixtures = {
 		nbf: 123,
 		iat: 123,
 		uuid: 'uuid1',
-		type: EPayloadType.refresh,
+		type: PayloadTypes.refresh,
 
 		iss: 'iss',
 		aud: 'aud',
@@ -37,10 +37,9 @@ const payloadFixtures = {
 	},
 	access: {
 		exp: 12312312312312312,
-		nbf: 123,
 		iat: 123,
 		uuid: 'uuid2',
-		type: EPayloadType.access,
+		type: PayloadTypes.access,
 
 		iss: 'iss',
 		aud: 'aud',
@@ -55,7 +54,7 @@ const payloadFixtures = {
 		nbf: 123,
 		iat: 123,
 		uuid: 'uuid2',
-		type: EPayloadType.refresh,
+		type: PayloadTypes.refresh,
 		iss: 'iss',
 		aud: 'aud',
 		role: 'role',
@@ -68,7 +67,7 @@ const payloadFixtures = {
 		nbf: 123,
 		iat: 123,
 		uuid: 'uuid3',
-		type: EPayloadType.access,
+		type: PayloadTypes.access,
 		iss: 'iss',
 		aud: 'aud',
 		role: 'role',
@@ -83,7 +82,7 @@ const brokenPayload = {
 	nbf: 123,
 	iat: 123,
 	uuid: 'uuid1',
-	type: EPayloadType.access,
+	type: PayloadTypes.access,
 
 	iss: 'iss',
 	aud: 'aud',
@@ -918,15 +917,38 @@ describe('AuthService', () => {
 
 	describe('method revokeToken', function () {
 		it('should success', async function () {
-			//todo: add test
 			assert(false);
 		});
 
-		it('should raise error, if raise error while verify access token ', function () {
+		it('should raise error, if refresh token is malformed', async function () {
 			assert(false);
 		});
 
-		it('should raise error, if raise error while verify refresh token ', function () {
+		it('should raise error, if refresh token is invalid signature', async function () {
+			assert(false);
+		});
+
+		it('should raise error, if refresh payload is not found in storage', async function () {
+			assert(false);
+		});
+
+		it('should raise error, if refresh payload is not same as stored', async function () {
+			assert(false);
+		});
+
+		it('should raise error, if access token is malformed', async function () {
+			assert(false);
+		});
+
+		it('should raise error, if access token is invalid signature', async function () {
+			assert(false);
+		});
+
+		it('should raise error, if access payload is not found in storage', async function () {
+			assert(false);
+		});
+
+		it('should raise error, if access payload is not same as stored', async function () {
 			assert(false);
 		});
 	});

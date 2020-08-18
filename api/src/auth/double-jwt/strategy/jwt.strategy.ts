@@ -2,8 +2,6 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { JWT_SECRET, JWT_STRATEGY } from '../constants';
-import { plainToClass } from 'class-transformer';
-import { TokenPayload } from '../../token/token-payload';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
@@ -15,11 +13,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
 		});
 	}
 
-	async validate(payload: TokenPayload): Promise<any> {
-		const user = plainToClass(TokenPayload, payload);
-
+	async validate(payload): Promise<any> {
 		// todo: check if userId, userName, role
 
-		return user;
+		return null;
 	}
 }

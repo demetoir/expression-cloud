@@ -5,7 +5,7 @@ import { JWT_AUD, JWT_ISS } from './constants';
 import { v4 as uuid } from 'uuid';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';
-import { EPayloadType, IPayload } from './interface';
+import { PayloadTypes, IPayload } from './interface';
 
 @Injectable()
 export class DoubleJwtService<T extends IPayload> {
@@ -30,8 +30,8 @@ export class DoubleJwtService<T extends IPayload> {
 		}
 
 		if (
-			payload.type !== EPayloadType.refresh &&
-			payload.type !== EPayloadType.access
+			payload.type !== PayloadTypes.refresh &&
+			payload.type !== PayloadTypes.access
 		) {
 			throw new MalformedJWTError(`invalid payload type ${payload.type}`);
 		}
@@ -54,14 +54,14 @@ export class DoubleJwtService<T extends IPayload> {
 
 	async signAccessToken(payload: T): Promise<[string, IPayload]> {
 		const duration = 1;
-		const type = EPayloadType.access;
+		const type = PayloadTypes.access;
 
 		return this.sign(payload, type, duration);
 	}
 
 	async signRefreshToken(payload: T): Promise<[string, IPayload]> {
 		const duration = 10;
-		const type = EPayloadType.refresh;
+		const type = PayloadTypes.refresh;
 
 		return this.sign(payload, type, duration);
 	}
