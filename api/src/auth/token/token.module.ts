@@ -3,13 +3,13 @@ import { LocalStorageService } from './local-storage.service';
 import { TokenService } from './token.service';
 import { GlobalMongooseModule } from '../../database/GlobalMongoose.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TokenPayload, TokenPayloadSchema } from './token-payload';
+import { TokenDocument, TokenPayloadSchema } from './token.document';
 
 @Module({
 	imports: [
 		GlobalMongooseModule,
 		MongooseModule.forFeature([
-			{ name: TokenPayload.name, schema: TokenPayloadSchema },
+			{ name: TokenDocument.name, schema: TokenPayloadSchema },
 		]),
 	],
 	providers: [LocalStorageService, TokenService],

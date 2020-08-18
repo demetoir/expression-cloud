@@ -13,7 +13,7 @@ import { TokenService } from './token/token.service';
 import { validate } from 'class-validator';
 import { isOneOfInstance } from '../common/libs/util';
 import { plainToClass } from 'class-transformer';
-import { TokenPayloadDto } from './token/token-payload.dto';
+import { TokenDto } from './token/token.dto';
 
 const tokenType = 'bearer';
 
@@ -140,7 +140,7 @@ export class AuthService {
 		}
 
 		// validate custom claims in payload
-		const payloadDto = plainToClass(TokenPayloadDto, payload);
+		const payloadDto = plainToClass(TokenDto, payload);
 
 		const errors = await validate(payloadDto);
 

@@ -2,7 +2,7 @@ import { ITokenPayload } from './interface';
 import { IsIn, IsInt, IsString } from 'class-validator';
 import { IPayloadType } from '../double-jwt/interface';
 
-export class TokenPayloadDto implements ITokenPayload {
+export class TokenDto implements ITokenPayload {
 	@IsString()
 	userName: string;
 

@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class TokenPayload extends Document {
+export class TokenDocument extends Document {
 	@Prop({ type: String, required: true })
 	userName: string;
 
@@ -35,4 +35,4 @@ export class TokenPayload extends Document {
 	sub?: string;
 }
 
-export const TokenPayloadSchema = SchemaFactory.createForClass(TokenPayload);
+export const TokenPayloadSchema = SchemaFactory.createForClass(TokenDocument);
