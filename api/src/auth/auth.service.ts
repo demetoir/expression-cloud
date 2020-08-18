@@ -120,8 +120,8 @@ export class AuthService {
 		);
 
 		// delete
-		await this.tokenService.deleteOne(refreshPayload.uuid);
-		await this.tokenService.deleteOne(accessPayload.uuid);
+		await this.tokenService.deleteOne(refreshPayload);
+		await this.tokenService.deleteOne(accessPayload);
 	}
 
 	async verifyToken(token: string, type: string): Promise<ITokenPayload> {

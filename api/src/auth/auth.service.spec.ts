@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 import { DoubleJwtService } from './double-jwt/double-jwt.service';
 import { AuthenticationError } from './error';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import assert from 'assert';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { TokenService } from './token/token.service';
@@ -16,6 +15,7 @@ import { PayloadTypes } from './double-jwt/interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import * as _ from 'lodash';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
+import { RevokeTokenDto } from './dto/revoke-token.dto';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';
@@ -917,39 +917,111 @@ describe('AuthService', () => {
 
 	describe('method revokeToken', function () {
 		it('should success', async function () {
-			assert(false);
+			const accessToken = 'accessToken';
+			const refreshToken = 'refreshToken';
+			const dto = new RevokeTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			const accessPayload = 'access';
+			const refreshPayload = 'refresh';
+
+			const verifyToken = jest.fn().mockImplementation((token) => {
+				if (token === refreshToken) {
+					return refreshPayload;
+				}
+
+				if (token === accessToken) {
+					return accessPayload;
+				}
+
+				expectShouldNotCallThis();
+			});
+			service.verifyToken = verifyToken;
+
+			mockTokenService.deleteOne.mockImplementation((payload) => {
+				if (payload === accessPayload) {
+					return;
+				}
+
+				if (payload === refreshPayload) {
+					return;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			await service.revokeToken(dto);
+
+			expect(verifyToken.mock.calls.length).toBe(2);
+			expect(mockTokenService.deleteOne.mock.calls.length).toBe(2);
+			expect(mockTokenService.deleteOne.mock.calls).toEqual([
+				[refreshPayload],
+				[accessPayload],
+			]);
 		});
 
-		it('should raise error, if refresh token is malformed', async function () {
-			assert(false);
+		it('should raise error, if verifyToken raise error by refresh token', async function () {
+			const accessToken = 'accessToken';
+			const refreshToken = 'refreshToken';
+			const dto = new RevokeTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
+
+			const verifyToken = jest.fn().mockImplementation((token) => {
+				if (token === refreshToken) {
+					throw new AuthenticationError('refresh token is malformed');
+				}
+
+				if (token === accessToken) {
+					return null;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			service.verifyToken = verifyToken;
+			try {
+				await service.revokeToken(dto);
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe('refresh token is malformed');
+
+				expect(verifyToken.mock.calls.length).toBe(1);
+			}
 		});
 
-		it('should raise error, if refresh token is invalid signature', async function () {
-			assert(false);
-		});
+		it('should raise error, if verifyToken raise error by access token', async function () {
+			const accessToken = 'accessToken';
+			const refreshToken = 'refreshToken';
+			const dto = new RevokeTokenDto();
+			dto.accessToken = accessToken;
+			dto.refreshToken = refreshToken;
 
-		it('should raise error, if refresh payload is not found in storage', async function () {
-			assert(false);
-		});
+			const accessPayload = 'access';
+			const refreshPayload = 'refresh';
 
-		it('should raise error, if refresh payload is not same as stored', async function () {
-			assert(false);
-		});
+			const verifyToken = jest.fn().mockImplementation((token) => {
+				if (token === refreshToken) {
+					return refreshPayload;
+				}
 
-		it('should raise error, if access token is malformed', async function () {
-			assert(false);
-		});
+				if (token === accessToken) {
+					throw new AuthenticationError('refresh token is malformed');
+				}
 
-		it('should raise error, if access token is invalid signature', async function () {
-			assert(false);
-		});
+				expectShouldNotCallThis();
+			});
 
-		it('should raise error, if access payload is not found in storage', async function () {
-			assert(false);
-		});
+			service.verifyToken = verifyToken;
+			try {
+				await service.revokeToken(dto);
+			} catch (e) {
+				expect(e).toBeInstanceOf(AuthenticationError);
+				expect(e.message).toBe('refresh token is malformed');
 
-		it('should raise error, if access payload is not same as stored', async function () {
-			assert(false);
+				expect(verifyToken.mock.calls.length).toBe(2);
+			}
 		});
 	});
 });
