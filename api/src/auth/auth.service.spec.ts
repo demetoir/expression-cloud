@@ -422,7 +422,7 @@ describe('AuthService', () => {
 				refreshToken: refreshToken,
 				accessToken: newAccessToken,
 				tokenType: 'bearer',
-				expiresIn: 3600,
+				expiredIn: 3600,
 			};
 			expect(res).toEqual(expectationResult);
 
