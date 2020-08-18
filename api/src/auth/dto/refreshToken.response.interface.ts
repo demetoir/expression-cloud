@@ -1,6 +1,6 @@
 export interface RefreshTokenResponse {
 	tokenType: 'bearer' | string;
-	expiresIn: number;
+	expiredIn: number;
 	refreshToken: string;
 	accessToken: string;
 }
