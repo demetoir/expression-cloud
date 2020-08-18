@@ -1,5 +1,5 @@
 import { ITokenPayload } from './interface';
-import { IsIn, IsInt, IsString } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
 import { IPayloadType } from '../double-jwt/interface';
 
 export class TokenDto implements ITokenPayload {
@@ -33,6 +33,7 @@ export class TokenDto implements ITokenPayload {
 	iat: number;
 
 	@IsInt()
+	@IsOptional()
 	nbf?: number;
 
 	@IsString()
