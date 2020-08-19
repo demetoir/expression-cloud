@@ -20,3 +20,11 @@ export interface ITokenPayload extends IPayload {
 	type?: IPayloadType;
 	uuid?: string;
 }
+
+export interface ITokenService {
+	createOne(payload, uuid);
+
+	deleteOne(payload, uuid);
+
+	findOne(uuid);
+}

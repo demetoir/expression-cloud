@@ -1,36 +1,33 @@
 import { Injectable } from '@nestjs/common';
 
-export interface ITokenStorageService {
-	save(token: string, tokenUuid: string): void;
-
-	delete(token: string, tokenUuid: string): void;
-}
-
 @Injectable()
-export class LocalStorageService implements ITokenStorageService {
+export class LocalStorageService {
 	private readonly storage: any;
 
 	constructor() {
 		this.storage = {};
 	}
 
-	public async delete(token: string, tokenUuid: string): Promise<void> {
-		if (!(tokenUuid in this.storage)) {
-			throw new Error('not exist token');
+	public async save(obj: any, key: string): Promise<void> {
+		if (key in this.storage) {
+			throw new Error(`obj already exist of ${key}`);
 		}
 
-		if (token !== this.storage[tokenUuid]) {
-			throw new Error('token and token in storage is not equal');
-		}
-
-		delete this.storage[tokenUuid];
+		this.storage[key] = obj;
 	}
 
-	public async save(token: string, tokenUuid: string): Promise<void> {
-		if (tokenUuid in this.storage) {
-			throw new Error('token UUid already exist');
+	public async find(key): Promise<any> {
+		if (!(key in this.storage)) {
+			return null;
 		}
 
-		this.storage[tokenUuid] = token;
+		return this.storage[key];
+	}
+
+	public async delete(key: string): Promise<void> {
+		if (!(key in this.storage)) {
+			throw new Error(`not exist obj of ${key}`);
+		}
+		delete this.storage[key];
 	}
 }
