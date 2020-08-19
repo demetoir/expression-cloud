@@ -927,8 +927,8 @@ describe('AuthService', () => {
 			dto.accessToken = accessToken;
 			dto.refreshToken = refreshToken;
 
-			const accessPayload = 'access';
-			const refreshPayload = 'refresh';
+			const accessPayload = { a: 1, uuid: 1 };
+			const refreshPayload = { b: 2, uuid: 2 };
 
 			const verifyToken = jest.fn().mockImplementation((token) => {
 				if (token === refreshToken) {
@@ -943,12 +943,12 @@ describe('AuthService', () => {
 			});
 			service.verifyToken = verifyToken;
 
-			mockTokenService.deleteOne.mockImplementation((payload) => {
-				if (payload === accessPayload) {
+			mockTokenService.deleteOne.mockImplementation((uuid) => {
+				if (_.isEqual(uuid, accessPayload.uuid)) {
 					return;
 				}
 
-				if (payload === refreshPayload) {
+				if (_.isEqual(uuid, refreshPayload.uuid)) {
 					return;
 				}
 
@@ -960,8 +960,8 @@ describe('AuthService', () => {
 			expect(verifyToken.mock.calls.length).toBe(2);
 			expect(mockTokenService.deleteOne.mock.calls.length).toBe(2);
 			expect(mockTokenService.deleteOne.mock.calls).toEqual([
-				[refreshPayload],
-				[accessPayload],
+				[refreshPayload.uuid],
+				[accessPayload.uuid],
 			]);
 		});
 

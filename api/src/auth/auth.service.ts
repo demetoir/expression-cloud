@@ -58,8 +58,8 @@ export class AuthService {
 			refreshPayload,
 		] = await this.jwtService.signRefreshToken(userAuthInfo);
 
-		await this.tokenService.createOne(accessPayload);
-		await this.tokenService.createOne(refreshPayload);
+		await this.tokenService.createOne(accessPayload, accessPayload.uuid);
+		await this.tokenService.createOne(refreshPayload, refreshPayload.uuid);
 
 		return {
 			accessToken,
@@ -91,12 +91,11 @@ export class AuthService {
 		await this.tokenService.deleteOne(accessPayload.uuid);
 
 		// issue new token and save to storage
-		const [
-			newAccessToken,
-			newPayload,
-		] = await this.jwtService.signAccessToken(accessPayload);
+		const [newAccessToken, payload] = await this.jwtService.signAccessToken(
+			accessPayload,
+		);
 
-		await this.tokenService.createOne(newPayload);
+		await this.tokenService.createOne(payload, payload.uuid);
 
 		return {
 			accessToken: newAccessToken,
@@ -120,8 +119,8 @@ export class AuthService {
 		);
 
 		// delete
-		await this.tokenService.deleteOne(refreshPayload);
-		await this.tokenService.deleteOne(accessPayload);
+		await this.tokenService.deleteOne(refreshPayload.uuid);
+		await this.tokenService.deleteOne(accessPayload.uuid);
 	}
 
 	async verifyToken(token: string, type: string): Promise<ITokenPayload> {
