@@ -1,8 +1,6 @@
-import { BaseNestedError } from '../../../common/error/BaseNestedError';
+import { MalformedJWTError } from './MalformedJWT.error';
+import { InvalidJWTSignatureError } from './InvalidJWTSignature.error';
 
-// todo: split files
-export class MalformedJWTError extends BaseNestedError {}
-
-export class InvalidJWTSignatureError extends BaseNestedError {}
-
+export { MalformedJWTError } from './MalformedJWT.error';
+export { InvalidJWTSignatureError } from './InvalidJWTSignature.error';
 export const ExpectedErrors = [MalformedJWTError, InvalidJWTSignatureError];
