@@ -2,8 +2,7 @@ import { resolve } from 'path';
 
 const DEFAULT_DEV_DOT_ENV_PATH = __dirname + '/../../env/api.dev.env';
 const DEFAULT_PROD_DOT_ENV_PATH = __dirname + '/../../env/api.env';
-// todo: e2e test 시에는 configuration module 이랑 .env 처리방식 정하기
-const DEFAULT_TEST_DOT_ENV_PATH = __dirname + '/../../env/api.env.sample';
+const DEFAULT_TEST_DOT_ENV_PATH = __dirname + '/../../env/api.test.env';
 
 function loadDotEnv({ devPath, prodPath, testPath }): any {
 	if (process.env.is_PM2) {
