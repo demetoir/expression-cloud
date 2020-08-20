@@ -5,6 +5,7 @@ module.exports = {
 			script: './dist/main.js',
 			env: {
 				...process.env,
+				is_PM2: true,
 			},
 			instances: 1,
 			exec_mode: 'cluster',

@@ -6,6 +6,10 @@ const DEFAULT_PROD_DOT_ENV_PATH = __dirname + '/../../env/api.env';
 const DEFAULT_TEST_DOT_ENV_PATH = __dirname + '/../../env/api.env.sample';
 
 function loadDotEnv({ devPath, prodPath, testPath }): any {
+	if (process.env.is_PM2) {
+		return process.env;
+	}
+
 	const NODE_ENV = process.env.NODE_ENV || 'development';
 
 	console.log(`load dot env as ${NODE_ENV} mode`);
