@@ -33,10 +33,6 @@ export class AuthService {
 	}
 
 	async issueToken(dto: IssueTokenDto): Promise<IssueTokenResponse> {
-		// todo: implement
-		//   get user id and role from db
-		//   validate request dto
-		//   validate request dto
 		if (!(await this.isValidUserByBasic(dto.username, dto.password))) {
 			throw new AuthenticationError('user is not authenticated');
 		}
