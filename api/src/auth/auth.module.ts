@@ -3,7 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LocalAuthModule } from './localAuth/localAuth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../common/model/entity/user.entity';
+import { UserEntity } from '../common/model/entity/user/user.entity';
 import { DoubleJwtModule } from './double-jwt/double-jwt.module';
 import { TokenModule } from './token/token.module';
 

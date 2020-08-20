@@ -1,0 +1,26 @@
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { UserEntity } from '../user/user.entity';
+import { BaseEntity } from '../base/base.entity';
+
+@Entity({ name: 'teams' })
+export class TeamEntity extends BaseEntity {
+	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
+	name: string;
+
+	@Column({ type: 'text', name: 'description', nullable: false })
+	description: string;
+
+	@ManyToMany(() => UserEntity, (user) => user.teams)
+	@JoinTable({
+		name: 'user_team',
+		joinColumn: {
+			name: 'team_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'user_id',
+			referencedColumnName: 'id',
+		},
+	})
+	users: UserEntity[];
+}

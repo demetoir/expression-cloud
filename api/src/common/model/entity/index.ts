@@ -1,19 +1,19 @@
-import { CommentEntity } from './comment.entity';
-import { EditHistoryEntity } from './editHistory.entity';
-import { ExpressionEntity } from './expression.entity';
-import { ExpressionSettingEntity } from './expressionSetting.entity';
-import { ImageEntity } from './image.entity';
-import { NoticeEntity } from './notice.entity';
-import { OauthEntity } from './oauth.entity';
-import { RoleEntity } from './role.entity';
-import { ScalarEntity } from './scalar.entity';
-import { TagEntity } from './tag.entity';
-import { TeamEntity } from './team.entity';
-import { UserEntity } from './user.entity';
-import { UserSettingEntity } from './userSetting.entity';
-import { VectorEntity } from './vector.entity';
-import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
-import { UserProfileImageEntity } from './userProfileImage.entity';
+import { CommentEntity } from './comment/comment.entity';
+import { EditHistoryEntity } from './edit-history/editHistory.entity';
+import { ExpressionEntity } from './expression/expression.entity';
+import { ExpressionSettingEntity } from './expression/expressionSetting.entity';
+import { ImageEntity } from './image/image.entity';
+import { NoticeEntity } from './notice/notice.entity';
+import { OauthEntity } from './user/oauth.entity';
+import { RoleEntity } from './role/role.entity';
+import { ScalarEntity } from './scalar/scalar.entity';
+import { TagEntity } from './tag/tag.entity';
+import { TeamEntity } from './team/team.entity';
+import { UserEntity } from './user/user.entity';
+import { UserSettingEntity } from './user/userSetting.entity';
+import { VectorEntity } from './vector/vector.entity';
+import { ExpressionThumbnailImageEntity } from './expression/expressionThumbnailImage.entity';
+import { UserProfileImageEntity } from './user/userProfileImage.entity';
 
 const entities = [
 	CommentEntity,

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { UserRepository } from '../userRepository/user.repository';
 import { UserActionService } from './userAction.service';
 import { MockRepository } from '../../../test/lib/mock/MockRepository';
-import { UserEntity } from '../../common/model/entity/user.entity';
+import { UserEntity } from '../../common/model/entity/user/user.entity';
 
 describe('UserActionService', () => {
 	let service: UserActionService;
