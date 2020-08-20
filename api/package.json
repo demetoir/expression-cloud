@@ -24,7 +24,10 @@
 		"typeorm:migration:run": "yarn typeorm migration:run",
 		"typeorm:migration:revert": "yarn typeorm migration:revert",
 		"docker:storage:up": "sh ./script/docker-storage-up.sh",
-		"docker:storage:down": "sh ./script/docker-storage-down.sh"
+		"docker:storage:down": "sh ./script/docker-storage-down.sh",
+		"docker:api:build": "sh ./script/docker-api-build.sh",
+		"docker:api:up": "sh ./script/docker-api-up.sh",
+		"docker:api:down": "sh ./script/docker-api-down.sh"
 	},
 	"dependencies": {
 		"@nestjs/common": "^7.0.0",
