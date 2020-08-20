@@ -10,12 +10,12 @@ RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash 
 
 WORKDIR /usr/src/app
 
-COPY ./api/package.json  .
-COPY ./api/yarn.lock .
+COPY ./package.json  .
+COPY ./yarn.lock .
 
 RUN yarn install --frozen-lockfile
 
-COPY ./api .
+COPY ./ .
 
 # test
 #RUN yarn test
@@ -38,10 +38,10 @@ RUN npm install pm2 -g
 # copy from build image
 COPY --from=BUILD_IMAGE /usr/src/app/dist ./dist
 COPY --from=BUILD_IMAGE /usr/src/app/node_modules ./node_modules
-COPY ./api/package.json  .
-COPY ./api/yarn.lock .
-COPY ./api/ecosystem.config.js .
-COPY ./api/ormconfig.js .
+COPY ./package.json  .
+COPY ./yarn.lock .
+COPY ./ecosystem.config.js .
+COPY ./ormconfig.js .
 
 EXPOSE 3000
 
