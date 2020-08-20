@@ -1,5 +1,4 @@
 /env/api.env
-/env/api.dev.env
 
 # compiled output
 /dist
