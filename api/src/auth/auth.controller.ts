@@ -10,13 +10,13 @@ import {
 import { logger } from '../common/libs/winstonToolkit';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth/guard/localAuth.guard';
-import { JwtGuard } from './double-jwt/guard/JWT.guard';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
 import { AuthenticationError } from './error';
+import { JwtGuard } from './double-jwt/guard/jwt.guard';
 
 @Controller('v1/auth')
 export class AuthController {
