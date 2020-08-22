@@ -6,8 +6,9 @@ import {
 } from 'typeorm';
 import tableIdType from '../../../libs/tableIdTypeResolver';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IBaseEntity } from './base.interface';
 
-export abstract class BaseEntity {
+export abstract class BaseEntity implements IBaseEntity {
 	@ApiPropertyOptional()
 	@PrimaryGeneratedColumn('increment', { type: tableIdType, name: 'id' })
 	id: number;
