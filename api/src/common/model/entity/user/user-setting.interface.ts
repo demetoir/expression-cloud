@@ -1,15 +1,16 @@
 import { IBaseEntity } from '../base/base.interface';
+import { UserSettingEntity } from './userSetting.entity';
 import { OauthEntity } from './oauth.entity';
 import { NoticeEntity } from '../notice/notice.entity';
 import { EditHistoryEntity } from '../edit-history/editHistory.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
+import { UserProfileImageEntity } from './userProfileImage.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { RoleEntity } from '../role/role.entity';
 import { TeamEntity } from '../team/team.entity';
-import { IUserProfileImage } from './user-profile-image.interface';
-import { IUserSetting } from './user-setting.interface';
+import { IUserEntity } from './user.interface';
 
-export declare interface IUserEntity extends IBaseEntity {
+export declare interface IUserSetting extends IBaseEntity {
 	id: number;
 
 	createdAt: Date;
@@ -30,7 +31,7 @@ export declare interface IUserEntity extends IBaseEntity {
 
 	forkedCount: number;
 
-	setting: Promise<IUserSetting>;
+	setting: Promise<UserSettingEntity>;
 
 	oauth: OauthEntity;
 
@@ -40,7 +41,7 @@ export declare interface IUserEntity extends IBaseEntity {
 
 	expressions: ExpressionEntity[];
 
-	profileImage: IUserProfileImage;
+	profileImage: UserProfileImageEntity;
 
 	comments: CommentEntity[];
 

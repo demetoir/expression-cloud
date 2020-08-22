@@ -4,14 +4,14 @@ import * as config from '../../../../../ormconfig.js';
 import { UserEntity } from './user.entity';
 import { RoleEntity } from '../role/role.entity';
 import { NoticeEntity } from '../notice/notice.entity';
-import { UserSettingEntity } from './userSetting.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../edit-history/editHistory.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
-import { UserProfileImageEntity } from './userProfileImage.entity';
 import { v4 as uuid } from 'uuid';
+import { UserSettingEntity } from './user-setting.entity';
+import { UserProfileImageEntity } from './user-profile-image.entity';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
