@@ -4,7 +4,7 @@ import { ExpressionEntity } from './expression/expression.entity';
 import { ExpressionSettingEntity } from './expression/expression-setting.entity';
 import { ImageEntity } from './image/image.entity';
 import { NoticeEntity } from './notice/notice.entity';
-import { OauthEntity } from './user/oauth.entity';
+import { UserOauthEntity } from './user/user-oauth.entity';
 import { RoleEntity } from './role/role.entity';
 import { ScalarEntity } from './scalar/scalar.entity';
 import { TagEntity } from './tag/tag.entity';
@@ -22,7 +22,7 @@ const entities = [
 	ExpressionEntity,
 	ImageEntity,
 	NoticeEntity,
-	OauthEntity,
+	UserOauthEntity,
 	RoleEntity,
 	ScalarEntity,
 	TagEntity,

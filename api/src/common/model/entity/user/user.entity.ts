@@ -11,7 +11,7 @@ import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
-import { OauthEntity } from './oauth.entity';
+import { UserOauthEntity } from './user-oauth.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../base/base.entity';
@@ -94,8 +94,8 @@ export class UserEntity extends BaseEntity implements IUser {
 	setting: Promise<UserSettingEntity>;
 
 	@ApiProperty()
-	@OneToOne(() => OauthEntity, (oauth) => oauth.user)
-	oauth: OauthEntity;
+	@OneToOne(() => UserOauthEntity, (oauth) => oauth.user)
+	oauth: UserOauthEntity;
 
 	@ApiProperty()
 	@OneToMany(() => NoticeEntity, (notices) => notices.user, {

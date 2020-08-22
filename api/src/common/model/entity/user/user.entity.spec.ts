@@ -7,7 +7,7 @@ import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
-import { OauthEntity } from './oauth.entity';
+import { UserOauthEntity } from './user-oauth.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { v4 as uuid } from 'uuid';
 import { UserSettingEntity } from './user-setting.entity';
@@ -354,7 +354,7 @@ describe('user entity', () => {
 		it('should relate with oauth', async function () {
 			user = await getNewUser();
 
-			const oauth = new OauthEntity();
+			const oauth = new UserOauthEntity();
 			oauth.type = 1;
 			oauth.authId = 'id';
 

@@ -2,9 +2,9 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../../../ormconfig.js';
 import { UserEntity } from './user.entity';
-import { OauthEntity } from './oauth.entity';
+import { UserOauthEntity } from './user-oauth.entity';
 
-describe('oauth entity', () => {
+describe('user oauth entity', () => {
 	let connection;
 	let oauthRepository;
 
@@ -12,7 +12,7 @@ describe('oauth entity', () => {
 		connection = await createConnection(config);
 		await connection.synchronize();
 
-		oauthRepository = connection.getRepository(OauthEntity);
+		oauthRepository = connection.getRepository(UserOauthEntity);
 	});
 
 	afterAll(async () => {
@@ -24,7 +24,7 @@ describe('oauth entity', () => {
 	});
 
 	it('should create new project', async function () {
-		const oauth = new OauthEntity();
+		const oauth = new UserOauthEntity();
 		oauth.type = 1;
 		oauth.authId = 'id';
 
@@ -41,7 +41,7 @@ describe('oauth entity', () => {
 				const type = null;
 				const authId = 'id';
 
-				const oauth = new OauthEntity();
+				const oauth = new UserOauthEntity();
 				oauth.type = type;
 				oauth.authId = authId;
 
@@ -51,7 +51,7 @@ describe('oauth entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: oauths.type',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: user_oauths.type',
 				);
 			}
 		});
@@ -61,7 +61,7 @@ describe('oauth entity', () => {
 				const type = 0;
 				const authId = null;
 
-				const oauth = new OauthEntity();
+				const oauth = new UserOauthEntity();
 				oauth.type = type;
 				oauth.authId = authId;
 
@@ -71,7 +71,7 @@ describe('oauth entity', () => {
 			} catch (e) {
 				assert.equal(
 					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: oauths.auth_id',
+					'SQLITE_CONSTRAINT: NOT NULL constraint failed: user_oauths.auth_id',
 				);
 			}
 		});
@@ -81,7 +81,7 @@ describe('oauth entity', () => {
 		let oauth;
 
 		it('should prepare entity', async () => {
-			oauth = new OauthEntity();
+			oauth = new UserOauthEntity();
 			oauth.type = 1;
 			oauth.authId = 'id';
 
