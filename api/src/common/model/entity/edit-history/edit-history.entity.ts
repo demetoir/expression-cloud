@@ -1,9 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
+import { IEditHistory } from './edit-history.interface';
+import { IUserEntity } from '../user/user.interface';
 
 @Entity({ name: 'edit_histories' })
-export class EditHistoryEntity extends BaseEntity {
+export class EditHistoryEntity extends BaseEntity implements IEditHistory {
 	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
 	refId: bigint;
 
@@ -17,9 +19,9 @@ export class EditHistoryEntity extends BaseEntity {
 		eager: false,
 	})
 	@JoinColumn({ name: 'prev_id', referencedColumnName: 'id' })
-	prev: EditHistoryEntity;
+	prev: IEditHistory;
 
 	@ManyToOne(() => UserEntity, (user) => user.editHistories)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
+	user: IUserEntity;
 }
