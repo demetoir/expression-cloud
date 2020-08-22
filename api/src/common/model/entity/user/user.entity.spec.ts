@@ -5,7 +5,7 @@ import { UserEntity } from './user.entity';
 import { RoleEntity } from '../role/role.entity';
 import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
-import { EditHistoryEntity } from '../edit-history/editHistory.entity';
+import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { OauthEntity } from './oauth.entity';
 import { ExpressionEntity } from '../expression/expression.entity';

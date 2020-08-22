@@ -1,7 +1,7 @@
 import { IBaseEntity } from '../base/base.interface';
 import { OauthEntity } from './oauth.entity';
 import { NoticeEntity } from '../notice/notice.entity';
-import { EditHistoryEntity } from '../edit-history/editHistory.entity';
+import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { RoleEntity } from '../role/role.entity';

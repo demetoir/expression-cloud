@@ -1,5 +1,5 @@
 import { CommentEntity } from './comment/comment.entity';
-import { EditHistoryEntity } from './edit-history/editHistory.entity';
+import { EditHistoryEntity } from './edit-history/edit-history.entity';
 import { ExpressionEntity } from './expression/expression.entity';
 import { ExpressionSettingEntity } from './expression/expressionSetting.entity';
 import { ImageEntity } from './image/image.entity';

@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../../../ormconfig.js';
 import { UserEntity } from '../user/user.entity';
-import { EditHistoryEntity } from './editHistory.entity';
+import { EditHistoryEntity } from './edit-history.entity';
 
 describe('editHistory entity', () => {
 	let editHistoryRepository;

@@ -2,7 +2,7 @@ import { IBaseEntity } from '../base/base.interface';
 import { UserSettingEntity } from './userSetting.entity';
 import { OauthEntity } from './oauth.entity';
 import { NoticeEntity } from '../notice/notice.entity';
-import { EditHistoryEntity } from '../edit-history/editHistory.entity';
+import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { UserProfileImageEntity } from './userProfileImage.entity';
 import { CommentEntity } from '../comment/comment.entity';
