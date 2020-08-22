@@ -2,7 +2,7 @@ import { Server } from 'http';
 import { Context } from 'aws-lambda';
 import { createServer, proxy, Response } from 'aws-serverless-express';
 import * as express from 'express';
-import { appFactory } from './app.factory';
+import { appFactory } from './app/app.factory';
 
 let cachedServer: Server;
 

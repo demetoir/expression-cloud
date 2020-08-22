@@ -1,7 +1,7 @@
 import { NodeConfigService } from './config/NodeConfig.service';
 import { INestApplication } from '@nestjs/common';
 import express from 'express';
-import { appFactory } from './app.factory';
+import { appFactory } from './app/app.factory';
 
 async function start() {
 	const app: INestApplication = await appFactory(express());

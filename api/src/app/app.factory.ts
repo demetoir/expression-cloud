@@ -1,15 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
-import { CustomMorgan } from './common/middlewares/loggerMiddlewares';
+import { AppModule } from './app.module';
+import { CustomMorgan } from '../common/middlewares/loggerMiddlewares';
 import * as helmet from 'helmet';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import * as expectCt from 'expect-ct';
 import * as rateLimit from 'express-rate-limit';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import { NodeConfigService } from './config/NodeConfig.service';
-import { OpenApiDocConfigService } from './config/openApiDocConfig.service';
-import { documentBuilderSingleton } from './common/libs/nestjsCRUDToolkit';
+import { NodeConfigService } from '../config/NodeConfig.service';
+import { OpenApiDocConfigService } from '../config/openApiDocConfig.service';
+import { documentBuilderSingleton } from '../common/libs/nestjsCRUDToolkit';
 import { SwaggerModule } from '@nestjs/swagger';
 import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
 
