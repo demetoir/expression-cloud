@@ -1,15 +1,15 @@
 import { IBaseEntity } from '../base/base.interface';
-import { OauthEntity } from './oauth.entity';
-import { NoticeEntity } from '../notice/notice.entity';
-import { EditHistoryEntity } from '../edit-history/edit-history.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
-import { CommentEntity } from '../comment/comment.entity';
-import { RoleEntity } from '../role/role.entity';
-import { TeamEntity } from '../team/team.entity';
 import { IUserProfileImage } from './user-profile-image.interface';
 import { IUserSetting } from './user-setting.interface';
+import { IOauth } from './oauth.interface';
+import { INotice } from '../notice/notice.interface';
+import { IEditHistory } from '../edit-history/edit-history.interface';
+import { IExpression } from '../expression/expression.interface';
+import { IComment } from '../comment/comment.interface';
+import { IRole } from '../role/role.interface';
+import { ITeam } from '../team/team.interface';
 
-export declare interface IUserEntity extends IBaseEntity {
+export declare interface IUser extends IBaseEntity {
 	id: number;
 
 	createdAt: Date;
@@ -32,25 +32,25 @@ export declare interface IUserEntity extends IBaseEntity {
 
 	setting: Promise<IUserSetting>;
 
-	oauth: OauthEntity;
+	oauth: IOauth;
 
-	notices: NoticeEntity[];
+	notices: INotice[];
 
-	editHistories: EditHistoryEntity[];
+	editHistories: IEditHistory[];
 
-	expressions: ExpressionEntity[];
+	expressions: IExpression[];
 
 	profileImage: IUserProfileImage;
 
-	comments: CommentEntity[];
+	comments: IComment[];
 
-	roles: RoleEntity[];
+	roles: IRole[];
 
-	teams: TeamEntity[];
+	teams: ITeam[];
 
-	likeToUsers: IUserEntity[];
+	likeToUsers: IUser[];
 
-	likeFromUsers: IUserEntity[];
+	likeFromUsers: IUser[];
 
-	likeToExpressions: ExpressionEntity[];
+	likeToExpressions: IExpression[];
 }

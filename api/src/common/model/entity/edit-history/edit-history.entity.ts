@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
 import { IEditHistory } from './edit-history.interface';
-import { IUserEntity } from '../user/user.interface';
+import { IUser } from '../user/user.interface';
 
 @Entity({ name: 'edit_histories' })
 export class EditHistoryEntity extends BaseEntity implements IEditHistory {
@@ -23,5 +23,5 @@ export class EditHistoryEntity extends BaseEntity implements IEditHistory {
 
 	@ManyToOne(() => UserEntity, (user) => user.editHistories)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: IUserEntity;
+	user: IUser;
 }

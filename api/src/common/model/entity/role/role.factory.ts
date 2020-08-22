@@ -1,5 +1,5 @@
 import { IRole } from './role.interface';
-import { IUserEntity } from '../user/user.interface';
+import { IUser } from '../user/user.interface';
 
 export class RoleFactory implements IRole {
 	id: number;
@@ -12,5 +12,5 @@ export class RoleFactory implements IRole {
 
 	name: string;
 
-	users: IUserEntity[];
+	users: IUser[];
 }

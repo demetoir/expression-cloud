@@ -1,12 +1,10 @@
 import { IBaseEntity } from '../base/base.interface';
 import { IUser } from '../user/user.interface';
 
-export interface IComment extends IBaseEntity {
+export interface INotice extends IBaseEntity {
 	content: string;
 
-	refType: bigint;
-
-	refId: bigint;
+	isRead: boolean;
 
 	user: IUser;
 }

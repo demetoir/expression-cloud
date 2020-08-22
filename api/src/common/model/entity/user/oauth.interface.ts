@@ -1,10 +1,10 @@
-import { UserEntity } from './user.entity';
 import { IBaseEntity } from '../base/base.interface';
+import { IUser } from './user.interface';
 
 export interface IOauth extends IBaseEntity {
 	type: number;
 
 	authId: string;
 
-	user: UserEntity;
+	user: IUser;
 }
