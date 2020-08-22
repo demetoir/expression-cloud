@@ -1,4 +1,8 @@
+# .env
 /env/api.env
+
+# serverless
+.serverless
 
 # compiled output
 /dist
