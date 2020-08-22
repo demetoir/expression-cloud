@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne } from 'typeorm';
-import { ExpressionThumbnailImageEntity } from '../expression/expressionThumbnailImage.entity';
+import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image.entity';
 import { BaseEntity } from '../base/base.entity';
 import { UserProfileImageEntity } from '../user/user-profile-image.entity';
 

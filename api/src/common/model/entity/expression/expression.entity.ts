@@ -11,8 +11,8 @@ import {
 import { VectorEntity } from '../vector/vector.entity';
 import { TagEntity } from '../tag/tag.entity';
 import { UserEntity } from '../user/user.entity';
-import { ExpressionSettingEntity } from './expressionSetting.entity';
-import { ExpressionThumbnailImageEntity } from './expressionThumbnailImage.entity';
+import { ExpressionSettingEntity } from './expression-setting.entity';
+import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
 import { BaseEntity } from '../base/base.entity';
 
 @Entity({ name: 'expressions' })
