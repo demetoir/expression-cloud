@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
+import { INotice } from './notice.interface';
 
 @Entity({ name: 'notice' })
-export class NoticeEntity extends BaseEntity {
+export class NoticeEntity extends BaseEntity implements INotice {
 	@Column({ type: 'text', name: 'content', nullable: false })
 	content: string;
 

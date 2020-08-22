@@ -1,9 +1,10 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
+import { IRole } from './role.interface';
 
 @Entity({ name: 'roles' })
-export class RoleEntity extends BaseEntity {
+export class RoleEntity extends BaseEntity implements IRole {
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
 	name: string;
 

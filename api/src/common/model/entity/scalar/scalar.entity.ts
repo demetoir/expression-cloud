@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { VectorEntity } from '../vector/vector.entity';
 import { BaseEntity } from '../base/base.entity';
+import { IScalar } from './scalar.interface';
 
 @Entity({ name: 'scalars' })
-export class ScalarEntity extends BaseEntity {
+export class ScalarEntity extends BaseEntity implements IScalarP {
 	// todo 이거 정밀도 때문에 문제 발생가능성 있으니 테코 만들기, string 으로 바꾸든 어떻게든 해야한
 	// todo 이거랑 연관된 테이블인 edit history 테이블의 값도 변경하기
 	@Column({ name: 'value', type: 'double precision', nullable: false })

@@ -2,9 +2,10 @@ import { Column, Entity, OneToOne } from 'typeorm';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image.entity';
 import { BaseEntity } from '../base/base.entity';
 import { UserProfileImageEntity } from '../user/user-profile-image.entity';
+import { IImage } from './image.interface';
 
 @Entity({ name: 'images' })
-export class ImageEntity extends BaseEntity {
+export class ImageEntity extends BaseEntity implements IImage {
 	@Column({ name: 'url', type: 'text', nullable: false })
 	url: string;
 

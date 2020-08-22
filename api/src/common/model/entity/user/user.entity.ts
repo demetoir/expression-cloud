@@ -17,6 +17,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../base/base.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';
 import { UserSettingEntity } from './user-setting.entity';
+import { IUser } from './user.interface';
 
 // todo 상수로 테이블 이름 분리하기
 // todo: 엔티티 클래스에 너무 많은 엔티가 붙는다
@@ -29,7 +30,7 @@ import { UserSettingEntity } from './user-setting.entity';
 //   safe하게 하려면 각 클래스마다 제대로 상속 받았는지 property 검사하도록 테스트 작성하면 된다
 //
 @Entity({ name: 'users' })
-export class UserEntity extends BaseEntity {
+export class UserEntity extends BaseEntity implements IUser {
 	@ApiProperty({
 		required: false,
 	})

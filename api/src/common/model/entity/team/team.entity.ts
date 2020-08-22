@@ -1,9 +1,10 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
+import { ITeam } from './team.interface';
 
 @Entity({ name: 'teams' })
-export class TeamEntity extends BaseEntity {
+export class TeamEntity extends BaseEntity implements ITeam {
 	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
 	name: string;
 

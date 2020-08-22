@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { BaseEntity } from '../base/base.entity';
+import { ITag } from './tag.interface';
 
 @Entity({ name: 'tags' })
-export class TagEntity extends BaseEntity {
+export class TagEntity extends BaseEntity implements ITag {
 	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
 	name: string;
 
