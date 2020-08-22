@@ -1,9 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
+import { IComment } from './comment.interface';
+import { IUserEntity } from '../user/user.interface';
 
 @Entity({ name: 'comments' })
-export class CommentEntity extends BaseEntity {
+export class CommentEntity extends BaseEntity implements IComment {
 	@Column({ name: 'content', type: 'text', nullable: false })
 	content: string;
 
@@ -15,5 +17,5 @@ export class CommentEntity extends BaseEntity {
 
 	@ManyToOne(() => UserEntity, (user) => user.comments)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
+	user: IUserEntity;
 }
