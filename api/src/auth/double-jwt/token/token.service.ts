@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ITokenService } from './interface';
 import { LocalStorageService } from './local-storage.service';
-import { IPayload } from '../custom-jwt/interface';
+import { IPayload } from '../jwt-wrapper/interface';
 
 @Injectable()
 export class TokenService implements ITokenService {

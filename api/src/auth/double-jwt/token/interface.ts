@@ -1,4 +1,4 @@
-import { IPayload, IPayloadType } from '../custom-jwt/interface';
+import { IPayload, IPayloadType } from '../jwt-wrapper/interface';
 
 export interface ITokenPayload extends IPayload {
 	userName: string;
@@ -6,7 +6,7 @@ export interface ITokenPayload extends IPayload {
 	userId: number;
 
 	// override props
-	// reserved custom-jwt claims
+	// reserved jwt-wrapper claims
 	exp?: number;
 	nbf?: number;
 	iat?: number;
@@ -16,7 +16,7 @@ export interface ITokenPayload extends IPayload {
 	iss?: string;
 	sub?: string;
 
-	// custom custom-jwt claim
+	// custom jwt-wrapper claim
 	type?: IPayloadType;
 	uuid?: string;
 }

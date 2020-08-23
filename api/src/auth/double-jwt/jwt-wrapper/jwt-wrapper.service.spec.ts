@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JWT_AUD, JWT_ISS, JWT_SECRET } from './constants';
-import { CustomJwtService } from './custom-jwt.service';
+import { JwtWrapperService } from './jwt-wrapper.service';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';
 import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -15,7 +15,7 @@ interface TestIJwtPayload extends IPayload {
 }
 
 describe('CustomJWTService', () => {
-	let service: CustomJwtService<TestIJwtPayload>;
+	let service: JwtWrapperService<TestIJwtPayload>;
 	let jwtService: JwtService;
 
 	beforeEach(async () => {
@@ -25,10 +25,10 @@ describe('CustomJWTService', () => {
 					secret: JWT_SECRET,
 				}),
 			],
-			providers: [CustomJwtService],
+			providers: [JwtWrapperService],
 		}).compile();
 
-		service = module.get(CustomJwtService);
+		service = module.get(JwtWrapperService);
 		jwtService = module.get<JwtService>(JwtService);
 	});
 

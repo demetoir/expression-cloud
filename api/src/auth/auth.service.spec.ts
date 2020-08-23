@@ -113,7 +113,7 @@ describe('AuthService', () => {
 			// given new access token
 			const newAccessToken = 'new access token';
 
-			// given mock custom-jwt service mock
+			// given mock double jwr service mock
 			mockDoubleJWTService.refreshToken.mockImplementation(() => {
 				return {
 					accessToken: newAccessToken,

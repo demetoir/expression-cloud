@@ -8,7 +8,7 @@ import { IPayload, PayloadTypes } from './interface';
 import { JWT_AUD, JWT_ISS } from './constants';
 
 @Injectable()
-export class CustomJwtService<T extends IPayload> {
+export class JwtWrapperService<T extends IPayload> {
 	constructor(private readonly jwtService: _JwtService) {}
 
 	async verify(token: string): Promise<T> {

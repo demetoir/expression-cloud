@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as _ from 'lodash';
-import { CustomJwtService } from './custom-jwt/custom-jwt.service';
-import { PayloadTypes } from './custom-jwt/interface';
+import { JwtWrapperService } from './jwt-wrapper/jwt-wrapper.service';
+import { PayloadTypes } from './jwt-wrapper/interface';
 import { DoubleJwtService } from './double-jwt.service';
 import { TokenService } from './token/token.service';
 import {
 	InvalidJWTSignatureError,
 	MalformedJWTError,
-} from './custom-jwt/error';
+} from './jwt-wrapper/error';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { RevokeTokenDto } from '../dto/revoke-token.dto';
@@ -109,7 +109,7 @@ describe('doubleJwtService', () => {
 			providers: [
 				DoubleJwtService,
 				{
-					provide: CustomJwtService,
+					provide: JwtWrapperService,
 					useClass: MockCustomJWTService,
 				},
 				{
@@ -120,7 +120,7 @@ describe('doubleJwtService', () => {
 		}).compile();
 
 		service = module.get(DoubleJwtService);
-		mockCustomJwtService = module.get(CustomJwtService);
+		mockCustomJwtService = module.get(JwtWrapperService);
 		mockTokenService = module.get(TokenService);
 	});
 
@@ -351,7 +351,7 @@ describe('doubleJwtService', () => {
 			const accessPayload = payloadFixtures.access;
 			const refreshPayload = payloadFixtures.refresh;
 
-			// given mock custom-jwt service mock
+			// given mock jwt-wrapper service mock
 			mockCustomJwtService.verify.mockImplementation((token) => {
 				if (token === accessToken) {
 					return accessPayload;
@@ -620,7 +620,7 @@ describe('doubleJwtService', () => {
 				});
 			service.verifyToken = mockMethod_verifyToken;
 
-			// given mock custom-jwt service
+			// given mock jwt-wrapper service
 
 			mockCustomJwtService.isExpired.mockImplementation((payload) => {
 				if (payload === payloadFixtures.expiredRefresh) {
@@ -724,7 +724,7 @@ describe('doubleJwtService', () => {
 			});
 			service.verifyToken = verifyToken;
 
-			// given mock custom-jwt service
+			// given mock jwt-wrapper service
 			mockCustomJwtService.isExpired.mockImplementation((payload) => {
 				if (payload === payloadFixtures.refresh) {
 					return false;
@@ -779,7 +779,7 @@ describe('doubleJwtService', () => {
 			});
 			service.verifyToken = verifyToken;
 
-			// given mock custom-jwt service
+			// given mock jwt-wrapper service
 			mockCustomJwtService.isExpired.mockImplementation((payload) => {
 				if (payload === payloadFixtures.refresh) {
 					return false;
@@ -832,7 +832,7 @@ describe('doubleJwtService', () => {
 			});
 			service.verifyToken = verifyToken;
 
-			// given mock custom-jwt service
+			// given mock jwt-wrapper service
 			mockCustomJwtService.isExpired.mockImplementation((payload) => {
 				if (payload === payloadFixtures.refresh) {
 					return false;
@@ -887,7 +887,7 @@ describe('doubleJwtService', () => {
 			});
 			service.verifyToken = verifyToken;
 
-			// given mock custom-jwt service
+			// given mock jwt-wrapper service
 			mockCustomJwtService.isExpired.mockImplementation((payload) => {
 				if (payload === payloadFixtures.refresh) {
 					return false;

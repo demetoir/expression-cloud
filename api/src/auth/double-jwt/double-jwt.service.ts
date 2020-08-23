@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CustomJwtService } from './custom-jwt/custom-jwt.service';
+import { JwtWrapperService } from './jwt-wrapper/jwt-wrapper.service';
 import { ITokenPayload } from './token/interface';
 import { TokenService } from './token/token.service';
 import { isOneOfInstance } from '../../common/libs/util';
@@ -7,19 +7,19 @@ import { plainToClass } from 'class-transformer';
 import { TokenDto } from './token/token.dto';
 import { validate } from 'class-validator';
 import * as _ from 'lodash';
-import { PayloadTypes } from './custom-jwt/interface';
-import { ExpectedErrors } from './custom-jwt/error';
+import { PayloadTypes } from './jwt-wrapper/interface';
+import { ExpectedErrors } from './jwt-wrapper/error';
 import { DoubleJWTValidationError } from './error';
 
 const expiredIn = 3600;
 
 @Injectable()
 export class DoubleJwtService {
-	private readonly customJwtService: CustomJwtService<ITokenPayload>;
+	private readonly customJwtService: JwtWrapperService<ITokenPayload>;
 	private readonly tokenService: TokenService;
 
 	constructor(
-		customJwtService: CustomJwtService<ITokenPayload>,
+		customJwtService: JwtWrapperService<ITokenPayload>,
 		tokenService: TokenService,
 	) {
 		this.customJwtService = customJwtService;
