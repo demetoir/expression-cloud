@@ -13,6 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
 		});
 	}
 
+	// todo: fix type of arg and return
 	async validate(payload): Promise<any> {
 		// todo: check if userId, userName, role
 
