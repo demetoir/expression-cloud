@@ -9,17 +9,10 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { DoubleJWTValidationError } from './double-jwt/error';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
 import { AuthenticationError } from './error';
+import { MockDoubleJWTService } from './double-jwt/double-jwt.service.mock';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';
-
-export class MockDoubleJWTService {
-	issueToken = jest.fn();
-
-	refreshToken = jest.fn();
-
-	revokeToken = jest.fn();
-}
 
 describe('AuthService', () => {
 	let service: AuthService;
