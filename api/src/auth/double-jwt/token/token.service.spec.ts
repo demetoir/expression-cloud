@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocalStorageService } from './local-storage.service';
 import { TokenService } from './token.service';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
+import { expectShouldNotCallThis } from '../../../../test/lib/helper/jestHelper';
 import { ITokenPayload } from './interface';
 
 describe('TokenService', () => {
