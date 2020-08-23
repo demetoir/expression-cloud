@@ -1,10 +1,12 @@
 import { NodeConfigService } from './config/NodeConfig.service';
 import { INestApplication } from '@nestjs/common';
-import express from 'express';
+import * as express from 'express';
 import { appFactory } from './app/app.factory';
 
 async function start() {
-	const app: INestApplication = await appFactory(express());
+	const expressApp = express();
+
+	const app: INestApplication = await appFactory(expressApp);
 
 	const nodeConfigService = app.get(NodeConfigService);
 
