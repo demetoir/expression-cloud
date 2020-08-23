@@ -1,17 +1,12 @@
-import { JwtModule } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
+import { CustomJwtModule } from './custom-jwt/custom-jwt.module';
+import { TokenModule } from './token/token.module';
 import { DoubleJwtService } from './double-jwt.service';
-import { JwtPassportModule } from './strategy/jwtPassport.module';
-import { DoubleJwtOptionService } from './double-jwt-option.service';
 
 @Module({
-	imports: [
-		JwtPassportModule,
-		JwtModule.registerAsync({
-			useClass: DoubleJwtOptionService,
-		}),
-	],
-	providers: [DoubleJwtOptionService, DoubleJwtService],
+	imports: [CustomJwtModule, TokenModule],
+
+	providers: [DoubleJwtService],
 	exports: [DoubleJwtService],
 })
 export class DoubleJwtModule {}
