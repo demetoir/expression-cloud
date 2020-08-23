@@ -1050,72 +1050,72 @@ describe('doubleJwtService', () => {
 			expect(findOneMock.mock.calls.length).toBe(1);
 			expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
 		});
-	});
 
-	it('should raise error, if invalid custom claims in payload', async () => {
-		//  given
-		const payload = payloadFixtures.brokenAccess;
+		it('should raise error, if invalid custom claims in payload', async () => {
+			//  given
+			const payload = payloadFixtures.brokenAccess;
 
-		try {
-			// when
-			await service.verifyPayload(payload);
-		} catch (e) {
-			// than
-			expect(e).toBeInstanceOf(DoubleJWTValidationError);
-			expect(e.message).toBe('invalid custom claims in payload');
-		}
-	});
-
-	it('should return void, if payload is not found in storage', async () => {
-		// given
-		const payload = payloadFixtures.access;
-
-		const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
-			if (tokenUuid === payload.uuid) {
-				return null;
+			try {
+				// when
+				await service.verifyPayload(payload);
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(DoubleJWTValidationError);
+				expect(e.message).toBe('invalid custom claims in payload');
 			}
-
-			expectShouldNotCallThis();
 		});
 
-		mockTokenService.findOne = findOneMock;
-		try {
-			// when
-			await service.verifyPayload(payload);
-		} catch (e) {
-			// than
-			expect(e).toBeInstanceOf(DoubleJWTValidationError);
-			expect(e.message).toBe('payload is not found in storage');
+		it('should return void, if payload is not found in storage', async () => {
+			// given
+			const payload = payloadFixtures.access;
 
-			expect(findOneMock.mock.calls.length).toBe(1);
-			expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
-		}
-	});
+			const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
+				if (tokenUuid === payload.uuid) {
+					return null;
+				}
 
-	it('should return void, if payload is not same with stored one', async () => {
-		// given
-		const payload = payloadFixtures.access;
-		const otherPayload = payloadFixtures.newAccess;
+				expectShouldNotCallThis();
+			});
 
-		const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
-			if (tokenUuid === payload.uuid) {
-				return otherPayload;
+			mockTokenService.findOne = findOneMock;
+			try {
+				// when
+				await service.verifyPayload(payload);
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(DoubleJWTValidationError);
+				expect(e.message).toBe('payload is not found in storage');
+
+				expect(findOneMock.mock.calls.length).toBe(1);
+				expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
 			}
-
-			expectShouldNotCallThis();
 		});
 
-		mockTokenService.findOne = findOneMock;
-		try {
-			// when
-			await service.verifyPayload(payload);
-		} catch (e) {
-			// than
-			expect(e).toBeInstanceOf(DoubleJWTValidationError);
-			expect(e.message).toBe('payload is not same with stored one');
+		it('should return void, if payload is not same with stored one', async () => {
+			// given
+			const payload = payloadFixtures.access;
+			const otherPayload = payloadFixtures.newAccess;
 
-			expect(findOneMock.mock.calls.length).toBe(1);
-			expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
-		}
+			const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
+				if (tokenUuid === payload.uuid) {
+					return otherPayload;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			mockTokenService.findOne = findOneMock;
+			try {
+				// when
+				await service.verifyPayload(payload);
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(DoubleJWTValidationError);
+				expect(e.message).toBe('payload is not same with stored one');
+
+				expect(findOneMock.mock.calls.length).toBe(1);
+				expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
+			}
+		});
 	});
 });
