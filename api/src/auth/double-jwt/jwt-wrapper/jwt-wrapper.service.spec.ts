@@ -14,7 +14,7 @@ interface TestIJwtPayload extends IPayload {
 	role: string;
 }
 
-describe('CustomJWTService', () => {
+describe('JWTWrapperService', () => {
 	let service: JwtWrapperService<TestIJwtPayload>;
 	let jwtService: JwtService;
 

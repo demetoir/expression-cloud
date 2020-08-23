@@ -298,22 +298,20 @@ describe('doubleJwtService', () => {
 
 	describe('method issueToken', function () {
 		it('should success', async function () {
-			// given mockJWTAuthService
+			// given mockCustomJwtService
 			const accessToken = 'access token';
 			const refreshToken = 'refresh token';
-			mockCustomJwtService.sign.mockImplementation(
-				(payload, type, duration) => {
-					if (type === PayloadTypes.access) {
-						return ['access token', '1'];
-					}
+			mockCustomJwtService.sign.mockImplementation((payload, type) => {
+				if (type === PayloadTypes.access) {
+					return ['access token', '1'];
+				}
 
-					if (type === PayloadTypes.refresh) {
-						return ['refresh token', '2'];
-					}
+				if (type === PayloadTypes.refresh) {
+					return ['refresh token', '2'];
+				}
 
-					expectShouldNotCallThis();
-				},
-			);
+				expectShouldNotCallThis();
+			});
 
 			// given dto
 			const username = 'root';
