@@ -5,7 +5,7 @@ import { JWT_AUD, JWT_ISS } from './constants';
 import { v4 as uuid } from 'uuid';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';
-import { PayloadTypes, IPayload } from './interface';
+import { IPayload, PayloadTypes } from './interface';
 
 @Injectable()
 export class DoubleJwtService<T extends IPayload> {
@@ -66,7 +66,11 @@ export class DoubleJwtService<T extends IPayload> {
 		return this.sign(payload, type, duration);
 	}
 
-	async sign(payload, type, duration): Promise<[string, IPayload]> {
+	async sign(
+		payload: T,
+		type: PayloadTypes,
+		duration: number,
+	): Promise<[string, IPayload]> {
 		const now = moment();
 		const iat = now.valueOf();
 		const exp = now.add(duration, 'hour').valueOf();
