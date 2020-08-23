@@ -16,7 +16,7 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
 import { AuthenticationError } from './error';
-import { JwtGuard } from './double-jwt/guard/jwt.guard';
+import { JwtGuard } from './strategy/jwt.guard';
 
 @Controller('v1/auth')
 export class AuthController {

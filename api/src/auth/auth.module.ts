@@ -4,8 +4,8 @@ import { AuthService } from './auth.service';
 import { LocalAuthModule } from './localAuth/localAuth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../common/model/entity/user/user.entity';
+import { TokenModule } from './double-jwt/token/token.module';
 import { DoubleJwtModule } from './double-jwt/double-jwt.module';
-import { TokenModule } from './token/token.module';
 
 @Module({
 	imports: [
