@@ -4,6 +4,7 @@ import { mock } from 'jest-mock-extended';
 import { ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
+import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
 
 function getExecutionContextMock(request): ExecutionContext {
 	const httpArgumentHost = mock<HttpArgumentsHost>();
@@ -57,9 +58,9 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			const result = _ResourceId(token, context);
+			_ResourceId(token, context);
 
-			throw new Error('this should not happen');
+			expectShouldNotCallThis();
 		} catch (e) {
 			expect(e).toBeInstanceOf(ResourceIdTypeException);
 		}
@@ -73,9 +74,9 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			const result = _ResourceId(token, context);
+			_ResourceId(token, context);
 
-			throw new Error('this should not happen');
+			expectShouldNotCallThis();
 		} catch (e) {
 			expect(e).toBeInstanceOf(ResourceIdTypeException);
 		}
@@ -89,9 +90,9 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			const result = _ResourceId(token, context);
+			_ResourceId(token, context);
 
-			throw new Error('this should not happen');
+			expectShouldNotCallThis();
 		} catch (e) {
 			expect(e).toBeInstanceOf(TypeError);
 		}
@@ -105,9 +106,9 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			const result = _ResourceId(token, context);
+			_ResourceId(token, context);
 
-			throw new Error('this should not happen');
+			expectShouldNotCallThis();
 		} catch (e) {
 			expect(e).toBeInstanceOf(TypeError);
 		}

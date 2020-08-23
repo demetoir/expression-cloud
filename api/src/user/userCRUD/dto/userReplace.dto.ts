@@ -16,7 +16,6 @@ export class UserReplaceDto extends AbstractBaseDto {
 		const dto = new UserReplaceDto();
 
 		dto.description = body.description;
-		``;
 		dto.name = body.name;
 		dto.email = body.email;
 

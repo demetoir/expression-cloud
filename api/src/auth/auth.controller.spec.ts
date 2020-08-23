@@ -99,9 +99,7 @@ describe('Auth Controller', () => {
 			});
 			try {
 				// when
-				const res: IssueTokenResponse = await controller.issueToken(
-					dto,
-				);
+				await controller.issueToken(dto);
 			} catch (e) {
 				//than
 				expect(e).toBeInstanceOf(UnauthorizedException);
@@ -127,9 +125,7 @@ describe('Auth Controller', () => {
 			});
 			try {
 				// when
-				const res: IssueTokenResponse = await controller.issueToken(
-					dto,
-				);
+				await controller.issueToken(dto);
 			} catch (e) {
 				//than
 				expect(e).toBeInstanceOf(TypeError);

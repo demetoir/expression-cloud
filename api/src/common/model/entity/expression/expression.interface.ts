@@ -1,4 +1,3 @@
-import { VectorEntity } from '../vector/vector.entity';
 import { IBaseEntity } from '../base/base.interface';
 import { IUser } from '../user/user.interface';
 import { IExpressionSetting } from './expression-setting.interface';

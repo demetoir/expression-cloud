@@ -14,7 +14,6 @@ import { VectorModule } from '../vector/vector.module';
 import { ImageModule } from '../image/image.module';
 import { GlobalTypeOrmModule } from '../database/GlobalTypeOrm.module';
 import { GlobalConfigModule } from '../config/globalConfig.module';
-import { GlobalMongooseModule } from '../database/GlobalMongoose.module';
 
 @Module({
 	imports: [

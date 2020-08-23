@@ -12,8 +12,9 @@ import { OpenApiDocConfigService } from '../config/openApiDocConfig.service';
 import { documentBuilderSingleton } from '../common/libs/nestjsCRUDToolkit';
 import { SwaggerModule } from '@nestjs/swagger';
 import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
+import { INestApplication } from '@nestjs/common';
 
-export async function appFactory(expressApp) {
+export async function appFactory(expressApp: any): Promise<INestApplication> {
 	const app = await NestFactory.create(
 		AppModule,
 		new ExpressAdapter(expressApp),
