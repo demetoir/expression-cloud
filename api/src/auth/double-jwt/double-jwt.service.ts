@@ -159,7 +159,7 @@ export class DoubleJwtService {
 		return payload;
 	}
 
-	async verifyPayload(payload): Promise<void> {
+	async verifyPayload(payload: ITokenPayload | any): Promise<void> {
 		// validate custom claims in payload
 		const payloadDto = plainToClass(TokenDto, payload);
 
