@@ -164,6 +164,33 @@ export class AuthService {
 		return payload;
 	}
 
+	async verifyPayload(payload): Promise<void> {
+		// validate custom claims in payload
+		const payloadDto = plainToClass(TokenDto, payload);
+
+		const errors = await validate(payloadDto);
+
+		if (errors.length > 0) {
+			throw new AuthenticationError(
+				`invalid custom claims in payload`,
+				errors,
+			);
+		}
+
+		// token not found in storage
+		const storedPayload = await this.tokenService.findOne(payload.uuid);
+		if (storedPayload === null) {
+			throw new AuthenticationError(`payload is not found in storage`);
+		}
+
+		// check payload is same as stored payload
+		if (!_.isEqual(payload, storedPayload)) {
+			throw new AuthenticationError(
+				'payload is not same with stored one',
+			);
+		}
+	}
+
 	async isValidUserByBasic(username, password): Promise<boolean> {
 		return username === 'root' && password === 'pass';
 	}

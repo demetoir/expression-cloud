@@ -141,6 +141,7 @@ describe('AuthService', () => {
 		expect(service.refreshToken).toBeDefined();
 		expect(service.revokeToken).toBeDefined();
 		expect(service.verifyToken).toBeDefined();
+		expect(service.verifyPayload).toBeDefined();
 	});
 
 	describe('method verifyToken', function () {
@@ -1026,5 +1027,94 @@ describe('AuthService', () => {
 				expect(verifyToken.mock.calls.length).toBe(2);
 			}
 		});
+	});
+
+	describe('method verifyPayload', function () {
+		it('should return void, if success', async () => {
+			// given
+			const payload = payloadFixtures.access;
+
+			const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
+				if (tokenUuid === payload.uuid) {
+					return payload;
+				}
+
+				expectShouldNotCallThis();
+			});
+
+			mockTokenService.findOne = findOneMock;
+			// when
+			await service.verifyPayload(payload);
+
+			expect(findOneMock.mock.calls.length).toBe(1);
+			expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
+		});
+	});
+
+	it('should raise error, if invalid custom claims in payload', async () => {
+		//  given
+		const payload = payloadFixtures.brokenAccess;
+
+		try {
+			// when
+			await service.verifyPayload(payload);
+		} catch (e) {
+			// than
+			expect(e).toBeInstanceOf(AuthenticationError);
+			expect(e.message).toBe('invalid custom claims in payload');
+		}
+	});
+
+	it('should return void, if payload is not found in storage', async () => {
+		// given
+		const payload = payloadFixtures.access;
+
+		const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
+			if (tokenUuid === payload.uuid) {
+				return null;
+			}
+
+			expectShouldNotCallThis();
+		});
+
+		mockTokenService.findOne = findOneMock;
+		try {
+			// when
+			await service.verifyPayload(payload);
+		} catch (e) {
+			// than
+			expect(e).toBeInstanceOf(AuthenticationError);
+			expect(e.message).toBe('payload is not found in storage');
+
+			expect(findOneMock.mock.calls.length).toBe(1);
+			expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
+		}
+	});
+
+	it('should return void, if payload is not same with stored one', async () => {
+		// given
+		const payload = payloadFixtures.access;
+		const otherPayload = payloadFixtures.newAccess;
+
+		const findOneMock = jest.fn().mockImplementation((tokenUuid) => {
+			if (tokenUuid === payload.uuid) {
+				return otherPayload;
+			}
+
+			expectShouldNotCallThis();
+		});
+
+		mockTokenService.findOne = findOneMock;
+		try {
+			// when
+			await service.verifyPayload(payload);
+		} catch (e) {
+			// than
+			expect(e).toBeInstanceOf(AuthenticationError);
+			expect(e.message).toBe('payload is not same with stored one');
+
+			expect(findOneMock.mock.calls.length).toBe(1);
+			expect(findOneMock.mock.calls[0]).toEqual([payload.uuid]);
+		}
 	});
 });
