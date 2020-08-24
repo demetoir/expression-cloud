@@ -3,7 +3,7 @@ import { IUserProfileImage } from './user-profile-image.interface';
 import { IUserSetting } from './userSetting/user-setting.interface';
 import { IOauth } from './user-oauth.interface';
 import { INotice } from '../notice/notice.interface';
-import { IEditHistory } from '../common/model/entity/edit-history/edit-history.interface';
+import { IEditHistory } from '../history/edit-history.interface';
 import { IExpression } from '../expression/expression.interface';
 import { IComment } from '../common/model/entity/comment/comment.interface';
 import { IRole } from '../common/model/entity/role/role.interface';

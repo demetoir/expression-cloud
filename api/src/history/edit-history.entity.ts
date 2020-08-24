@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { UserEntity } from '../../../../user/user.entity';
-import { BaseEntity } from '../base/base.entity';
+import { UserEntity } from '../user/user.entity';
+import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { IEditHistory } from './edit-history.interface';
 
 @Entity({ name: 'edit_histories' })

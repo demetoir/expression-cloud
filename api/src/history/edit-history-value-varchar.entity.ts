@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '../base/base.entity';
+import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'edit_history_value_varchars' })
 export class EditHistoryValueVarcharEntity extends BaseEntity {
