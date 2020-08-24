@@ -13,6 +13,7 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
 
 	async like(toUserId: number, dto: LikeActionDto): Promise<string> {
 		const result = await this.repo.findByIds([toUserId, dto.fromUserId]);
+		console.log(result);
 
 		return 'like user';
 	}
