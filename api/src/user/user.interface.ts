@@ -1,7 +1,7 @@
 import { IBaseEntity } from '../common/model/entity/base/base.interface';
 import { IUserProfileImage } from './user-profile-image.interface';
-import { IUserSetting } from './userSetting/user-setting.interface';
-import { IOauth } from './user-oauth.interface';
+import { IUserSetting } from './user-setting/user-setting.interface';
+import { IOauth } from './user-oauth/user-oauth.interface';
 import { INotice } from '../notice/notice.interface';
 import { IEditHistory } from '../history/edit-history.interface';
 import { IExpression } from '../expression/expression.interface';

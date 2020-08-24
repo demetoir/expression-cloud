@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
-import { UserEntity } from './user.entity';
+import * as config from '../../../ormconfig.js';
+import { UserEntity } from '../user.entity';
 import { UserOauthEntity } from './user-oauth.entity';
 
 describe('user oauth entity', () => {

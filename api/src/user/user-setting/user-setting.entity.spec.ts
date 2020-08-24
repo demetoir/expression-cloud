@@ -4,7 +4,7 @@ import * as config from '../../../ormconfig.js';
 import { UserEntity } from '../user.entity';
 import { UserSettingEntity } from './user-setting.entity';
 
-describe('userSetting entity', () => {
+describe('user-setting entity', () => {
 	let connection;
 	let userSettingRepository;
 	beforeAll(async () => {
@@ -22,7 +22,7 @@ describe('userSetting entity', () => {
 		assert.isNotNull(userSettingRepository);
 	});
 
-	it('should create new userSetting', async function () {
+	it('should create new user-setting', async function () {
 		const userSetting = new UserSettingEntity();
 		await connection.manager.save(userSetting);
 
@@ -36,7 +36,7 @@ describe('userSetting entity', () => {
 	describe('relation', () => {
 		let userSetting;
 
-		it('should prepare userSetting', async () => {
+		it('should prepare user-setting', async () => {
 			userSetting = new UserSettingEntity();
 
 			await connection.manager.save(userSetting);

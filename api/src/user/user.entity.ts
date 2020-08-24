@@ -11,12 +11,12 @@ import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
-import { UserOauthEntity } from './user-oauth.entity';
+import { UserOauthEntity } from './user-oauth/user-oauth.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';
-import { UserSettingEntity } from './userSetting/user-setting.entity';
+import { UserSettingEntity } from './user-setting/user-setting.entity';
 import { IUser } from './user.interface';
 
 // todo 상수로 테이블 이름 분리하기
