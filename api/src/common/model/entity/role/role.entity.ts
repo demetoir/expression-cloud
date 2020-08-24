@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../../../../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
 import { IRole } from './role.interface';
 

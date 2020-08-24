@@ -6,7 +6,7 @@ import { VectorEntity } from '../vector/vector.entity';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ImageEntity } from '../image/image.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { UserEntity } from '../common/model/entity/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 
 describe('expression entity', () => {
 	let expressionRepository;

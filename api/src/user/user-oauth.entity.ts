@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { BaseEntity } from '../base/base.entity';
+import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { IOauth } from './user-oauth.interface';
 
 @Entity({ name: 'user_oauths' })

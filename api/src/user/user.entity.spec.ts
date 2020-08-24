@@ -1,16 +1,16 @@
 import { assert } from 'chai';
 import { createConnection, getConnection, Repository } from 'typeorm';
-import * as config from '../../../../../ormconfig.js';
+import * as config from '../../ormconfig.js';
 import { UserEntity } from './user.entity';
-import { RoleEntity } from '../role/role.entity';
-import { NoticeEntity } from '../../../../notice/notice.entity';
-import { TeamEntity } from '../../../../team/team.entity';
-import { EditHistoryEntity } from '../edit-history/edit-history.entity';
-import { CommentEntity } from '../comment/comment.entity';
+import { RoleEntity } from '../common/model/entity/role/role.entity';
+import { NoticeEntity } from '../notice/notice.entity';
+import { TeamEntity } from '../team/team.entity';
+import { EditHistoryEntity } from '../common/model/entity/edit-history/edit-history.entity';
+import { CommentEntity } from '../common/model/entity/comment/comment.entity';
 import { UserOauthEntity } from './user-oauth.entity';
-import { ExpressionEntity } from '../../../../expression/expression.entity';
+import { ExpressionEntity } from '../expression/expression.entity';
 import { v4 as uuid } from 'uuid';
-import { UserSettingEntity } from './user-setting.entity';
+import { UserSettingEntity } from './userSetting/user-setting.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';
 
 describe('user entity', () => {

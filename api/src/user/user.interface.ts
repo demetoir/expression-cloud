@@ -1,13 +1,13 @@
-import { IBaseEntity } from '../base/base.interface';
+import { IBaseEntity } from '../common/model/entity/base/base.interface';
 import { IUserProfileImage } from './user-profile-image.interface';
-import { IUserSetting } from './user-setting.interface';
+import { IUserSetting } from './userSetting/user-setting.interface';
 import { IOauth } from './user-oauth.interface';
-import { INotice } from '../../../../notice/notice.interface';
-import { IEditHistory } from '../edit-history/edit-history.interface';
-import { IExpression } from '../../../../expression/expression.interface';
-import { IComment } from '../comment/comment.interface';
-import { IRole } from '../role/role.interface';
-import { ITeam } from '../../../../team/team.interface';
+import { INotice } from '../notice/notice.interface';
+import { IEditHistory } from '../common/model/entity/edit-history/edit-history.interface';
+import { IExpression } from '../expression/expression.interface';
+import { IComment } from '../common/model/entity/comment/comment.interface';
+import { IRole } from '../common/model/entity/role/role.interface';
+import { ITeam } from '../team/team.interface';
 
 export declare interface IUser extends IBaseEntity {
 	id: number;

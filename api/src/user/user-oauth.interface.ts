@@ -1,4 +1,4 @@
-import { IBaseEntity } from '../base/base.interface';
+import { IBaseEntity } from '../common/model/entity/base/base.interface';
 import { IUser } from './user.interface';
 
 export interface IOauth extends IBaseEntity {

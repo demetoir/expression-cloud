@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../../../../user/user.entity';
 import { BaseEntity } from '../base/base.entity';
 import { IEditHistory } from './edit-history.interface';
 

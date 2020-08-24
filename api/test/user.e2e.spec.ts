@@ -4,7 +4,7 @@ import { UserModule } from '../src/user/user.module';
 import { GlobalTypeOrmModule } from '../src/database/GlobalTypeOrm.module';
 import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from '../src/common/model/entity/user/user.entity';
+import { UserEntity } from '../src/user/user.entity';
 import { Repository } from 'typeorm';
 import { serialize } from 'class-transformer';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { logger } from '../../common/libs/winstonToolkit';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../../common/model/entity/user/user.entity';
+import { UserEntity } from '../user.entity';
 import { Repository } from 'typeorm';
 import { UndoLikeActionDto } from './dto/undoLikeAction.dto';
 import { LikeActionDto } from './dto/likeAction.dto';

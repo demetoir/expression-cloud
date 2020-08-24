@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { VectorEntity } from '../vector/vector.entity';
 import { TagEntity } from '../tag/tag.entity';
-import { UserEntity } from '../common/model/entity/user/user.entity';
+import { UserEntity } from '../user/user.entity';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
