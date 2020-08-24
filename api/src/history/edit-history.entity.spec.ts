@@ -1,15 +1,16 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../user/user/user.entity';
 import { EditHistoryEntity } from './edit-history.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('editHistory entity', () => {
 	let editHistoryRepository;
 	let connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		editHistoryRepository = connection.getRepository(EditHistoryEntity);

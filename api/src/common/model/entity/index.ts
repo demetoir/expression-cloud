@@ -9,7 +9,7 @@ import { RoleEntity } from '../../../user/role.entity';
 import { ScalarEntity } from '../../../scalar/scalar.entity';
 import { TagEntity } from '../../../tag/tag.entity';
 import { TeamEntity } from '../../../team/team.entity';
-import { UserEntity } from '../../../user/user.entity';
+import { UserEntity } from '../../../user/user/user.entity';
 import { VectorEntity } from '../../../vector/vector.entity';
 import { ExpressionThumbnailImageEntity } from '../../../expression/expression-thumbnail-image.entity';
 import { UserSettingEntity } from '../../../user/user-setting/user-setting.entity';

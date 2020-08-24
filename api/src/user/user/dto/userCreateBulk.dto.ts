@@ -1,4 +1,4 @@
-import { UserEntity } from '../../user.entity';
+import { UserEntity } from '../user.entity';
 import { AbstractBaseDto } from '../../../common/abstractBaseDto';
 import { UserCreateDto } from './userCreate.dto';
 import { CreateManyDto } from '@nestjsx/crud';

@@ -1,15 +1,16 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../user/user/user.entity';
 import { TeamEntity } from './team.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('team entity', () => {
 	let connection;
 	let teamRepository;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		teamRepository = connection.getRepository(TeamEntity);

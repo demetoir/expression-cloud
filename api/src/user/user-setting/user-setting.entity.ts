@@ -1,5 +1,5 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
-import { UserEntity } from '../user.entity';
+import { UserEntity } from '../user/user.entity';
 import { BaseEntity } from '../../common/model/entity/base/base.entity';
 import { IUserSetting } from './user-setting.interface';
 

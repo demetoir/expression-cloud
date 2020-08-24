@@ -3,12 +3,13 @@ import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
 import { ScalarEntity } from './scalar.entity';
 import { VectorEntity } from '../vector/vector.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('value entity', () => {
 	let valueRepository;
 	let connection;
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		valueRepository = await connection.getRepository(ScalarEntity);

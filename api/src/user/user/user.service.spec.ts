@@ -1,19 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserRepository } from '../userRepository/user.repository';
-import { UserActionService } from './userAction.service';
+import { UserEntity } from './user.entity';
 import { MockRepository } from '../../../test/lib/mock/MockRepository';
-import { UserEntity } from '../user.entity';
 
-describe('UserActionService', () => {
-	let service: UserActionService;
-	let repository: Repository<UserRepository>;
+describe('UserService', () => {
+	let service: UserService;
+	let repository: Repository<UserEntity>;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
-				UserActionService,
+				UserService,
 				{
 					provide: getRepositoryToken(UserEntity),
 					useClass: MockRepository,
@@ -21,13 +20,18 @@ describe('UserActionService', () => {
 			],
 		}).compile();
 
-		service = module.get(UserActionService);
+		service = module.get(UserService);
 
 		repository = module.get(getRepositoryToken(UserEntity));
 	});
 
-	it('should be defined method', () => {
+	it('should be DI for init', () => {
 		expect(service).toBeDefined();
 		expect(repository).toBeDefined();
+	});
+
+	it('should be defined method', () => {
+		expect(service.like).toBeDefined();
+		expect(service.undoLike).toBeDefined();
 	});
 });

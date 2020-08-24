@@ -3,13 +3,14 @@ import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ExpressionEntity } from './expression.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('ExpressionSetting entity', () => {
 	let expressionSettingRepository;
 	let connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		expressionSettingRepository = connection.getRepository(

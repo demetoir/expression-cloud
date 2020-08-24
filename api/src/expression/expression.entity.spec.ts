@@ -6,14 +6,15 @@ import { VectorEntity } from '../vector/vector.entity';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ImageEntity } from '../image/image.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../user/user/user.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('expression entity', () => {
 	let expressionRepository;
 	let connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		expressionRepository = connection.getRepository(ExpressionEntity);

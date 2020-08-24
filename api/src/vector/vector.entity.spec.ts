@@ -4,13 +4,14 @@ import * as config from '../../ormconfig.js';
 import { VectorEntity } from './vector.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { ScalarEntity } from '../scalar/scalar.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('column entity', () => {
 	let vectorRepository;
 	let connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		vectorRepository = connection.getRepository(VectorEntity);

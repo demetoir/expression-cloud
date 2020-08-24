@@ -1,12 +1,12 @@
-import { Body, Controller } from '@nestjs/common';
-import { UserCRUDService } from './userCRUD.service';
+import { Body, Controller, Param, Post } from '@nestjs/common';
+import { UserService } from './user.service';
 import {
 	CrudController,
 	CrudRequest,
 	Override,
 	ParsedRequest,
 } from '@nestjsx/crud';
-import { UserEntity } from '../user.entity';
+import { UserEntity } from './user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { logger } from '../../common/libs/winstonToolkit';
 import { UserCreateDto } from './dto/userCreate.dto';
@@ -16,6 +16,8 @@ import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
 import { CrudPlus, getManyResponse } from '../../common/libs/nestjsCRUDToolkit';
 import { dtoTransformPipe } from './pipe/userDtoTransfrom.pipe';
 import { userBulkDtoTransformPipe } from './pipe/userBulkDtoTransform.pipe';
+import { LikeActionDto } from './dto/likeAction.dto';
+import { UndoLikeActionDto } from './dto/undoLikeAction.dto';
 
 // TODO implement and test user controller
 
@@ -31,10 +33,10 @@ import { userBulkDtoTransformPipe } from './pipe/userBulkDtoTransform.pipe';
 	},
 })
 @Controller('/v1/users')
-export class UserCRUDController implements CrudController<UserEntity> {
+export class UserController implements CrudController<UserEntity> {
 	private logger: any;
 
-	constructor(public service: UserCRUDService) {
+	constructor(public readonly service: UserService) {
 		this.logger = logger;
 	}
 
@@ -98,5 +100,21 @@ export class UserCRUDController implements CrudController<UserEntity> {
 		@ParsedRequest() req: CrudRequest,
 	): Promise<UserEntity | void> {
 		return this.base.deleteOneBase(req);
+	}
+
+	@Post('/like')
+	async like(
+		@Param('id') toUserId: number,
+		@Body() dto: LikeActionDto,
+	): Promise<string> {
+		return this.service.like(toUserId, dto);
+	}
+
+	@Post('/undo-like')
+	async undoLike(
+		@Param('id') toUserId: number,
+		@Body() dto: UndoLikeActionDto,
+	): Promise<string> {
+		return this.service.undoLike(toUserId, dto);
 	}
 }

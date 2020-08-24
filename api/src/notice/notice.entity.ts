@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../user/user/user.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { INotice } from './notice.interface';
 

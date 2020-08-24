@@ -1,8 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../user/user/user.entity';
 import { NoticeEntity } from './notice.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('notice entity', () => {
 	let userRepository;
@@ -10,7 +11,7 @@ describe('notice entity', () => {
 	let noticeRepository;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		userRepository = connection.getRepository(UserEntity);

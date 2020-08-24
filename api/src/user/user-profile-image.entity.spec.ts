@@ -1,15 +1,16 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
-import { UserEntity } from './user.entity';
+import { UserEntity } from './user/user.entity';
 import { ImageEntity } from '../image/image.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('userProfile entity', () => {
 	let connection;
 	let repository;
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		repository = connection.getRepository(UserProfileImageEntity);

@@ -3,13 +3,14 @@ import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
 import { TagEntity } from './tag.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('tag entity', () => {
 	let connection;
 	let tagRepository;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		tagRepository = connection.getRepository(TagEntity);

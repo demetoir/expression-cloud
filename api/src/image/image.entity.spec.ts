@@ -4,13 +4,14 @@ import * as config from '../../ormconfig.js';
 import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image.entity';
 import { UserProfileImageEntity } from '../user/user-profile-image.entity';
+import { ormConfig } from '../common/model/configLoader';
 
 describe('image entity', () => {
 	let connection;
 	let repository;
 
 	beforeAll(async () => {
-		connection = await createConnection(config);
+		connection = await createConnection(ormConfig);
 		await connection.synchronize();
 
 		repository = connection.getRepository(ImageEntity);
