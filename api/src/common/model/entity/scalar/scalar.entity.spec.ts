@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../../../ormconfig.js';
 import { ScalarEntity } from './scalar.entity';
-import { VectorEntity } from '../vector/vector.entity';
+import { VectorEntity } from '../../../../vector/vector.entity';
 
 describe('value entity', () => {
 	let valueRepository;

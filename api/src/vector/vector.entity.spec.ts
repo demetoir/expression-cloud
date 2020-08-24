@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../../../ormconfig.js';
+import * as config from '../../ormconfig.js';
 import { VectorEntity } from './vector.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
-import { ScalarEntity } from '../scalar/scalar.entity';
+import { ExpressionEntity } from '../common/model/entity/expression/expression.entity';
+import { ScalarEntity } from '../common/model/entity/scalar/scalar.entity';
 
 describe('column entity', () => {
 	let vectorRepository;

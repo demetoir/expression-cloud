@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
-import { VectorEntity } from '../vector/vector.entity';
+import { VectorEntity } from '../../../../vector/vector.entity';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ImageEntity } from '../image/image.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';

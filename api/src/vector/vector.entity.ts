@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { ExpressionEntity } from '../expression/expression.entity';
-import { ScalarEntity } from '../scalar/scalar.entity';
-import { BaseEntity } from '../base/base.entity';
+import { ExpressionEntity } from '../common/model/entity/expression/expression.entity';
+import { ScalarEntity } from '../common/model/entity/scalar/scalar.entity';
+import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { IVector } from './vector.interface';
 
 @Entity({ name: 'vectors' })
