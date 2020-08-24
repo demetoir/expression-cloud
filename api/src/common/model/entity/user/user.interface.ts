@@ -4,7 +4,7 @@ import { IUserSetting } from './user-setting.interface';
 import { IOauth } from './user-oauth.interface';
 import { INotice } from '../../../../notice/notice.interface';
 import { IEditHistory } from '../edit-history/edit-history.interface';
-import { IExpression } from '../expression/expression.interface';
+import { IExpression } from '../../../../expression/expression.interface';
 import { IComment } from '../comment/comment.interface';
 import { IRole } from '../role/role.interface';
 import { ITeam } from '../../../../team/team.interface';

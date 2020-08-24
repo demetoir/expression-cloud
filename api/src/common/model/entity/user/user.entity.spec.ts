@@ -8,7 +8,7 @@ import { TeamEntity } from '../../../../team/team.entity';
 import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { UserOauthEntity } from './user-oauth.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
+import { ExpressionEntity } from '../../../../expression/expression.entity';
 import { v4 as uuid } from 'uuid';
 import { UserSettingEntity } from './user-setting.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';

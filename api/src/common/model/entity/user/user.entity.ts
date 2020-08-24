@@ -12,7 +12,7 @@ import { TeamEntity } from '../../../../team/team.entity';
 import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { UserOauthEntity } from './user-oauth.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
+import { ExpressionEntity } from '../../../../expression/expression.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../base/base.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';

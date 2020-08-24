@@ -1,5 +1,5 @@
 import { IBaseEntity } from '../common/model/entity/base/base.interface';
-import { IExpression } from '../common/model/entity/expression/expression.interface';
+import { IExpression } from '../expression/expression.interface';
 
 export interface ITag extends IBaseEntity {
 	name: string;

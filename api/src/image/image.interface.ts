@@ -1,5 +1,5 @@
 import { IBaseEntity } from '../common/model/entity/base/base.interface';
-import { IExpressionThumbnailImage } from '../common/model/entity/expression/expression-thumbnail-image.interface';
+import { IExpressionThumbnailImage } from '../expression/expression-thumbnail-image.interface';
 import { IUserProfileImage } from '../common/model/entity/user/user-profile-image.interface';
 
 export interface IImage extends IBaseEntity {

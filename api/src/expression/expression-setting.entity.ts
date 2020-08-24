@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { ExpressionEntity } from './expression.entity';
-import { BaseEntity } from '../base/base.entity';
+import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { IExpressionSetting } from './expression-setting.interface';
 
 @Entity({ name: 'expression_settings' })

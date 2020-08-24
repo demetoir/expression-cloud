@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../../../ormconfig.js';
+import * as config from '../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { ImageEntity } from '../../../../image/image.entity';
+import { ImageEntity } from '../image/image.entity';
 
 describe('ExpressionThumbnailImage entity', () => {
 	let repository;

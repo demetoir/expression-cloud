@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { ExpressionEntity } from '../common/model/entity/expression/expression.entity';
+import { ExpressionEntity } from '../expression/expression.entity';
 import { ScalarEntity } from '../scalar/scalar.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { IVector } from './vector.interface';
