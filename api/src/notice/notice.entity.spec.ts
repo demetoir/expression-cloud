@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../../../ormconfig.js';
-import { UserEntity } from '../user/user.entity';
+import * as config from '../../ormconfig.js';
+import { UserEntity } from '../common/model/entity/user/user.entity';
 import { NoticeEntity } from './notice.entity';
 
 describe('notice entity', () => {

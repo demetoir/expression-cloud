@@ -2,7 +2,7 @@ import { IBaseEntity } from '../base/base.interface';
 import { IUserProfileImage } from './user-profile-image.interface';
 import { IUserSetting } from './user-setting.interface';
 import { IOauth } from './user-oauth.interface';
-import { INotice } from '../notice/notice.interface';
+import { INotice } from '../../../../notice/notice.interface';
 import { IEditHistory } from '../edit-history/edit-history.interface';
 import { IExpression } from '../expression/expression.interface';
 import { IComment } from '../comment/comment.interface';

@@ -3,7 +3,7 @@ import { createConnection, getConnection, Repository } from 'typeorm';
 import * as config from '../../../../../ormconfig.js';
 import { UserEntity } from './user.entity';
 import { RoleEntity } from '../role/role.entity';
-import { NoticeEntity } from '../notice/notice.entity';
+import { NoticeEntity } from '../../../../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../edit-history/edit-history.entity';
 import { CommentEntity } from '../comment/comment.entity';
