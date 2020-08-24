@@ -1,10 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
-import { UserEntity } from './user/user.entity';
-import { ImageEntity } from '../image/image.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';
-import { ormConfig } from '../common/model/configLoader';
+import { ormConfig } from '../../common/model/configLoader';
+import { UserEntity } from '../user/user.entity';
+import { ImageEntity } from '../../image/image.entity';
 
 describe('userProfile entity', () => {
 	let connection;

@@ -1,7 +1,6 @@
 import { assert } from 'chai';
 import { createConnection, getConnection, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { RoleEntity } from '../role.entity';
 import { NoticeEntity } from '../../notice/notice.entity';
 import { TeamEntity } from '../../team/team.entity';
 import { EditHistoryEntity } from '../../history/edit-history.entity';
@@ -10,8 +9,9 @@ import { UserOauthEntity } from '../user-oauth/user-oauth.entity';
 import { ExpressionEntity } from '../../expression/expression.entity';
 import { v4 as uuid } from 'uuid';
 import { UserSettingEntity } from '../user-setting/user-setting.entity';
-import { UserProfileImageEntity } from '../user-profile-image.entity';
 import { ormConfig } from '../../common/model/configLoader';
+import { RoleEntity } from '../role/role.entity';
+import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;

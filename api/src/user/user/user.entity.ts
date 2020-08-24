@@ -6,7 +6,6 @@ import {
 	OneToMany,
 	OneToOne,
 } from 'typeorm';
-import { RoleEntity } from '../role.entity';
 import { NoticeEntity } from '../../notice/notice.entity';
 import { TeamEntity } from '../../team/team.entity';
 import { EditHistoryEntity } from '../../history/edit-history.entity';
@@ -15,9 +14,10 @@ import { UserOauthEntity } from '../user-oauth/user-oauth.entity';
 import { ExpressionEntity } from '../../expression/expression.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../../common/model/entity/base/base.entity';
-import { UserProfileImageEntity } from '../user-profile-image.entity';
 import { UserSettingEntity } from '../user-setting/user-setting.entity';
 import { IUser } from './user.interface';
+import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
+import { RoleEntity } from '../role/role.entity';
 
 // todo 상수로 테이블 이름 분리하기
 // todo: 엔티티 클래스에 너무 많은 엔티가 붙는다

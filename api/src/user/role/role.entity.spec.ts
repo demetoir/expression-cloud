@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import { UserEntity } from './user/user.entity';
 import { RoleEntity } from './role.entity';
-import { ormConfig } from '../common/model/configLoader';
+import { ormConfig } from '../../common/model/configLoader';
+import { UserEntity } from '../user/user.entity';
 
 describe('role entity', () => {
 	let connection;

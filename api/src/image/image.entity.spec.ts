@@ -3,8 +3,8 @@ import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
 import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image.entity';
-import { UserProfileImageEntity } from '../user/user-profile-image.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { UserProfileImageEntity } from '../user/user-profile-image/user-profile-image.entity';
 
 describe('image entity', () => {
 	let connection;
