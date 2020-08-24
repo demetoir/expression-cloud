@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../../../../ormconfig.js';
 import { UserEntity } from './user.entity';
-import { ImageEntity } from '../image/image.entity';
+import { ImageEntity } from '../../../../image/image.entity';
 import { UserProfileImageEntity } from './user-profile-image.entity';
 
 describe('userProfile entity', () => {

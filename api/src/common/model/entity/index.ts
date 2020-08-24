@@ -2,7 +2,7 @@ import { CommentEntity } from './comment/comment.entity';
 import { EditHistoryEntity } from './edit-history/edit-history.entity';
 import { ExpressionEntity } from './expression/expression.entity';
 import { ExpressionSettingEntity } from './expression/expression-setting.entity';
-import { ImageEntity } from './image/image.entity';
+import { ImageEntity } from '../../../image/image.entity';
 import { NoticeEntity } from './notice/notice.entity';
 import { UserOauthEntity } from './user/user-oauth.entity';
 import { RoleEntity } from './role/role.entity';

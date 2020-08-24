@@ -1,6 +1,6 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
 import { ExpressionEntity } from './expression.entity';
-import { ImageEntity } from '../image/image.entity';
+import { ImageEntity } from '../../../../image/image.entity';
 import { BaseEntity } from '../base/base.entity';
 import { IExpressionThumbnailImage } from './expression-thumbnail-image.interface';
 

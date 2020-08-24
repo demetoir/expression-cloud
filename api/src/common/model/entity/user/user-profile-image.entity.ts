@@ -1,5 +1,5 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
-import { ImageEntity } from '../image/image.entity';
+import { ImageEntity } from '../../../../image/image.entity';
 import { UserEntity } from './user.entity';
 import { BaseEntity } from '../base/base.entity';
 import { IUserProfileImage } from './user-profile-image.interface';
