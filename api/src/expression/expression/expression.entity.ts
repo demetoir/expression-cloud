@@ -8,12 +8,12 @@ import {
 	OneToMany,
 	OneToOne,
 } from 'typeorm';
-import { VectorEntity } from '../vector/vector.entity';
-import { TagEntity } from '../tag/tag.entity';
-import { UserEntity } from '../user/user/user.entity';
-import { ExpressionSettingEntity } from './expression-setting.entity';
-import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { BaseEntity } from '../common/model/entity/base/base.entity';
+import { VectorEntity } from '../../vector/vector.entity';
+import { TagEntity } from '../../tag/tag.entity';
+import { UserEntity } from '../../user/user/user.entity';
+import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
+import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
+import { BaseEntity } from '../../common/model/entity/base/base.entity';
 import { IExpression } from './expression.interface';
 
 @Entity({ name: 'expressions' })

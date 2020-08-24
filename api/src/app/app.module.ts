@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from '../auth/auth.module';
 import { CollectionModule } from '../collection/collection.module';
-import { ExpressionModule } from '../expression/expression.module';
+import { ExpressionModule } from '../expression/expression/expression.module';
 import { HistoryModule } from '../history/history.module';
 import { NoticeModule } from '../notice/notice.module';
 import { ScalarModule } from '../scalar/scalar.module';

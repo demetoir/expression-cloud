@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
+import * as config from '../../../ormconfig.js';
 import { ExpressionSettingEntity } from './expression-setting.entity';
-import { ExpressionEntity } from './expression.entity';
-import { ormConfig } from '../common/model/configLoader';
+import { ExpressionEntity } from '../expression/expression.entity';
+import { ormConfig } from '../../common/model/configLoader';
 
 describe('ExpressionSetting entity', () => {
 	let expressionSettingRepository;

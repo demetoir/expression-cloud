@@ -6,7 +6,7 @@ import { TeamEntity } from '../../team/team.entity';
 import { EditHistoryEntity } from '../../history/edit-history.entity';
 import { CommentEntity } from '../../comment/comment.entity';
 import { UserOauthEntity } from '../user-oauth/user-oauth.entity';
-import { ExpressionEntity } from '../../expression/expression.entity';
+import { ExpressionEntity } from '../../expression/expression/expression.entity';
 import { v4 as uuid } from 'uuid';
 import { UserSettingEntity } from '../user-setting/user-setting.entity';
 import { ormConfig } from '../../common/model/configLoader';

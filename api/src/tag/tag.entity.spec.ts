@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import * as config from '../../ormconfig.js';
 import { TagEntity } from './tag.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
+import { ExpressionEntity } from '../expression/expression/expression.entity';
 import { ormConfig } from '../common/model/configLoader';
 
 describe('tag entity', () => {

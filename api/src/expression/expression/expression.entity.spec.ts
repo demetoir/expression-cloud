@@ -1,13 +1,13 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
+import * as config from '../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
-import { VectorEntity } from '../vector/vector.entity';
-import { ExpressionSettingEntity } from './expression-setting.entity';
-import { ImageEntity } from '../image/image.entity';
-import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { UserEntity } from '../user/user/user.entity';
-import { ormConfig } from '../common/model/configLoader';
+import { VectorEntity } from '../../vector/vector.entity';
+import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
+import { ImageEntity } from '../../image/image.entity';
+import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
+import { UserEntity } from '../../user/user/user.entity';
+import { ormConfig } from '../../common/model/configLoader';
 
 describe('expression entity', () => {
 	let expressionRepository;
