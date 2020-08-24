@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { ExpressionEntity } from '../expression/expression.entity';
-import { BaseEntity } from '../base/base.entity';
+import { ExpressionEntity } from '../common/model/entity/expression/expression.entity';
+import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { ITag } from './tag.interface';
 
 @Entity({ name: 'tags' })

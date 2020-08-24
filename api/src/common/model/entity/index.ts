@@ -7,7 +7,7 @@ import { NoticeEntity } from './notice/notice.entity';
 import { UserOauthEntity } from './user/user-oauth.entity';
 import { RoleEntity } from './role/role.entity';
 import { ScalarEntity } from './scalar/scalar.entity';
-import { TagEntity } from './tag/tag.entity';
+import { TagEntity } from '../../../tag/tag.entity';
 import { TeamEntity } from './team/team.entity';
 import { UserEntity } from './user/user.entity';
 import { VectorEntity } from '../../../vector/vector.entity';

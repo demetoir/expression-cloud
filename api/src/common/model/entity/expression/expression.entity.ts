@@ -9,7 +9,7 @@ import {
 	OneToOne,
 } from 'typeorm';
 import { VectorEntity } from '../../../../vector/vector.entity';
-import { TagEntity } from '../tag/tag.entity';
+import { TagEntity } from '../../../../tag/tag.entity';
 import { UserEntity } from '../user/user.entity';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';

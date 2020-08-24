@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../../../ormconfig.js';
+import * as config from '../../ormconfig.js';
 import { TagEntity } from './tag.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
+import { ExpressionEntity } from '../common/model/entity/expression/expression.entity';
 
 describe('tag entity', () => {
 	let connection;
