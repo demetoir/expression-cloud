@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
-import { DoubleJwtService } from './double-jwt/double-jwt.service';
+import { DoubleJwtService } from '../double-jwt/double-jwt.service';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { DoubleJWTValidationError } from './double-jwt/error';
+import { DoubleJWTValidationError } from '../double-jwt/error';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
 import { AuthenticationError } from './error';
-import { MockDoubleJWTService } from './double-jwt/double-jwt.service.mock';
+import { MockDoubleJWTService } from '../double-jwt/double-jwt.service.mock';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';

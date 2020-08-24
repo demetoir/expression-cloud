@@ -1,4 +1,4 @@
-import { BaseNestedError } from '../../common/error/BaseNestedError';
+import { BaseNestedError } from '../../../common/error/BaseNestedError';
 
 export class AuthenticationError extends BaseNestedError {}
 

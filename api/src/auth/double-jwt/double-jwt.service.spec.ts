@@ -9,8 +9,8 @@ import {
 	MalformedJWTError,
 } from './jwt-wrapper/error';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { RefreshTokenDto } from '../dto/refresh-token.dto';
-import { RevokeTokenDto } from '../dto/revoke-token.dto';
+import { RefreshTokenDto } from '../auth/dto/refresh-token.dto';
+import { RevokeTokenDto } from '../auth/dto/revoke-token.dto';
 import { ITokenPayload } from './token/interface';
 import { DoubleJWTValidationError } from './error';
 
