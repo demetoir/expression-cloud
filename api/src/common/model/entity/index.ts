@@ -14,24 +14,26 @@ import { ExpressionThumbnailImageEntity } from '../../../expression/expression-t
 import { UserSettingEntity } from '../../../user/user-setting/user-setting.entity';
 import { RoleEntity } from '../../../user/role/role.entity';
 import { UserProfileImageEntity } from '../../../user/user-profile-image/user-profile-image.entity';
+import { UserLikeEntity } from '../../../user/user-likes/user-like.entity';
 
 const entities = [
 	CommentEntity,
 	EditHistoryEntity,
-	ExpressionSettingEntity,
-	ExpressionEntity,
 	ImageEntity,
 	NoticeEntity,
-	UserOauthEntity,
 	RoleEntity,
 	ScalarEntity,
 	TagEntity,
 	TeamEntity,
 	UserEntity,
+	UserLikeEntity,
 	UserSettingEntity,
-	VectorEntity,
-	ExpressionThumbnailImageEntity,
+	UserOauthEntity,
 	UserProfileImageEntity,
+	VectorEntity,
+	ExpressionEntity,
+	ExpressionSettingEntity,
+	ExpressionThumbnailImageEntity,
 ];
 
 export { entities };

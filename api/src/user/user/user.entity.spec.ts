@@ -12,6 +12,7 @@ import { UserSettingEntity } from '../user-setting/user-setting.entity';
 import { ormConfig } from '../../common/model/configLoader';
 import { RoleEntity } from '../role/role.entity';
 import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
+import { UserLikeEntity } from '../user-likes/user-like.entity';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
@@ -380,11 +381,11 @@ describe('user entity', () => {
 			const user1 = await getNewUser();
 			const user2 = await getNewUser();
 
-			user1.likeToUsers = [user2];
-			await connection.manager.save(user1);
+			const like = new UserLikeEntity();
+			like.toUserId = user1.id;
+			like.fromUserId = user2.id;
 
-			user2.likeFromUsers = [user1];
-			await connection.manager.save(user2);
+			await connection.manager.save(like);
 
 			const result1 = await userRepository.findOne({
 				where: { id: user1.id },
