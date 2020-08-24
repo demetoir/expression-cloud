@@ -1,5 +1,5 @@
 import { IRole } from './role.interface';
-import { IUser } from '../../../../user/user.interface';
+import { IUser } from './user.interface';
 
 export class RoleFactory implements IRole {
 	id: number;

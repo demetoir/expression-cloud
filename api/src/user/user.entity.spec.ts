@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { createConnection, getConnection, Repository } from 'typeorm';
 import * as config from '../../ormconfig.js';
 import { UserEntity } from './user.entity';
-import { RoleEntity } from '../common/model/entity/role/role.entity';
+import { RoleEntity } from './role.entity';
 import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../history/edit-history.entity';

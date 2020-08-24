@@ -5,7 +5,7 @@ import { ExpressionSettingEntity } from '../../../expression/expression-setting.
 import { ImageEntity } from '../../../image/image.entity';
 import { NoticeEntity } from '../../../notice/notice.entity';
 import { UserOauthEntity } from '../../../user/user-oauth.entity';
-import { RoleEntity } from './role/role.entity';
+import { RoleEntity } from '../../../user/role.entity';
 import { ScalarEntity } from '../../../scalar/scalar.entity';
 import { TagEntity } from '../../../tag/tag.entity';
 import { TeamEntity } from '../../../team/team.entity';

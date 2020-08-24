@@ -6,7 +6,7 @@ import {
 	OneToMany,
 	OneToOne,
 } from 'typeorm';
-import { RoleEntity } from '../common/model/entity/role/role.entity';
+import { RoleEntity } from './role.entity';
 import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../history/edit-history.entity';

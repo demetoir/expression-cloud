@@ -6,7 +6,7 @@ import { INotice } from '../notice/notice.interface';
 import { IEditHistory } from '../history/edit-history.interface';
 import { IExpression } from '../expression/expression.interface';
 import { IComment } from '../common/model/entity/comment/comment.interface';
-import { IRole } from '../common/model/entity/role/role.interface';
+import { IRole } from './role.interface';
 import { ITeam } from '../team/team.interface';
 
 export declare interface IUser extends IBaseEntity {
