@@ -7,7 +7,7 @@ import { IEditHistory } from '../edit-history/edit-history.interface';
 import { IExpression } from '../expression/expression.interface';
 import { IComment } from '../comment/comment.interface';
 import { IRole } from '../role/role.interface';
-import { ITeam } from '../team/team.interface';
+import { ITeam } from '../../../../team/team.interface';
 
 export declare interface IUser extends IBaseEntity {
 	id: number;
