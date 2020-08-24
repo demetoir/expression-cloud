@@ -1,4 +1,4 @@
-import { CommentEntity } from './comment/comment.entity';
+import { CommentEntity } from '../../../comment/comment.entity';
 import { EditHistoryEntity } from '../../../history/edit-history.entity';
 import { ExpressionEntity } from '../../../expression/expression.entity';
 import { ExpressionSettingEntity } from '../../../expression/expression-setting.entity';

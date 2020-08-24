@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../../../ormconfig.js';
+import * as config from '../../ormconfig.js';
 import { CommentEntity } from './comment.entity';
-import { UserEntity } from '../../../../user/user.entity';
+import { UserEntity } from '../user/user.entity';
 
 describe('comment entity', () => {
 	let commentRepository;

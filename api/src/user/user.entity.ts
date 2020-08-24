@@ -10,7 +10,7 @@ import { RoleEntity } from './role.entity';
 import { NoticeEntity } from '../notice/notice.entity';
 import { TeamEntity } from '../team/team.entity';
 import { EditHistoryEntity } from '../history/edit-history.entity';
-import { CommentEntity } from '../common/model/entity/comment/comment.entity';
+import { CommentEntity } from '../comment/comment.entity';
 import { UserOauthEntity } from './user-oauth.entity';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { ApiProperty } from '@nestjs/swagger';
