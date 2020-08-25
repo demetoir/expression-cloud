@@ -1,18 +1,18 @@
 import { assert } from 'chai';
 import { createConnection, getConnection, Repository } from 'typeorm';
-import { UserEntity } from './user.entity';
-import { NoticeEntity } from '../../notice/notice.entity';
-import { TeamEntity } from '../../team/team.entity';
-import { EditHistoryEntity } from '../../history/edit-history.entity';
-import { CommentEntity } from '../../comment/comment.entity';
-import { UserOauthEntity } from '../user-oauth/user-oauth.entity';
-import { ExpressionEntity } from '../../expression/expression/expression.entity';
+import { UserEntity } from '../../../src/user/user/user.entity';
+import { NoticeEntity } from '../../../src/notice/notice.entity';
+import { TeamEntity } from '../../../src/team/team.entity';
+import { EditHistoryEntity } from '../../../src/history/edit-history.entity';
+import { CommentEntity } from '../../../src/comment/comment.entity';
+import { UserOauthEntity } from '../../../src/user/user-oauth/user-oauth.entity';
+import { ExpressionEntity } from '../../../src/expression/expression/expression.entity';
 import { v4 as uuid } from 'uuid';
-import { UserSettingEntity } from '../user-setting/user-setting.entity';
-import { ormConfig } from '../../common/model/configLoader';
-import { RoleEntity } from '../role/role.entity';
-import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
-import { UserLikeEntity } from '../user-like/user-like.entity';
+import { UserSettingEntity } from '../../../src/user/user-setting/user-setting.entity';
+import { ormConfig } from '../../../src/common/model/configLoader';
+import { RoleEntity } from '../../../src/user/role/role.entity';
+import { UserProfileImageEntity } from '../../../src/user/user-profile-image/user-profile-image.entity';
+import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;

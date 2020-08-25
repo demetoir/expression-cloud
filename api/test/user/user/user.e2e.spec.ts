@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { GlobalTypeOrmModule } from '../src/database/GlobalTypeOrm.module';
+import { GlobalTypeOrmModule } from '../../../src/database/GlobalTypeOrm.module';
 import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from '../src/user/user/user.entity';
+import { UserEntity } from '../../../src/user/user/user.entity';
 import { Repository } from 'typeorm';
-import { UserModule } from '../src/user/user/user.module';
-import { entityToResponse } from './util';
+import { UserModule } from '../../../src/user/user/user.module';
+import { entityToResponse } from '../../util';
 
 // todo: moduleFixture에서 typeorm connection 가져와서 sync 해야함
 describe('UserModule (e2e)', () => {

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { MockCrudService } from '../../../test/lib/mock/CrudService.mock';
+import { UserController } from '../../../src/user/user/user.controller';
+import { UserService } from '../../../src/user/user/user.service';
+import { MockCrudService } from '../../lib/mock/CrudService.mock';
 
 export class MockUserService extends MockCrudService {
 	like = jest.fn();
