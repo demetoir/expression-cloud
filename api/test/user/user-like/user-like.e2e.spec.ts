@@ -37,7 +37,7 @@ describe('UserLikeModule (e2e)', () => {
 			expectShouldBeImplementTest();
 		});
 
-		it('return may', function () {
+		it('return many resource', function () {
 			expectShouldBeImplementTest();
 		});
 
@@ -81,15 +81,19 @@ describe('UserLikeModule (e2e)', () => {
 			expectShouldBeImplementTest();
 		});
 
-		it('400 if invalid query parameter to_user_id', async function () {
-			expectShouldBeImplementTest();
-		});
-
-		it('400 if invalid query parameter from_user_id', async function () {
-			expectShouldBeImplementTest();
-		});
-
 		it('404 if not exist resource', async function () {
+			expectShouldBeImplementTest();
+		});
+	});
+
+	describe('/v1/user-likes (update)', () => {
+		it('should not have update method', async function () {
+			expectShouldBeImplementTest();
+		});
+	});
+
+	describe('/v1/user-likes (put)', () => {
+		it('should not have put method', async function () {
 			expectShouldBeImplementTest();
 		});
 	});
