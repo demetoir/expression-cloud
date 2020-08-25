@@ -5,12 +5,8 @@ import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../src/user/user/user.entity';
 import { Repository } from 'typeorm';
-import { serialize } from 'class-transformer';
 import { UserModule } from '../src/user/user/user.module';
-
-function entityToResponse(entity) {
-	return JSON.parse(serialize(entity));
-}
+import { entityToResponse } from './util';
 
 // todo: moduleFixture에서 typeorm connection 가져와서 sync 해야함
 describe('UserModule (e2e)', () => {
@@ -27,6 +23,10 @@ describe('UserModule (e2e)', () => {
 		userRepository = moduleFixture.get(getRepositoryToken(UserEntity));
 
 		await app.init();
+	});
+
+	afterAll(async () => {
+		await app.close();
 	});
 
 	it('should be init', function () {
@@ -174,8 +174,4 @@ describe('UserModule (e2e)', () => {
 	// 			.expect(expectBody);
 	// 	});
 	// });
-
-	afterAll(async () => {
-		await app.close();
-	});
 });
