@@ -13,6 +13,7 @@ import { ormConfig } from '../../../src/common/model/configLoader';
 import { RoleEntity } from '../../../src/user/role/role.entity';
 import { UserProfileImageEntity } from '../../../src/user/user-profile-image/user-profile-image.entity';
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
+import { RoleEnum } from '../../../src/user/role/role.enum';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
@@ -214,13 +215,13 @@ describe('user entity', () => {
 			user = await getNewUser();
 
 			const adminRole = new RoleEntity();
-			adminRole.name = 'admin';
+			adminRole.name = RoleEnum.admin;
 			await connection.manager.save(adminRole);
 
 			assert.isNotNull(adminRole.id);
 
 			const userRole = new RoleEntity();
-			userRole.name = 'user';
+			userRole.name = RoleEnum.user;
 			await connection.manager.save(userRole);
 
 			assert.isNotNull(userRole.id);

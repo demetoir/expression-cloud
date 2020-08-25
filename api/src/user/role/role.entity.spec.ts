@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import { RoleEntity } from './role.entity';
 import { ormConfig } from '../../common/model/configLoader';
 import { UserEntity } from '../user/user.entity';
+import { RoleEnum } from './role.enum';
 
 describe('role entity', () => {
 	let connection;
@@ -25,7 +26,47 @@ describe('role entity', () => {
 
 	it('should create new role', async function () {
 		const role = new RoleEntity();
-		role.name = 'admin';
+		role.name = RoleEnum.admin;
+		await connection.manager.save(role);
+
+		const newTeam = await roleRepository.findOne({ id: role.id });
+
+		assert.isNotNull(newTeam);
+	});
+
+	it('should create role as user', async function () {
+		const role = new RoleEntity();
+		role.name = RoleEnum.user;
+		await connection.manager.save(role);
+
+		const newTeam = await roleRepository.findOne({ id: role.id });
+
+		assert.isNotNull(newTeam);
+	});
+
+	it('should create role as manager', async function () {
+		const role = new RoleEntity();
+		role.name = RoleEnum.manager;
+		await connection.manager.save(role);
+
+		const newTeam = await roleRepository.findOne({ id: role.id });
+
+		assert.isNotNull(newTeam);
+	});
+
+	it('should create role as admin', async function () {
+		const role = new RoleEntity();
+		role.name = RoleEnum.admin;
+		await connection.manager.save(role);
+
+		const newTeam = await roleRepository.findOne({ id: role.id });
+
+		assert.isNotNull(newTeam);
+	});
+
+	it('should create role as anonymous', async function () {
+		const role = new RoleEntity();
+		role.name = RoleEnum.anonymous;
 		await connection.manager.save(role);
 
 		const newTeam = await roleRepository.findOne({ id: role.id });
