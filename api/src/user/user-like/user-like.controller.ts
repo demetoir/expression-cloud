@@ -6,7 +6,6 @@ import { UserLikeEntity } from './user-like.entity';
 import { UserLikeCreateDto } from './dto/user-like-create.dto';
 import { CrudController } from '@nestjsx/crud';
 
-// todo use only read may, creatOne, deleteOne
 @ApiTags('user-like')
 @CrudPlus({
 	model: {
