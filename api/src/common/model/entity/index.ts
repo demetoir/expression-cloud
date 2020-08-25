@@ -14,7 +14,7 @@ import { ExpressionThumbnailImageEntity } from '../../../expression/expression-t
 import { UserSettingEntity } from '../../../user/user-setting/user-setting.entity';
 import { RoleEntity } from '../../../user/role/role.entity';
 import { UserProfileImageEntity } from '../../../user/user-profile-image/user-profile-image.entity';
-import { UserLikeEntity } from '../../../user/user-likes/user-like.entity';
+import { UserLikeEntity } from '../../../user/user-like/user-like.entity';
 
 const entities = [
 	CommentEntity,

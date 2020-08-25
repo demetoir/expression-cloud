@@ -2,23 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { LikeActionDto } from './dto/likeAction.dto';
-import { UndoLikeActionDto } from './dto/undoLikeAction.dto';
+import { Repository } from 'typeorm/index';
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<UserEntity> {
-	constructor(@InjectRepository(UserEntity) repo) {
+	constructor(@InjectRepository(UserEntity) repo: Repository<UserEntity>) {
 		super(repo);
-	}
-
-	async like(toUserId: number, dto: LikeActionDto): Promise<string> {
-		const result = await this.repo.findByIds([toUserId, dto.fromUserId]);
-		console.log(result);
-
-		return 'like user';
-	}
-
-	async undoLike(toUserId: number, dto: UndoLikeActionDto): Promise<string> {
-		return 'undo like user';
 	}
 }

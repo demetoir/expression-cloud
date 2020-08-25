@@ -14,12 +14,14 @@ import { ImageModule } from '../image/image.module';
 import { GlobalTypeOrmModule } from '../database/GlobalTypeOrm.module';
 import { GlobalConfigModule } from '../config/globalConfig.module';
 import { UserModule } from '../user/user/user.module';
+import { UserLikeModule } from '../user/user-like/user-like.module';
 
 @Module({
 	imports: [
 		GlobalTypeOrmModule,
 		GlobalConfigModule,
 		UserModule,
+		UserLikeModule,
 		AuthModule,
 		CollectionModule,
 		ExpressionModule,

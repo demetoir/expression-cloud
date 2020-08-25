@@ -12,7 +12,7 @@ import { UserSettingEntity } from '../user-setting/user-setting.entity';
 import { ormConfig } from '../../common/model/configLoader';
 import { RoleEntity } from '../role/role.entity';
 import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
-import { UserLikeEntity } from '../user-likes/user-like.entity';
+import { UserLikeEntity } from '../user-like/user-like.entity';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;

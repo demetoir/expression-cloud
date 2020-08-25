@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
 	CrudController,
@@ -16,8 +16,6 @@ import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
 import { CrudPlus, getManyResponse } from '../../common/libs/nestjsCRUDToolkit';
 import { dtoTransformPipe } from './pipe/userDtoTransfrom.pipe';
 import { userBulkDtoTransformPipe } from './pipe/userBulkDtoTransform.pipe';
-import { LikeActionDto } from './dto/likeAction.dto';
-import { UndoLikeActionDto } from './dto/undoLikeAction.dto';
 
 // TODO implement and test user controller
 
@@ -100,21 +98,5 @@ export class UserController implements CrudController<UserEntity> {
 		@ParsedRequest() req: CrudRequest,
 	): Promise<UserEntity | void> {
 		return this.base.deleteOneBase(req);
-	}
-
-	@Post('/like')
-	async like(
-		@Param('id') toUserId: number,
-		@Body() dto: LikeActionDto,
-	): Promise<string> {
-		return this.service.like(toUserId, dto);
-	}
-
-	@Post('/undo-like')
-	async undoLike(
-		@Param('id') toUserId: number,
-		@Body() dto: UndoLikeActionDto,
-	): Promise<string> {
-		return this.service.undoLike(toUserId, dto);
 	}
 }
