@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { MockCrudService } from '../../../test/lib/mock/CrudService.mock';
-import { LikeActionDto } from './dto/likeAction.dto';
 
 export class MockUserService extends MockCrudService {
 	like = jest.fn();
@@ -41,42 +40,5 @@ describe('UserCRUD Controller', () => {
 		expect(controller.updateOne).toBeDefined();
 		expect(controller.replaceOne).toBeDefined();
 		expect(controller.deleteOne).toBeDefined();
-	});
-
-	it('should run method like', async () => {
-		// given
-		const toUserId = 2;
-		const dto: LikeActionDto = {
-			fromUserId: 4,
-		};
-
-		service.like.mockImplementation(() => 'like user');
-
-		// when
-		const response = await controller.like(toUserId, dto);
-
-		// than
-		expect(response).toEqual('like user');
-
-		expect(service.like.mock.calls.length).toBe(1);
-		expect(service.like.mock.calls[0]).toEqual([toUserId, dto]);
-	});
-
-	it('should run method undoLike', async () => {
-		// given
-		const toUserId = 2;
-		const dto: LikeActionDto = {
-			fromUserId: 4,
-		};
-
-		service.undoLike.mockImplementation(() => 'undo like user');
-
-		// when
-		const response = await controller.undoLike(toUserId, dto);
-
-		// than
-		expect(response).toEqual('undo like user');
-		expect(service.undoLike.mock.calls.length).toBe(1);
-		expect(service.undoLike.mock.calls[0]).toEqual([toUserId, dto]);
 	});
 });
