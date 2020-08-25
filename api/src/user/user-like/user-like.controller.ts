@@ -17,6 +17,13 @@ import { CrudController } from '@nestjsx/crud';
 	routes: {
 		only: ['createOneBase', 'deleteOneBase', 'getManyBase'],
 	},
+	params: {
+		// will not use resource id
+		id: {
+			primary: true,
+			disabled: true,
+		},
+	},
 })
 @Controller('/v1/user-likes')
 export class UserLikeController implements CrudController<UserLikeEntity> {
