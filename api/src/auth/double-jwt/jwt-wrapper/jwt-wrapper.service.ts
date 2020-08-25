@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService as _JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
-import { v4 as uuid } from 'uuid';
+import {
+	v4 as uuid,
+	validate as uuidValidate,
+	version as uuidVersion,
+} from 'uuid';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';
 import { IPayload, PayloadTypes } from './interface';
@@ -36,14 +40,13 @@ export class JwtWrapperService<T extends IPayload> {
 			throw new MalformedJWTError(`invalid payload type ${payload.type}`);
 		}
 
-		// todo: why TypeError: uuid_1.validate is not a function
-		// if (uuidValidate(payload.uuid)) {
-		// 	throw new InvalidJwtPayloadError('invalid uuid');
-		// }
-		//
-		// if (uuidVersion(payload.uuid) !== 4) {
-		// 	throw new InvalidJwtPayloadError('uuid version is not 4');
-		// }
+		if (!uuidValidate(payload.uuid)) {
+			throw new MalformedJWTError('invalid uuid');
+		}
+
+		if (uuidVersion(payload.uuid) !== 4) {
+			throw new MalformedJWTError('uuid version is not 4');
+		}
 
 		return payload;
 	}

@@ -4,7 +4,7 @@ import { JWT_AUD, JWT_ISS, JWT_SECRET } from './constants';
 import { JwtWrapperService } from './jwt-wrapper.service';
 import { InvalidJWTSignatureError, MalformedJWTError } from './error';
 import * as moment from 'moment';
-import { v4 as uuid } from 'uuid';
+import { v1 as uuidV1, v4 as uuidV4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
 import { IPayload, PayloadTypes } from './interface';
 import { expectShouldNotCallThis } from '../../../../test/lib/helper/jestHelper';
@@ -134,6 +134,7 @@ describe('JWTWrapperService', () => {
 				role: 'user',
 				userName: 'username',
 				userId: 1,
+				uuid: uuidV4(),
 			};
 
 			const duration = 10;
@@ -184,18 +185,13 @@ describe('JWTWrapperService', () => {
 
 		it('should raise error, if invalid type', async function () {
 			// given token with invalid signature
-			const duration = 10;
-			const iat = moment().valueOf();
-			const exp = moment().add(duration, 'hour').valueOf();
-			const tokenUuid = uuid();
+			const tokenUuid = uuidV4();
 			const payload = {
-				sub: 'any',
-				iss: JWT_ISS,
-				aud: JWT_AUD,
-				iat: iat,
-				exp: exp,
+				role: 'user',
+				userName: 'username',
+				userId: 1,
 				uuid: tokenUuid,
-				type: 'in valid type',
+				type: 'not this type',
 			};
 
 			const token = await jwt.sign(payload, JWT_SECRET);
@@ -209,6 +205,64 @@ describe('JWTWrapperService', () => {
 				expect(e).toBeInstanceOf(MalformedJWTError);
 			}
 		});
+
+		it('should raise error, if uuid is uuid scheme', async function () {
+			// given token with invalid signature
+			const duration = 10;
+			const iat = moment().valueOf();
+			const exp = moment().add(duration, 'hour').valueOf();
+			const tokenUuid = '1234';
+			const payload = {
+				sub: 'any',
+				iss: JWT_ISS,
+				aud: JWT_AUD,
+				iat: iat,
+				exp: exp,
+				uuid: tokenUuid,
+				type: PayloadTypes.refresh,
+			};
+
+			const token = await jwt.sign(payload, JWT_SECRET);
+
+			try {
+				// when
+				await service.verify(token);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(MalformedJWTError);
+				expect(e.message).toBe('invalid uuid');
+			}
+		});
+
+		it('should raise error, if uuid version is different', async function () {
+			// given token with invalid signature
+			const duration = 10;
+			const iat = moment().valueOf();
+			const exp = moment().add(duration, 'hour').valueOf();
+			const tokenUuid = uuidV1();
+			const payload = {
+				sub: 'any',
+				iss: JWT_ISS,
+				aud: JWT_AUD,
+				iat: iat,
+				exp: exp,
+				uuid: tokenUuid,
+				type: PayloadTypes.refresh,
+			};
+
+			const token = await jwt.sign(payload, JWT_SECRET);
+
+			try {
+				// when
+				await service.verify(token);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				expect(e).toBeInstanceOf(MalformedJWTError);
+				expect(e.message).toBe('uuid version is not 4');
+			}
+		});
 	});
 
 	describe('isExpired', function () {
@@ -216,7 +270,7 @@ describe('JWTWrapperService', () => {
 			const duration = 10;
 			const iat = moment().valueOf();
 			const exp = moment().add(duration, 'hour').valueOf();
-			const tokenUuid = uuid();
+			const tokenUuid = uuidV4();
 			const payload: IPayload = {
 				sub: 'any',
 				iss: JWT_ISS,
@@ -235,7 +289,7 @@ describe('JWTWrapperService', () => {
 			const duration = 10;
 			const iat = moment().valueOf();
 			const exp = moment().add(-duration, 'hour').valueOf();
-			const tokenUuid = uuid();
+			const tokenUuid = uuidV4();
 			const payload: IPayload = {
 				sub: 'any',
 				iss: JWT_ISS,
