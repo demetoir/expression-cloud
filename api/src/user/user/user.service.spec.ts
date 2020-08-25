@@ -29,9 +29,4 @@ describe('UserService', () => {
 		expect(service).toBeDefined();
 		expect(repository).toBeDefined();
 	});
-
-	it('should be defined method', () => {
-		expect(service.like).toBeDefined();
-		expect(service.undoLike).toBeDefined();
-	});
 });

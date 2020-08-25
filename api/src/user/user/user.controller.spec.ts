@@ -41,8 +41,6 @@ describe('UserCRUD Controller', () => {
 		expect(controller.updateOne).toBeDefined();
 		expect(controller.replaceOne).toBeDefined();
 		expect(controller.deleteOne).toBeDefined();
-		expect(controller.like).toBeDefined();
-		expect(controller.undoLike).toBeDefined();
 	});
 
 	it('should run method like', async () => {
