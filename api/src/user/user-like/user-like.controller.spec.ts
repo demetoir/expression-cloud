@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserLikeController } from './user-like.controller';
 import { UserLikeService } from './user-like.service';
 import { MockUserService } from '../user/user.controller.spec';
-import { MockUserLikeService } from './user-like.service.mock';
+import { MockUserLikeService } from '../../../test/lib/mock/user-like.service.mock';
 
 describe('UserLike Controller', () => {
 	let controller: UserLikeController;
