@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { IssueTokenDto } from './dto/issue-token.dto';
-import { IssueTokenResponse } from './dto/issue-token.response.interface';
-import { DoubleJwtService } from '../double-jwt/double-jwt.service';
-import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { DoubleJWTValidationError } from '../double-jwt/error';
-import { RevokeTokenDto } from './dto/revoke-token.dto';
-import { AuthenticationError } from './error';
-import { MockDoubleJWTService } from '../double-jwt/double-jwt.service.mock';
+import { AuthService } from '../../../src/auth/auth/auth.service';
+import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
+import { IssueTokenDto } from '../../../src/auth/auth/dto/issue-token.dto';
+import { IssueTokenResponse } from '../../../src/auth/auth/dto/issue-token.response.interface';
+import { DoubleJwtService } from '../../../src/auth/double-jwt/double-jwt.service';
+import { RefreshTokenResponse } from '../../../src/auth/auth/dto/refreshToken.response.interface';
+import { RefreshTokenDto } from '../../../src/auth/auth/dto/refresh-token.dto';
+import { DoubleJWTValidationError } from '../../../src/auth/double-jwt/error';
+import { RevokeTokenDto } from '../../../src/auth/auth/dto/revoke-token.dto';
+import { AuthenticationError } from '../../../src/auth/auth/error';
+import { MockDoubleJWTService } from '../../../src/auth/double-jwt/double-jwt.service.mock';
 
 const expiredIn = 3600;
 const tokenType = 'bearer';

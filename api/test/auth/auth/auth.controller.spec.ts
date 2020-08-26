@@ -1,21 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { LocalAuthModule } from '../localAuth/localAuth.module';
-import { AuthService } from './auth.service';
-import { IssueTokenDto } from './dto/issue-token.dto';
-import { IssueTokenResponse } from './dto/issue-token.response.interface';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
-import { RevokeTokenDto } from './dto/revoke-token.dto';
+import { AuthController } from '../../../src/auth/auth/auth.controller';
+import { LocalAuthModule } from '../../../src/auth/localAuth/localAuth.module';
+import { AuthService } from '../../../src/auth/auth/auth.service';
+import { IssueTokenDto } from '../../../src/auth/auth/dto/issue-token.dto';
+import { IssueTokenResponse } from '../../../src/auth/auth/dto/issue-token.response.interface';
+import { RefreshTokenDto } from '../../../src/auth/auth/dto/refresh-token.dto';
+import { RefreshTokenResponse } from '../../../src/auth/auth/dto/refreshToken.response.interface';
+import { RevokeTokenDto } from '../../../src/auth/auth/dto/revoke-token.dto';
 import { UnauthorizedException } from '@nestjs/common';
-import { AuthenticationError } from './error';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-
-export class MockAuthService {
-	issueToken = jest.fn();
-	refreshToken = jest.fn();
-	revokeToken = jest.fn();
-}
+import { AuthenticationError } from '../../../src/auth/auth/error';
+import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
+import { MockAuthService } from './auth.service.mock';
 
 describe('Auth Controller', () => {
 	let controller: AuthController;

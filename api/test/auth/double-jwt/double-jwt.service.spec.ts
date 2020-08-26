@@ -1,18 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as _ from 'lodash';
-import { JwtWrapperService } from './jwt-wrapper/jwt-wrapper.service';
-import { PayloadTypes } from './jwt-wrapper/interface';
-import { DoubleJwtService } from './double-jwt.service';
-import { TokenService } from './token/token.service';
+import { JwtWrapperService } from '../../../src/auth/double-jwt/jwt-wrapper/jwt-wrapper.service';
+import { PayloadTypes } from '../../../src/auth/double-jwt/jwt-wrapper/interface';
+import { DoubleJwtService } from '../../../src/auth/double-jwt/double-jwt.service';
+import { TokenService } from '../../../src/auth/double-jwt/token/token.service';
 import {
 	InvalidJWTSignatureError,
 	MalformedJWTError,
-} from './jwt-wrapper/error';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { RefreshTokenDto } from '../auth/dto/refresh-token.dto';
-import { RevokeTokenDto } from '../auth/dto/revoke-token.dto';
-import { ITokenPayload } from './token/interface';
-import { DoubleJWTValidationError } from './error';
+} from '../../../src/auth/double-jwt/jwt-wrapper/error';
+import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
+import { RefreshTokenDto } from '../../../src/auth/auth/dto/refresh-token.dto';
+import { RevokeTokenDto } from '../../../src/auth/auth/dto/revoke-token.dto';
+import { ITokenPayload } from '../../../src/auth/double-jwt/token/interface';
+import { DoubleJWTValidationError } from '../../../src/auth/double-jwt/error';
+import { MockTokenService } from '../token/token.service.mock';
+import { MockJwtWrapperService } from '../jwt-wrapper/jwt-wrapper.service.mock';
 
 const expiredIn = 3600;
 
@@ -87,21 +89,9 @@ const brokenPayload = {
 	userId: 1,
 };
 
-export class MockCustomJWTService {
-	verify = jest.fn();
-	isExpired = jest.fn();
-	sign = jest.fn();
-}
-
-export class MockTokenService {
-	findOne = jest.fn();
-	deleteOne = jest.fn();
-	createOne = jest.fn();
-}
-
 describe('doubleJwtService', () => {
 	let service: DoubleJwtService;
-	let mockCustomJwtService: MockCustomJWTService;
+	let mockCustomJwtService: MockJwtWrapperService;
 	let mockTokenService: MockTokenService;
 
 	beforeEach(async () => {
@@ -110,7 +100,7 @@ describe('doubleJwtService', () => {
 				DoubleJwtService,
 				{
 					provide: JwtWrapperService,
-					useClass: MockCustomJWTService,
+					useClass: MockJwtWrapperService,
 				},
 				{
 					provide: TokenService,

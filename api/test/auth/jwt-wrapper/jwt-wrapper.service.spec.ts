@@ -1,13 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { JWT_AUD, JWT_ISS, JWT_SECRET } from './constants';
-import { JwtWrapperService } from './jwt-wrapper.service';
-import { InvalidJWTSignatureError, MalformedJWTError } from './error';
+import {
+	JWT_AUD,
+	JWT_ISS,
+	JWT_SECRET,
+} from '../../../src/auth/double-jwt/jwt-wrapper/constants';
+import { JwtWrapperService } from '../../../src/auth/double-jwt/jwt-wrapper/jwt-wrapper.service';
+import {
+	InvalidJWTSignatureError,
+	MalformedJWTError,
+} from '../../../src/auth/double-jwt/jwt-wrapper/error';
 import * as moment from 'moment';
 import { v1 as uuidV1, v4 as uuidV4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
-import { IPayload, PayloadTypes } from './interface';
-import { expectShouldNotCallThis } from '../../../../test/lib/helper/jestHelper';
+import {
+	IPayload,
+	PayloadTypes,
+} from '../../../src/auth/double-jwt/jwt-wrapper/interface';
+import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
 
 interface TestIJwtPayload extends IPayload {
 	userName: string;
