@@ -1,12 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from '../../../src/user/user/user.controller';
 import { UserService } from '../../../src/user/user/user.service';
-import { MockCrudService } from '../../lib/mock/CrudService.mock';
-
-export class MockUserService extends MockCrudService {
-	like = jest.fn();
-	undoLike = jest.fn();
-}
+import { MockUserService } from './user-like.service.mock';
 
 describe('UserCRUD Controller', () => {
 	let controller: UserController;
