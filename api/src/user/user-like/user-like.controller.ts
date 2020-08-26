@@ -6,6 +6,8 @@ import { UserLikeEntity } from './user-like.entity';
 import { UserLikeCreateDto } from './dto/user-like-create.dto';
 import { CrudController } from '@nestjsx/crud';
 
+export const MAX_LIMIT = 20;
+
 @ApiTags('user-like')
 @CrudPlus({
 	model: {
@@ -23,6 +25,9 @@ import { CrudController } from '@nestjsx/crud';
 			primary: true,
 			disabled: true,
 		},
+	},
+	query: {
+		maxLimit: MAX_LIMIT,
 	},
 })
 @Controller('/v1/user-likes')
