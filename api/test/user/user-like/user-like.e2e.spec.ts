@@ -192,23 +192,55 @@ describe('UserLikeModule (e2e)', () => {
 
 	describe('/v1/user-likes (DELETE)', () => {
 		it('should delete one by query parameter', async function () {
-			expectShouldBeImplementTest();
+			const { users, likes } = await prepareDb(1);
+
+			const like = likes[0];
+			const queryString = RequestQueryBuilder.create({
+				search: {
+					fromUserId: like.fromUserId,
+					toUserId: like.toUserId,
+				},
+			}).query();
+
+			await request(app.getHttpServer())
+				.delete('/v1/user-likes')
+				.query(queryString)
+				.expect(200);
 		});
 
 		it('404 if not exist resource', async function () {
-			expectShouldBeImplementTest();
+			const { users, likes } = await prepareDb(1);
+
+			const like = likes[0];
+			await manager.softRemove(like);
+
+			const queryString = RequestQueryBuilder.create({
+				search: {
+					fromUserId: like.fromUserId,
+					toUserId: like.toUserId,
+				},
+			}).query();
+
+			await request(app.getHttpServer())
+				.delete('/v1/user-likes')
+				.query(queryString)
+				.expect(404);
 		});
 	});
 
-	describe('/v1/user-likes (update)', () => {
+	describe('/v1/user-likes (patch)', () => {
 		it('should not have update method', async function () {
-			expectShouldBeImplementTest();
+			await request(app.getHttpServer())
+				.patch('/v1/user-likes')
+				.expect(404);
 		});
 	});
 
 	describe('/v1/user-likes (put)', () => {
 		it('should not have put method', async function () {
-			expectShouldBeImplementTest();
+			await request(app.getHttpServer())
+				.put('/v1/user-likes')
+				.expect(404);
 		});
 	});
 });
