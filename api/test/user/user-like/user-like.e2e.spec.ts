@@ -6,10 +6,16 @@ import { Repository } from 'typeorm';
 import { expectShouldBeImplementTest } from '../../lib/helper/jestHelper';
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
 import { UserLikeModule } from '../../../src/user/user-like/user-like.module';
+import * as request from 'supertest';
+import { UserFactory } from '../user/user.factory';
+import { Connection, EntityManager } from 'typeorm/index';
+import { entityToResponse } from '../../util';
 
 describe('UserLikeModule (e2e)', () => {
 	let app: INestApplication;
 	let repository: Repository<UserLikeEntity>;
+	let connection: Connection;
+	let manager: EntityManager;
 
 	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll을 넣는
 	beforeAll(async () => {
@@ -19,6 +25,8 @@ describe('UserLikeModule (e2e)', () => {
 
 		app = moduleFixture.createNestApplication();
 		repository = moduleFixture.get(getRepositoryToken(UserLikeEntity));
+		connection = moduleFixture.get(Connection);
+		manager = connection.manager;
 
 		await app.init();
 	});
@@ -30,6 +38,7 @@ describe('UserLikeModule (e2e)', () => {
 	it('should be init', function () {
 		expect(app).toBeDefined();
 		expect(repository).toBeDefined();
+		expect(connection).toBeDefined();
 	});
 
 	describe('/v1/user-likes (GET)', () => {
