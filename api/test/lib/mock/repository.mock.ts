@@ -1,5 +1,5 @@
 // https://github.com/nestjsx/crud/issues/207#issuecomment-593449874
-export class MockRepository<T> {
+export class RepositoryMock<T> {
 	public createQueryBuilder = jest.fn(() => this.queryBuilder);
 
 	public manager = { transaction: (a) => Promise.resolve(a()) };
