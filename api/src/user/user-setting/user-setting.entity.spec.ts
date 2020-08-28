@@ -1,17 +1,14 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../ormconfig.js';
-import { UserEntity } from '../user/user.entity';
 import { UserSettingEntity } from './user-setting.entity';
 import { ormConfig } from '../../common/model/configLoader';
+import { UserFactory } from '../../../test/user/user/user.factory';
 
 describe('user-setting entity', () => {
 	let connection;
 	let userSettingRepository;
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
-
 		userSettingRepository = connection.getRepository(UserSettingEntity);
 	});
 
@@ -44,10 +41,7 @@ describe('user-setting entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.description = 'description';
-			user.email = 'email';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.setting = Promise.resolve(userSetting);
