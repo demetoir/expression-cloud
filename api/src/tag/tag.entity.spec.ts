@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
 import { TagEntity } from './tag.entity';
-import { ExpressionEntity } from '../expression/expression/expression.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { ExpressionFactory } from '../expression/expression/expression.factory';
 
 describe('tag entity', () => {
 	let connection;
@@ -11,7 +11,6 @@ describe('tag entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		tagRepository = connection.getRepository(TagEntity);
 	});
@@ -42,10 +41,11 @@ describe('tag entity', () => {
 				const tag = new TagEntity();
 				tag.name = name;
 				await connection.manager.save(tag);
+
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: tags.name',
+				expect(e.message).toBe(
+					"ER_NO_DEFAULT_FOR_FIELD: Field 'name' doesn't have a default value",
 				);
 			}
 		});
@@ -63,12 +63,7 @@ describe('tag entity', () => {
 		});
 
 		it('should relate with project entity', async () => {
-			const expression = new ExpressionEntity();
-
-			expression.name = 'project';
-			expression.description = 'description';
-			expression.type = 1;
-			expression.content = '1';
+			const expression = ExpressionFactory.build();
 			await connection.manager.save(expression);
 
 			expression.tags = [tag];
