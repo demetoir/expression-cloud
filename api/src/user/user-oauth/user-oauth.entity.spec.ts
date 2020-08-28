@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../ormconfig.js';
-import { UserEntity } from '../user/user.entity';
 import { UserOauthEntity } from './user-oauth.entity';
 import { ormConfig } from '../../common/model/configLoader';
+import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
+import { UserFactory } from '../../../test/user/user/user.factory';
 
 describe('user oauth entity', () => {
 	let connection;
@@ -11,7 +11,6 @@ describe('user oauth entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		oauthRepository = connection.getRepository(UserOauthEntity);
 	});
@@ -48,11 +47,10 @@ describe('user oauth entity', () => {
 
 				await connection.manager.save(oauth);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: user_oauths.type',
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'type' cannot be null",
 				);
 			}
 		});
@@ -68,11 +66,10 @@ describe('user oauth entity', () => {
 
 				await connection.manager.save(oauth);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: user_oauths.auth_id',
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'auth_id' cannot be null",
 				);
 			}
 		});
@@ -90,10 +87,7 @@ describe('user oauth entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.description = 'description';
-			user.email = 'email';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.oauth = oauth;
