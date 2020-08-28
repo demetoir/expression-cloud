@@ -23,6 +23,8 @@
 		"typeorm:migration:create": "yarn typeorm migration:create -n",
 		"typeorm:migration:run": "yarn typeorm migration:run",
 		"typeorm:migration:revert": "yarn typeorm migration:revert",
+		"docker:test-storage:up": "sh ./script/docker-test-storage-up.sh",
+		"docker:test-storage:down": "sh ./script/docker-test-storage-down.sh",
 		"docker:storage:up": "sh ./script/docker-storage-up.sh",
 		"docker:storage:down": "sh ./script/docker-storage-down.sh",
 		"docker:api:build": "sh ./script/docker-api-build.sh",
