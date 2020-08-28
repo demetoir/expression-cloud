@@ -3,7 +3,7 @@ import { IUser } from '../../../src/user/user/user.interface';
 import { FAKER_SEED } from '../../constant';
 import { internet, lorem, name, seed } from 'faker';
 
-seed(FAKER_SEED);
+// seed(FAKER_SEED);
 
 export class UserFactory {
 	name: string;
