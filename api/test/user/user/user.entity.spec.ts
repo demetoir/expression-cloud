@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { createConnection, getConnection, Repository } from 'typeorm';
+import { createConnection, Repository } from 'typeorm';
 import { UserEntity } from '../../../src/user/user/user.entity';
 import { NoticeEntity } from '../../../src/notice/notice.entity';
 import { TeamEntity } from '../../../src/team/team.entity';
@@ -14,20 +14,17 @@ import { RoleEntity } from '../../../src/user/role/role.entity';
 import { UserProfileImageEntity } from '../../../src/user/user-profile-image/user-profile-image.entity';
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
 import { RoleEnum } from '../../../src/user/role/role.enum';
+import { UserFactory } from './user.factory';
+import { QueryFailedError } from 'typeorm/index';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
 	let connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
-		await connection.synchronize();
+		connection = await createConnection({ ...ormConfig, logging: true });
 
 		userRepository = connection.getRepository(UserEntity);
-	});
-
-	beforeEach(async () => {
-		await getConnection().synchronize(true);
 	});
 
 	afterAll(async () => {
@@ -39,10 +36,7 @@ describe('user entity', () => {
 	});
 
 	it('should create new user', async function () {
-		const user = new UserEntity();
-		user.name = 'Me and Bears';
-		user.description = 'I am near polar bears';
-		user.email = 'email';
+		const user = UserFactory.build();
 
 		await connection.manager.save(user);
 
@@ -58,26 +52,23 @@ describe('user entity', () => {
 
 		it('name should not be undefined', async function () {
 			try {
-				const user = new UserEntity();
+				const user = UserFactory.build();
 				user.name = undefined;
-				user.description = description;
-				user.email = email;
 
 				await connection.manager.save(user);
 
 				assert(false, 'should not call this');
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.name',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_NO_DEFAULT_FOR_FIELD: Field 'name' doesn't have a default value`,
 				);
 			}
 		});
 
 		it('email should default null, while it is undefined', async function () {
-			const user = new UserEntity();
-			user.name = name;
-			user.description = description;
+			const user = UserFactory.build();
+
 			user.email = undefined;
 
 			await connection.manager.save(user);
@@ -89,28 +80,22 @@ describe('user entity', () => {
 
 		it('forkedCount should not be null', async function () {
 			try {
-				const user = new UserEntity();
-				user.name = name;
-				user.description = description;
-				user.email = email;
+				const user = UserFactory.build();
 				user.forkedCount = null;
 
 				await connection.manager.save(user);
 
 				assert(false, 'should not call this');
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.forked_count',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'forked_count' cannot be null`,
 				);
 			}
 		});
 
 		it('forkedCount should be 0 as default', async function () {
-			const user = new UserEntity();
-			user.name = name;
-			user.description = description;
-			user.email = email;
+			const user = UserFactory.build();
 
 			await connection.manager.save(user);
 
@@ -135,18 +120,15 @@ describe('user entity', () => {
 
 				assert(false, 'should not call this');
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.liked_count',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'liked_count' cannot be null`,
 				);
 			}
 		});
 
 		it('likeCount should be 0 as default', async function () {
-			const user = new UserEntity();
-			user.name = name;
-			user.description = description;
-			user.email = email;
+			const user = UserFactory.build();
 
 			await connection.manager.save(user);
 
@@ -175,22 +157,15 @@ describe('user entity', () => {
 
 				assert(false, 'should not call this');
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: users.is_anonymous',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'is_anonymous' cannot be null`,
 				);
 			}
 		});
 
 		it('isAnonymous should be false as default', async function () {
-			const name = 'Me and Bears';
-			const description = 'description';
-			const email = 'email';
-
-			const user = new UserEntity();
-			user.name = name;
-			user.description = description;
-			user.email = email;
+			const user = UserFactory.build();
 
 			await connection.manager.save(user);
 
@@ -244,12 +219,13 @@ describe('user entity', () => {
 			user.notices = [notice1];
 			await connection.manager.save(user);
 
-			const result6 = await userRepository.findOne({
-				where: { id: user.id },
-				relations: ['notices'],
-			});
+			const result = await userRepository
+				.createQueryBuilder('users')
+				.leftJoinAndSelect('users.notices', 'notices')
+				.where({ id: user.id })
+				.getOne();
 
-			assert.deepStrictEqual(result6.notices[0].id, notice1.id);
+			assert.deepStrictEqual(result.notices[0].id, notice1.id);
 		});
 
 		it('should relate with user setting entity', async function () {
