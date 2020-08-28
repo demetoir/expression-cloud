@@ -1,10 +1,12 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
 import { VectorEntity } from './vector.entity';
-import { ExpressionEntity } from '../expression/expression/expression.entity';
 import { ScalarEntity } from '../scalar/scalar.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { QueryFailedError } from 'typeorm/index';
+import { VectorFactory } from './vector.factory';
+import { ExpressionFactory } from '../expression/expression/expression.factory';
 
 describe('column entity', () => {
 	let vectorRepository;
@@ -12,7 +14,6 @@ describe('column entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		vectorRepository = connection.getRepository(VectorEntity);
 	});
@@ -26,53 +27,45 @@ describe('column entity', () => {
 	});
 
 	it('should create new Column', async function () {
-		const column = new VectorEntity();
-		column.name = 'column';
-		column.index = 1;
-		await connection.manager.save(column);
+		const vector = VectorFactory.build();
+		await connection.manager.save(vector);
 
-		const newExpression = await vectorRepository.findOne({
-			id: column.id,
+		const stored = await vectorRepository.findOne({
+			id: vector.id,
 		});
 
-		assert.isNotNull(newExpression.id);
+		expect(stored).toEqual(vector);
 	});
 
 	describe('column type check', () => {
 		it('should not null on name', async function () {
 			try {
-				const name = null;
-				const index = 1;
-				const column = new VectorEntity();
-				column.name = name;
-				column.index = index;
+				const vector = VectorFactory.build();
+				vector.name = null;
 
-				await connection.manager.save(column);
+				await connection.manager.save(vector);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: vectors.name',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'name' cannot be null`,
 				);
 			}
 		});
 
 		it('should not null on index', async function () {
 			try {
-				const name = 'name';
-				const index = null;
-				const column = new VectorEntity();
-				column.name = name;
-				column.index = index;
+				const vector = VectorFactory.build();
+				vector.index = null;
 
-				await connection.manager.save(column);
+				await connection.manager.save(vector);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: vectors.index',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'index' cannot be null`,
 				);
 			}
 		});
@@ -82,19 +75,13 @@ describe('column entity', () => {
 		let vector;
 
 		it('should prepare comment', async () => {
-			vector = new VectorEntity();
-			vector.name = 'description';
-			vector.index = 1;
+			vector = VectorFactory.build();
 
 			await connection.manager.save(vector);
 		});
 
 		it('should relate with expression entity', async () => {
-			const expression = new ExpressionEntity();
-			expression.name = 'user';
-			expression.description = 'description';
-			expression.type = 1;
-			expression.content = '1';
+			const expression = ExpressionFactory.build();
 			await connection.manager.save(expression);
 
 			expression.vectors = [vector];
