@@ -18,7 +18,6 @@ import { UserSettingEntity } from '../user-setting/user-setting.entity';
 import { IUser } from './user.interface';
 import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
 import { RoleEntity } from '../role/role.entity';
-import { getConnectionManager } from 'typeorm/index';
 
 // todo 상수로 테이블 이름 분리하기
 // todo: 엔티티 클래스에 너무 많은 엔티가 붙는다
@@ -143,20 +142,7 @@ export class UserEntity extends BaseEntity implements IUser {
 	roles: RoleEntity[];
 
 	@ApiProperty()
-	@ManyToMany(() => TeamEntity, (team) => team.users, {
-		eager: false,
-	})
-	@JoinTable({
-		name: 'user_team',
-		joinColumn: {
-			name: 'user_id',
-			referencedColumnName: 'id',
-		},
-		inverseJoinColumn: {
-			name: 'team_id',
-			referencedColumnName: 'id',
-		},
-	})
+	@ManyToMany(() => TeamEntity, (team) => team.users)
 	teams: TeamEntity[];
 
 	@ManyToMany(() => UserEntity, (object) => object.likeFromUsers, {
