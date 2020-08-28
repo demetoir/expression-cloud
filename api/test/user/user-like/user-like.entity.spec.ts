@@ -2,7 +2,8 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
 import { ormConfig } from '../../../src/common/model/configLoader';
-import { UserEntity } from '../../../src/user/user/user.entity';
+import { UserFactory } from '../user/user.factory';
+import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
 
 describe('user like entity', () => {
 	let connection;
@@ -10,7 +11,6 @@ describe('user like entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		repository = connection.getRepository(UserLikeEntity);
 	});
@@ -24,18 +24,10 @@ describe('user like entity', () => {
 	});
 
 	it('should create new project', async function () {
-		const user1 = new UserEntity();
-		user1.email = '1';
-		user1.name = '1';
-		user1.description = '1';
-
+		const user1 = UserFactory.build();
 		await connection.manager.save(user1);
 
-		const user2 = new UserEntity();
-		user2.email = '2';
-		user2.name = '1';
-		user2.description = '1';
-
+		const user2 = UserFactory.build();
 		await connection.manager.save(user2);
 
 		const like = new UserLikeEntity();
@@ -65,10 +57,10 @@ describe('user like entity', () => {
 				like.toUserId = toUserId;
 				await connection.manager.save(like);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e.message).toBe(
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: user_likes.from_user_id',
+					"ER_BAD_NULL_ERROR: Column 'from_user_id' cannot be null",
 				);
 			}
 		});
@@ -84,10 +76,10 @@ describe('user like entity', () => {
 
 				await connection.manager.save(like);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e.message).toBe(
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: user_likes.to_user_id',
+					"ER_BAD_NULL_ERROR: Column 'to_user_id' cannot be null",
 				);
 			}
 		});
