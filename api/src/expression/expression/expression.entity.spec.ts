@@ -1,6 +1,5 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../ormconfig.js';
 import { ExpressionEntity } from './expression.entity';
 import { VectorEntity } from '../../vector/vector.entity';
 import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
@@ -8,6 +7,10 @@ import { ImageEntity } from '../../image/image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
 import { UserEntity } from '../../user/user/user.entity';
 import { ormConfig } from '../../common/model/configLoader';
+import { ExpressionFactory } from './expression.factory';
+import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
+import { QueryFailedError } from 'typeorm/index';
+import { UserFactory } from '../../../test/user/user/user.factory';
 
 describe('expression entity', () => {
 	let expressionRepository;
@@ -15,13 +18,8 @@ describe('expression entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		expressionRepository = connection.getRepository(ExpressionEntity);
-	});
-
-	afterAll(async () => {
-		connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {
@@ -29,11 +27,8 @@ describe('expression entity', () => {
 	});
 
 	it('should create new expression', async function () {
-		const expression = new ExpressionEntity();
-		expression.name = 'content';
-		expression.description = 'expression';
-		expression.type = 1;
-		expression.content = 'content';
+		const expression = ExpressionFactory.build();
+
 		await connection.manager.save(expression);
 
 		const newExpression = await expressionRepository.findOne({
@@ -46,202 +41,132 @@ describe('expression entity', () => {
 	describe('column type check', () => {
 		it('should not null on description', async function () {
 			try {
-				const description = null;
-				const name = 'name';
-				const type = 1;
-				const expression = new ExpressionEntity();
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
-				expression.content = 'content';
+				const expression = ExpressionFactory.build();
+				expression.description = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.description',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'description' cannot be null`,
 				);
 			}
 		});
 
 		it('should not null on name', async function () {
 			try {
-				const description = 'description';
-				const name = null;
-
-				const type = 1;
-				const expression = new ExpressionEntity();
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
-				expression.content = 'content';
+				const expression = ExpressionFactory.build();
+				expression.name = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.name',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'name' cannot be null`,
 				);
 			}
 		});
 
 		it('should not null on type', async function () {
 			try {
-				const description = 'expression';
-				const name = 'name';
-				const type = null;
-				const expression = new ExpressionEntity();
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
-				expression.content = 'content';
+				const expression = ExpressionFactory.build();
+				expression.type = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.type',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'type' cannot be null`,
 				);
 			}
 		});
 
 		it('should not null on content', async function () {
 			try {
-				const description = '1';
-				const name = 'name';
-				const type = 1;
-				const expression = new ExpressionEntity();
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
+				const expression = ExpressionFactory.build();
 				expression.content = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.content',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'content' cannot be null`,
 				);
 			}
 		});
 
 		it('should not null on likeCount', async function () {
 			try {
-				const description = '1';
-				const name = 'name';
-				const type = 1;
-				const likeCount = null;
-				const expression = new ExpressionEntity();
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
-				expression.content = '123';
-				expression.likeCount = likeCount;
+				const expression = ExpressionFactory.build();
+				expression.likeCount = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.like_count',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'like_count' cannot be null`,
 				);
 			}
 		});
 
 		it('should not null on isForked', async function () {
 			try {
-				const description = '1';
-				const name = 'name';
-				const type = 1;
-				const isForked = null;
-				const expression = new ExpressionEntity();
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
-				expression.content = '1234';
-				expression.isForked = isForked;
+				const expression = ExpressionFactory.build();
+				expression.isForked = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.is_forked',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'is_forked' cannot be null`,
 				);
 			}
 		});
 
-		it('should not null on forkCount`', async function () {
+		it('should not null on forkCount', async function () {
 			try {
-				const description = '1';
-				const name = 'name';
-				const type = 1;
-				const expression = new ExpressionEntity();
-				const forkCount = null;
-				expression.description = description;
-				expression.name = name;
-				expression.type = type;
-				expression.content = '1234';
-				expression.forkCount = forkCount;
+				const expression = ExpressionFactory.build();
+				expression.forkCount = null;
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expressions.fork_count',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'fork_count' cannot be null`,
 				);
 			}
 		});
 
 		it('should be false on isForked as default', async function () {
-			const description = '1';
-			const name = 'name';
-			const type = 1;
-			const expression = new ExpressionEntity();
-			expression.description = description;
-			expression.name = name;
-			expression.type = type;
-			expression.content = '1234';
+			const expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
 			assert.equal(expression.isForked, false);
 		});
 
 		it('should be 0 on forkCount as default', async function () {
-			const description = '1';
-			const name = 'name';
-			const type = 1;
-			const expression = new ExpressionEntity();
-			expression.description = description;
-			expression.name = name;
-			expression.type = type;
-			expression.content = '1234';
+			const expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
 			assert.equal(expression.forkCount, 0);
 		});
 
 		it('should be 0 on likeCount as default', async function () {
-			const description = '1';
-			const name = 'name';
-			const type = 1;
-			const expression = new ExpressionEntity();
-			expression.description = description;
-			expression.name = name;
-			expression.type = type;
-			expression.content = '1234';
+			const expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
 			assert.equal(expression.likeCount, 0);
@@ -249,24 +174,16 @@ describe('expression entity', () => {
 	});
 
 	describe('relation', () => {
-		let expression;
+		let expression: ExpressionEntity;
 
 		async function getNewExpressionEntity(): Promise<ExpressionEntity> {
-			const expression = new ExpressionEntity();
-			expression.type = 1;
-			expression.name = 'name';
-			expression.description = 'description';
-			expression.content = 'content';
+			const expression = ExpressionFactory.build();
 
 			return await connection.manager.save(expression);
 		}
 
 		it('should prepare notice', async () => {
-			expression = new ExpressionEntity();
-			expression.type = 1;
-			expression.name = 'name';
-			expression.description = 'description';
-			expression.content = 'content';
+			expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
 		});
@@ -311,20 +228,18 @@ describe('expression entity', () => {
 		});
 
 		it('should relate with thumbnail image', async () => {
-			const thumbnailImage = new ExpressionThumbnailImageEntity();
-
+			let thumbnailImage = new ExpressionThumbnailImageEntity();
 			thumbnailImage.expression = expression;
-			await connection.manager.save(thumbnailImage);
+			thumbnailImage = await connection.manager.save(thumbnailImage);
 
-			expression.thumbnailImage = thumbnailImage;
+			expression.thumbnailImage = Promise.resolve(thumbnailImage);
 			await connection.manager.save(expression);
 
 			const result = await expressionRepository.findOne({
 				where: { id: expression.id },
-				relations: ['thumbnailImage'],
 			});
 
-			assert.equal(result.thumbnailImage.id, thumbnailImage.id);
+			expect((await result.thumbnailImage).id).toBe(thumbnailImage.id);
 		});
 
 		it('should eager load image entity in thumbnailImage', async () => {
@@ -336,36 +251,33 @@ describe('expression entity', () => {
 			const path = 'path';
 			const type = 1;
 
-			const image = new ImageEntity();
+			let image = new ImageEntity();
 			image.url = url;
 			image.extension = extension;
 			image.fileName = fileName;
 			image.path = path;
 			image.type = type;
-			await connection.manager.save(image);
+			image = await connection.manager.save(image);
 
-			const thumbnailImage = new ExpressionThumbnailImageEntity();
+			let thumbnailImage = new ExpressionThumbnailImageEntity();
 
 			thumbnailImage.expression = expression;
 			thumbnailImage.image = image;
-			await connection.manager.save(thumbnailImage);
+			thumbnailImage = connection.manager.save(thumbnailImage);
 
-			expression.thumbnailImage = thumbnailImage;
+			expression.thumbnailImage = Promise.resolve(thumbnailImage);
 			await connection.manager.save(expression);
 
 			const result = await expressionRepository.findOne({
 				where: { id: expression.id },
-				relations: ['thumbnailImage'],
 			});
 
-			assert.equal(result.thumbnailImage.image.id, image.id);
+			expect(result.thumbnailImage.id).toEqual(thumbnailImage.id);
 		});
 
 		async function getNewUser(): Promise<UserEntity> {
-			const user = new UserEntity();
-			user.name = 'Me and Bears';
-			user.description = 'I am near polar bears';
-			user.email = 'email';
+			const user = UserFactory.build();
+
 			return await connection.manager.save(user);
 		}
 
