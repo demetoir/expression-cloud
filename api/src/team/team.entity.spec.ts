@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
-import { UserEntity } from '../user/user/user.entity';
 import { TeamEntity } from './team.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { UserFactory } from '../../test/user/user/user.factory';
 
 describe('team entity', () => {
 	let connection;
@@ -11,8 +11,6 @@ describe('team entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
-
 		teamRepository = connection.getRepository(TeamEntity);
 	});
 
@@ -45,10 +43,11 @@ describe('team entity', () => {
 				team.name = name;
 				team.description = description;
 				await connection.manager.save(team);
+
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: teams.name',
+				expect(e.message).toBe(
+					"ER_NO_DEFAULT_FOR_FIELD: Field 'name' doesn't have a default value",
 				);
 			}
 		});
@@ -62,10 +61,10 @@ describe('team entity', () => {
 				team.name = name;
 				team.description = description;
 				await connection.manager.save(team);
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: teams.description',
+				expect(e.message).toBe(
+					"ER_NO_DEFAULT_FOR_FIELD: Field 'description' doesn't have a default value",
 				);
 			}
 		});
@@ -84,16 +83,13 @@ describe('team entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.description = 'description';
-			user.email = 'email';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.teams = [team];
-			await connection.manager.save(user);
-
 			team.users = [user];
+
+			await connection.manager.save(user);
 			await connection.manager.save(team);
 
 			const resultTeam = await teamRepository.findOne({
