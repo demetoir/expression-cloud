@@ -2,8 +2,11 @@ import { assert } from 'chai';
 import { createConnection } from 'typeorm';
 import { RoleEntity } from '../../../src/user/role/role.entity';
 import { ormConfig } from '../../../src/common/model/configLoader';
-import { UserEntity } from '../../../src/user/user/user.entity';
 import { RoleEnum } from '../../../src/user/role/role.enum';
+import { RoleFactory } from '../../../src/user/role/role.factory';
+import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
+import { QueryFailedError } from 'typeorm/index';
+import { UserFactory } from '../user/user.factory';
 
 describe('role entity', () => {
 	let connection;
@@ -11,7 +14,6 @@ describe('role entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});
@@ -77,15 +79,17 @@ describe('role entity', () => {
 	describe('check column type', () => {
 		it('should not null on name', async function () {
 			try {
-				const name = undefined;
+				const role = RoleFactory.buildManagerRole();
+				role.name = null;
 
-				const role = new RoleEntity();
-				role.name = name;
 				await connection.manager.save(role);
+
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: roles.name',
+				expect(e).toBeInstanceOf(QueryFailedError);
+
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'name' cannot be null`,
 				);
 			}
 		});
@@ -96,17 +100,13 @@ describe('role entity', () => {
 
 		it('should prepare role', async () => {
 			role = new RoleEntity();
-
 			role.name = 'role';
 
 			await connection.manager.save(role);
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.description = 'description';
-			user.email = 'email';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.roles = [role];
