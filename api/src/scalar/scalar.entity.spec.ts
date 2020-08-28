@@ -1,16 +1,16 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
 import { ScalarEntity } from './scalar.entity';
 import { VectorEntity } from '../vector/vector.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { QueryFailedError } from 'typeorm/index';
 
 describe('value entity', () => {
 	let valueRepository;
 	let connection;
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		valueRepository = await connection.getRepository(ScalarEntity);
 	});
@@ -44,10 +44,12 @@ describe('value entity', () => {
 				valueEntity.index = index;
 				valueEntity.value = value;
 				await connection.manager.save(valueEntity);
+
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: scalars.index',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'index' cannot be null`,
 				);
 			}
 		});
@@ -61,10 +63,12 @@ describe('value entity', () => {
 				valueEntity.index = index;
 				valueEntity.value = value;
 				await connection.manager.save(valueEntity);
+
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: scalars.value',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					`ER_BAD_NULL_ERROR: Column 'value' cannot be null`,
 				);
 			}
 		});
