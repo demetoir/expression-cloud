@@ -4,14 +4,13 @@ import { UserProfileImageEntity } from './user-profile-image.entity';
 import { ormConfig } from '../../common/model/configLoader';
 import { UserEntity } from '../user/user.entity';
 import { ImageEntity } from '../../image/image.entity';
+import { UserFactory } from '../../../test/user/user/user.factory';
 
 describe('userProfile entity', () => {
 	let connection;
 	let repository;
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
-
 		repository = connection.getRepository(UserProfileImageEntity);
 	});
 
@@ -38,10 +37,7 @@ describe('userProfile entity', () => {
 		let userProfileImage;
 
 		async function getNewUser(): Promise<UserEntity> {
-			const user = new UserEntity();
-			user.name = 'Me and Bears';
-			user.description = 'I am near polar bears';
-			user.email = 'email';
+			const user = UserFactory.build();
 			return await connection.manager.save(user);
 		}
 
