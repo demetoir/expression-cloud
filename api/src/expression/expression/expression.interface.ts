@@ -28,7 +28,7 @@ export interface IExpression extends IBaseEntity {
 
 	tags: ITag[];
 
-	thumbnailImage: IExpressionThumbnailImage;
+	thumbnailImage: Promise<IExpressionThumbnailImage>;
 
 	user: IUser;
 

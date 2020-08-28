@@ -87,7 +87,7 @@ export class ExpressionEntity extends BaseEntity implements IExpression {
 		() => ExpressionThumbnailImageEntity,
 		(object) => object.expression,
 	)
-	thumbnailImage: ExpressionThumbnailImageEntity;
+	thumbnailImage: Promise<ExpressionThumbnailImageEntity>;
 
 	@ManyToOne(() => UserEntity, (user) => user.expressions)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
