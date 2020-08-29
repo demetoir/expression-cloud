@@ -11,7 +11,7 @@ function loadDotEnv({ devPath, prodPath, testPath }): any {
 
 	const NODE_ENV = process.env.NODE_ENV || 'development';
 
-	console.log(`load dot env as ${NODE_ENV} mode`);
+	console.debug(`load dot env as ${NODE_ENV} mode`);
 
 	let path;
 	if (NODE_ENV === 'development') {
