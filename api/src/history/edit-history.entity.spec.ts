@@ -1,9 +1,8 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
-import { UserEntity } from '../user/user/user.entity';
 import { EditHistoryEntity } from './edit-history.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { UserFactory } from '../../test/user/user/user.factory';
 
 describe('editHistory entity', () => {
 	let editHistoryRepository;
@@ -11,7 +10,6 @@ describe('editHistory entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		editHistoryRepository = connection.getRepository(EditHistoryEntity);
 	});
@@ -47,10 +45,7 @@ describe('editHistory entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.email = 'email';
-			user.description = 'description';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.editHistories = [editHistory];
