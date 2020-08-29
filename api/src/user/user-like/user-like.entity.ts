@@ -10,11 +10,9 @@ import {
 
 @Entity({ name: 'user_likes' })
 export class UserLikeEntity implements IUserLike {
-	// @PrimaryColumn()
 	@PrimaryColumn({ name: 'to_user_id', type: 'bigint', nullable: false })
 	toUserId: number;
 
-	// @PrimaryColumn()
 	@PrimaryColumn({ name: 'from_user_id', type: 'bigint', nullable: false })
 	fromUserId: number;
 
