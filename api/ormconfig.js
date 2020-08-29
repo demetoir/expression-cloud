@@ -39,9 +39,13 @@ const prod = {
 };
 
 const test = {
-	type: 'sqlite',
-	database: ':memory:',
-	synchronize: true,
+	type: 'mysql',
+	host: 'localhost',
+	port: 3307,
+	username: 'user',
+	password: 'password',
+	database: 'expression_cloud',
+	synchronize: false,
 	logging: false,
 	bigNumberStrings: false,
 	entities: [`${__dirname}/src/common/model/entity/**/*.entity.ts`],
