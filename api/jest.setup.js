@@ -39,7 +39,7 @@ module.exports = async () => {
 
 	console.log('end sync db by typeorm ');
 
-	global.connection = 'a';
+	global.connection = connection;
 
 	console.log('end global setup');
 };
