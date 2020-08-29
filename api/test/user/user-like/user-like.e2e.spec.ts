@@ -199,7 +199,7 @@ describe('UserLikeModule (e2e)', () => {
 				});
 		});
 
-		it('error if not exist user of id equal to toUserId and fromUserId in request body', async function () {
+		it('error if not exist fromUserId, toUserId in DB', async function () {
 			const user1 = UserFactory.build();
 			await manager.save(user1);
 
@@ -220,27 +220,24 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(400)
 				.expect({
 					statusCode: 400,
-					message: [
-						'fromUserId must be a number conforming to the specified constraints',
-						'toUserId must be a number conforming to the specified constraints',
-					],
+					message: 'database constraint fail error',
 					error: 'Bad Request',
 				});
 		});
 
-		it('error if not exist user of id equal to fromUserId in request body', async function () {
-			const user1 = UserFactory.build();
-			await manager.save(user1);
+		it('error if not exist fromUserId in DB', async function () {
+			const fromUser = UserFactory.build();
+			await manager.save(fromUser);
 
-			const user2 = UserFactory.build();
-			await manager.save(user2);
+			const toUser = UserFactory.build();
+			await manager.save(toUser);
 
 			const reqBody = {
-				fromUserId: user1.id,
-				toUserId: user2.id,
+				fromUserId: fromUser.id,
+				toUserId: toUser.id,
 			};
 
-			await manager.remove(user1);
+			await manager.remove(fromUser);
 
 			await request(app.getHttpServer())
 				.post('/v1/user-likes')
@@ -248,14 +245,12 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(400)
 				.expect({
 					statusCode: 400,
-					message: [
-						'fromUserId must be a number conforming to the specified constraints',
-					],
+					message: 'database constraint fail error',
 					error: 'Bad Request',
 				});
 		});
 
-		it('error if not exist user of id equal to toUserId in request body', async function () {
+		it('error if not exist toUserId in DB', async function () {
 			const toUser = UserFactory.build();
 			await manager.save(toUser);
 
@@ -267,7 +262,7 @@ describe('UserLikeModule (e2e)', () => {
 				toUserId: fromUser.id,
 			};
 
-			await manager.remove(fromUser);
+			await manager.remove(toUser);
 
 			await request(app.getHttpServer())
 				.post('/v1/user-likes')
@@ -275,36 +270,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(400)
 				.expect({
 					statusCode: 400,
-					message: [
-						'toUserId must be a number conforming to the specified constraints',
-					],
-					error: 'Bad Request',
-				});
-		});
-
-		it('error if request body toUserId', async function () {
-			const toUser = UserFactory.build();
-			await manager.save(toUser);
-
-			const fromUser = UserFactory.build();
-			await manager.save(fromUser);
-
-			const reqBody = {
-				fromUserId: toUser.id,
-				toUserId: fromUser.id,
-			};
-
-			await manager.remove(fromUser);
-
-			await request(app.getHttpServer())
-				.post('/v1/user-likes')
-				.send(reqBody)
-				.expect(400)
-				.expect({
-					statusCode: 400,
-					message: [
-						'toUserId must be a number conforming to the specified constraints',
-					],
+					message: 'database constraint fail error',
 					error: 'Bad Request',
 				});
 		});
@@ -329,6 +295,7 @@ describe('UserLikeModule (e2e)', () => {
 					.expect({
 						statusCode: 400,
 						message: [
+							'fromUserId must be a positive number',
 							'fromUserId must be a number conforming to the specified constraints',
 						],
 						error: 'Bad Request',
@@ -354,7 +321,8 @@ describe('UserLikeModule (e2e)', () => {
 					.expect({
 						statusCode: 400,
 						message: [
-							'toUserId must be a number conforming to the specified constraints',
+							'fromUserId must be a positive number',
+							'fromUserId must be a number conforming to the specified constraints',
 						],
 						error: 'Bad Request',
 					});
@@ -379,7 +347,8 @@ describe('UserLikeModule (e2e)', () => {
 					.expect({
 						statusCode: 400,
 						message: [
-							'toUserId must be a number conforming to the specified constraints',
+							'fromUserId must be a positive number',
+							'fromUserId must be a number conforming to the specified constraints',
 						],
 						error: 'Bad Request',
 					});
@@ -404,7 +373,8 @@ describe('UserLikeModule (e2e)', () => {
 					.expect({
 						statusCode: 400,
 						message: [
-							'toUserId must be a number conforming to the specified constraints',
+							'fromUserId must be a positive number',
+							'fromUserId must be a number conforming to the specified constraints',
 						],
 						error: 'Bad Request',
 					});
@@ -429,8 +399,32 @@ describe('UserLikeModule (e2e)', () => {
 					.expect({
 						statusCode: 400,
 						message: [
-							'toUserId must be a number conforming to the specified constraints',
+							'fromUserId must be a positive number',
+							'fromUserId must be a number conforming to the specified constraints',
 						],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be negative number', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: -34,
+					toUserId: fromUser.id,
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: ['fromUserId must be a positive number'],
 						error: 'Bad Request',
 					});
 			});
