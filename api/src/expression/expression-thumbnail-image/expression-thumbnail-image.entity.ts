@@ -7,11 +7,13 @@ import { IExpressionThumbnailImage } from './expression-thumbnail-image.interfac
 @Entity({ name: 'expression_thumbnail_images' })
 export class ExpressionThumbnailImageEntity extends BaseEntity
 	implements IExpressionThumbnailImage {
-	@OneToOne(() => ExpressionEntity, (object) => object.thumbnailImage)
+	@OneToOne(() => ExpressionEntity, (object) => object.thumbnailImage, {
+		eager: false,
+	})
 	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
 	expression: ExpressionEntity;
 
-	@OneToOne(() => ImageEntity, { eager: true })
+	@OneToOne(() => ImageEntity, { eager: false })
 	@JoinColumn({ name: 'image_id', referencedColumnName: 'id' })
 	image: ImageEntity;
 }
