@@ -4,16 +4,15 @@ import { RoleEntity } from '../../../src/user/role/role.entity';
 import { ormConfig } from '../../../src/common/model/configLoader';
 import { RoleFactory } from '../../../src/user/role/role.factory';
 import { RoleEnum } from '../../../src/user/role/role.enum';
-import { Repository } from 'typeorm/index';
+import { Connection, Repository } from 'typeorm/index';
 import { IRole } from '../../../src/user/role/role.interface';
 
 describe('role factory', () => {
-	let connection;
+	let connection: Connection;
 	let roleRepository: Repository<RoleEntity>;
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});
@@ -23,6 +22,9 @@ describe('role factory', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
+		expect(roleRepository).toBeDefined();
+		expect(connection).toBeDefined();
+
 		assert.isNotNull(roleRepository);
 	});
 
