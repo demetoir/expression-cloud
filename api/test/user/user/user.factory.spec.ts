@@ -1,4 +1,4 @@
-import { createConnection, getConnection, Repository } from 'typeorm';
+import { createConnection, Repository } from 'typeorm';
 import { UserEntity } from '../../../src/user/user/user.entity';
 import { ormConfig } from '../../../src/common/model/configLoader';
 import { UserFactory } from './user.factory';
@@ -9,13 +9,7 @@ describe('user factory', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
-
 		userRepository = connection.getRepository(UserEntity);
-	});
-
-	beforeEach(async () => {
-		await getConnection().synchronize(true);
 	});
 
 	afterAll(async () => {
