@@ -1,9 +1,10 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../ormconfig.js';
 import { ExpressionSettingEntity } from './expression-setting.entity';
-import { ExpressionEntity } from '../expression/expression.entity';
 import { ormConfig } from '../../common/model/configLoader';
+import { ExpressionFactory } from '../expression/expression.factory';
+import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
+import { QueryFailedError } from 'typeorm/index';
 
 describe('ExpressionSetting entity', () => {
 	let expressionSettingRepository;
@@ -11,7 +12,6 @@ describe('ExpressionSetting entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		expressionSettingRepository = connection.getRepository(
 			ExpressionSettingEntity,
@@ -46,11 +46,11 @@ describe('ExpressionSetting entity', () => {
 
 				await connection.manager.save(setting);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expression_settings.is_public',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'is_public' cannot be null",
 				);
 			}
 		});
@@ -62,12 +62,10 @@ describe('ExpressionSetting entity', () => {
 				setting.isPublic = false;
 
 				await connection.manager.save(setting);
-
-				assert(false, 'should throw this error');
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: expression_settings.is_locked',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'is_locked' cannot be null",
 				);
 			}
 		});
@@ -85,11 +83,7 @@ describe('ExpressionSetting entity', () => {
 		});
 
 		it('should relate with expression entity', async () => {
-			const expression = new ExpressionEntity();
-			expression.type = 1;
-			expression.content = 'content';
-			expression.description = 'description';
-			expression.name = 'tab';
+			const expression = ExpressionFactory.build();
 			await connection.manager.save(expression);
 
 			expression.setting = expressionSetting;
