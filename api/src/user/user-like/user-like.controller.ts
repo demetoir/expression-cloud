@@ -16,10 +16,10 @@ import {
 	Override,
 	ParsedRequest,
 } from '@nestjsx/crud';
-import { TypeormQueryFailFilter } from '../../common/filter/typeorm-query-fail-error.filter';
+import { DatabaseQueryFailFilter } from '../../common/filter/database-query-fail-error.filter';
 import { DTOTransformPipe } from '../../common/pipe/dtoTransform.pipe';
 import { QueryFailedError } from 'typeorm/index';
-import { DBConstraintFailError } from '../../common/error/DB-constraint-fail.error';
+import { DatabaseConstraintFailError } from '../../common/error/database-constraint-fail.error';
 
 export const MAX_LIMIT = 20;
 
@@ -45,6 +45,8 @@ export const MAX_LIMIT = 20;
 		maxLimit: MAX_LIMIT,
 	},
 })
+@UseFilters(new DatabaseQueryFailFilter())
+@UsePipes(new ValidationPipe({ transform: true }))
 @Controller('/v1/user-likes')
 export class UserLikeController implements CrudController<UserLikeEntity> {
 	constructor(public readonly service: UserLikeService) {}
@@ -75,7 +77,7 @@ export class UserLikeController implements CrudController<UserLikeEntity> {
 			if (e instanceof QueryFailedError) {
 				// @ts-ignore
 				if (e.code === 'ER_NO_REFERENCED_ROW_2') {
-					throw new DBConstraintFailError(e);
+					throw new DatabaseConstraintFailError(e);
 				}
 			}
 
