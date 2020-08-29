@@ -32,7 +32,12 @@ module.exports = async () => {
 		);
 	}
 
+	console.log('success to connect test db');
+
+	console.log('start sync db by typeorm');
 	await connection.synchronize();
+
+	console.log('end sync db by typeorm ');
 
 	global.connection = connection;
 };
