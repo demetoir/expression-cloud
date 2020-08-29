@@ -7,7 +7,6 @@ import { EditHistoryEntity } from '../../../src/history/edit-history.entity';
 import { CommentEntity } from '../../../src/comment/comment.entity';
 import { UserOauthEntity } from '../../../src/user/user-oauth/user-oauth.entity';
 import { ExpressionEntity } from '../../../src/expression/expression/expression.entity';
-import { v4 as uuid } from 'uuid';
 import { UserSettingEntity } from '../../../src/user/user-setting/user-setting.entity';
 import { ormConfig } from '../../../src/common/model/configLoader';
 import { RoleEntity } from '../../../src/user/role/role.entity';
@@ -15,15 +14,14 @@ import { UserProfileImageEntity } from '../../../src/user/user-profile-image/use
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
 import { RoleEnum } from '../../../src/user/role/role.enum';
 import { UserFactory } from './user.factory';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError } from 'typeorm/index';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
-	let connection;
+	let connection: Connection;
 
 	beforeAll(async () => {
 		connection = await createConnection({ ...ormConfig, logging: true });
-
 		userRepository = connection.getRepository(UserEntity);
 	});
 
@@ -178,10 +176,7 @@ describe('user entity', () => {
 		let anotherUser;
 
 		async function getNewUser(): Promise<UserEntity> {
-			const user = new UserEntity();
-			user.name = 'Me and Bears';
-			user.description = 'I am near polar bears';
-			user.email = 'email ' + uuid();
+			user = UserFactory.build();
 
 			return await connection.manager.save(user);
 		}
@@ -374,6 +369,7 @@ describe('user entity', () => {
 				where: { id: user2.id },
 				relations: ['likeFromUsers'],
 			});
+
 			assert.equal(result2.likeFromUsers[0].id, user1.id);
 		});
 
