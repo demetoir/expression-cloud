@@ -9,17 +9,21 @@ import { UserEntity } from '../../user/user/user.entity';
 import { ormConfig } from '../../common/model/configLoader';
 import { ExpressionFactory } from './expression.factory';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError } from 'typeorm/index';
 import { UserFactory } from '../../../test/user/user/user.factory';
 
 describe('expression entity', () => {
 	let expressionRepository;
-	let connection;
+	let connection: Connection;
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
 
 		expressionRepository = connection.getRepository(ExpressionEntity);
+	});
+
+	afterAll(() => {
+		connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {
@@ -263,7 +267,7 @@ describe('expression entity', () => {
 
 			thumbnailImage.expression = expression;
 			thumbnailImage.image = image;
-			thumbnailImage = connection.manager.save(thumbnailImage);
+			thumbnailImage = await connection.manager.save(thumbnailImage);
 
 			expression.thumbnailImage = Promise.resolve(thumbnailImage);
 			await connection.manager.save(expression);
@@ -272,7 +276,7 @@ describe('expression entity', () => {
 				where: { id: expression.id },
 			});
 
-			expect(result.thumbnailImage.id).toEqual(thumbnailImage.id);
+			expect((await result.thumbnailImage).id).toEqual(thumbnailImage.id);
 		});
 
 		async function getNewUser(): Promise<UserEntity> {
