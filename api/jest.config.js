@@ -1,6 +1,6 @@
 module.exports = {
-	setupFilesAfterEnv: ['./test/jest.setup.js'],
-
+	globalSetup: './test/jest.setup.js',
+	globalTeardown: './test/jest.teardown.js',
 	transform: {
 		'^.+\\.tsx?$': 'ts-jest',
 	},

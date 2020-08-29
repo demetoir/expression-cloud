@@ -6,6 +6,7 @@ module.exports = async () => {
 		...ormConfig,
 		dropSchema: true,
 	});
-
 	await connection.synchronize();
+
+	global.connection = connection;
 };
