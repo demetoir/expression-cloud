@@ -1,10 +1,9 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../../ormconfig.js';
-import { ExpressionEntity } from '../expression/expression.entity';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { ImageEntity } from '../../image/image.entity';
 import { ormConfig } from '../../common/model/configLoader';
+import { ExpressionFactory } from '../expression/expression.factory';
+import { ImageFactory } from '../../image/Image.factory';
 
 describe('ExpressionThumbnailImage entity', () => {
 	let repository;
@@ -12,8 +11,6 @@ describe('ExpressionThumbnailImage entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
-
 		repository = connection.getRepository(ExpressionThumbnailImageEntity);
 	});
 
@@ -46,11 +43,7 @@ describe('ExpressionThumbnailImage entity', () => {
 		});
 
 		it('should relate with expression entity', async () => {
-			const expression = new ExpressionEntity();
-			expression.type = 1;
-			expression.content = 'content';
-			expression.description = 'description';
-			expression.name = 'tab';
+			const expression = ExpressionFactory.build();
 			await connection.manager.save(expression);
 
 			expression.thumbnailImage = expressionThumbnailImage;
@@ -68,18 +61,7 @@ describe('ExpressionThumbnailImage entity', () => {
 		});
 
 		it('should relate with image entity', async () => {
-			const url = 'dfd';
-			const extension = 'extension';
-			const fileName = 'filename';
-			const path = 'path';
-			const type = 1;
-
-			const image = new ImageEntity();
-			image.url = url;
-			image.extension = extension;
-			image.fileName = fileName;
-			image.path = path;
-			image.type = type;
+			const image = ImageFactory.build();
 			image.expressionThumbnail = expressionThumbnailImage;
 			await connection.manager.save(image);
 
