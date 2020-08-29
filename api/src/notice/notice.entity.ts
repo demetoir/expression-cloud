@@ -16,7 +16,7 @@ export class NoticeEntity extends BaseEntity implements INotice {
 	})
 	isRead: boolean;
 
-	@ManyToOne(() => UserEntity, (user) => user.notices, { eager: true })
+	@ManyToOne(() => UserEntity, (user) => user.notices, { eager: false })
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	user: UserEntity;
 }
