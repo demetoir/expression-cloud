@@ -1,9 +1,10 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
 import { CommentEntity } from './comment.entity';
-import { UserEntity } from '../user/user/user.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { UserFactory } from '../../test/user/user/user.factory';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { QueryFailedError } from 'typeorm/index';
 
 describe('comment entity', () => {
 	let commentRepository;
@@ -11,8 +12,6 @@ describe('comment entity', () => {
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
-
 		commentRepository = connection.getRepository(CommentEntity);
 	});
 
@@ -55,11 +54,11 @@ describe('comment entity', () => {
 
 				await connection.manager.save(expression);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: comments.content',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'content' cannot be null",
 				);
 			}
 		});
@@ -76,10 +75,7 @@ describe('comment entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.email = 'email';
-			user.description = 'description';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.comments = [comment];
