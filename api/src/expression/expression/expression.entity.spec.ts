@@ -284,11 +284,11 @@ describe('expression entity', () => {
 		it('should relate with expression likes ', async () => {
 			const user = await getNewUser();
 
+			user.likeToExpressions = [expression];
+			// await connection.manager.save(user);
+
 			expression.likeFrom = [user];
 			await connection.manager.save(expression);
-
-			user.likeToExpressions = [expression];
-			await connection.manager.save(user);
 
 			const result = await expressionRepository.findOne({
 				where: { id: expression.id },
