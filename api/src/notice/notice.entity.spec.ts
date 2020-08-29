@@ -1,18 +1,19 @@
 import { assert } from 'chai';
 import { createConnection } from 'typeorm';
-import * as config from '../../ormconfig.js';
 import { UserEntity } from '../user/user/user.entity';
 import { NoticeEntity } from './notice.entity';
 import { ormConfig } from '../common/model/configLoader';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
+import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { UserFactory } from '../../test/user/user/user.factory';
 
 describe('notice entity', () => {
-	let userRepository;
-	let connection;
-	let noticeRepository;
+	let userRepository: Repository<UserEntity>;
+	let connection: Connection;
+	let noticeRepository: Repository<NoticeEntity>;
 
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
-		await connection.synchronize();
 
 		userRepository = connection.getRepository(UserEntity);
 		noticeRepository = connection.getRepository(NoticeEntity);
@@ -23,13 +24,15 @@ describe('notice entity', () => {
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(userRepository);
-		assert.isNotNull(noticeRepository);
+		expect(userRepository).toBeDefined();
+		expect(connection).toBeDefined();
+		expect(noticeRepository).toBeDefined();
 	});
 
-	it('should create new project', async function () {
+	it('should create entity', async function () {
 		const notice = new NoticeEntity();
 		notice.content = 'content';
+
 		await connection.manager.save(notice);
 
 		const newContent = await noticeRepository.findOne({ id: notice.id });
@@ -46,11 +49,11 @@ describe('notice entity', () => {
 
 				await connection.manager.save(notice);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: notice.content',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'content' cannot be null",
 				);
 			}
 		});
@@ -66,11 +69,11 @@ describe('notice entity', () => {
 
 				await connection.manager.save(notice);
 
-				assert(false, 'should throw this error');
+				expectShouldNotCallThis();
 			} catch (e) {
-				assert.equal(
-					e.message,
-					'SQLITE_CONSTRAINT: NOT NULL constraint failed: notice.is_read',
+				expect(e).toBeInstanceOf(QueryFailedError);
+				expect(e.message).toBe(
+					"ER_BAD_NULL_ERROR: Column 'is_read' cannot be null",
 				);
 			}
 		});
@@ -116,7 +119,7 @@ describe('notice entity', () => {
 	describe('relation', () => {
 		let notice;
 
-		it('should prepare notice', async () => {
+		it('should prepare entity', async () => {
 			notice = new NoticeEntity();
 			notice.content = 'content';
 
@@ -124,10 +127,7 @@ describe('notice entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = new UserEntity();
-			user.name = 'user';
-			user.description = 'description';
-			user.email = 'email';
+			const user = UserFactory.build();
 			await connection.manager.save(user);
 
 			user.notices = [notice];
