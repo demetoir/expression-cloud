@@ -7,6 +7,7 @@ import { UserEntity } from '../../../src/user/user/user.entity';
 import { Repository } from 'typeorm';
 import { UserModule } from '../../../src/user/user/user.module';
 import { entityToResponse } from '../../util';
+import { UserFactory } from './user.factory';
 
 // todo: moduleFixture에서 typeorm connection 가져와서 sync 해야함
 describe('UserModule (e2e)', () => {
@@ -35,24 +36,21 @@ describe('UserModule (e2e)', () => {
 	});
 
 	describe('/v1/users (GET)', () => {
-		it('should return empty', function () {
-			const expectBody = [];
+		it('should return empty', async function () {
+			const stored = await userRepository.find();
+
+			const expectedBody = stored.map((x) => entityToResponse(x));
 			return request(app.getHttpServer())
 				.get('/v1/users')
 				.expect(200)
-				.expect(expectBody);
+				.expect(expectedBody);
 		});
 	});
 
 	describe('/v1/users (POST)', () => {
 		it('should create new resource', async function () {
-			const resBody = {};
-
-			const reqBody = {
-				name: 'name',
-				email: 'email',
-				description: 'description',
-			};
+			const user = UserFactory.build();
+			const reqBody = user;
 
 			const res = await request(app.getHttpServer())
 				.post('/v1/users')
@@ -69,10 +67,7 @@ describe('UserModule (e2e)', () => {
 
 	describe('/v1/users/{id} (GET)', () => {
 		it('should success', async function () {
-			const newUser = new UserEntity();
-			newUser.name = 'name';
-			newUser.description = 'description';
-			newUser.email = 'email2';
+			const newUser = UserFactory.build();
 
 			const user = await userRepository.save(newUser);
 			const id = user.id;
