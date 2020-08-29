@@ -100,7 +100,9 @@ export class ExpressionEntity extends BaseEntity implements IExpression {
 	})
 	forkedFrom: ExpressionEntity;
 
-	@ManyToMany(() => UserEntity, (user) => user.likeToExpressions)
+	@ManyToMany(() => UserEntity, (user) => user.likeToExpressions, {
+		eager: false,
+	})
 	@JoinTable({
 		name: 'expression_likes',
 		joinColumn: {

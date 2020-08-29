@@ -175,7 +175,9 @@ export class UserEntity extends BaseEntity implements IUser {
 	})
 	likeFromUsers: UserEntity[];
 
-	@ManyToMany(() => ExpressionEntity, (expression) => expression.likeFrom)
+	@ManyToMany(() => ExpressionEntity, (expression) => expression.likeFrom, {
+		eager: false,
+	})
 	@JoinTable({
 		name: 'expression_likes',
 		joinColumn: {
