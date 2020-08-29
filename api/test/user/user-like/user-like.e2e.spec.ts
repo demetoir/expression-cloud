@@ -63,14 +63,14 @@ describe('UserLikeModule (e2e)', () => {
 		await app.close();
 	});
 
-``	it('should be init', function() {
+	it('should be init', function () {
 		expect(app).toBeDefined();
 		expect(repository).toBeDefined();
 		expect(connection).toBeDefined();
 	});
 
 	describe('/v1/user-likes (GET)', () => {
-		it('return empty, if not exist', function() {
+		it('return empty, if not exist', function () {
 			const expectBody = [];
 			return request(app.getHttpServer())
 				.get('/v1/user-likes')
@@ -78,7 +78,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(expectBody);
 		});
 
-		it('return many resource', async function() {
+		it('return many resource', async function () {
 			const user1 = UserFactory.build();
 			const user2 = UserFactory.build();
 
@@ -97,7 +97,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(expectBody);
 		});
 
-		it('return many but limit', async function() {
+		it('return many but limit', async function () {
 			const { users, likes } = await prepareDb(10);
 
 			const expectBody = likes
@@ -111,7 +111,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(expectBody);
 		});
 
-		it('should get many but max limit', async function() {
+		it('should get many but max limit', async function () {
 			const { users, likes } = await prepareDb(10);
 
 			const expectMaxLimit = MAX_LIMIT;
@@ -127,7 +127,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(expectBody);
 		});
 
-		it('should get many with offset and limit', async function() {
+		it('should get many with offset and limit', async function () {
 			const { users, likes } = await prepareDb(10);
 
 			const expectMaxLimit = MAX_LIMIT;
@@ -151,7 +151,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(expectBody);
 		});
 
-		it('return get many with query string [toUserId, fromUserId]', async function() {
+		it('return get many with query string [toUserId, fromUserId]', async function () {
 			const { users, likes } = await prepareDb(10);
 
 			const like = likes[0];
@@ -173,7 +173,7 @@ describe('UserLikeModule (e2e)', () => {
 	});
 
 	describe('/v1/user-likes (POST)', () => {
-		it('create new resource and return', async function() {
+		it('create new resource and return', async function () {
 			const user1 = UserFactory.build();
 			await manager.save(user1);
 
@@ -199,7 +199,7 @@ describe('UserLikeModule (e2e)', () => {
 				});
 		});
 
-		it('error if not exist user of id equal to toUserId and fromUserId in request body', async function() {
+		it('error if not exist user of id equal to toUserId and fromUserId in request body', async function () {
 			const user1 = UserFactory.build();
 			await manager.save(user1);
 
@@ -228,7 +228,7 @@ describe('UserLikeModule (e2e)', () => {
 				});
 		});
 
-		it('error if not exist user of id equal to fromUserId in request body', async function() {
+		it('error if not exist user of id equal to fromUserId in request body', async function () {
 			const user1 = UserFactory.build();
 			await manager.save(user1);
 
@@ -255,7 +255,7 @@ describe('UserLikeModule (e2e)', () => {
 				});
 		});
 
-		it('error if not exist user of id equal to toUserId in request body', async function() {
+		it('error if not exist user of id equal to toUserId in request body', async function () {
 			const toUser = UserFactory.build();
 			await manager.save(toUser);
 
@@ -282,7 +282,7 @@ describe('UserLikeModule (e2e)', () => {
 				});
 		});
 
-		it('error if request body toUserId', async function() {
+		it('error if request body toUserId', async function () {
 			const toUser = UserFactory.build();
 			await manager.save(toUser);
 
@@ -309,8 +309,8 @@ describe('UserLikeModule (e2e)', () => {
 				});
 		});
 
-		describe('error if fromUserId is invalid', function() {
-			it('should not be string', async function() {
+		describe('error if fromUserId is invalid', function () {
+			it('should not be string', async function () {
 				const toUser = UserFactory.build();
 				await manager.save(toUser);
 
@@ -335,7 +335,7 @@ describe('UserLikeModule (e2e)', () => {
 					});
 			});
 
-			it('should not be array', async function() {
+			it('should not be array', async function () {
 				const toUser = UserFactory.build();
 				await manager.save(toUser);
 
@@ -360,7 +360,7 @@ describe('UserLikeModule (e2e)', () => {
 					});
 			});
 
-			it('should not be object', async function() {
+			it('should not be object', async function () {
 				const toUser = UserFactory.build();
 				await manager.save(toUser);
 
@@ -385,7 +385,7 @@ describe('UserLikeModule (e2e)', () => {
 					});
 			});
 
-			it('should not be boolean', async function() {
+			it('should not be boolean', async function () {
 				const toUser = UserFactory.build();
 				await manager.save(toUser);
 
@@ -410,7 +410,7 @@ describe('UserLikeModule (e2e)', () => {
 					});
 			});
 
-			it('should not be null', async function() {
+			it('should not be null', async function () {
 				const toUser = UserFactory.build();
 				await manager.save(toUser);
 
@@ -436,13 +436,13 @@ describe('UserLikeModule (e2e)', () => {
 			});
 		});
 
-		it('error if invalid body.fromUserId', async function() {
+		it('error if invalid body.fromUserId', async function () {
 			expectShouldBeImplementTest();
 		});
 	});
 
 	describe('/v1/user-likes (DELETE)', () => {
-		it('should delete one by query parameter', async function() {
+		it('should delete one by query parameter', async function () {
 			const { users, likes } = await prepareDb(1);
 
 			const like = likes[0];
@@ -459,7 +459,7 @@ describe('UserLikeModule (e2e)', () => {
 				.expect(200);
 		});
 
-		it('404 if not exist resource', async function() {
+		it('404 if not exist resource', async function () {
 			const { users, likes } = await prepareDb(1);
 
 			const like = likes[0];
@@ -480,7 +480,7 @@ describe('UserLikeModule (e2e)', () => {
 	});
 
 	describe('/v1/user-likes (patch)', () => {
-		it('should not have update method', async function() {
+		it('should not have update method', async function () {
 			await request(app.getHttpServer())
 				.patch('/v1/user-likes')
 				.expect(404);
@@ -488,7 +488,7 @@ describe('UserLikeModule (e2e)', () => {
 	});
 
 	describe('/v1/user-likes (put)', () => {
-		it('should not have put method', async function() {
+		it('should not have put method', async function () {
 			await request(app.getHttpServer())
 				.put('/v1/user-likes')
 				.expect(404);
