@@ -1,10 +1,25 @@
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { CrudPlus } from '../../common/libs/nestjsCRUDToolkit';
+import {
+	Body,
+	Controller,
+	UseFilters,
+	UsePipes,
+	ValidationPipe,
+} from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CrudPlus, getManyResponse } from '../../common/libs/nestjsCRUDToolkit';
 import { UserLikeService } from './user-like.service';
 import { UserLikeEntity } from './user-like.entity';
 import { UserLikeCreateDto } from './dto/user-like-create.dto';
-import { CrudController } from '@nestjsx/crud';
+import {
+	CrudController,
+	CrudRequest,
+	Override,
+	ParsedRequest,
+} from '@nestjsx/crud';
+import { TypeormQueryFailFilter } from '../../common/filter/typeorm-query-fail-error.filter';
+import { DTOTransformPipe } from '../../common/pipe/dtoTransform.pipe';
+import { QueryFailedError } from 'typeorm/index';
+import { DBConstraintFailError } from '../../common/error/DB-constraint-fail.error';
 
 export const MAX_LIMIT = 20;
 
@@ -36,5 +51,42 @@ export class UserLikeController implements CrudController<UserLikeEntity> {
 
 	get base(): CrudController<UserLikeEntity> {
 		return this;
+	}
+
+	@ApiOperation({
+		description: 'description',
+		summary: 'summary',
+	})
+	@Override('getManyBase')
+	public async getMany(
+		@ParsedRequest() req: CrudRequest,
+	): Promise<getManyResponse<UserLikeEntity>> {
+		return this.base.getManyBase(req);
+	}
+
+	@Override('createOneBase')
+	public async createOne(
+		@ParsedRequest() req: CrudRequest,
+		@Body(new DTOTransformPipe(UserLikeCreateDto)) dto: UserLikeCreateDto,
+	) {
+		try {
+			return await this.base.createOneBase(req, dto.toEntity());
+		} catch (e) {
+			if (e instanceof QueryFailedError) {
+				// @ts-ignore
+				if (e.code === 'ER_NO_REFERENCED_ROW_2') {
+					throw new DBConstraintFailError(e);
+				}
+			}
+
+			throw e;
+		}
+	}
+
+	@Override('deleteOneBase')
+	public async deleteOne(
+		@ParsedRequest() req: CrudRequest,
+	): Promise<UserLikeEntity | void> {
+		return this.base.deleteOneBase(req);
 	}
 }
