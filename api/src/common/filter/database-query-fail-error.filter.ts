@@ -10,6 +10,8 @@ export class DatabaseQueryFailFilter implements ExceptionFilter {
 		const response = ctx.getResponse<Response>();
 		const request = ctx.getRequest<Request>();
 
+		console.log(exception);
+		console.log(exception instanceof DatabaseConstraintFailError);
 		if (exception instanceof DatabaseConstraintFailError) {
 			response.status(400).json({
 				statusCode: 400,
@@ -18,11 +20,12 @@ export class DatabaseQueryFailFilter implements ExceptionFilter {
 			});
 
 			return;
-		} else {
-			response.status(500).json({
-				statusCode: 500,
-				message: exception.message,
-			});
 		}
+
+		response.status(500).json({
+			statusCode: 500,
+			message: 'unhandled error',
+			error: 'Internal Server Error',
+		});
 	}
 }

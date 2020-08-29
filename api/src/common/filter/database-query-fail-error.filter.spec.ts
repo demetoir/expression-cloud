@@ -2,16 +2,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Controller, Get, INestApplication, UseFilters } from '@nestjs/common';
 import { DatabaseQueryFailFilter } from './database-query-fail-error.filter';
-import { QueryFailedError } from 'typeorm/index';
 import * as request from 'supertest';
 import { AuthenticationError } from '../../auth/auth/error';
+import { DatabaseConstraintFailError } from '../error/database-constraint-fail.error';
+import { DBQueryFailError } from '../error/DB-query-fail.error';
 
 @UseFilters(new DatabaseQueryFailFilter())
 @Controller('/dummy')
 class DummyController {
-	@Get('/raiseTargetError')
-	raiseTargetError() {
-		throw new QueryFailedError('query', ['shit'], TypeError());
+	@Get('/raiseDatabaseConstraintFailError')
+	raiseDatabaseConstraintFailError() {
+		throw new DatabaseConstraintFailError(new Error());
+	}
+
+	@Get('/raiseDBQueryFailError')
+	raiseDatabaseQueryFailFilter() {
+		throw new DBQueryFailError(new Error());
 	}
 
 	@Get('/raiseNonTargetError')
@@ -43,18 +49,33 @@ describe('unit test typeorm query fail error filter', () => {
 		expect(new DatabaseQueryFailFilter()).toBeDefined();
 	});
 
-	it('should filter QueryFailedError', async () => {
+	it('should filter DatabaseConstraintFailError', async () => {
 		await request(app.getHttpServer())
-			.get('/dummy/raiseTargetError')
+			.get('/dummy/raiseDatabaseConstraintFailError')
 			.expect(400)
 			.expect((res) => {
 				const { body } = res;
 				expect(body.statusCode).toBeDefined();
 				expect(body.statusCode).toBe(400);
-				expect(body.path).toBeDefined();
-				expect(body.path).toBe('/dummy/raiseTargetError');
 				expect(body.message).toBeDefined();
-				expect(body.message).toBe('TypeError');
+				expect(body.message).toBe('database constraint fail error');
+				expect(body.error).toBeDefined();
+				expect(body.error).toBe('Bad Request');
+			});
+	});
+
+	it('should filter DBQueryFailError', async () => {
+		await request(app.getHttpServer())
+			.get('/dummy/raiseDBQueryFailError')
+			.expect(500)
+			.expect((res) => {
+				const { body } = res;
+				expect(body.statusCode).toBeDefined();
+				expect(body.statusCode).toBe(500);
+				expect(body.message).toBeDefined();
+				expect(body.message).toBe('unhandled error');
+				expect(body.error).toBeDefined();
+				expect(body.error).toBe('Internal Server Error');
 			});
 	});
 
