@@ -3,7 +3,6 @@ import { INestApplication } from '@nestjs/common';
 import { GlobalTypeOrmModule } from '../../../src/database/GlobalTypeOrm.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { expectShouldBeImplementTest } from '../../lib/helper/jestHelper';
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
 import { UserLikeModule } from '../../../src/user/user-like/user-like.module';
 import * as request from 'supertest';
@@ -11,9 +10,9 @@ import { UserFactory } from '../user/user.factory';
 import { Connection, EntityManager } from 'typeorm/index';
 import { entityToResponse } from '../../util';
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
-
 import * as _ from 'lodash';
 import { MAX_LIMIT } from '../../../src/user/user-like/user-like.controller';
+import { UserEntity } from '../../../src/user/user/user.entity';
 
 describe('UserLikeModule (e2e)', () => {
 	let app: INestApplication;
@@ -23,7 +22,7 @@ describe('UserLikeModule (e2e)', () => {
 
 	async function prepareDb(n = 10) {
 		const users = [];
-		for await (const i of _.range(n)) {
+		for await (const _i of _.range(n)) {
 			const user = UserFactory.build();
 			const stored = await manager.save(user);
 			users.push(stored);
@@ -42,7 +41,11 @@ describe('UserLikeModule (e2e)', () => {
 
 		const likes = await repository.find();
 
-		return { users, likes };
+		const storedUsers = await connection.getRepository(UserEntity).find();
+		return {
+			users: storedUsers,
+			likes,
+		};
 	}
 
 	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll을 넣는
@@ -70,27 +73,10 @@ describe('UserLikeModule (e2e)', () => {
 	});
 
 	describe('/v1/user-likes (GET)', () => {
-		it('return empty, if not exist', function () {
-			const expectBody = [];
-			return request(app.getHttpServer())
-				.get('/v1/user-likes')
-				.expect(200)
-				.expect(expectBody);
-		});
-
 		it('return many resource', async function () {
-			const user1 = UserFactory.build();
-			const user2 = UserFactory.build();
+			const { likes } = await prepareDb(1);
 
-			await manager.save(user1);
-			await manager.save(user2);
-
-			const like = new UserLikeEntity();
-			like.fromUserId = user1.id;
-			like.toUserId = user2.id;
-			await manager.save(like);
-
-			const expectBody = [entityToResponse(like)];
+			const expectBody = entityToResponse(likes).slice(0, MAX_LIMIT);
 			await request(app.getHttpServer())
 				.get('/v1/user-likes')
 				.expect(200)
@@ -98,7 +84,7 @@ describe('UserLikeModule (e2e)', () => {
 		});
 
 		it('return many but limit', async function () {
-			const { users, likes } = await prepareDb(10);
+			const { likes } = await prepareDb(1);
 
 			const expectBody = likes
 				.slice(0, 4)
@@ -112,7 +98,7 @@ describe('UserLikeModule (e2e)', () => {
 		});
 
 		it('should get many but max limit', async function () {
-			const { users, likes } = await prepareDb(10);
+			const { likes } = await prepareDb(10);
 
 			const expectMaxLimit = MAX_LIMIT;
 			const limitOverMaxLimit = 50;
@@ -128,31 +114,27 @@ describe('UserLikeModule (e2e)', () => {
 		});
 
 		it('should get many with offset and limit', async function () {
-			const { users, likes } = await prepareDb(10);
+			const { likes } = await prepareDb(10);
 
 			const expectMaxLimit = MAX_LIMIT;
 			const limitOverMaxLimit = 50;
 			const offset = 20;
 
-			const expectBody = {
-				data: likes
-					.slice(offset, offset + expectMaxLimit)
-					.map((x) => entityToResponse(x)),
-				page: 2,
-				pageCount: 16,
-				total: 301,
-				count: 20,
-			};
+			const expectBodyData = likes
+				.slice(offset, offset + expectMaxLimit)
+				.map((x) => entityToResponse(x));
 
 			await request(app.getHttpServer())
 				.get('/v1/user-likes')
 				.query({ limit: limitOverMaxLimit, offset: offset })
 				.expect(200)
-				.expect(expectBody);
+				.expect((res) => {
+					expect(res.body.data).toEqual(expectBodyData);
+				});
 		});
 
 		it('return get many with query string [toUserId, fromUserId]', async function () {
-			const { users, likes } = await prepareDb(10);
+			const { likes } = await prepareDb(10);
 
 			const like = likes[0];
 			const queryString = RequestQueryBuilder.create({
@@ -285,7 +267,7 @@ describe('UserLikeModule (e2e)', () => {
 
 				const reqBody = {
 					fromUserId: 'toUser.id',
-					toUserId: fromUser.id,
+					toUserId: toUser.id,
 				};
 
 				await request(app.getHttpServer())
@@ -311,7 +293,7 @@ describe('UserLikeModule (e2e)', () => {
 
 				const reqBody = {
 					fromUserId: [],
-					toUserId: fromUser.id,
+					toUserId: toUser.id,
 				};
 
 				await request(app.getHttpServer())
@@ -337,7 +319,7 @@ describe('UserLikeModule (e2e)', () => {
 
 				const reqBody = {
 					fromUserId: {},
-					toUserId: fromUser.id,
+					toUserId: toUser.id,
 				};
 
 				await request(app.getHttpServer())
@@ -363,7 +345,7 @@ describe('UserLikeModule (e2e)', () => {
 
 				const reqBody = {
 					fromUserId: false,
-					toUserId: fromUser.id,
+					toUserId: toUser.id,
 				};
 
 				await request(app.getHttpServer())
@@ -389,7 +371,7 @@ describe('UserLikeModule (e2e)', () => {
 
 				const reqBody = {
 					fromUserId: null,
-					toUserId: fromUser.id,
+					toUserId: toUser.id,
 				};
 
 				await request(app.getHttpServer())
@@ -415,7 +397,7 @@ describe('UserLikeModule (e2e)', () => {
 
 				const reqBody = {
 					fromUserId: -34,
-					toUserId: fromUser.id,
+					toUserId: toUser.id,
 				};
 
 				await request(app.getHttpServer())
@@ -428,16 +410,219 @@ describe('UserLikeModule (e2e)', () => {
 						error: 'Bad Request',
 					});
 			});
+
+			it('should not be undefined', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: undefined,
+					toUserId: toUser.id,
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'fromUserId must be a positive number',
+							'fromUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
 		});
 
-		it('error if invalid body.fromUserId', async function () {
-			expectShouldBeImplementTest();
+		describe('error if toUserId is invalid', function () {
+			it('should not be string', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: 'userId',
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'toUserId must be a positive number',
+							'toUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be array', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: [],
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'toUserId must be a positive number',
+							'toUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be object', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: {},
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'toUserId must be a positive number',
+							'toUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be boolean', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: false,
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'toUserId must be a positive number',
+							'toUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be null', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: null,
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'toUserId must be a positive number',
+							'toUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be negative number', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: -4,
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: ['toUserId must be a positive number'],
+						error: 'Bad Request',
+					});
+			});
+
+			it('should not be undefined', async function () {
+				const toUser = UserFactory.build();
+				await manager.save(toUser);
+
+				const fromUser = UserFactory.build();
+				await manager.save(fromUser);
+
+				const reqBody = {
+					fromUserId: fromUser.id,
+					toUserId: undefined,
+				};
+
+				await request(app.getHttpServer())
+					.post('/v1/user-likes')
+					.send(reqBody)
+					.expect(400)
+					.expect({
+						statusCode: 400,
+						message: [
+							'toUserId must be a positive number',
+							'toUserId must be a number conforming to the specified constraints',
+						],
+						error: 'Bad Request',
+					});
+			});
 		});
 	});
 
 	describe('/v1/user-likes (DELETE)', () => {
 		it('should delete one by query parameter', async function () {
-			const { users, likes } = await prepareDb(1);
+			const { likes } = await prepareDb(1);
 
 			const like = likes[0];
 			const queryString = RequestQueryBuilder.create({
@@ -454,7 +639,7 @@ describe('UserLikeModule (e2e)', () => {
 		});
 
 		it('404 if not exist resource', async function () {
-			const { users, likes } = await prepareDb(1);
+			const { likes } = await prepareDb(1);
 
 			const like = likes[0];
 			await manager.softRemove(like);
