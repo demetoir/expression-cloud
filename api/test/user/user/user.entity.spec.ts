@@ -21,7 +21,7 @@ describe('user entity', () => {
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection({ ...ormConfig, logging: true });
+		connection = await createConnection({ ...ormConfig });
 		userRepository = connection.getRepository(UserEntity);
 	});
 
