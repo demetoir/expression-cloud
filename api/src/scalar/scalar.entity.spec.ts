@@ -24,12 +24,12 @@ describe('value entity', () => {
 	});
 
 	it('should create new entity', async function () {
-		const value = new ScalarEntity();
-		value.index = 0;
-		value.value = 1;
-		await connection.manager.save(value);
+		const scalar = new ScalarEntity();
+		scalar.index = 0;
+		scalar.value = 1;
+		await connection.manager.save(scalar);
 
-		const newValue = await valueRepository.findOne({ id: value.id });
+		const newValue = await valueRepository.findOne({ id: scalar.id });
 
 		assert.isNotNull(newValue);
 	});
