@@ -1,5 +1,5 @@
 const { createConnection } = require('typeorm');
-const { ormConfig } = require('../src/common/model/configLoader');
+const { ormConfig } = require('./src/common/model/configLoader');
 const _ = require('lodash');
 
 function sleep(ms) {
@@ -39,5 +39,7 @@ module.exports = async () => {
 
 	console.log('end sync db by typeorm ');
 
-	global.connection = connection;
+	global.connection = 'a';
+
+	console.log('end global setup');
 };

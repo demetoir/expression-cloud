@@ -1,6 +1,6 @@
 module.exports = {
-	globalSetup: './test/jest.setup.js',
-	globalTeardown: './test/jest.teardown.js',
+	globalSetup: './jest.setup.js',
+	globalTeardown: './jest.teardown.js',
 	transform: {
 		'^.+\\.tsx?$': 'ts-jest',
 	},
