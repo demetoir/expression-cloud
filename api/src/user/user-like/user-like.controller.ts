@@ -17,9 +17,7 @@ import {
 	ParsedRequest,
 } from '@nestjsx/crud';
 import { DatabaseQueryFailFilter } from '../../common/filter/database-query-fail-error.filter';
-import { DTOTransformPipe } from '../../common/pipe/dtoTransform.pipe';
-import { QueryFailedError } from 'typeorm/index';
-import { DatabaseConstraintFailError } from '../../common/error/database-constraint-fail.error';
+import { plainToClass } from 'class-transformer';
 
 export const MAX_LIMIT = 20;
 
@@ -69,20 +67,11 @@ export class UserLikeController implements CrudController<UserLikeEntity> {
 	@Override('createOneBase')
 	public async createOne(
 		@ParsedRequest() req: CrudRequest,
-		@Body(new DTOTransformPipe(UserLikeCreateDto)) dto: UserLikeCreateDto,
-	) {
-		try {
-			return await this.base.createOneBase(req, dto.toEntity());
-		} catch (e) {
-			if (e instanceof QueryFailedError) {
-				// @ts-ignore
-				if (e.code === 'ER_NO_REFERENCED_ROW_2') {
-					throw new DatabaseConstraintFailError(e);
-				}
-			}
+		@Body() dto: UserLikeCreateDto,
+	): Promise<UserLikeEntity> {
+		const entity: UserLikeEntity = plainToClass(UserLikeEntity, dto);
 
-			throw e;
-		}
+		return await this.base.createOneBase(req, entity);
 	}
 
 	@Override('deleteOneBase')
