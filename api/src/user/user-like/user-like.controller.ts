@@ -18,6 +18,9 @@ import {
 } from '@nestjsx/crud';
 import { DatabaseQueryFailFilter } from '../../common/filter/database-query-fail-error.filter';
 import { plainToClass } from 'class-transformer';
+import { QueryFailedError } from 'typeorm/index';
+import { MysqlErrorCodes } from 'mysql-error-codes';
+import { DatabaseConstraintFailError } from '../../common/error/database-constraint-fail.error';
 
 export const MAX_LIMIT = 20;
 
@@ -71,7 +74,21 @@ export class UserLikeController implements CrudController<UserLikeEntity> {
 	): Promise<UserLikeEntity> {
 		const entity: UserLikeEntity = plainToClass(UserLikeEntity, dto);
 
-		return await this.base.createOneBase(req, entity);
+		try {
+			return await this.base.createOneBase(req, entity);
+		} catch (e) {
+			if (e instanceof QueryFailedError) {
+				const errno = e['errno'];
+
+				// todo: 여기 에러 핸들링 부분 아키텍쳐좀 개선하기
+				// case of constraint error
+				if (errno === MysqlErrorCodes.ER_NO_REFERENCED_ROW_2) {
+					throw new DatabaseConstraintFailError(e);
+				}
+			}
+
+			throw e;
+		}
 	}
 
 	@Override('deleteOneBase')
