@@ -8260,6 +8260,11 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
+mysql-error-codes@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/mysql-error-codes/-/mysql-error-codes-0.1.2.tgz#eda08207c60f758cc9b4c7b01f83f7b4fa0ccf46"
+  integrity sha512-PyfZvEue7Fk6JkhsJT6NWvkMeXmyU1gmO2E4PcfGNxiUQcraPaZ7Usq+ZGwyEGiwq7uGQT9ORf351losk8RyUg==
+
 mysql@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/mysql/-/mysql-2.18.1.tgz#2254143855c5a8c73825e4522baf2ea021766717"
