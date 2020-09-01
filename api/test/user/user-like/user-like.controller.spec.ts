@@ -128,7 +128,6 @@ describe('UserLike Controller', () => {
 		it('should call this.base.deleteOne', async function () {
 			// given
 			const req = CRUDRequestMockBuilder.build();
-			const entity = new UserLikeEntity();
 
 			const stored = new UserLikeEntity();
 
@@ -143,6 +142,26 @@ describe('UserLike Controller', () => {
 			expect(result).toEqual(stored);
 			expect(service.deleteOne.mock.calls.length).toBe(1);
 			expect(service.deleteOne.mock.calls[0]).toEqual([req]);
+		});
+
+		it('raise error, if any other error raise', async function () {
+			// given
+			const req = CRUDRequestMockBuilder.build();
+			service.deleteOne.mockImplementation(() => {
+				throw new AnyOtherError();
+			});
+
+			try {
+				// when
+				await controller.deleteOne(req);
+
+				expectShouldNotCallThis();
+			} catch (e) {
+				// than
+				expect(e).toBeInstanceOf(AnyOtherError);
+				expect(service.deleteOne.mock.calls.length).toBe(1);
+				expect(service.deleteOne.mock.calls[0]).toEqual([req]);
+			}
 		});
 	});
 });
