@@ -27,7 +27,6 @@ export class AppController {
 
 	constructor(private readonly appService: AppService) {
 		this.logger = logger;
-		this.logger.info('create');
 	}
 
 	@Get('/hello')
