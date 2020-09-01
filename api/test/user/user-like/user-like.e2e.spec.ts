@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { GlobalTypeOrmModule } from '../../../src/database/GlobalTypeOrm.module';
+import { GlobalTypeormModule } from '../../../src/database/global-typeorm/global-typeorm.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
@@ -53,7 +53,7 @@ describe('UserLikeModule (e2e)', () => {
 	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll 을 넣는
 	beforeAll(async () => {
 		const moduleFixture: TestingModule = await Test.createTestingModule({
-			imports: [UserLikeModule, GlobalTypeOrmModule],
+			imports: [UserLikeModule, GlobalTypeormModule],
 		}).compile();
 
 		app = moduleFixture.createNestApplication();

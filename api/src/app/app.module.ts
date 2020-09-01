@@ -11,14 +11,14 @@ import { TagModule } from '../tag/tag.module';
 import { TeamModule } from '../team/team.module';
 import { VectorModule } from '../vector/vector.module';
 import { ImageModule } from '../image/image.module';
-import { GlobalTypeOrmModule } from '../database/GlobalTypeOrm.module';
+import { GlobalTypeormModule } from '../database/global-typeorm/global-typeorm.module';
 import { GlobalConfigModule } from '../config/globalConfig.module';
 import { UserModule } from '../user/user/user.module';
 import { UserLikeModule } from '../user/user-like/user-like.module';
 
 @Module({
 	imports: [
-		GlobalTypeOrmModule,
+		GlobalTypeormModule,
 		GlobalConfigModule,
 		UserModule,
 		UserLikeModule,
