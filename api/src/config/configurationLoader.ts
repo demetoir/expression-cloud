@@ -34,6 +34,10 @@ const env = loadDotEnv({
 	testPath: DEFAULT_TEST_DOT_ENV_PATH,
 });
 
+function parseBoolean(val) {
+	return !!JSON.parse(String(val).toLowerCase());
+}
+
 export const configurationLoader = (): any => ({
 	// node
 	NODE_PORT: parseInt(env.NODE_PORT, 10),
@@ -49,12 +53,12 @@ export const configurationLoader = (): any => ({
 	// typeorm
 	TYPEORM_TYPE: env.TYPEORM_TYPE,
 	TYPEORM_HOST: env.TYPEORM_HOST,
-	TYPEORM_PORT: env.TYPEORM_PORT,
+	TYPEORM_PORT: parseInt(env.TYPEORM_PORT, 10),
 	TYPEORM_USERNAME: env.TYPEORM_USERNAME,
 	TYPEORM_PASSWORD: env.TYPEORM_PASSWORD,
 	TYPEORM_DATABASE: env.TYPEORM_DATABASE,
-	TYPEORM_SYNCHRONIZE: env.TYPEORM_SYNCHRONIZE,
-	TYPEORM_LOGGING: env.TYPEORM_LOGGING,
+	TYPEORM_SYNCHRONIZE: parseBoolean(env.TYPEORM_SYNCHRONIZE),
+	TYPEORM_LOGGING: parseBoolean(env.TYPEORM_LOGGING),
 
 	// redis
 	REDIS_HOST: env.REDIS_HOST,
