@@ -19,6 +19,8 @@ describe('UserLikeModule (e2e)', () => {
 	let repository: Repository<UserLikeEntity>;
 	let connection: Connection;
 	let manager: EntityManager;
+	let fromUser: UserEntity;
+	let toUser: UserEntity;
 
 	async function prepareDb(n = 10) {
 		const users = [];
@@ -48,7 +50,7 @@ describe('UserLikeModule (e2e)', () => {
 		};
 	}
 
-	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll을 넣는
+	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll 을 넣는
 	beforeAll(async () => {
 		const moduleFixture: TestingModule = await Test.createTestingModule({
 			imports: [UserLikeModule, GlobalTypeOrmModule],
@@ -64,6 +66,15 @@ describe('UserLikeModule (e2e)', () => {
 
 	afterAll(async () => {
 		await app.close();
+	});
+
+	beforeEach(async () => {
+		// prepare fixture
+		fromUser = UserFactory.build();
+		await manager.save(fromUser);
+
+		toUser = UserFactory.build();
+		await manager.save(toUser);
 	});
 
 	it('should be init', function () {
@@ -156,15 +167,9 @@ describe('UserLikeModule (e2e)', () => {
 
 	describe('/v1/user-likes (POST)', () => {
 		it('create new resource and return', async function () {
-			const user1 = UserFactory.build();
-			await manager.save(user1);
-
-			const user2 = UserFactory.build();
-			await manager.save(user2);
-
 			const reqBody = {
-				fromUserId: user1.id,
-				toUserId: user2.id,
+				fromUserId: fromUser.id,
+				toUserId: toUser.id,
 			};
 
 			await request(app.getHttpServer())
@@ -175,26 +180,20 @@ describe('UserLikeModule (e2e)', () => {
 					const { body } = res;
 
 					expect(body.fromUserId).toBeDefined();
-					expect(body.fromUserId).toBe(user1.id);
+					expect(body.fromUserId).toBe(fromUser.id);
 					expect(body.toUserId).toBeDefined();
-					expect(body.toUserId).toBe(user2.id);
+					expect(body.toUserId).toBe(toUser.id);
 				});
 		});
 
 		it('error if not exist fromUserId, toUserId in DB', async function () {
-			const user1 = UserFactory.build();
-			await manager.save(user1);
-
-			const user2 = UserFactory.build();
-			await manager.save(user2);
-
 			const reqBody = {
-				fromUserId: user1.id,
-				toUserId: user2.id,
+				fromUserId: fromUser.id,
+				toUserId: toUser.id,
 			};
 
-			await manager.remove(user1);
-			await manager.remove(user2);
+			await manager.remove(fromUser);
+			await manager.remove(toUser);
 
 			await request(app.getHttpServer())
 				.post('/v1/user-likes')
@@ -208,12 +207,6 @@ describe('UserLikeModule (e2e)', () => {
 		});
 
 		it('error if not exist fromUserId in DB', async function () {
-			const fromUser = UserFactory.build();
-			await manager.save(fromUser);
-
-			const toUser = UserFactory.build();
-			await manager.save(toUser);
-
 			const reqBody = {
 				fromUserId: fromUser.id,
 				toUserId: toUser.id,
@@ -233,12 +226,6 @@ describe('UserLikeModule (e2e)', () => {
 		});
 
 		it('error if not exist toUserId in DB', async function () {
-			const toUser = UserFactory.build();
-			await manager.save(toUser);
-
-			const fromUser = UserFactory.build();
-			await manager.save(fromUser);
-
 			const reqBody = {
 				fromUserId: toUser.id,
 				toUserId: fromUser.id,
@@ -259,12 +246,6 @@ describe('UserLikeModule (e2e)', () => {
 
 		describe('error if fromUserId is invalid', function () {
 			it('should not be string', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: 'toUser.id',
 					toUserId: toUser.id,
@@ -285,12 +266,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be array', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: [],
 					toUserId: toUser.id,
@@ -311,12 +286,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be object', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: {},
 					toUserId: toUser.id,
@@ -337,12 +306,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be boolean', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: false,
 					toUserId: toUser.id,
@@ -363,12 +326,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be null', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: null,
 					toUserId: toUser.id,
@@ -389,12 +346,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be negative number', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: -34,
 					toUserId: toUser.id,
@@ -412,12 +363,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be undefined', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: undefined,
 					toUserId: toUser.id,
@@ -440,12 +385,6 @@ describe('UserLikeModule (e2e)', () => {
 
 		describe('error if toUserId is invalid', function () {
 			it('should not be string', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: 'userId',
@@ -466,12 +405,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be array', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: [],
@@ -492,12 +425,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be object', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: {},
@@ -518,12 +445,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be boolean', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: false,
@@ -544,12 +465,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be null', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: null,
@@ -570,12 +485,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be negative number', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: -4,
@@ -593,12 +502,6 @@ describe('UserLikeModule (e2e)', () => {
 			});
 
 			it('should not be undefined', async function () {
-				const toUser = UserFactory.build();
-				await manager.save(toUser);
-
-				const fromUser = UserFactory.build();
-				await manager.save(fromUser);
-
 				const reqBody = {
 					fromUserId: fromUser.id,
 					toUserId: undefined,
