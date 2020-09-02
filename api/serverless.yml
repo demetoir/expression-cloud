@@ -49,9 +49,11 @@ provider:
 #    variable1: value1
 
 package:
-    excludeDevDependencies: false
-    exclude:
-        - node_modules/** # no need to add this yourself, this plugin does it for you
+  excludeDevDependencies: false
+  exclude:
+    - node_modules/** # no need to add this yourself, this plugin does it for you
+    - docker/**
+    - coverage/**
 
 plugins:
     - serverless-offline
