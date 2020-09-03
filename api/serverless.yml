@@ -49,26 +49,36 @@ provider:
 #    variable1: value1
 
 package:
-  excludeDevDependencies: false
-  exclude:
-    - node_modules/** # no need to add this yourself, this plugin does it for you
-    - docker/**
-    - coverage/**
+    excludeDevDependencies: false
+    exclude:
+        - node_modules/** # no need to add this yourself, this plugin does it for you
+        - docker/**
+        - coverage/**
 
 plugins:
     - serverless-offline
+    - serverless-dotenv-plugin
+    - serverless-plugin-include-dependencies
 
 custom:
+    lugins:
+        - serverless-layers
     serverless-offline:
         #    httpsProtocol: "dev-certs"
         httpPort: 3000
-#    stageVariables:
-#      foo: "bar"
 
-#custom:
-#  includeDependencies:
-#    always:
-#      - 'src/lib/**' # (optional) always include these globs and their dependencies
+    serverless-dotenv-plugin:
+        path: /env/api.env
+
+    serverless-layers:
+        dependenciesPath: ./package.json
+    #    stageVariables:
+    #      foo: "bar"
+
+    #custom:
+    includeDependencies:
+        always:
+            - 'src/lib/**' # (optional) always include these globs and their dependencies
 
 functions:
     main:
