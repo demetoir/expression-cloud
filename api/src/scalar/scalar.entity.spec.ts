@@ -48,9 +48,7 @@ describe('value entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'index' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'index' cannot be null`);
 			}
 		});
 
@@ -67,9 +65,7 @@ describe('value entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'value' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'value' cannot be null`);
 			}
 		});
 

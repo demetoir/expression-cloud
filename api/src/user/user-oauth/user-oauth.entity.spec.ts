@@ -49,9 +49,7 @@ describe('user oauth entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'type' cannot be null",
-				);
+				expect(e.message).toBe("Column 'type' cannot be null");
 			}
 		});
 
@@ -68,9 +66,7 @@ describe('user oauth entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'auth_id' cannot be null",
-				);
+				expect(e.message).toBe("Column 'auth_id' cannot be null");
 			}
 		});
 	});

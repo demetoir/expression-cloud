@@ -47,7 +47,7 @@ describe('team entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e.message).toBe(
-					"ER_NO_DEFAULT_FOR_FIELD: Field 'name' doesn't have a default value",
+					"Field 'name' doesn't have a default value",
 				);
 			}
 		});
@@ -64,7 +64,7 @@ describe('team entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e.message).toBe(
-					"ER_NO_DEFAULT_FOR_FIELD: Field 'description' doesn't have a default value",
+					"Field 'description' doesn't have a default value",
 				);
 			}
 		});

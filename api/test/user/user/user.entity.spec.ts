@@ -59,7 +59,7 @@ describe('user entity', () => {
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
 				expect(e.message).toBe(
-					`ER_NO_DEFAULT_FOR_FIELD: Field 'name' doesn't have a default value`,
+					`Field 'name' doesn't have a default value`,
 				);
 			}
 		});
@@ -86,9 +86,7 @@ describe('user entity', () => {
 				assert(false, 'should not call this');
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'forked_count' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'forked_count' cannot be null`);
 			}
 		});
 
@@ -119,9 +117,7 @@ describe('user entity', () => {
 				assert(false, 'should not call this');
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'liked_count' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'liked_count' cannot be null`);
 			}
 		});
 
@@ -156,9 +152,7 @@ describe('user entity', () => {
 				assert(false, 'should not call this');
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'is_anonymous' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'is_anonymous' cannot be null`);
 			}
 		});
 

@@ -49,9 +49,7 @@ describe('ExpressionSetting entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'is_public' cannot be null",
-				);
+				expect(e.message).toBe("Column 'is_public' cannot be null");
 			}
 		});
 
@@ -64,9 +62,7 @@ describe('ExpressionSetting entity', () => {
 				await connection.manager.save(setting);
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'is_locked' cannot be null",
-				);
+				expect(e.message).toBe("Column 'is_locked' cannot be null");
 			}
 		});
 	});

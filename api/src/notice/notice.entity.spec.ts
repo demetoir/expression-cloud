@@ -52,9 +52,7 @@ describe('notice entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'content' cannot be null",
-				);
+				expect(e.message).toBe("Column 'content' cannot be null");
 			}
 		});
 
@@ -72,9 +70,7 @@ describe('notice entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'is_read' cannot be null",
-				);
+				expect(e.message).toBe("Column 'is_read' cannot be null");
 			}
 		});
 

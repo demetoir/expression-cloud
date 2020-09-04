@@ -45,7 +45,7 @@ describe('tag entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e.message).toBe(
-					"ER_NO_DEFAULT_FOR_FIELD: Field 'name' doesn't have a default value",
+					"Field 'name' doesn't have a default value",
 				);
 			}
 		});

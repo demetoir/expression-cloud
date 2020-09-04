@@ -88,9 +88,7 @@ describe('role entity', () => {
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
 
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'name' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'name' cannot be null`);
 			}
 		});
 	});

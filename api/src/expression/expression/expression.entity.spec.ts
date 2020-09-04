@@ -53,9 +53,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'description' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'description' cannot be null`);
 			}
 		});
 
@@ -69,9 +67,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'name' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'name' cannot be null`);
 			}
 		});
 
@@ -85,9 +81,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'type' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'type' cannot be null`);
 			}
 		});
 
@@ -101,9 +95,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'content' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'content' cannot be null`);
 			}
 		});
 
@@ -117,9 +109,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'like_count' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'like_count' cannot be null`);
 			}
 		});
 
@@ -133,9 +123,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'is_forked' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'is_forked' cannot be null`);
 			}
 		});
 
@@ -149,9 +137,7 @@ describe('expression entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(
-					`ER_BAD_NULL_ERROR: Column 'fork_count' cannot be null`,
-				);
+				expect(e.message).toBe(`Column 'fork_count' cannot be null`);
 			}
 		});
 

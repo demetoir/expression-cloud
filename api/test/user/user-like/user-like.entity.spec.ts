@@ -198,9 +198,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'from_user_id' cannot be null",
-				);
+				expect(e.message).toBe("Column 'from_user_id' cannot be null");
 			}
 		});
 
@@ -217,9 +215,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'to_user_id' cannot be null",
-				);
+				expect(e.message).toBe("Column 'to_user_id' cannot be null");
 			}
 		});
 	});

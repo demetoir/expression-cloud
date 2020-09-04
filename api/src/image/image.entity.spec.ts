@@ -46,9 +46,7 @@ describe('image entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'url' cannot be null",
-				);
+				expect(e.message).toBe("Column 'url' cannot be null");
 			}
 		});
 
@@ -61,9 +59,7 @@ describe('image entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'extension' cannot be null",
-				);
+				expect(e.message).toBe("Column 'extension' cannot be null");
 			}
 		});
 
@@ -76,9 +72,7 @@ describe('image entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'file_name' cannot be null",
-				);
+				expect(e.message).toBe("Column 'file_name' cannot be null");
 			}
 		});
 
@@ -91,9 +85,7 @@ describe('image entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'path' cannot be null",
-				);
+				expect(e.message).toBe("Column 'path' cannot be null");
 			}
 		});
 
@@ -116,9 +108,7 @@ describe('image entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe(
-					"ER_BAD_NULL_ERROR: Column 'type' cannot be null",
-				);
+				expect(e.message).toBe("Column 'type' cannot be null");
 			}
 		});
 	});
