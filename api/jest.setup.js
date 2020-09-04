@@ -9,6 +9,7 @@ function sleep(ms) {
 module.exports = async () => {
 	let connection;
 	const MAX_RETRY = 5;
+	const SLEEP_TIME = 5000;
 
 	for await (let i of _.range(0, MAX_RETRY)) {
 		try {
@@ -22,8 +23,8 @@ module.exports = async () => {
 			console.log(`can not connect to db retry ${i}`);
 		}
 
-		console.log(`sleep wait for db ${2000}ms`);
-		await sleep(2000);
+		console.log(`sleep wait for db ${SLEEP_TIME}ms`);
+		await sleep(SLEEP_TIME);
 	}
 
 	if (!connection) {
