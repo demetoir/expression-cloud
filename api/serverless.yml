@@ -23,6 +23,8 @@ org: demetoir
 provider:
     name: aws
     runtime: nodejs12.x
+    environment:
+        NODE_PATH: './:/opt/node_modules'
 
 # you can overwrite defaults here
 #  stage: dev
@@ -54,31 +56,32 @@ package:
         - node_modules/** # no need to add this yourself, this plugin does it for you
         - docker/**
         - coverage/**
+        - lib/**
+        - scripts/**
+        - test/**
+        - src/**
+        - nginx/**
+        - .layer/**
 
 plugins:
     - serverless-offline
     - serverless-dotenv-plugin
-    - serverless-plugin-include-dependencies
+
+layers:
+    nodeModuleLayer:
+        path: .layer
+        description: 'additional node_module'
+        package:
+            include:
+                - node_modules/**
 
 custom:
-    lugins:
-        - serverless-layers
     serverless-offline:
         #    httpsProtocol: "dev-certs"
         httpPort: 3000
 
     serverless-dotenv-plugin:
         path: /env/api.env
-
-    serverless-layers:
-        dependenciesPath: ./package.json
-    #    stageVariables:
-    #      foo: "bar"
-
-    #custom:
-    includeDependencies:
-        always:
-            - 'src/lib/**' # (optional) always include these globs and their dependencies
 
 functions:
     main:
@@ -87,6 +90,8 @@ functions:
             - http:
                   method: any
                   path: /{any+}
+        layers:
+            - { Ref: NodeModuleLayerLambdaLayer }
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
