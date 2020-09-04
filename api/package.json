@@ -31,7 +31,7 @@
 		"docker:api:up": "sh ./script/docker-api-up.sh",
 		"docker:api:down": "sh ./script/docker-api-down.sh",
 		"serverless:offline": "sls offline",
-		"serverless:deploy": "sls deploy"
+		"serverless:deploy": "sh ./script/deploy-serverless.sh"
 	},
 	"dependencies": {
 		"@nestjs/common": "^7.0.0",
