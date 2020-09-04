@@ -3,6 +3,7 @@
 
 # serverless
 .serverless
+.layer
 
 # compiled output
 /dist
