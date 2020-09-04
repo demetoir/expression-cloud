@@ -1,6 +1,6 @@
 import { TokenParser } from './tokenPraser';
 import { TokenPainter } from './tokenPainter';
-import { FormatBuilder } from './FormatBuilder.js';
+import { FormatBuilder } from './FormatBuilder';
 import { createRotateLogStream } from './createRotateLogStream';
 
 import * as morgan from 'morgan';
