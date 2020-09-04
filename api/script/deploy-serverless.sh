@@ -3,7 +3,7 @@ pwd
 rm -rf .layer
 mkdir .layer
 
-cp ./package.json ./layer/package.json
+cp ./package.json ./.layer/package.json
 
 cd ./.layer
 npm install --production
