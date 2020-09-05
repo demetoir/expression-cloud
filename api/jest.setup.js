@@ -8,7 +8,7 @@ function sleep(ms) {
 
 module.exports = async () => {
 	let connection;
-	const MAX_RETRY = 5;
+	const MAX_RETRY = 10;
 	const SLEEP_TIME = 5000;
 
 	// wait for mysql docker container ready
