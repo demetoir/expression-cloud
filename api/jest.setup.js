@@ -9,16 +9,17 @@ function sleep(ms) {
 module.exports = async () => {
 	let connection;
 	const MAX_RETRY = 5;
-	const SLEEP_TIME = 5000;
+	const SLEEP_TIME = 50000;
 
-	for await (let i of _.range(0, MAX_RETRY)) {
+	// wait for mysql docker container ready
+	await sleep(30000);
+
+	for (let i of _.range(0, MAX_RETRY)) {
 		try {
 			connection = await createConnection({
 				...ormConfig,
 				dropSchema: true,
 			});
-
-			break;
 		} catch (e) {
 			console.log(`can not connect to db retry ${i}`);
 		}
