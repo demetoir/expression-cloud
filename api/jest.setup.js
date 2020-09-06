@@ -1,4 +1,4 @@
-const { createConnection } = require('typeorm');
+const { createConnection, getConnectionManager } = require('typeorm');
 const { ormConfig } = require('./src/common/model/configLoader');
 const _ = require('lodash');
 
@@ -6,31 +6,34 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+const MAX_RETRY = 8;
+const SLEEP_TIME = 100;
+
 module.exports = async () => {
 	let connection;
-	const MAX_RETRY = 10;
-	const SLEEP_TIME = 5000;
+	let sleepTime = SLEEP_TIME;
 
-	// wait for mysql docker container ready
-	await sleep(30000);
-
-	for (let i of _.range(0, MAX_RETRY)) {
+	for await (let i of _.range(0, MAX_RETRY)) {
 		try {
 			connection = await createConnection({
 				...ormConfig,
 				dropSchema: true,
 			});
 		} catch (e) {
-			console.log(`can not connect to db retry ${i}`);
+			if (e.name === 'AlreadyHasActiveConnectionError') {
+				connection = getConnectionManager().get('default');
+				break;
+			}
 		}
 
-		console.log(`sleep wait for db ${SLEEP_TIME}ms`);
-		await sleep(SLEEP_TIME);
+		console.log(`sleep wait for db ${sleepTime}ms`);
+		await sleep(sleepTime);
+		sleepTime *= 2;
 	}
 
 	if (!connection) {
 		throw new Error(
-			'can not connection to db, even if retry for MAX_RETRY',
+			'typeorm can not connection to db, even if retry for MAX_RETRY',
 		);
 	}
 
