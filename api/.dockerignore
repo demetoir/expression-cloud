@@ -3,3 +3,7 @@
 /test
 /docker/.volumns
 /coverage
+/.layer
+/.serverless
+/coverage
+/compdoc
