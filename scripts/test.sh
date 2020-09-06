@@ -4,8 +4,10 @@ set -e
 cd ./api
 yarn docker:test-storage:up
 
-yarn test:cov
+echo 'wait 20s for mysql docker container'
+sleep 20
 
+yarn test:cov
 yarn docker:test-storage:down
 cd ..
 
