@@ -3,32 +3,64 @@ import { createConnection } from 'typeorm';
 import { UserSettingEntity } from './user-setting.entity';
 import { ormConfig } from '../../common/model/configLoader';
 import { UserFactory } from '../../../test/user/user/user.factory';
+import { Connection, Repository } from 'typeorm/index';
+import { EntityManager } from 'typeorm/entity-manager/EntityManager';
 
 describe('user-setting entity', () => {
-	let connection;
-	let userSettingRepository;
+	let connection: Connection;
+	let userSettingRepository: Repository<UserSettingEntity>;
+	let manager: EntityManager;
+
 	beforeAll(async () => {
 		connection = await createConnection(ormConfig);
 		userSettingRepository = connection.getRepository(UserSettingEntity);
+		manager = connection.manager;
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(userSettingRepository);
+		expect(connection).toBeDefined();
+		expect(userSettingRepository).toBeDefined();
+		expect(manager).toBeDefined();
 	});
 
 	it('should create new user-setting', async function () {
 		const userSetting = new UserSettingEntity();
-		await connection.manager.save(userSetting);
+		await manager.save(userSetting);
 
 		const newUserSetting = await userSettingRepository.findOne({
 			id: userSetting.id,
 		});
 
 		assert.isNotNull(newUserSetting);
+	});
+
+	describe('properties', () => {
+		it('should have userId', async function () {
+			const user = UserFactory.build();
+			await manager.save(user);
+
+			const userSetting = new UserSettingEntity();
+			userSetting.userId = user.id;
+
+			await manager.save(userSetting);
+
+			const stored = await userSettingRepository.findOne(userSetting.id);
+			expect(stored.userId).toBe(user.id);
+		});
+
+		it('userId should nullable true', async function () {
+			const userSetting = new UserSettingEntity();
+			userSetting.userId = null;
+
+			await manager.save(userSetting);
+
+			const stored = await userSettingRepository.findOne(userSetting.id);
+			expect(stored.userId).toBe(null);
+		});
 	});
 
 	describe('relation', () => {
@@ -50,12 +82,13 @@ describe('user-setting entity', () => {
 			userSetting.user = Promise.resolve(user);
 			await connection.manager.save(userSetting);
 
-			const resultUserSetting = await userSettingRepository.findOne({
+			const stored = await userSettingRepository.findOne({
 				where: { id: userSetting.id },
 				relations: ['user'],
 			});
 
-			assert.equal(resultUserSetting.user.id, user.id);
+			assert.equal(stored.user.id, user.id);
+			expect(stored.userId).toBe(user.id);
 		});
 	});
 });
