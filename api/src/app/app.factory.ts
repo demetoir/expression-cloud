@@ -69,10 +69,6 @@ function initSecurity(app) {
 			max: 100, // limit each IP to 100 requests per windowMs
 		}),
 	);
-
-	// TODO: add html sanitize
-
-	// TODO: add sql injection protector
 }
 
 async function initOpenApiDoc(app) {
