@@ -1,5 +1,5 @@
-const { createConnection, getConnectionManager } = require('typeorm');
-const { ormConfig } = require('./src/common/model/configLoader');
+const { getConnection } = require('./test/resource/typeorm');
+const { getConnectionManager } = require('typeorm');
 const _ = require('lodash');
 
 function sleep(ms) {
@@ -15,10 +15,7 @@ module.exports = async () => {
 
 	for await (let i of _.range(0, MAX_RETRY)) {
 		try {
-			connection = await createConnection({
-				...ormConfig,
-				dropSchema: true,
-			});
+			connection = await getConnection();
 		} catch (e) {
 			if (e.name === 'AlreadyHasActiveConnectionError') {
 				connection = getConnectionManager().get('default');
@@ -38,6 +35,8 @@ module.exports = async () => {
 	}
 
 	console.log('success to connect test db');
+
+	await connection.dropDatabase();
 
 	console.log('start sync db by typeorm');
 	await connection.synchronize();
