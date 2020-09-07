@@ -60,9 +60,6 @@ function initSecurity(app) {
 		}),
 	);
 
-	// TODO 이거 옵션 조정하기
-	// app.use(csurf({cookie: true}));
-
 	app.use(
 		rateLimit({
 			windowMs: 15 * 60 * 1000, // 15 minutes
