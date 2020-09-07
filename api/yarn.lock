@@ -5554,11 +5554,6 @@ expand-tilde@^1.2.2:
   dependencies:
     os-homedir "^1.0.1"
 
-expect-ct@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-1.0.0.tgz#03c9b7f2973c9f422bce1fcd0cc1c15de0298dc1"
-  integrity sha512-DXxS7CswEMM/nunGGVve9x7T0KUkeVjk/jEaVNlpdmk2RbEkKOJAfLUzBGZ5NkF15QktHowln0ZMi6oq+dQPHw==
-
 expect@^26.4.2:
   version "26.4.2"
   resolved "https://registry.yarnpkg.com/expect/-/expect-26.4.2.tgz#36db120928a5a2d7d9736643032de32f24e1b2a1"

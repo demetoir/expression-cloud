@@ -10,8 +10,6 @@ import { documentBuilderSingleton } from '../common/libs/nestjsCRUDToolkit';
 import { SwaggerModule } from '@nestjs/swagger';
 import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
 import { INestApplication } from '@nestjs/common';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const expectCt = require('expect-ct');
 
 export async function appFactory(expressApp: any): Promise<INestApplication> {
 	const app = await NestFactory.create(
@@ -40,24 +38,7 @@ function initSecurity(app) {
 
 	app.set('trust proxy', 1);
 
-	// helmet
 	app.use(helmet());
-	// TODO: set additional helmet setting
-	// app.use(helmet.contentSecurityPolicy({
-	//     directives: {
-	//         defaultSrc: ["'self'"],
-	//         styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com']
-	//     }
-	// }))
-	// app.use(helmet.permittedCrossDomainPolicies())
-	// app.use(helmet.referrerPolicy({policy: 'same-origin'}))
-
-	app.use(
-		expectCt({
-			enforce: true,
-			maxAge: 123,
-		}),
-	);
 
 	app.use(
 		rateLimit({
