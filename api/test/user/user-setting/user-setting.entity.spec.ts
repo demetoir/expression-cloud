@@ -1,9 +1,8 @@
 import { assert } from 'chai';
-import { UserSettingEntity } from './user-setting.entity';
-import { UserFactory } from '../../../test/user/user/user.factory';
-import { Connection, Repository } from 'typeorm/index';
-import { EntityManager } from 'typeorm/entity-manager/EntityManager';
-import { getConnection } from '../../../test/resource/typeorm';
+import { Connection, EntityManager, Repository } from 'typeorm/index';
+import { UserSettingEntity } from '../../../src/user/user-setting/user-setting.entity';
+import { getConnection } from '../../resource/typeorm';
+import { UserFactory } from '../user/user.factory';
 
 describe('user-setting entity', () => {
 	let connection: Connection;
