@@ -2,9 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { CustomMorgan } from '../common/middlewares/loggerMiddlewares';
 import * as helmet from 'helmet';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import * as expectCt from 'expect-ct';
 import * as rateLimit from 'express-rate-limit';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { NodeConfigService } from '../config/NodeConfig.service';
@@ -13,6 +10,8 @@ import { documentBuilderSingleton } from '../common/libs/nestjsCRUDToolkit';
 import { SwaggerModule } from '@nestjs/swagger';
 import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
 import { INestApplication } from '@nestjs/common';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const expectCt = require('expect-ct');
 
 export async function appFactory(expressApp: any): Promise<INestApplication> {
 	const app = await NestFactory.create(
