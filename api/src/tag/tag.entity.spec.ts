@@ -1,22 +1,21 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { TagEntity } from './tag.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
 import { ExpressionFactory } from '../expression/expression/expression.factory';
+import { getConnection } from '../../test/resource/typeorm';
+import { Connection, Repository } from 'typeorm/index';
 
 describe('tag entity', () => {
-	let connection;
-	let tagRepository;
+	let connection: Connection;
+	let tagRepository: Repository<TagEntity>;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
-
+		connection = await getConnection();
 		tagRepository = connection.getRepository(TagEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

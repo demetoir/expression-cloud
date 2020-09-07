@@ -1,17 +1,16 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { ExpressionSettingEntity } from './expression-setting.entity';
-import { ormConfig } from '../../common/model/configLoader';
 import { ExpressionFactory } from '../expression/expression.factory';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
+import { getConnection } from '../../../test/resource/typeorm';
 
 describe('ExpressionSetting entity', () => {
-	let expressionSettingRepository;
-	let connection;
+	let expressionSettingRepository: Repository<ExpressionSettingEntity>;
+	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		expressionSettingRepository = connection.getRepository(
 			ExpressionSettingEntity,
@@ -19,14 +18,14 @@ describe('ExpressionSetting entity', () => {
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', function() {
 		assert.isNotNull(expressionSettingRepository);
 	});
 
-	it('should create new entity', async function () {
+	it('should create new entity', async function() {
 		const setting = new ExpressionSettingEntity();
 		await connection.manager.save(setting);
 
@@ -49,7 +48,7 @@ describe('ExpressionSetting entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe("Column 'is_public' cannot be null");
+				expect(e.message).toBe('Column \'is_public\' cannot be null');
 			}
 		});
 
@@ -62,7 +61,7 @@ describe('ExpressionSetting entity', () => {
 				await connection.manager.save(setting);
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe("Column 'is_locked' cannot be null");
+				expect(e.message).toBe('Column \'is_locked\' cannot be null');
 			}
 		});
 	});

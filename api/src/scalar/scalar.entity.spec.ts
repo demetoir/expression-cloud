@@ -1,26 +1,26 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { ScalarEntity } from './scalar.entity';
 import { VectorEntity } from '../vector/vector.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
+import { getConnection } from '../../test/resource/typeorm';
 
-describe('value entity', () => {
-	let valueRepository;
-	let connection;
+describe('scalar entity', () => {
+	let repository: Repository<ScalarEntity>;
+	let connection: Connection;
+
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
-		valueRepository = await connection.getRepository(ScalarEntity);
+		repository = await connection.getRepository(ScalarEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {
-		assert.isNotNull(valueRepository);
+		assert.isNotNull(repository);
 	});
 
 	it('should create new entity', async function () {
@@ -29,7 +29,7 @@ describe('value entity', () => {
 		scalar.value = 1;
 		await connection.manager.save(scalar);
 
-		const newValue = await valueRepository.findOne({ id: scalar.id });
+		const newValue = await repository.findOne({ id: scalar.id });
 
 		assert.isNotNull(newValue);
 	});
@@ -92,7 +92,7 @@ describe('value entity', () => {
 
 			await connection.manager.save(scalar);
 
-			const result = await valueRepository.findOne({
+			const result = await repository.findOne({
 				where: { id: scalar.id },
 				relations: ['vector'],
 			});
@@ -113,7 +113,7 @@ describe('value entity', () => {
 			scalar.vector = vector;
 			await connection.manager.save(scalar);
 
-			const result = await valueRepository.findOne({
+			const result = await repository.findOne({
 				where: { id: scalar.id },
 				relations: ['vector'],
 			});

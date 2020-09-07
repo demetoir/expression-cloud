@@ -1,10 +1,9 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { UserSettingEntity } from './user-setting.entity';
-import { ormConfig } from '../../common/model/configLoader';
 import { UserFactory } from '../../../test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm/index';
 import { EntityManager } from 'typeorm/entity-manager/EntityManager';
+import { getConnection } from '../../../test/resource/typeorm';
 
 describe('user-setting entity', () => {
 	let connection: Connection;
@@ -12,7 +11,7 @@ describe('user-setting entity', () => {
 	let manager: EntityManager;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 		userSettingRepository = connection.getRepository(UserSettingEntity);
 		manager = connection.manager;
 	});

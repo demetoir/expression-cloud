@@ -1,21 +1,22 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { UserProfileImageEntity } from './user-profile-image.entity';
-import { ormConfig } from '../../common/model/configLoader';
 import { UserEntity } from '../user/user.entity';
 import { ImageEntity } from '../../image/image.entity';
 import { UserFactory } from '../../../test/user/user/user.factory';
+import { Connection, Repository } from 'typeorm/index';
+import { getConnection } from '../../../test/resource/typeorm';
 
 describe('userProfile entity', () => {
-	let connection;
-	let repository;
+	let connection: Connection;
+	let repository: Repository<UserProfileImageEntity>;
+
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 		repository = connection.getRepository(UserProfileImageEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

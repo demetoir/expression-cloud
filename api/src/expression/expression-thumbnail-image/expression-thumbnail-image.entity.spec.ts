@@ -1,21 +1,21 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
-import { ormConfig } from '../../common/model/configLoader';
 import { ExpressionFactory } from '../expression/expression.factory';
 import { ImageFactory } from '../../image/Image.factory';
+import { getConnection } from '../../../test/resource/typeorm';
+import { Connection, Repository } from 'typeorm/index';
 
 describe('ExpressionThumbnailImage entity', () => {
-	let repository;
-	let connection;
+	let repository: Repository<ExpressionThumbnailImageEntity>;
+	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 		repository = connection.getRepository(ExpressionThumbnailImageEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

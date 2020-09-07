@@ -1,22 +1,21 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { CommentEntity } from './comment.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { UserFactory } from '../../test/user/user/user.factory';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
+import { getConnection } from '../../test/resource/typeorm';
 
 describe('comment entity', () => {
-	let commentRepository;
-	let connection;
+	let commentRepository :Repository<CommentEntity>;
+	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 		commentRepository = connection.getRepository(CommentEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

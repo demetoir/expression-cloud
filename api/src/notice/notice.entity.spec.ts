@@ -1,11 +1,10 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { UserEntity } from '../user/user/user.entity';
 import { NoticeEntity } from './notice.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { Connection, QueryFailedError, Repository } from 'typeorm/index';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
 import { UserFactory } from '../../test/user/user/user.factory';
+import { getConnection } from '../../test/resource/typeorm';
 
 describe('notice entity', () => {
 	let userRepository: Repository<UserEntity>;
@@ -13,23 +12,23 @@ describe('notice entity', () => {
 	let noticeRepository: Repository<NoticeEntity>;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		userRepository = connection.getRepository(UserEntity);
 		noticeRepository = connection.getRepository(NoticeEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', function() {
 		expect(userRepository).toBeDefined();
 		expect(connection).toBeDefined();
 		expect(noticeRepository).toBeDefined();
 	});
 
-	it('should create entity', async function () {
+	it('should create entity', async function() {
 		const notice = new NoticeEntity();
 		notice.content = 'content';
 
@@ -41,7 +40,7 @@ describe('notice entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on content', async function () {
+		it('should not null on content', async function() {
 			try {
 				const content = null;
 				const notice = new NoticeEntity();
@@ -52,11 +51,11 @@ describe('notice entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe("Column 'content' cannot be null");
+				expect(e.message).toBe('Column \'content\' cannot be null');
 			}
 		});
 
-		it('should not null on isRead', async function () {
+		it('should not null on isRead', async function() {
 			try {
 				const content = 'content';
 				const isRead = null;
@@ -70,11 +69,11 @@ describe('notice entity', () => {
 				expectShouldNotCallThis();
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe("Column 'is_read' cannot be null");
+				expect(e.message).toBe('Column \'is_read\' cannot be null');
 			}
 		});
 
-		it('should be boolean type of isRead', async function () {
+		it('should be boolean type of isRead', async function() {
 			const content = 'content';
 			const isRead = true;
 
@@ -94,7 +93,7 @@ describe('notice entity', () => {
 			assert.equal(typeof result2.isRead, 'boolean');
 		});
 
-		it('should isRead auto false', async function () {
+		it('should isRead auto false', async function() {
 			const content = 'content';
 			const isRead = undefined;
 

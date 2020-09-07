@@ -1,21 +1,21 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { EditHistoryEntity } from './edit-history.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { UserFactory } from '../../test/user/user/user.factory';
+import { Connection, Repository } from 'typeorm/index';
+import { getConnection } from '../../test/resource/typeorm';
 
 describe('editHistory entity', () => {
-	let editHistoryRepository;
-	let connection;
+	let editHistoryRepository: Repository<EditHistoryEntity>;
+	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		editHistoryRepository = connection.getRepository(EditHistoryEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

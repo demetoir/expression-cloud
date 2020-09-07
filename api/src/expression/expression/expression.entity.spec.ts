@@ -1,29 +1,28 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { ExpressionEntity } from './expression.entity';
 import { VectorEntity } from '../../vector/vector.entity';
 import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
 import { ImageEntity } from '../../image/image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
 import { UserEntity } from '../../user/user/user.entity';
-import { ormConfig } from '../../common/model/configLoader';
 import { ExpressionFactory } from './expression.factory';
 import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { Connection, QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
 import { UserFactory } from '../../../test/user/user/user.factory';
+import { getConnection } from '../../../test/resource/typeorm';
 
 describe('expression entity', () => {
-	let expressionRepository;
+	let expressionRepository :Repository<ExpressionEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		expressionRepository = connection.getRepository(ExpressionEntity);
 	});
 
-	afterAll(() => {
-		connection.close();
+	afterAll(async () => {
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

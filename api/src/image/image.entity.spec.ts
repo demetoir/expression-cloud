@@ -1,25 +1,24 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image/expression-thumbnail-image.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { UserProfileImageEntity } from '../user/user-profile-image/user-profile-image.entity';
 import { ImageFactory } from './Image.factory';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { Repository } from 'typeorm/index';
+import { Connection, Repository } from 'typeorm/index';
+import { getConnection } from '../../test/resource/typeorm';
 
 describe('image entity', () => {
-	let connection;
+	let connection: Connection;
 	let repository: Repository<ImageEntity>;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		repository = connection.getRepository(ImageEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

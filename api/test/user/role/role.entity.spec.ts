@@ -1,25 +1,24 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { RoleEntity } from '../../../src/user/role/role.entity';
-import { ormConfig } from '../../../src/common/model/configLoader';
 import { RoleEnum } from '../../../src/user/role/role.enum';
 import { RoleFactory } from '../../../src/user/role/role.factory';
 import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
 import { UserFactory } from '../user/user.factory';
+import { getConnection } from '../../resource/typeorm';
 
 describe('role entity', () => {
-	let connection;
-	let roleRepository;
+	let connection: Connection;
+	let roleRepository: Repository<RoleEntity>;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

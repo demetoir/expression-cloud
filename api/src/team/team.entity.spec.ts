@@ -1,21 +1,21 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { TeamEntity } from './team.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
 import { UserFactory } from '../../test/user/user/user.factory';
+import { getConnection } from '../../test/resource/typeorm';
+import { Connection, Repository } from 'typeorm/index';
 
 describe('team entity', () => {
-	let connection;
-	let teamRepository;
+	let connection: Connection;
+	let teamRepository: Repository<TeamEntity>;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 		teamRepository = connection.getRepository(TeamEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

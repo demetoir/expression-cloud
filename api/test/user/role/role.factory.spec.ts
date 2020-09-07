@@ -1,24 +1,23 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { RoleEntity } from '../../../src/user/role/role.entity';
-import { ormConfig } from '../../../src/common/model/configLoader';
 import { RoleFactory } from '../../../src/user/role/role.factory';
 import { RoleEnum } from '../../../src/user/role/role.enum';
 import { Connection, Repository } from 'typeorm/index';
 import { IRole } from '../../../src/user/role/role.interface';
+import { getConnection } from '../../resource/typeorm';
 
 describe('role factory', () => {
 	let connection: Connection;
 	let roleRepository: Repository<RoleEntity>;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

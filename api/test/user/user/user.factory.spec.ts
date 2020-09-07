@@ -1,19 +1,20 @@
-import { createConnection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserEntity } from '../../../src/user/user/user.entity';
-import { ormConfig } from '../../../src/common/model/configLoader';
 import { UserFactory } from './user.factory';
+import { Connection } from 'typeorm/index';
+import { getConnection } from '../../resource/typeorm';
 
 describe('user factory', () => {
 	let userRepository: Repository<UserEntity>;
-	let connection;
+	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 		userRepository = connection.getRepository(UserEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {

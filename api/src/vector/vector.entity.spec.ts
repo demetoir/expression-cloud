@@ -1,25 +1,24 @@
 import { assert } from 'chai';
-import { createConnection } from 'typeorm';
 import { VectorEntity } from './vector.entity';
 import { ScalarEntity } from '../scalar/scalar.entity';
-import { ormConfig } from '../common/model/configLoader';
 import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { QueryFailedError } from 'typeorm/index';
+import { Connection, QueryFailedError, Repository } from 'typeorm/index';
 import { VectorFactory } from './vector.factory';
 import { ExpressionFactory } from '../expression/expression/expression.factory';
+import { getConnection } from '../../test/resource/typeorm';
 
 describe('column entity', () => {
-	let vectorRepository;
-	let connection;
+	let vectorRepository: Repository<VectorEntity>;
+	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await createConnection(ormConfig);
+		connection = await getConnection();
 
 		vectorRepository = connection.getRepository(VectorEntity);
 	});
 
 	afterAll(async () => {
-		connection.close();
+		await connection.close();
 	});
 
 	it('should able to get repository from connection manager', function () {
