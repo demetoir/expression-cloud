@@ -34,7 +34,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/antd-ui'],
+  plugins: ['@/plugins/antd-ui', './plugins/vue-google-oauth2'],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -72,5 +72,7 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    transpile: ['vue-google-oauth2'],
+  },
 };
