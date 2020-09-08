@@ -33,6 +33,7 @@
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "ant-design-vue": "^1.6.2",
+    "core-js": "^3.6.5",
     "nuxt": "^2.13.0",
     "supertest": "^4.0.2"
   },
