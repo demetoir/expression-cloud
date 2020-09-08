@@ -4,7 +4,8 @@ import Vue from 'vue';
 import GAuth from 'vue-google-oauth2';
 
 const gauthOption = {
-  clientId: 'CLIENT_ID.apps.googleusercontent.com',
+  clientId:
+    '921614050208-c1chc3rnuqhjto9kpd7h30h8fh8uds80.apps.googleusercontent.com',
   scope: 'profile email',
   prompt: 'select_account',
 };

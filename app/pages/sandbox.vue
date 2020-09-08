@@ -9,7 +9,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-// noinspection TypeScriptCheckImport
 
 export default Vue.extend({
   components: {},
@@ -19,9 +18,14 @@ export default Vue.extend({
     };
   },
   methods: {
-    googleSignIn() {
-      console.log('here');
-      this.isLogin = true;
+    async googleSignIn() {
+      if (!this.$gAuth.isInit) {
+        return;
+      }
+      // todo: 여기 타입 세이프하게 처리하
+      const googleUser = await this.$gAuth.signIn();
+
+      this.isLogin = googleUser;
     },
   },
 });

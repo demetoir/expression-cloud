@@ -2,13 +2,15 @@ export default {
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
+  // todo: universal 로하니 빌드 속도 느린건 둘째치고, 일부 플러그인이 작동하지 않는다
+  *   고쳐야한다
    */
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
    */
-  target: 'server',
+  target: 'static',
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
