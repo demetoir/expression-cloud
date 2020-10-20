@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../user.entity';
-import { AbstractBaseDto } from '../../../common/abstractBaseDto';
+import { AbstractBaseDto } from 'src/common/abstractBaseDto';
+import { plainToClass } from 'class-transformer';
 
 export class UserReplaceDto extends AbstractBaseDto {
 	@ApiProperty({})
@@ -13,22 +14,10 @@ export class UserReplaceDto extends AbstractBaseDto {
 	description: string;
 
 	static fromBody(body: any): UserReplaceDto {
-		const dto = new UserReplaceDto();
-
-		dto.description = body.description;
-		dto.name = body.name;
-		dto.email = body.email;
-
-		return dto;
+		return plainToClass(UserReplaceDto, body);
 	}
 
 	public toEntity(): UserEntity {
-		const user = new UserEntity();
-
-		user.name = this.name;
-		user.email = this.email;
-		user.description = this.description;
-
-		return user;
+		return plainToClass(UserEntity, this);
 	}
 }
