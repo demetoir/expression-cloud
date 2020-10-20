@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('user-oauth')
+@Controller('user-oauths')
 export class UserOauthController {}
