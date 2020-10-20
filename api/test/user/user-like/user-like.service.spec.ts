@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserLikeService } from '../../../src/user/user-like/user-like.service';
+import { UserLikeService } from 'src/user-like/user-like.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { RepositoryMock } from '../../lib/mock/repository.mock';
-import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
-import { Repository } from 'typeorm/index';
+import { RepositoryMock } from 'test/lib/mock/repository.mock';
+import { UserLikeEntity } from 'src/user-like/user-like.entity';
+import { Repository } from 'typeorm';
 
 describe('UserLikeService', () => {
 	let service: UserLikeService;

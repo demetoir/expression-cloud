@@ -1,11 +1,11 @@
 import { assert } from 'chai';
-import { RoleEntity } from '../../../src/user/role/role.entity';
-import { RoleEnum } from '../../../src/user/role/role.enum';
-import { RoleFactory } from '../../../src/user/role/role.factory';
-import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
-import { Connection, QueryFailedError, Repository } from 'typeorm/index';
+import { RoleEntity } from 'src/role/role.entity';
+import { RoleEnum } from 'src/role/role.enum';
+import { RoleFactory } from 'src/role/role.factory';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from '../user/user.factory';
-import { getConnection } from '../../resource/typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('role entity', () => {
 	let connection: Connection;

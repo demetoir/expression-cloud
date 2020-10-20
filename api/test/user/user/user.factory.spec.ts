@@ -1,8 +1,8 @@
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../../src/user/user/user.entity';
+import { UserEntity } from 'src/user/user.entity';
 import { UserFactory } from './user.factory';
-import { Connection } from 'typeorm/index';
-import { getConnection } from '../../resource/typeorm';
+import { Connection } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('user factory', () => {
 	let userRepository: Repository<UserEntity>;

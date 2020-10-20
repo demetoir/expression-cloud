@@ -1,6 +1,6 @@
 // prepare connection and repository
-import { Connection, createConnection } from 'typeorm/index';
-import { entities } from '../../../src/database/global-typeorm/entity.loader';
+import { Connection, createConnection } from 'typeorm';
+import { entities } from 'src/database/global-typeorm/entity.loader';
 
 export async function getConnection(): Promise<Connection> {
 	return await createConnection({

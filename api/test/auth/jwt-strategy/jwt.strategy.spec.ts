@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { JwtStrategy } from '../../../src/auth/jwt-strategy/jwt.strategy';
+import { JwtStrategy } from 'src/auth/jwt-strategy/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { DoubleJwtService } from '../../../src/auth/double-jwt/double-jwt.service';
-import { MockDoubleJWTService } from '../../../src/auth/double-jwt/double-jwt.service.mock';
-import { ITokenPayload } from '../../../src/auth/double-jwt/token/interface';
-import { DoubleJWTValidationError } from '../../../src/auth/double-jwt/error';
+import { DoubleJwtService } from 'src/auth/double-jwt/double-jwt.service';
+import { MockDoubleJWTService } from 'src/auth/double-jwt/double-jwt.service.mock';
+import { ITokenPayload } from 'src/auth/double-jwt/token/interface';
+import { DoubleJWTValidationError } from 'src/auth/double-jwt/error';
 
 describe('JwtStrategy', () => {
 	let strategy: JwtStrategy;

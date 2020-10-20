@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { GlobalTypeormModule } from '../../../src/database/global-typeorm/global-typeorm.module';
+import { GlobalTypeormModule } from 'src/database/global-typeorm/global-typeorm.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
-import { UserLikeModule } from '../../../src/user/user-like/user-like.module';
+import { UserLikeEntity } from 'src/user-like/user-like.entity';
+import { UserLikeModule } from 'src/user-like/user-like.module';
 import * as request from 'supertest';
 import { UserFactory } from '../user/user.factory';
-import { Connection, EntityManager } from 'typeorm/index';
-import { entityToResponse } from '../../util';
+import { Connection, EntityManager } from 'typeorm';
+import { entityToResponse } from 'test/util';
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import * as _ from 'lodash';
-import { MAX_LIMIT } from '../../../src/user/user-like/user-like.controller';
-import { UserEntity } from '../../../src/user/user/user.entity';
+import { MAX_LIMIT } from 'src/user-like/user-like.controller';
+import { UserEntity } from 'src/user/user.entity';
 
 describe('UserLikeModule (e2e)', () => {
 	let app: INestApplication;

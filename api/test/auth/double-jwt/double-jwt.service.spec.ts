@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as _ from 'lodash';
-import { JwtWrapperService } from '../../../src/auth/double-jwt/jwt-wrapper/jwt-wrapper.service';
-import { PayloadTypes } from '../../../src/auth/double-jwt/jwt-wrapper/interface';
-import { DoubleJwtService } from '../../../src/auth/double-jwt/double-jwt.service';
-import { TokenService } from '../../../src/auth/double-jwt/token/token.service';
+import { JwtWrapperService } from 'src/auth/double-jwt/jwt-wrapper/jwt-wrapper.service';
+import { PayloadTypes } from 'src/auth/double-jwt/jwt-wrapper/interface';
+import { DoubleJwtService } from 'src/auth/double-jwt/double-jwt.service';
+import { TokenService } from 'src/auth/double-jwt/token/token.service';
 import {
 	InvalidJWTSignatureError,
 	MalformedJWTError,
-} from '../../../src/auth/double-jwt/jwt-wrapper/error';
-import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
-import { RefreshTokenDto } from '../../../src/auth/auth/dto/refresh-token.dto';
-import { RevokeTokenDto } from '../../../src/auth/auth/dto/revoke-token.dto';
-import { ITokenPayload } from '../../../src/auth/double-jwt/token/interface';
-import { DoubleJWTValidationError } from '../../../src/auth/double-jwt/error';
+} from 'src/auth/double-jwt/jwt-wrapper/error';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { RefreshTokenDto } from 'src/auth/auth/dto/refresh-token.dto';
+import { RevokeTokenDto } from 'src/auth/auth/dto/revoke-token.dto';
+import { ITokenPayload } from 'src/auth/double-jwt/token/interface';
+import { DoubleJWTValidationError } from 'src/auth/double-jwt/error';
 import { MockTokenService } from '../token/token.service.mock';
 import { MockJwtWrapperService } from '../jwt-wrapper/jwt-wrapper.service.mock';
 

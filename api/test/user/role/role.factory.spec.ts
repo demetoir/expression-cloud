@@ -1,10 +1,10 @@
 import { assert } from 'chai';
-import { RoleEntity } from '../../../src/user/role/role.entity';
-import { RoleFactory } from '../../../src/user/role/role.factory';
-import { RoleEnum } from '../../../src/user/role/role.enum';
-import { Connection, Repository } from 'typeorm/index';
-import { IRole } from '../../../src/user/role/role.interface';
-import { getConnection } from '../../resource/typeorm';
+import { RoleEntity } from 'src/role/role.entity';
+import { RoleFactory } from 'src/role/role.factory';
+import { RoleEnum } from 'src/role/role.enum';
+import { Connection, Repository } from 'typeorm';
+import { IRole } from 'src/role/role.interface';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('role factory', () => {
 	let connection: Connection;

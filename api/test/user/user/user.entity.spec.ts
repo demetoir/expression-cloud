@@ -1,20 +1,20 @@
 import { assert } from 'chai';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../../src/user/user/user.entity';
-import { NoticeEntity } from '../../../src/notice/notice.entity';
-import { TeamEntity } from '../../../src/team/team.entity';
-import { EditHistoryEntity } from '../../../src/history/edit-history.entity';
-import { CommentEntity } from '../../../src/comment/comment.entity';
-import { UserOauthEntity } from '../../../src/user/user-oauth/user-oauth.entity';
-import { ExpressionEntity } from '../../../src/expression/expression/expression.entity';
-import { UserSettingEntity } from '../../../src/user/user-setting/user-setting.entity';
-import { RoleEntity } from '../../../src/user/role/role.entity';
-import { UserProfileImageEntity } from '../../../src/user/user-profile-image/user-profile-image.entity';
-import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
-import { RoleEnum } from '../../../src/user/role/role.enum';
+import { UserEntity } from 'src/user/user.entity';
+import { NoticeEntity } from 'src/notice/notice.entity';
+import { TeamEntity } from 'src/team/team.entity';
+import { EditHistoryEntity } from 'src/history/edit-history.entity';
+import { CommentEntity } from 'src/comment/comment.entity';
+import { UserOauthEntity } from 'src/user-oauth/user-oauth.entity';
+import { ExpressionEntity } from 'src/expression/expression/expression.entity';
+import { UserSettingEntity } from 'src/user-setting/user-setting.entity';
+import { RoleEntity } from 'src/role/role.entity';
+import { UserProfileImageEntity } from 'src/user-profile-image/user-profile-image.entity';
+import { UserLikeEntity } from 'src/user-like/user-like.entity';
+import { RoleEnum } from 'src/role/role.enum';
 import { UserFactory } from './user.factory';
-import { Connection, QueryFailedError } from 'typeorm/index';
-import { getConnection } from '../../resource/typeorm';
+import { Connection, QueryFailedError } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;

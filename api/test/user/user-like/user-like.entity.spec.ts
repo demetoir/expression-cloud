@@ -1,11 +1,11 @@
-import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
+import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { UserFactory } from '../user/user.factory';
-import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
-import { Connection, Repository } from 'typeorm/index';
-import { UserEntity } from '../../../src/user/user/user.entity';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, Repository } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
-import { getConnection } from '../../resource/typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('user like entity', () => {
 	let connection: Connection;

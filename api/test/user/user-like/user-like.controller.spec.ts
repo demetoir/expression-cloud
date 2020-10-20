@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserLikeController } from '../../../src/user/user-like/user-like.controller';
-import { UserLikeService } from '../../../src/user/user-like/user-like.service';
+import { UserLikeController } from 'src/user-like/user-like.controller';
+import { UserLikeService } from 'src/user-like/user-like.service';
 import { MockUserLikeService } from './user-like.service.mock';
-import { expectShouldNotCallThis } from '../../lib/helper/jestHelper';
-import { CRUDRequestMockBuilder } from '../../lib/mock/CRUDRequest.MockBuilder';
-import { UserLikeEntity } from '../../../src/user/user-like/user-like.entity';
-import { QueryFailedError } from 'typeorm/index';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { CRUDRequestMockBuilder } from 'test/lib/mock/CRUDRequest.MockBuilder';
+import { UserLikeEntity } from 'src/user-like/user-like.entity';
+import { QueryFailedError } from 'typeorm';
 import { MysqlErrorCodes } from 'mysql-error-codes';
-import { DatabaseConstraintFailError } from '../../../src/common/error/database-constraint-fail.error';
-import { AnyOtherError } from '../../lib/error/any-other.error';
+import { DatabaseConstraintFailError } from 'src/common/error/database-constraint-fail.error';
+import { AnyOtherError } from 'test/lib/error/any-other.error';
 
 describe('UserLike Controller', () => {
 	let controller: UserLikeController;
