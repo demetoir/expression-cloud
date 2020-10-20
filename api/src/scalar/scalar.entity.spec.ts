@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { ScalarEntity } from './scalar.entity';
 import { VectorEntity } from '../vector/vector.entity';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { Connection, QueryFailedError, Repository } from 'typeorm/index';
-import { getConnection } from '../../test/resource/typeorm';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('scalar entity', () => {
 	let repository: Repository<ScalarEntity>;

@@ -4,7 +4,7 @@ import { mock } from 'jest-mock-extended';
 import { ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 
 function getExecutionContextMock(request): ExecutionContext {
 	const httpArgumentHost = mock<HttpArgumentsHost>();

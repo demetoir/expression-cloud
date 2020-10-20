@@ -1,6 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { IRole } from './role.interface';
-import { BaseEntity } from '../../common/model/entity/base/base.entity';
+import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { UserEntity } from '../user/user.entity';
 import { RoleEnum } from './role.enum';
 

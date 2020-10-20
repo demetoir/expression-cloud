@@ -1,10 +1,10 @@
 import { assert } from 'chai';
 import { UserProfileImageEntity } from './user-profile-image.entity';
 import { UserEntity } from '../user/user.entity';
-import { ImageEntity } from '../../image/image.entity';
-import { UserFactory } from '../../../test/user/user/user.factory';
-import { Connection, Repository } from 'typeorm/index';
-import { getConnection } from '../../../test/resource/typeorm';
+import { ImageEntity } from 'src/image/image.entity';
+import { UserFactory } from 'test/user/user/user.factory';
+import { Connection, Repository } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('userProfile entity', () => {
 	let connection: Connection;

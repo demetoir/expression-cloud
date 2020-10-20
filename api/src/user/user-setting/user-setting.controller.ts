@@ -1,5 +1,5 @@
 import { Controller, Get, Patch, Put } from '@nestjs/common';
-import { logger } from '../../common/libs/winstonToolkit';
+import { logger } from 'src/common/libs/winstonToolkit';
 
 // TODO implement and test user controller
 @Controller('users/:id/setting')

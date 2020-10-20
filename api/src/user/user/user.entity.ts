@@ -6,14 +6,14 @@ import {
 	OneToMany,
 	OneToOne,
 } from 'typeorm';
-import { NoticeEntity } from '../../notice/notice.entity';
-import { TeamEntity } from '../../team/team.entity';
-import { EditHistoryEntity } from '../../history/edit-history.entity';
-import { CommentEntity } from '../../comment/comment.entity';
+import { NoticeEntity } from 'src/notice/notice.entity';
+import { TeamEntity } from 'src/team/team.entity';
+import { EditHistoryEntity } from 'src/history/edit-history.entity';
+import { CommentEntity } from 'src/comment/comment.entity';
 import { UserOauthEntity } from '../user-oauth/user-oauth.entity';
-import { ExpressionEntity } from '../../expression/expression/expression.entity';
+import { ExpressionEntity } from 'src/expression/expression/expression.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseEntity } from '../../common/model/entity/base/base.entity';
+import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { UserSettingEntity } from '../user-setting/user-setting.entity';
 import { IUser } from './user.interface';
 import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';

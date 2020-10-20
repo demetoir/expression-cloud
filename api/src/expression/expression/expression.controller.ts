@@ -1,5 +1,5 @@
 import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
-import { logger } from '../../common/libs/winstonToolkit';
+import { logger } from 'src/common/libs/winstonToolkit';
 
 @Controller('expressions')
 export class ExpressionController {

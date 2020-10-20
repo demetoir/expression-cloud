@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ExpressionFactory } from '../expression/expression.factory';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { Connection, QueryFailedError, Repository } from 'typeorm/index';
-import { getConnection } from '../../../test/resource/typeorm';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('ExpressionSetting entity', () => {
 	let expressionSettingRepository: Repository<ExpressionSettingEntity>;

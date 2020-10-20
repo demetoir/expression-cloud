@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { TeamEntity } from './team.entity';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { UserFactory } from '../../test/user/user/user.factory';
-import { getConnection } from '../../test/resource/typeorm';
-import { Connection, Repository } from 'typeorm/index';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { UserFactory } from 'test/user/user/user.factory';
+import { getConnection } from 'test/resource/typeorm';
+import { Connection, Repository } from 'typeorm';
 
 describe('team entity', () => {
 	let connection: Connection;

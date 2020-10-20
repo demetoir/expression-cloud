@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { logger } from '../../common/libs/winstonToolkit';
+import { logger } from 'src/common/libs/winstonToolkit';
 
 @Injectable()
 export class UserSettingService {

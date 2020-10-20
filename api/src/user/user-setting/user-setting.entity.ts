@@ -1,8 +1,8 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
-import { BaseEntity } from '../../common/model/entity/base/base.entity';
+import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { IUserSetting } from './user-setting.interface';
-import { Column } from 'typeorm/index';
+import { Column } from 'typeorm';
 
 @Entity({ name: 'user_settings' })
 export class UserSettingEntity extends BaseEntity implements IUserSetting {

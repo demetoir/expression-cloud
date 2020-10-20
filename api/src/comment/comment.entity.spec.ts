@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { CommentEntity } from './comment.entity';
-import { UserFactory } from '../../test/user/user/user.factory';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { Connection, QueryFailedError, Repository } from 'typeorm/index';
-import { getConnection } from '../../test/resource/typeorm';
+import { UserFactory } from 'test/user/user/user.factory';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('comment entity', () => {
 	let commentRepository :Repository<CommentEntity>;

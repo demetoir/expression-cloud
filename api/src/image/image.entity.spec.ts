@@ -3,9 +3,9 @@ import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image/expression-thumbnail-image.entity';
 import { UserProfileImageEntity } from '../user/user-profile-image/user-profile-image.entity';
 import { ImageFactory } from './Image.factory';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { Connection, Repository } from 'typeorm/index';
-import { getConnection } from '../../test/resource/typeorm';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, Repository } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('image entity', () => {
 	let connection: Connection;

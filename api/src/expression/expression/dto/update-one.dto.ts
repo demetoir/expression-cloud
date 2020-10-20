@@ -2,7 +2,7 @@ import { IsByteLength, IsNumber, IsPositive, IsString } from 'class-validator';
 import {
 	MAX_TEXT,
 	MAX_VARCHAR,
-} from '../../../common/constants/database-data-type';
+} from 'src/common/constants/database-data-type';
 
 export class UpdateOneDto {
 	@IsNumber()

@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { EditHistoryEntity } from './edit-history.entity';
-import { UserFactory } from '../../test/user/user/user.factory';
-import { Connection, Repository } from 'typeorm/index';
-import { getConnection } from '../../test/resource/typeorm';
+import { UserFactory } from 'test/user/user/user.factory';
+import { Connection, Repository } from 'typeorm';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('editHistory entity', () => {
 	let editHistoryRepository: Repository<EditHistoryEntity>;

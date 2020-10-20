@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { UserOauthEntity } from './user-oauth.entity';
-import { expectShouldNotCallThis } from '../../../test/lib/helper/jestHelper';
-import { UserFactory } from '../../../test/user/user/user.factory';
-import { getConnection } from '../../../test/resource/typeorm';
-import { Connection, Repository } from 'typeorm/index';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { UserFactory } from 'test/user/user/user.factory';
+import { getConnection } from 'test/resource/typeorm';
+import { Connection, Repository } from 'typeorm';
 
 describe('user oauth entity', () => {
 	let connection : Connection;

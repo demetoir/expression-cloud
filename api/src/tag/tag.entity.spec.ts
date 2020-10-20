@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { TagEntity } from './tag.entity';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { ExpressionFactory } from '../expression/expression/expression.factory';
-import { getConnection } from '../../test/resource/typeorm';
-import { Connection, Repository } from 'typeorm/index';
+import { getConnection } from 'test/resource/typeorm';
+import { Connection, Repository } from 'typeorm';
 
 describe('tag entity', () => {
 	let connection: Connection;

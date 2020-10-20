@@ -1,10 +1,10 @@
 import { assert } from 'chai';
 import { UserEntity } from '../user/user/user.entity';
 import { NoticeEntity } from './notice.entity';
-import { Connection, QueryFailedError, Repository } from 'typeorm/index';
-import { expectShouldNotCallThis } from '../../test/lib/helper/jestHelper';
-import { UserFactory } from '../../test/user/user/user.factory';
-import { getConnection } from '../../test/resource/typeorm';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { UserFactory } from 'test/user/user/user.factory';
+import { getConnection } from 'test/resource/typeorm';
 
 describe('notice entity', () => {
 	let userRepository: Repository<UserEntity>;

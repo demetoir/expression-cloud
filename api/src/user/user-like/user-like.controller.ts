@@ -6,7 +6,7 @@ import {
 	ValidationPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CrudPlus, getManyResponse } from '../../common/libs/nestjsCRUDToolkit';
+import { CrudPlus, getManyResponse } from 'src/common/libs/nestjsCRUDToolkit';
 import { UserLikeService } from './user-like.service';
 import { UserLikeEntity } from './user-like.entity';
 import { UserLikeCreateDto } from './dto/user-like-create.dto';
@@ -16,11 +16,11 @@ import {
 	Override,
 	ParsedRequest,
 } from '@nestjsx/crud';
-import { DatabaseQueryFailFilter } from '../../common/filter/database-query-fail-error.filter';
+import { DatabaseQueryFailFilter } from 'src/common/filter/database-query-fail-error.filter';
 import { plainToClass } from 'class-transformer';
-import { QueryFailedError } from 'typeorm/index';
+import { QueryFailedError } from 'typeorm';
 import { MysqlErrorCodes } from 'mysql-error-codes';
-import { DatabaseConstraintFailError } from '../../common/error/database-constraint-fail.error';
+import { DatabaseConstraintFailError } from 'src/common/error/database-constraint-fail.error';
 
 export const MAX_LIMIT = 20;
 

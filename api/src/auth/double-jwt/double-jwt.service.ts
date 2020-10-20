@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtWrapperService } from './jwt-wrapper/jwt-wrapper.service';
 import { ITokenPayload } from './token/interface';
 import { TokenService } from './token/token.service';
-import { isOneOfInstance } from '../../common/libs/util';
+import { isOneOfInstance } from 'src/common/libs/util';
 import { plainToClass } from 'class-transformer';
 import { TokenDto } from './token/token.dto';
 import { validate } from 'class-validator';

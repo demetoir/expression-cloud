@@ -7,7 +7,7 @@ import {
 	UnauthorizedException,
 	UseGuards,
 } from '@nestjs/common';
-import { logger } from '../../common/libs/winstonToolkit';
+import { logger } from 'src/common/libs/winstonToolkit';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from '../localAuth/guard/localAuth.guard';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';

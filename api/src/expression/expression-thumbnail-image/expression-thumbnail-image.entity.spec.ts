@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
 import { ExpressionFactory } from '../expression/expression.factory';
-import { ImageFactory } from '../../image/Image.factory';
-import { getConnection } from '../../../test/resource/typeorm';
-import { Connection, Repository } from 'typeorm/index';
+import { ImageFactory } from 'src/image/Image.factory';
+import { getConnection } from 'test/resource/typeorm';
+import { Connection, Repository } from 'typeorm';
 
 describe('ExpressionThumbnailImage entity', () => {
 	let repository: Repository<ExpressionThumbnailImageEntity>;

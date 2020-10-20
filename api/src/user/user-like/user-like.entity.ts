@@ -6,7 +6,7 @@ import {
 	DeleteDateColumn,
 	PrimaryColumn,
 	UpdateDateColumn,
-} from 'typeorm/index';
+} from 'typeorm';
 
 @Entity({ name: 'user_likes' })
 export class UserLikeEntity implements IUserLike {
