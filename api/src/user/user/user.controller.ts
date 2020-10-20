@@ -8,12 +8,14 @@ import {
 } from '@nestjsx/crud';
 import { UserEntity } from './user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { logger } from '../../common/libs/winstonToolkit';
-import { UserCreateDto } from './dto/userCreate.dto';
-import { UserReplaceDto } from './dto/userReplace.dto';
-import { UserUpdateDto } from './dto/userUpdate.dto';
-import { UserCreateBulkDto } from './dto/userCreateBulk.dto';
-import { CrudPlus, getManyResponse } from '../../common/libs/nestjsCRUDToolkit';
+import { logger } from 'src/common/libs/winstonToolkit';
+import {
+	UserCreateBulkDto,
+	UserCreateDto,
+	UserReplaceDto,
+	UserUpdateDto,
+} from 'src/user/user/dto';
+import { CrudPlus, getManyResponse } from 'src/common/libs/nestjsCRUDToolkit';
 import { dtoTransformPipe } from './pipe/userDtoTransfrom.pipe';
 import { userBulkDtoTransformPipe } from './pipe/userBulkDtoTransform.pipe';
 
