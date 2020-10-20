@@ -1,6 +1,0 @@
-export * from "./likeAction.dto"
-export * from "./undoLikeAction.dto"
-export * from "./userCreate.dto"
-export * from "./userCreateBulk.dto"
-export * from "./userReplace.dto"
-export * from "./userUpdate.dto"

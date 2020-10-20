@@ -2,7 +2,7 @@ import { Column, Entity, OneToOne } from 'typeorm';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image/expression-thumbnail-image.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { IImage } from './image.interface';
-import { UserProfileImageEntity } from '../user/user-profile-image/user-profile-image.entity';
+import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
 
 @Entity({ name: 'images' })
 export class ImageEntity extends BaseEntity implements IImage {

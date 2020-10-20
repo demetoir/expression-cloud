@@ -4,7 +4,7 @@ import { VectorEntity } from 'src/vector/vector.entity';
 import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
 import { ImageEntity } from 'src/image/image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
-import { UserEntity } from 'src/user/user/user.entity';
+import { UserEntity } from 'src/user/user.entity';
 import { ExpressionFactory } from './expression.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';

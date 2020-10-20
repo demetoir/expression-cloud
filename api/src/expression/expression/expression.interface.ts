@@ -1,5 +1,5 @@
 import { IBaseEntity } from 'src/common/model/entity/base/base.interface';
-import { IUser } from 'src/user/user/user.interface';
+import { IUser } from 'src/user/user.interface';
 import { IExpressionSetting } from '../expression-setting/expression-setting.interface';
 import { IExpressionThumbnailImage } from '../expression-thumbnail-image/expression-thumbnail-image.interface';
 import { ITag } from 'src/tag/tag.interface';

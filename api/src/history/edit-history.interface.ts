@@ -1,5 +1,5 @@
 import { IBaseEntity } from '../common/model/entity/base/base.interface';
-import { IUser } from '../user/user/user.interface';
+import { IUser } from 'src/user/user.interface';
 
 export interface IEditHistory extends IBaseEntity {
 	refId: bigint;

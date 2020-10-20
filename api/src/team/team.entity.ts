@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { UserEntity } from '../user/user/user.entity';
+import { UserEntity } from 'src/user/user.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { ITeam } from './team.interface';
 
