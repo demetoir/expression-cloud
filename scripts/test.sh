@@ -1,6 +1,7 @@
 set -e
 # goto root directory
 
+docker-compose -v
 cd ./api
 yarn docker:test-storage:up
 
