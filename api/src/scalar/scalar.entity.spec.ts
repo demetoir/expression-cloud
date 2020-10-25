@@ -3,14 +3,14 @@ import { ScalarEntity } from './scalar.entity';
 import { VectorEntity } from '../vector/vector.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('scalar entity', () => {
 	let repository: Repository<ScalarEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		repository = await connection.getRepository(ScalarEntity);
 	});

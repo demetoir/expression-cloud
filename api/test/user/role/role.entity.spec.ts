@@ -5,14 +5,14 @@ import { RoleFactory } from 'src/role/role.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from '../user/user.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('role entity', () => {
 	let connection: Connection;
 	let roleRepository: Repository<RoleEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});

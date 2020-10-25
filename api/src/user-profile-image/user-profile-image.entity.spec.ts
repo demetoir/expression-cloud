@@ -4,14 +4,14 @@ import { UserEntity } from 'src/user/user.entity';
 import { ImageEntity } from 'src/image/image.entity';
 import { UserFactory } from 'test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('userProfile entity', () => {
 	let connection: Connection;
 	let repository: Repository<UserProfileImageEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 		repository = connection.getRepository(UserProfileImageEntity);
 	});
 

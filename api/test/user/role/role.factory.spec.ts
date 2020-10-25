@@ -4,14 +4,14 @@ import { RoleFactory } from 'src/role/role.factory';
 import { RoleEnum } from 'src/role/role.enum';
 import { Connection, Repository } from 'typeorm';
 import { IRole } from 'src/role/role.interface';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('role factory', () => {
 	let connection: Connection;
 	let roleRepository: Repository<RoleEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});

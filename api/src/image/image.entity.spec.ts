@@ -5,14 +5,14 @@ import { UserProfileImageEntity } from '../user-profile-image/user-profile-image
 import { ImageFactory } from './Image.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('image entity', () => {
 	let connection: Connection;
 	let repository: Repository<ImageEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		repository = connection.getRepository(ImageEntity);
 	});

@@ -5,14 +5,14 @@ import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { VectorFactory } from './vector.factory';
 import { ExpressionFactory } from '../expression/expression/expression.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('column entity', () => {
 	let vectorRepository: Repository<VectorEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		vectorRepository = connection.getRepository(VectorEntity);
 	});

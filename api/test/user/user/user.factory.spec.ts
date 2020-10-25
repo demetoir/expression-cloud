@@ -2,14 +2,14 @@ import { Repository } from 'typeorm';
 import { UserEntity } from 'src/user/user.entity';
 import { UserFactory } from './user.factory';
 import { Connection } from 'typeorm';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('user factory', () => {
 	let userRepository: Repository<UserEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 		userRepository = connection.getRepository(UserEntity);
 	});
 

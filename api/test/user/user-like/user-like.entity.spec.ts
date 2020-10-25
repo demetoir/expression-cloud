@@ -5,7 +5,7 @@ import { Connection, Repository } from 'typeorm';
 import { UserEntity } from 'src/user/user.entity';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('user like entity', () => {
 	let connection: Connection;
@@ -16,7 +16,7 @@ describe('user like entity', () => {
 	let notExistUser: UserEntity;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 		repository = connection.getRepository(UserLikeEntity);
 	});
 

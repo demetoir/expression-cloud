@@ -2,14 +2,14 @@ import { assert } from 'chai';
 import { EditHistoryEntity } from './edit-history.entity';
 import { UserFactory } from 'test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('editHistory entity', () => {
 	let editHistoryRepository: Repository<EditHistoryEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		editHistoryRepository = connection.getRepository(EditHistoryEntity);
 	});

@@ -4,7 +4,7 @@ import { NoticeEntity } from './notice.entity';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { UserFactory } from 'test/user/user/user.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('notice entity', () => {
 	let userRepository: Repository<UserEntity>;
@@ -12,7 +12,7 @@ describe('notice entity', () => {
 	let noticeRepository: Repository<NoticeEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		userRepository = connection.getRepository(UserEntity);
 		noticeRepository = connection.getRepository(NoticeEntity);

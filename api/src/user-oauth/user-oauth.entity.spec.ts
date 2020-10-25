@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { UserOauthEntity } from 'src/user-oauth/user-oauth.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { UserFactory } from 'test/user/user/user.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
 describe('user oauth entity', () => {
@@ -10,7 +10,7 @@ describe('user oauth entity', () => {
 	let oauthRepository : Repository<UserOauthEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		oauthRepository = connection.getRepository(UserOauthEntity);
 	});

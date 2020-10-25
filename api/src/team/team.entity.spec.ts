@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { TeamEntity } from './team.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { UserFactory } from 'test/user/user/user.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
 describe('team entity', () => {
@@ -10,7 +10,7 @@ describe('team entity', () => {
 	let teamRepository: Repository<TeamEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 		teamRepository = connection.getRepository(TeamEntity);
 	});
 

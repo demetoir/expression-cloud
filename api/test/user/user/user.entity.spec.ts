@@ -14,14 +14,14 @@ import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { RoleEnum } from 'src/role/role.enum';
 import { UserFactory } from './user.factory';
 import { Connection, QueryFailedError } from 'typeorm';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 		userRepository = connection.getRepository(UserEntity);
 	});
 

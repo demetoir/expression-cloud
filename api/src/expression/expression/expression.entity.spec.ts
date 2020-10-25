@@ -9,14 +9,14 @@ import { ExpressionFactory } from './expression.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from 'test/user/user/user.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 
 describe('expression entity', () => {
 	let expressionRepository :Repository<ExpressionEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 
 		expressionRepository = connection.getRepository(ExpressionEntity);
 	});

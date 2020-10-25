@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { TagEntity } from './tag.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { ExpressionFactory } from '../expression/expression/expression.factory';
-import { getConnection } from 'test/resource/typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
 describe('tag entity', () => {
@@ -10,7 +10,7 @@ describe('tag entity', () => {
 	let tagRepository: Repository<TagEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnection();
+		connection = await getConnectionForTest();
 		tagRepository = connection.getRepository(TagEntity);
 	});
 
