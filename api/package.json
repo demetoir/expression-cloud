@@ -23,6 +23,7 @@
 		"typeorm:migration:create": "yarn typeorm migration:create -n",
 		"typeorm:migration:run": "yarn typeorm migration:run",
 		"typeorm:migration:revert": "yarn typeorm migration:revert",
+		"generate:test-storage:migration": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config test/util/typeorm/migration.config.js migration:generate -n prepare-schema",
 		"docker:test-storage:up": "sh ./script/docker-test-storage-up.sh",
 		"docker:test-storage:down": "sh ./script/docker-test-storage-down.sh",
 		"docker:dev-storage:up": "sh script/docker-dev-storage-up.sh",
