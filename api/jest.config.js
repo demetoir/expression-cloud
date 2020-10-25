@@ -14,6 +14,6 @@ module.exports = {
 	testTimeout: 30000,
 	maxConcurrency: 1,
 	maxWorkers: 1,
-	globalSetup: './jest.setup.js',
-	globalTeardown: './jest.teardown.js',
+	globalSetup: './test/jest.setup.ts',
+	globalTeardown: './test/jest.teardown.ts',
 };
