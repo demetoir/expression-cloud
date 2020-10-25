@@ -7,9 +7,9 @@ import { IComment } from 'src/comment/comment.interface';
 import { ITeam } from 'src/team/team.interface';
 import { IUserProfileImage } from 'src/user-profile-image/user-profile-image.interface';
 import { IRole } from 'src/role/role.interface';
-import { INode, ITimeStamp } from 'src/common/model/entity/base/node';
+import { IBaseEntity } from 'src/common/model/entity/base/base.interface';
 
-export declare interface IUser extends INode, ITimeStamp {
+export declare interface IUser extends IBaseEntity {
 	name: string;
 
 	email: string;
