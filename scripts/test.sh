@@ -7,7 +7,7 @@ yarn docker:test-storage:up
 echo 'wait 20s for mysql docker container'
 sleep 20
 
-yarn test:cov
+yarn test
 yarn docker:test-storage:down
 cd ..
 
