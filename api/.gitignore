@@ -1,7 +1,7 @@
 /compdoc
 
 # .env
-/env/.env
+./env/.env
 
 # serverless
 .serverless
