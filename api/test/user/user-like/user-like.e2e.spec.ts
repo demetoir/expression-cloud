@@ -12,7 +12,7 @@ import { entityToResponse } from 'test/util';
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import * as _ from 'lodash';
 import { MAX_LIMIT } from 'src/user-like/user-like.controller';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 
 describe('UserLikeModule (e2e)', () => {
 	let app: INestApplication;

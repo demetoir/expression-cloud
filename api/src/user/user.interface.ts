@@ -1,4 +1,3 @@
-import { IBaseEntity } from 'src/common/model/entity/base/base.interface';
 import { IUserSetting } from 'src/user-setting/user-setting.interface';
 import { IOauth } from 'src/user-oauth/user-oauth.interface';
 import { INotice } from 'src/notice/notice.interface';
@@ -8,16 +7,9 @@ import { IComment } from 'src/comment/comment.interface';
 import { ITeam } from 'src/team/team.interface';
 import { IUserProfileImage } from 'src/user-profile-image/user-profile-image.interface';
 import { IRole } from 'src/role/role.interface';
+import { INode, ITimeStamp } from 'src/common/model/entity/base/node';
 
-export declare interface IUser extends IBaseEntity {
-	id: number;
-
-	createdAt: Date;
-
-	updatedAt: Date;
-
-	deletedAt: Date;
-
+export declare interface IUser extends INode, ITimeStamp {
 	name: string;
 
 	email: string;

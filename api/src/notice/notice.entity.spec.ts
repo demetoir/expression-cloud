@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { NoticeEntity } from './notice.entity';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';

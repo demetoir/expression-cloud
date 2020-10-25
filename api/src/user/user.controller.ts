@@ -6,7 +6,7 @@ import {
 	Override,
 	ParsedRequest,
 } from '@nestjsx/crud';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { logger } from 'src/common/libs/winstonToolkit';
 import {

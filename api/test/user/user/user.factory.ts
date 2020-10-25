@@ -1,4 +1,4 @@
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { IUser } from 'src/user/user.interface';
 import { internet, lorem, name, random } from 'faker';
 

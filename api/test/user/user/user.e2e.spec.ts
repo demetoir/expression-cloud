@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { GlobalTypeormModule } from 'src/database/global-typeorm/global-typeorm.module';
 import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { Repository } from 'typeorm';
 import { UserModule } from 'src/user/user.module';
 import { entityToResponse } from 'test/util';

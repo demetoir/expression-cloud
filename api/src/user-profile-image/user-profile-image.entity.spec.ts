@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { UserProfileImageEntity } from 'src/user-profile-image/user-profile-image.entity';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { ImageEntity } from 'src/image/image.entity';
 import { UserFactory } from 'test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm';

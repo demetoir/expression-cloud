@@ -1,7 +1,7 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
 import { IUserProfileImage } from 'src/user-profile-image/user-profile-image.interface';
 import { ImageEntity } from 'src/image/image.entity';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 
 @Entity({ name: 'user_profile_images' })

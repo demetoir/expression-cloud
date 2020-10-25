@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { UserFactory } from './user.factory';
 import { Connection } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';

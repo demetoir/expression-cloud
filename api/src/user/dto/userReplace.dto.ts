@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { AbstractBaseDto } from 'src/common/abstractBaseDto';
 import { plainToClass } from 'class-transformer';
 

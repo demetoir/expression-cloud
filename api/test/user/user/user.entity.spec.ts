@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/model/user.entity';
 import { NoticeEntity } from 'src/notice/notice.entity';
 import { TeamEntity } from 'src/team/team.entity';
 import { EditHistoryEntity } from 'src/history/edit-history.entity';

@@ -1,4 +1,3 @@
-// all-exception.filter.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { Controller, Get, INestApplication, UseFilters } from '@nestjs/common';
 import { DatabaseQueryFailFilter } from './database-query-fail-error.filter';
