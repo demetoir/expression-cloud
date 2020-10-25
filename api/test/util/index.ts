@@ -1,5 +1,4 @@
 import { serialize } from 'class-transformer';
 
-export function entityToResponse(entity) {
-	return JSON.parse(serialize(entity));
-}
+export const entityToResponse = (entity: unknown): any =>
+	JSON.parse(serialize(entity));
