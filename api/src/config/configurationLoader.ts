@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import * as dotenv from 'dotenv';
 
 const getDotEnv = (nodeEnv = 'development') => {
-	const envDir = `${__dirname}/../../../env`;
+	const envDir = `${__dirname}/../../env`;
 
 	const mapper = {
 		development: `${envDir}/.env.dev`,
