@@ -1,44 +1,33 @@
 import { resolve } from 'path';
+import * as dotenv from 'dotenv';
 
-const DEFAULT_DEV_DOT_ENV_PATH = __dirname + '/../../env/api.dev.env';
-const DEFAULT_PROD_DOT_ENV_PATH = __dirname + '/../../env/api.env';
-const DEFAULT_TEST_DOT_ENV_PATH = __dirname + '/../../env/api.test.env';
+const getDotEnv = (nodeEnv = 'development') => {
+	const envDir = `${__dirname}/../../../env`;
 
-function loadDotEnv({ devPath, prodPath, testPath }): any {
-	if (process.env.is_PM2) {
-		return process.env;
+	const mapper = {
+		development: `${envDir}/.env.dev`,
+		production: `${envDir}/.env.prod`,
+		test: `${envDir}/.env.test`,
+	};
+
+	if (!(nodeEnv in mapper)) {
+		throw new Error(`NODE_ENV ${nodeEnv} is not expected value`);
 	}
 
-	const NODE_ENV = process.env.NODE_ENV || 'development';
+	const path = resolve(mapper[nodeEnv]);
 
-	console.debug(`load dot env as ${NODE_ENV} mode`);
+	return dotenv.config({ path }).parsed;
+};
 
-	let path;
-	if (NODE_ENV === 'development') {
-		path = devPath;
-	} else if (NODE_ENV === 'production') {
-		path = prodPath;
-	} else if (NODE_ENV === 'test') {
-		path = testPath;
-	} else {
-		throw new Error(`NODE_ENV ${NODE_ENV} is not expected value`);
-	}
+export const configurationLoader = (): any => {
+	const dotEnv = getDotEnv(process.env.NODE_ENV);
 
-	path = resolve(path);
-	return require('dotenv').config({ path }).parsed;
-}
+	return transformEnv({ ...process.env, ...dotEnv });
+};
 
-const env = loadDotEnv({
-	devPath: DEFAULT_DEV_DOT_ENV_PATH,
-	prodPath: DEFAULT_PROD_DOT_ENV_PATH,
-	testPath: DEFAULT_TEST_DOT_ENV_PATH,
-});
+const parseBoolean = (val) => !!JSON.parse(String(val).toLowerCase());
 
-function parseBoolean(val) {
-	return !!JSON.parse(String(val).toLowerCase());
-}
-
-export const configurationLoader = (): any => ({
+const transformEnv = (env) => ({
 	// node
 	NODE_PORT: parseInt(env.NODE_PORT, 10),
 	NODE_ENV: env.NODE_ENV,
