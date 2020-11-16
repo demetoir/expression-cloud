@@ -1,1 +1,1 @@
-module.exports = async function () {};
+module.exports = async () => null;
