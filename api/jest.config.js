@@ -13,7 +13,7 @@ module.exports = {
 	testEnvironment: 'node',
 	testTimeout: 30000,
 	maxConcurrency: 1,
-	maxWorkers: 1,
+	maxWorkers: 5,
 	globalSetup: './test/jest.setup.ts',
 	globalTeardown: './test/jest.teardown.ts',
 };
