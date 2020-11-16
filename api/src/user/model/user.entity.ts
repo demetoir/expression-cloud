@@ -1,98 +1,173 @@
-import { Entity } from 'typeorm';
+import { Entity, JoinTable, ManyToMany, OneToMany, OneToOne } from 'typeorm';
 import { NoticeEntity } from 'src/notice/notice.entity';
 import { TeamEntity } from 'src/team/team.entity';
 import { EditHistoryEntity } from 'src/history/edit-history.entity';
 import { CommentEntity } from 'src/comment/comment.entity';
 import { UserOauthEntity } from 'src/user-oauth/user-oauth.entity';
 import { ExpressionEntity } from 'src/expression/expression/expression.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { UserSettingEntity } from 'src/user-setting/user-setting.entity';
 import { UserProfileImageEntity } from 'src/user-profile-image/user-profile-image.entity';
 import { RoleEntity } from 'src/role/role.entity';
-import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import {
-	CommentsRelation,
-	DescriptionColumn,
-	EditHistoriesRelation,
-	EmailColumn,
-	ExpressionsRelation,
-	ForkCountColumn,
-	IsAnonymousColumn,
-	LikeCountColumn,
-	LikeFromUsersRelation,
-	LikeToExpressionsRelation,
-	LikeToUsersRelation,
-	NameColumn,
-	NoticesRelation,
-	RolesRelation,
-	TeamsRelation,
-	UserOauthRelation,
-	UserProfileImageRelation,
-	UserSettingsRelation,
-} from 'src/user/decorators';
-
-// 기존 코드에 비해 데코레이터가 차지하는 부분이 너무 크고 코드 읽기시 집중력에 심한 낭비가 오므
-// 각 필드마다 필요한 데코레이터를 모두 분리하였다.
-// 각 필드는 디비의 컬럼에 매칭되기 때문이고, 서로 직교적이기 떄문에 분리하더라도 유지보수시 상관없다
+	BooleanColumn,
+	IntColumn,
+	TextColumn,
+	VarcharColumn,
+} from 'src/common';
 
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
-	id: number;
-
-	createdAt: Date;
-	updatedAt: Date;
-	deletedAt: Date;
-
-	@NameColumn()
+	@ApiProperty({
+		required: false,
+	})
+	@VarcharColumn({
+		name: 'name',
+		length: 255,
+	})
 	name: string;
 
-	@EmailColumn()
-	email: string;
+	@ApiProperty()
+	@VarcharColumn({
+		name: 'email',
+		length: 255,
+		nullable: null,
+		default: null,
+		unique: true,
+	})
+	email?: string;
 
-	@DescriptionColumn()
-	description: string;
+	@ApiProperty()
+	@TextColumn({
+		name: 'description',
+		nullable: true,
+		default: null,
+	})
+	description?: string;
 
-	@IsAnonymousColumn()
+	@ApiProperty()
+	@BooleanColumn({
+		name: 'is_anonymous',
+		default: false,
+	})
 	isAnonymous: boolean;
 
-	@LikeCountColumn()
+	@ApiProperty()
+	@IntColumn({
+		name: 'liked_count',
+		default: 0,
+	})
 	likedCount: number;
 
-	@ForkCountColumn()
+	@ApiProperty()
+	@IntColumn({
+		name: 'forked_count',
+		default: 0,
+	})
 	forkedCount: number;
 
-	@UserSettingsRelation()
+	// relation
+
+	@ApiProperty()
+	@OneToOne(() => UserSettingEntity, (setting) => setting.user)
 	setting: Promise<UserSettingEntity>;
 
-	@UserOauthRelation()
+	@ApiProperty()
+	@OneToOne(() => UserOauthEntity, (oauth) => oauth.user)
 	oauth: UserOauthEntity;
 
-	@NoticesRelation()
+	@ApiProperty()
+	@OneToMany(() => NoticeEntity, (notices) => notices.user, {
+		eager: false,
+	})
 	notices: NoticeEntity[];
 
-	@EditHistoriesRelation()
+	@ApiProperty()
+	@OneToMany(() => EditHistoryEntity, (editHistory) => editHistory.user, {
+		eager: false,
+	})
 	editHistories: EditHistoryEntity[];
 
-	@ExpressionsRelation()
+	@ApiProperty()
+	@OneToMany(() => ExpressionEntity, (expresion) => expresion.user, {
+		eager: false,
+	})
 	expressions: ExpressionEntity[];
 
-	@UserProfileImageRelation()
+	@ApiProperty()
+	@OneToOne(() => UserProfileImageEntity, (object) => object.user)
 	profileImage: UserProfileImageEntity;
 
-	@CommentsRelation()
+	@ApiProperty()
+	@OneToMany(() => CommentEntity, (comments) => comments.user)
 	comments: CommentEntity[];
 
-	@RolesRelation()
+	@ApiProperty()
+	@ManyToMany(() => RoleEntity, {
+		eager: false,
+		cascade: true,
+	})
+	@JoinTable({
+		name: 'user_role',
+		joinColumn: {
+			name: 'user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'role_id',
+			referencedColumnName: 'id',
+		},
+	})
 	roles: RoleEntity[];
 
-	@TeamsRelation()
+	@ApiProperty()
+	@ManyToMany(() => TeamEntity, (team) => team.users)
 	teams: TeamEntity[];
 
-	@LikeToUsersRelation()
+	@ManyToMany(() => UserEntity, (object) => object.likeFromUsers, {
+		eager: false,
+	})
+	@JoinTable({
+		name: 'user_likes',
+		joinColumn: {
+			name: 'to_user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+	})
 	likeToUsers: UserEntity[];
 
-	@LikeFromUsersRelation()
+	@ManyToMany(() => UserEntity, (object) => object.likeToUsers)
+	@JoinTable({
+		name: 'user_likes',
+		joinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'to_user_id',
+			referencedColumnName: 'id',
+		},
+	})
 	likeFromUsers: UserEntity[];
 
-	@LikeToExpressionsRelation()
+	@ManyToMany(() => ExpressionEntity, (expression) => expression.likeFrom, {
+		eager: false,
+	})
+	@JoinTable({
+		name: 'expression_likes',
+		joinColumn: {
+			name: 'from_user_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'to_expression_id',
+			referencedColumnName: 'id',
+		},
+	})
 	likeToExpressions: ExpressionEntity[];
 }
