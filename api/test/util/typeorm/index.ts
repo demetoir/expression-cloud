@@ -1,65 +1,40 @@
-import { Connection, createConnection } from 'typeorm';
-import { range } from 'lodash';
-import { prepareSchema1603608484576 } from './migration/1603608484576-prepare-schema';
+import { createConnection } from 'typeorm';
+import { Connection } from 'typeorm/connection/Connection';
+import { v4 as uuid } from 'uuid';
+import { configurationLoader } from 'src/config/configurationLoader';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const dotEnv = require('dotenv').config({
-	path: `${__dirname}/../../../env/.env.test`,
-}).parsed;
+/**
+ * prepare database for test
+ *
+ * DB에 연결후 인자로 넘긴 database 생성뒤 synchronize 한다
+ * database 인자를 주지않으면 uuid v4로 생성된 값을 사용한
+ *
+ * @param {string} database
+ * @param options
+ */
+export const getConnectionForTest = async (
+	database?: string,
+	options?: any,
+): Promise<Connection> => {
+	const config = configurationLoader();
 
-export async function getConnectionForTest(config?): Promise<Connection> {
-	return await createConnection({
-		type: dotEnv.TYPEORM_TYPE,
-		host: dotEnv.TYPEORM_HOST,
-		port: dotEnv.TYPEORM_PORT,
-		username: dotEnv.TYPEORM_USERNAME,
-		password: dotEnv.TYPEORM_PASSWORD,
-		database: dotEnv.TYPEORM_DATABASE,
-		logging: dotEnv.TYPEORM_LOGGING,
-		bigNumberStrings: false,
-		entities: [`${__dirname}/../../../src/**/*.entity.ts`],
-		...config,
+	const connection = await createConnection({
+		type: config.TYPEORM_TYPE,
+		host: config.TYPEORM_HOST,
+		port: config.TYPEORM_PORT,
+		username: config.TYPEORM_USERNAME,
+		password: config.TYPEORM_PASSWORD,
+		database: config.TYPEORM_DATABASE,
+		entities: ['./src/**/*.entity.ts'],
+		...options,
 	});
-}
 
-const MAX_RETRY = 8;
-const SLEEP_TIME = 100;
-export const prepareDatabaseSchema = async (config?) => {
-	console.debug('connect to database');
+	const databaseName = database || uuid().replace('-', '_');
 
-	let sleepTime = SLEEP_TIME;
-	let connection = null;
-	for await (const _ of range(0, MAX_RETRY)) {
-		try {
-			connection = await createConnection({
-				...config,
-				migrations: [prepareSchema1603608484576],
-			});
-		} catch (e) {
-			if (e.name === 'AlreadyHasActiveConnectionError') {
-				break;
-			}
+	await connection.query(`drop database if exists ${databaseName}`);
+	await connection.query(`create database if not exists ${databaseName}`);
+	await connection.query(`use ${databaseName}`);
+	await connection.synchronize();
 
-			throw e;
-		}
-
-		console.debug(`sleep wait for db ${sleepTime}ms`);
-		await sleep(sleepTime);
-		sleepTime *= 2;
-	}
-
-	if (!connection) {
-		throw new Error('can not connect to test database');
-	}
-
-	console.debug('drop database');
-	await connection.dropDatabase();
-
-	console.debug('run migration');
-	await connection.runMigrations({ transaction: 'all' });
-
-	console.debug('close connection');
-	await connection.close();
+	return connection;
 };
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
