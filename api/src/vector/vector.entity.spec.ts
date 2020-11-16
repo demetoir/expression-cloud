@@ -7,12 +7,13 @@ import { VectorFactory } from './vector.factory';
 import { ExpressionFactory } from '../expression/expression/expression.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 
-describe('column entity', () => {
+const database = 'vector_entity';
+describe('vector entity', () => {
 	let vectorRepository: Repository<VectorEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		vectorRepository = connection.getRepository(VectorEntity);
 	});

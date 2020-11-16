@@ -11,12 +11,13 @@ import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from 'test/user/user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'expression_entity';
 describe('expression entity', () => {
-	let expressionRepository :Repository<ExpressionEntity>;
+	let expressionRepository: Repository<ExpressionEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		expressionRepository = connection.getRepository(ExpressionEntity);
 	});

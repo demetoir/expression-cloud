@@ -5,12 +5,13 @@ import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'scalar_entity';
 describe('scalar entity', () => {
 	let repository: Repository<ScalarEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		repository = await connection.getRepository(ScalarEntity);
 	});

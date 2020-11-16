@@ -5,12 +5,13 @@ import { UserFactory } from 'test/user/user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
+const database = 'user_oauth_entity';
 describe('user oauth entity', () => {
-	let connection : Connection;
-	let oauthRepository : Repository<UserOauthEntity>;
+	let connection: Connection;
+	let oauthRepository: Repository<UserOauthEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		oauthRepository = connection.getRepository(UserOauthEntity);
 	});
@@ -19,11 +20,11 @@ describe('user oauth entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(oauthRepository);
 	});
 
-	it('should create new project', async function() {
+	it('should create new project', async function () {
 		const oauth = new UserOauthEntity();
 		oauth.type = 1;
 		oauth.authId = 'id';
@@ -36,7 +37,7 @@ describe('user oauth entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on type', async function() {
+		it('should not null on type', async function () {
 			try {
 				const type = null;
 				const authId = 'id';
@@ -49,11 +50,11 @@ describe('user oauth entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe('Column \'type\' cannot be null');
+				expect(e.message).toBe("Column 'type' cannot be null");
 			}
 		});
 
-		it('should not null on authId', async function() {
+		it('should not null on authId', async function () {
 			try {
 				const type = 0;
 				const authId = null;
@@ -66,7 +67,7 @@ describe('user oauth entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe('Column \'auth_id\' cannot be null');
+				expect(e.message).toBe("Column 'auth_id' cannot be null");
 			}
 		});
 	});

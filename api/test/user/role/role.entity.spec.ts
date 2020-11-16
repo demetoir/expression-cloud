@@ -7,12 +7,14 @@ import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from '../user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+
+const database = 'role_entity'
 describe('role entity', () => {
 	let connection: Connection;
 	let roleRepository: Repository<RoleEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		roleRepository = connection.getRepository(RoleEntity);
 	});

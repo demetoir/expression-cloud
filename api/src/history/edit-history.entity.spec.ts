@@ -4,12 +4,13 @@ import { UserFactory } from 'test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'entity_history_entity';
 describe('editHistory entity', () => {
 	let editHistoryRepository: Repository<EditHistoryEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		editHistoryRepository = connection.getRepository(EditHistoryEntity);
 	});

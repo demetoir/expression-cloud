@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'user_like_entity';
 describe('user like entity', () => {
 	let connection: Connection;
 	let repository: Repository<UserLikeEntity>;
@@ -16,7 +17,7 @@ describe('user like entity', () => {
 	let notExistUser: UserEntity;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		repository = connection.getRepository(UserLikeEntity);
 	});
 
@@ -34,19 +35,19 @@ describe('user like entity', () => {
 		await connection.manager.remove(user);
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		expect(connection).toBeDefined();
 		expect(repository).toBeDefined();
 	});
 
-	it('should prepare fixtures', function() {
+	it('should prepare fixtures', function () {
 		expect(fromUser).toBeDefined();
 		expect(toUser).toBeDefined();
 		expect(notExistUser).toBeDefined();
 	});
 
-	describe('when create entity', function() {
-		it('should create new project', async function() {
+	describe('when create entity', function () {
+		it('should create new project', async () => {
 			const like = new UserLikeEntity();
 			like.fromUserId = fromUser.id;
 			like.toUserId = toUser.id;
@@ -61,7 +62,7 @@ describe('user like entity', () => {
 			expect(stored).toEqual(like);
 		});
 
-		it('raise error, if not exist fromUserId', async function() {
+		it('raise error, if not exist fromUserId', async () => {
 			try {
 				const like = new UserLikeEntity();
 				like.fromUserId = notExistUser.id;
@@ -77,7 +78,7 @@ describe('user like entity', () => {
 			}
 		});
 
-		it('raise error, if fromUserId is undefined', async function() {
+		it('raise error, if fromUserId is undefined', async () => {
 			try {
 				const like = new UserLikeEntity();
 				like.fromUserId = undefined;
@@ -92,7 +93,7 @@ describe('user like entity', () => {
 			}
 		});
 
-		it('raise error, if not exist toUserId', async function() {
+		it('raise error, if not exist toUserId', async () => {
 			try {
 				const like = new UserLikeEntity();
 				like.fromUserId = fromUser.id;
@@ -108,7 +109,7 @@ describe('user like entity', () => {
 			}
 		});
 
-		it('raise error, if toUserId is undefined', async function() {
+		it('raise error, if toUserId is undefined', async () => {
 			try {
 				const like = new UserLikeEntity();
 				like.fromUserId = fromUser.id;
@@ -123,7 +124,7 @@ describe('user like entity', () => {
 			}
 		});
 
-		it('raise error, if not exist fromUserId and toUserId', async function() {
+		it('raise error, if not exist fromUserId and toUserId', async () => {
 			try {
 				const like = new UserLikeEntity();
 				like.fromUserId = notExistUser.id;
@@ -139,7 +140,7 @@ describe('user like entity', () => {
 			}
 		});
 
-		it('raise error, if toUserId is undefined', async function() {
+		it('raise error, if toUserId is undefined', async () => {
 			try {
 				const like = new UserLikeEntity();
 				like.fromUserId = undefined;
@@ -155,8 +156,8 @@ describe('user like entity', () => {
 		});
 	});
 
-	describe('when remove entity', function() {
-		it('should soft removed', async function() {
+	describe('when remove entity', function () {
+		it('should soft removed', async () => {
 			const like = new UserLikeEntity();
 			like.fromUserId = fromUser.id;
 			like.toUserId = toUser.id;
@@ -184,7 +185,7 @@ describe('user like entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on fromUserId', async function() {
+		it('should not null on fromUserId', async () => {
 			try {
 				const fromUserId = null;
 				const toUserId = 3;
@@ -196,11 +197,11 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe('Column \'from_user_id\' cannot be null');
+				expect(e.message).toBe("Column 'from_user_id' cannot be null");
 			}
 		});
 
-		it('should not null on toUserId', async function() {
+		it('should not null on toUserId', async () => {
 			try {
 				const fromUserId = 3;
 				const toUserId = null;
@@ -213,7 +214,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe('Column \'to_user_id\' cannot be null');
+				expect(e.message).toBe("Column 'to_user_id' cannot be null");
 			}
 		});
 	});

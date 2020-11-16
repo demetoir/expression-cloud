@@ -5,12 +5,13 @@ import { ImageFactory } from 'src/image/Image.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
+const database = 'Expression_Thumbnail_ImageEntity';
 describe('ExpressionThumbnailImage entity', () => {
 	let repository: Repository<ExpressionThumbnailImageEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		repository = connection.getRepository(ExpressionThumbnailImageEntity);
 	});
 

@@ -4,13 +4,14 @@ import { UserSettingEntity } from 'src/user-setting/user-setting.entity';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { UserFactory } from '../user/user.factory';
 
+const database = 'user_setting_entity';
 describe('user-setting entity', () => {
 	let connection: Connection;
 	let userSettingRepository: Repository<UserSettingEntity>;
 	let manager: EntityManager;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		userSettingRepository = connection.getRepository(UserSettingEntity);
 		manager = connection.manager;
 	});

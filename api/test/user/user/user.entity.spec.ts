@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { Repository } from 'typeorm';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
 import { NoticeEntity } from 'src/notice/notice.entity';
 import { TeamEntity } from 'src/team/team.entity';
@@ -13,15 +13,15 @@ import { UserProfileImageEntity } from 'src/user-profile-image/user-profile-imag
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { RoleEnum } from 'src/role/role.enum';
 import { UserFactory } from './user.factory';
-import { Connection, QueryFailedError } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'user_entity';
 describe('user entity', () => {
 	let userRepository: Repository<UserEntity>;
 	let connection: Connection;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		userRepository = connection.getRepository(UserEntity);
 	});
 
@@ -29,11 +29,11 @@ describe('user entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function() {
+	it('should able to get repository from connection manager', function () {
 		assert.isNotNull(userRepository);
 	});
 
-	it('should create new user', async function() {
+	it('should create new user', async function () {
 		const user = UserFactory.build();
 
 		await connection.manager.save(user);
@@ -48,7 +48,7 @@ describe('user entity', () => {
 		const description = 'description';
 		const email = 'email';
 
-		it('name should not be undefined', async function() {
+		it('name should not be undefined', async function () {
 			try {
 				const user = UserFactory.build();
 				user.name = undefined;
@@ -64,7 +64,7 @@ describe('user entity', () => {
 			}
 		});
 
-		it('email should default null, while it is undefined', async function() {
+		it('email should default null, while it is undefined', async function () {
 			const user = UserFactory.build();
 
 			user.email = undefined;
@@ -76,7 +76,7 @@ describe('user entity', () => {
 			assert.equal(result.email, null);
 		});
 
-		it('forkedCount should not be null', async function() {
+		it('forkedCount should not be null', async function () {
 			try {
 				const user = UserFactory.build();
 				user.forkedCount = null;
@@ -90,7 +90,7 @@ describe('user entity', () => {
 			}
 		});
 
-		it('forkedCount should be 0 as default', async function() {
+		it('forkedCount should be 0 as default', async function () {
 			const user = UserFactory.build();
 
 			await connection.manager.save(user);
@@ -104,7 +104,7 @@ describe('user entity', () => {
 			assert.equal(result.forkedCount, 0);
 		});
 
-		it('likeCount should be not null', async function() {
+		it('likeCount should be not null', async function () {
 			try {
 				const user = new UserEntity();
 				user.name = name;
@@ -121,7 +121,7 @@ describe('user entity', () => {
 			}
 		});
 
-		it('likeCount should be 0 as default', async function() {
+		it('likeCount should be 0 as default', async function () {
 			const user = UserFactory.build();
 
 			await connection.manager.save(user);
@@ -135,7 +135,7 @@ describe('user entity', () => {
 			assert.equal(result.likedCount, 0);
 		});
 
-		it('isAnonymous should not null', async function() {
+		it('isAnonymous should not null', async function () {
 			try {
 				const name = 'Me and Bears';
 				const description = 'description';
@@ -156,7 +156,7 @@ describe('user entity', () => {
 			}
 		});
 
-		it('isAnonymous should be false as default', async function() {
+		it('isAnonymous should be false as default', async function () {
 			const user = UserFactory.build();
 
 			await connection.manager.save(user);
@@ -175,7 +175,7 @@ describe('user entity', () => {
 			return await connection.manager.save(user);
 		}
 
-		it('should relate with role entity', async function() {
+		it('should relate with role entity', async function () {
 			user = await getNewUser();
 
 			const adminRole = new RoleEntity();
@@ -196,7 +196,7 @@ describe('user entity', () => {
 			assert.deepEqual(user.roles, [adminRole, userRole]);
 		});
 
-		it('should relate with notice entity', async function() {
+		it('should relate with notice entity', async function () {
 			user = await getNewUser();
 
 			const notice1 = new NoticeEntity();
@@ -217,7 +217,7 @@ describe('user entity', () => {
 			assert.deepStrictEqual(result.notices[0].id, notice1.id);
 		});
 
-		it('should relate with user setting entity', async function() {
+		it('should relate with user setting entity', async function () {
 			user = await getNewUser();
 
 			const userSetting = new UserSettingEntity();
@@ -233,7 +233,7 @@ describe('user entity', () => {
 			assert.isNotNull(await result1.setting);
 		});
 
-		it('should relate with team entity', async function() {
+		it('should relate with team entity', async function () {
 			user = await getNewUser();
 
 			const team = new TeamEntity();
@@ -255,7 +255,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.teams[0].id, team.id);
 		});
 
-		it('should relate with edit history entity', async function() {
+		it('should relate with edit history entity', async function () {
 			user = await getNewUser();
 
 			const editHistoryEntity = new EditHistoryEntity();
@@ -273,7 +273,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.editHistories[0].id, editHistoryEntity.id);
 		});
 
-		it('should relate with project', async function() {
+		it('should relate with project', async function () {
 			user = await getNewUser();
 
 			const expression = new ExpressionEntity();
@@ -297,7 +297,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.expressions[0].id, expression.id);
 		});
 
-		it('should relate with comments', async function() {
+		it('should relate with comments', async function () {
 			user = await getNewUser();
 
 			const comment = new CommentEntity();
@@ -318,7 +318,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.comments[0].id, comment.id);
 		});
 
-		it('should relate with oauth', async function() {
+		it('should relate with oauth', async function () {
 			user = await getNewUser();
 
 			const oauth = new UserOauthEntity();
@@ -341,7 +341,7 @@ describe('user entity', () => {
 			assert.equal(resultUser.oauth.id, oauth.id);
 		});
 
-		it('should relate like user', async function() {
+		it('should relate like user', async function () {
 			user = await getNewUser();
 
 			const user1 = await getNewUser();
@@ -367,7 +367,7 @@ describe('user entity', () => {
 			assert.equal(result2.likeFromUsers[0].id, user1.id);
 		});
 
-		it('should relate with user profile image entity', async function() {
+		it('should relate with user profile image entity', async function () {
 			user = await getNewUser();
 
 			const userProfileImage = new UserProfileImageEntity();
@@ -398,7 +398,7 @@ describe('user entity', () => {
 			return await connection.manager.save(expression);
 		}
 
-		it('should relate with like expression', async function() {
+		it('should relate with like expression', async function () {
 			user = await getNewUser();
 
 			const expression = await getNewExpressionEntity();

@@ -6,12 +6,13 @@ import { UserFactory } from 'test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'user_profile_entity';
 describe('userProfile entity', () => {
 	let connection: Connection;
 	let repository: Repository<UserProfileImageEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		repository = connection.getRepository(UserProfileImageEntity);
 	});
 

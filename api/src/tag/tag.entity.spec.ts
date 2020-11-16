@@ -5,12 +5,13 @@ import { ExpressionFactory } from '../expression/expression/expression.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
+const database = 'tag_entity';
 describe('tag entity', () => {
 	let connection: Connection;
 	let tagRepository: Repository<TagEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		tagRepository = connection.getRepository(TagEntity);
 	});
 

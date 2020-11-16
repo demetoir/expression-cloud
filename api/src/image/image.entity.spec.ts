@@ -7,12 +7,13 @@ import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
 
+const database = 'image_entity';
 describe('image entity', () => {
 	let connection: Connection;
 	let repository: Repository<ImageEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 
 		repository = connection.getRepository(ImageEntity);
 	});

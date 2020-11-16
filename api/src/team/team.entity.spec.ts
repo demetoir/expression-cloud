@@ -5,12 +5,13 @@ import { UserFactory } from 'test/user/user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
 
+const database = 'team_entity'
 describe('team entity', () => {
 	let connection: Connection;
 	let teamRepository: Repository<TeamEntity>;
 
 	beforeAll(async () => {
-		connection = await getConnectionForTest();
+		connection = await getConnectionForTest(database);
 		teamRepository = connection.getRepository(TeamEntity);
 	});
 
