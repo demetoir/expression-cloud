@@ -1,11 +1,9 @@
-import { Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
-import { IUserSetting } from 'src/user-setting/user-setting.interface';
-import { Column } from 'typeorm';
 
 @Entity({ name: 'user_settings' })
-export class UserSettingEntity extends BaseEntity implements IUserSetting {
+export class UserSettingEntity extends BaseEntity {
 	// todo user setting 넣을 컬럼 정보 생각하기
 	@Column({ name: 'user_id', type: 'bigint', nullable: true })
 	userId: number;
