@@ -1,5 +1,4 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IBaseEntity } from './base.interface';
 import {
 	CreatedAtColumn,
 	DeletedAtColumn,
@@ -7,7 +6,7 @@ import {
 	UpdatedAtColumn,
 } from 'src/common/typeorm';
 
-export abstract class BaseEntity implements IBaseEntity {
+export abstract class BaseEntity {
 	@ApiPropertyOptional()
 	@IdColumn()
 	id: number;
