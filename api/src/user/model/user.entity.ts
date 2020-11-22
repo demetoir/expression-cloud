@@ -32,7 +32,7 @@ export class UserEntity extends BaseEntity {
 	@VarcharColumn({
 		name: 'email',
 		length: 255,
-		nullable: null,
+		nullable: true,
 		default: null,
 		unique: true,
 	})
