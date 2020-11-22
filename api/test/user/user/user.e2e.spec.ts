@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { GlobalTypeormModule } from 'src/database/global-typeorm/global-typeorm.module';
 import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
@@ -8,16 +7,21 @@ import { Repository } from 'typeorm';
 import { UserModule } from 'src/user/user.module';
 import { entityToResponse } from 'test/util';
 import { UserFactory } from './user.factory';
+import { getConnectionForTest } from 'test/util/typeorm';
+import { TestTypeormModuleFactory } from 'test/database/test-typeorm/test-typeorm.module.factory';
 
-// todo: moduleFixture에서 typeorm connection 가져와서 sync 해야함
+const database = 'user_module_e2e';
 describe('UserModule (e2e)', () => {
 	let app: INestApplication;
 	let userRepository: Repository<UserEntity>;
 
 	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll을 넣는
 	beforeAll(async () => {
+		const connection = await getConnectionForTest(database);
+		await connection.close();
+
 		const moduleFixture: TestingModule = await Test.createTestingModule({
-			imports: [UserModule, GlobalTypeormModule],
+			imports: [UserModule, TestTypeormModuleFactory(database)],
 		}).compile();
 
 		app = moduleFixture.createNestApplication();
