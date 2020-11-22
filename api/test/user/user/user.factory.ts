@@ -1,9 +1,8 @@
 import { UserEntity } from 'src/user/model/user.entity';
-import { IUser } from 'src/user/user.interface';
 import { internet, lorem, name, random } from 'faker';
 
 export class UserFactory {
-	static build(): IUser {
+	static build(): UserEntity {
 		const user = new UserEntity();
 		user.name = name.findName();
 		user.email = internet.email() + random.number(10000000);
