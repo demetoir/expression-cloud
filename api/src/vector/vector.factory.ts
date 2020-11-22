@@ -1,5 +1,5 @@
-import { VectorEntity } from './vector.entity';
 import { name, random } from 'faker';
+import { VectorEntity } from './vector.entity';
 
 export class VectorFactory {
 	static build(): VectorEntity {

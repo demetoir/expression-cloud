@@ -10,32 +10,20 @@ export class TeamController {
 	}
 
 	@Get('/')
-	async getMany() {
-		return;
-	}
+	async getMany() {}
 
 	@Post('/')
-	async createOne() {
-		return;
-	}
+	async createOne() {}
 
 	@Get('/:id')
-	async getOne() {
-		return;
-	}
+	async getOne() {}
 
 	@Put('/:id')
-	async updateOne() {
-		return;
-	}
+	async updateOne() {}
 
 	@Patch('/:id')
-	async updateOnePartial() {
-		return;
-	}
+	async updateOnePartial() {}
 
 	@Delete('/:id')
-	async deleteOne() {
-		return;
-	}
+	async deleteOne() {}
 }

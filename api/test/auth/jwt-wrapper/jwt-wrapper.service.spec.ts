@@ -71,7 +71,7 @@ describe('JWTWrapperService', () => {
 				duration,
 			);
 
-			//than able to verify
+			// than able to verify
 			const payload: TestIJwtPayload = await jwtService.verifyAsync(
 				token,
 			);
@@ -114,7 +114,7 @@ describe('JWTWrapperService', () => {
 				duration,
 			);
 
-			//than able to verify
+			// than able to verify
 			const payload: TestIJwtPayload = await jwtService.verifyAsync(
 				token,
 			);
@@ -226,8 +226,8 @@ describe('JWTWrapperService', () => {
 				sub: 'any',
 				iss: JWT_ISS,
 				aud: JWT_AUD,
-				iat: iat,
-				exp: exp,
+				iat,
+				exp,
 				uuid: tokenUuid,
 				type: PayloadTypes.refresh,
 			};
@@ -255,8 +255,8 @@ describe('JWTWrapperService', () => {
 				sub: 'any',
 				iss: JWT_ISS,
 				aud: JWT_AUD,
-				iat: iat,
-				exp: exp,
+				iat,
+				exp,
 				uuid: tokenUuid,
 				type: PayloadTypes.refresh,
 			};
@@ -285,8 +285,8 @@ describe('JWTWrapperService', () => {
 				sub: 'any',
 				iss: JWT_ISS,
 				aud: JWT_AUD,
-				iat: iat,
-				exp: exp,
+				iat,
+				exp,
 				uuid: tokenUuid,
 			};
 
@@ -304,8 +304,8 @@ describe('JWTWrapperService', () => {
 				sub: 'any',
 				iss: JWT_ISS,
 				aud: JWT_AUD,
-				iat: iat,
-				exp: exp,
+				iat,
+				exp,
 				uuid: tokenUuid,
 			};
 

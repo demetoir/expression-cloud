@@ -1,5 +1,5 @@
-import { ApiCRUDDecorator } from '../apiPropertyOption.interface';
 import { ApiResponse } from '@nestjs/swagger';
+import { ApiCRUDDecorator } from '../apiPropertyOption.interface';
 import { ForbiddenException } from '../exception/forbidden.exception';
 
 export const ApiForbiddenResponse = (): ApiCRUDDecorator =>

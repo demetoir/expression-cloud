@@ -5,7 +5,6 @@ import { Connection, EntityManager, Repository } from 'typeorm';
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { UserLikeModule } from 'src/user-like/user-like.module';
 import * as request from 'supertest';
-import { UserFactory } from '../user/user.factory';
 import { entityToResponse } from 'test/util';
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import * as _ from 'lodash';
@@ -13,6 +12,7 @@ import { MAX_LIMIT } from 'src/user-like/user-like.controller';
 import { UserEntity } from 'src/user/model/user.entity';
 import { TestTypeormModuleFactory } from 'test/database/test-typeorm/test-typeorm.module.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { UserFactory } from '../user/user.factory';
 
 const database = 'user_like_module_e2e';
 describe('UserLikeModule (e2e)', () => {
@@ -25,6 +25,7 @@ describe('UserLikeModule (e2e)', () => {
 
 	async function prepareDb(n = 10) {
 		const users = [];
+
 		for await (const _i of _.range(n)) {
 			const user = UserFactory.build();
 			const stored = await manager.save(user);
@@ -45,6 +46,7 @@ describe('UserLikeModule (e2e)', () => {
 		const likes = await repository.find();
 
 		const storedUsers = await connection.getRepository(UserEntity).find();
+
 		return {
 			users: storedUsers,
 			likes,
@@ -141,7 +143,7 @@ describe('UserLikeModule (e2e)', () => {
 
 			await request(app.getHttpServer())
 				.get('/v1/user-likes')
-				.query({ limit: limitOverMaxLimit, offset: offset })
+				.query({ limit: limitOverMaxLimit, offset })
 				.expect(200)
 				.expect((res) => {
 					expect(res.body.data).toEqual(expectBodyData);

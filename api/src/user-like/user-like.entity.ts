@@ -1,12 +1,12 @@
-import { Entity } from 'typeorm';
-import { IUserLike } from 'src/user-like/user-like.interface';
-import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
+	Entity,
 	CreateDateColumn,
 	DeleteDateColumn,
 	PrimaryColumn,
 	UpdateDateColumn,
 } from 'typeorm';
+import { IUserLike } from 'src/user-like/user-like.interface';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 @Entity({ name: 'user_likes' })
 export class UserLikeEntity implements IUserLike {

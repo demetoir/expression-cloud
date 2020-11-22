@@ -13,7 +13,7 @@ import { VectorModule } from '../vector/vector.module';
 import { ImageModule } from '../image/image.module';
 import { GlobalTypeormModule } from '../database/global-typeorm/global-typeorm.module';
 import { GlobalConfigModule } from '../config/globalConfig.module';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user';
 import { UserLikeModule } from '../user-like/user-like.module';
 import { GlobalGraphqlModule } from '../graphql/global-graphql/global-graphql.module';
 

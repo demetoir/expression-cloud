@@ -13,4 +13,4 @@ export interface ApiCRUDOption extends Omit<ResponseObject, 'description'> {
 
 export declare type ApiCRUDDecorator = MethodDecorator & ClassDecorator;
 
-export declare type getManyResponse<T> = GetManyDefaultResponse<T> | T[];
+export declare type GetManyResponse<T> = GetManyDefaultResponse<T> | T[];

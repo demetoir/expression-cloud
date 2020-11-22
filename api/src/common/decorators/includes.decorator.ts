@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const _Includes = (data: string, ctx: ExecutionContext): string[] => {
+export const decorator = (data: string, ctx: ExecutionContext): string[] => {
 	const request = ctx.switchToHttp().getRequest();
 
 	let includes = request.query.includes || null;
@@ -16,4 +16,4 @@ export const _Includes = (data: string, ctx: ExecutionContext): string[] => {
 	return includes.split(',').filter((x) => x.length > 0);
 };
 
-export const Includes = createParamDecorator(_Includes);
+export const Includes = createParamDecorator(decorator);

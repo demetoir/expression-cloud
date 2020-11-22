@@ -1,11 +1,11 @@
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
-import { UserFactory } from '../user/user.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { UserFactory } from '../user/user.factory';
 
 const database = 'user_like_entity';
 describe('user like entity', () => {
@@ -72,7 +72,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				const errno = e['errno'];
+				const { errno } = e;
 
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_REFERENCED_ROW_2);
 			}
@@ -88,7 +88,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				const errno = e['errno'];
+				const { errno } = e;
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_DEFAULT_FOR_FIELD);
 			}
 		});
@@ -103,7 +103,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				const errno = e['errno'];
+				const { errno } = e;
 
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_REFERENCED_ROW_2);
 			}
@@ -119,7 +119,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				const errno = e['errno'];
+				const { errno } = e;
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_DEFAULT_FOR_FIELD);
 			}
 		});
@@ -134,7 +134,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				const errno = e['errno'];
+				const { errno } = e;
 
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_REFERENCED_ROW_2);
 			}
@@ -150,7 +150,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				const errno = e['errno'];
+				const { errno } = e;
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_DEFAULT_FOR_FIELD);
 			}
 		});

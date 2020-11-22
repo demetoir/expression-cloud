@@ -1,7 +1,7 @@
-import { _Fields, Fields } from './fields.decorator';
 import { ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { mock } from 'jest-mock-extended';
+import { decorator, Fields } from './fields.decorator';
 
 function getExecutionContextMock(request): ExecutionContext {
 	const httpArgumentHost = mock<HttpArgumentsHost>();
@@ -18,7 +18,7 @@ function getExecutionContextMock(request): ExecutionContext {
 describe('fields param decorator', () => {
 	it('should be declare', function () {
 		expect(Fields).toBeDefined();
-		expect(_Fields).toBeDefined();
+		expect(decorator).toBeDefined();
 	});
 
 	it('should be send args (data, ctx)', function () {
@@ -29,7 +29,7 @@ describe('fields param decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _Fields(null, context);
+		const result = decorator(null, context);
 
 		expect(result).toBeInstanceOf(Array);
 	});
@@ -42,7 +42,7 @@ describe('fields param decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _Fields(null, context);
+		const result = decorator(null, context);
 
 		expect(result).toBeInstanceOf(Array);
 	});
@@ -55,7 +55,7 @@ describe('fields param decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _Fields(null, context);
+		const result = decorator(null, context);
 
 		expect(result).toStrictEqual(['a', 'b', 'c']);
 	});
@@ -66,7 +66,7 @@ describe('fields param decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _Fields(null, context);
+		const result = decorator(null, context);
 
 		expect(result).toStrictEqual([]);
 	});
@@ -77,7 +77,7 @@ describe('fields param decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _Fields(null, context);
+		const result = decorator(null, context);
 
 		expect(result).toStrictEqual(['11', '5&&']);
 	});
@@ -91,7 +91,7 @@ describe('fields param decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _Fields(null, context);
+		const result = decorator(null, context);
 
 		expect(result).toStrictEqual(['a', 'v', 'c', 'b', 't', 'o']);
 	});

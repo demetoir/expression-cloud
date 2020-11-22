@@ -19,12 +19,6 @@ const getDotEnv = (nodeEnv = 'development') => {
 	return dotenv.config({ path }).parsed;
 };
 
-export const configurationLoader = (): any => {
-	const dotEnv = getDotEnv(process.env.NODE_ENV);
-
-	return transformEnv({ ...process.env, ...dotEnv });
-};
-
 const parseBoolean = (val) => !!JSON.parse(String(val).toLowerCase());
 
 const transformEnv = (env) => ({
@@ -56,7 +50,13 @@ const transformEnv = (env) => ({
 	// JWT
 	JWT_SECRET: env.JWT_SECRET,
 
-	//api doc end point path
+	// api doc end point path
 	SWAGGER_UI_PATH: env.SWAGGER_UI_PATH,
 	REDOC_PATH: env.REDOC_PATH,
 });
+
+export const configurationLoader = (): any => {
+	const dotEnv = getDotEnv(process.env.NODE_ENV);
+
+	return transformEnv({ ...process.env, ...dotEnv });
+};

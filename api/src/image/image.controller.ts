@@ -9,7 +9,7 @@ export class ImageController {
 		this.logger = logger;
 	}
 
-	//type by user profile, expression thumbnail, team profile image
+	// type by user profile, expression thumbnail, team profile image
 
 	@Get('/')
 	async getMany() {

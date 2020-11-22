@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { entities } from './entity.loader';
 import { configurationLoader } from 'src/config/configurationLoader';
+import { entities } from './entity.loader';
 
 @Module({
 	imports: [
@@ -19,7 +19,7 @@ import { configurationLoader } from 'src/config/configurationLoader';
 					synchronize: config.TYPEORM_SYNCHRONIZE,
 					logging: config.TYPEORM_LOGGING,
 					bigNumberStrings: false,
-					entities: entities,
+					entities,
 					migrations: [],
 					subscribers: [],
 				};

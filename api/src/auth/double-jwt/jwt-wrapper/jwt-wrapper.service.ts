@@ -17,6 +17,7 @@ export class JwtWrapperService<T extends IPayload> {
 
 	async verify(token: string): Promise<T> {
 		let payload: T;
+
 		try {
 			payload = await this.jwtService.verifyAsync(token);
 		} catch (e) {
@@ -68,10 +69,10 @@ export class JwtWrapperService<T extends IPayload> {
 			sub: payload.userId.toString(),
 			iss: JWT_ISS,
 			aud: JWT_AUD,
-			iat: iat,
-			exp: exp,
+			iat,
+			exp,
 			uuid: tokenUuid,
-			type: type,
+			type,
 			...payload,
 		};
 

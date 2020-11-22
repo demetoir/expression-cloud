@@ -12,8 +12,8 @@ import { RoleEntity } from 'src/role/role.entity';
 import { UserProfileImageEntity } from 'src/user-profile-image/user-profile-image.entity';
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { RoleEnum } from 'src/role/role.enum';
-import { UserFactory } from './user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { UserFactory } from './user.factory';
 
 const database = 'user_entity';
 describe('user entity', () => {

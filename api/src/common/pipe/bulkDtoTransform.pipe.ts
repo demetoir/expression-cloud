@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
-import { AbstractBaseDto } from '../abstractBaseDto';
 import { CreateManyDto } from '@nestjsx/crud';
+import { AbstractBaseDto } from '../abstractBaseDto';
 import { AbstractBaseBulkDto } from '../abstractBaseBulkDto';
 
 @Injectable()

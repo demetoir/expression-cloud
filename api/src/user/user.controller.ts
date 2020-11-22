@@ -15,7 +15,7 @@ import {
 	UserReplaceDto,
 	UserUpdateDto,
 } from 'src/user/dto';
-import { CrudPlus, getManyResponse } from 'src/common/libs/nestjsCRUDToolkit';
+import { CrudPlus, GetManyResponse } from 'src/common/libs/nestjsCRUDToolkit';
 import { dtoTransformPipe } from 'src/user/pipe/userDtoTransfrom.pipe';
 import { userBulkDtoTransformPipe } from 'src/user/pipe/userBulkDtoTransform.pipe';
 
@@ -51,7 +51,7 @@ export class UserController implements CrudController<UserEntity> {
 	@Override('getManyBase')
 	public async getMany(
 		@ParsedRequest() req: CrudRequest,
-	): Promise<getManyResponse<UserEntity>> {
+	): Promise<GetManyResponse<UserEntity>> {
 		return this.base.getManyBase(req);
 	}
 

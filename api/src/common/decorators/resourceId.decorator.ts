@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
 
-export const _ResourceId = (token: string, ctx: ExecutionContext): number => {
+export const decorator = (token: string, ctx: ExecutionContext): number => {
 	if (token === undefined || token === null) {
 		throw new TypeError(`token should be string, not ${typeof token}`);
 	}
@@ -17,4 +17,4 @@ export const _ResourceId = (token: string, ctx: ExecutionContext): number => {
 	return Number.parseInt(resourceId, 10);
 };
 
-export const ResourceNumberId = createParamDecorator(_ResourceId);
+export const ResourceNumberId = createParamDecorator(decorator);

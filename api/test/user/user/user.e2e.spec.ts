@@ -6,9 +6,9 @@ import { UserEntity } from 'src/user/model/user.entity';
 import { Repository } from 'typeorm';
 import { UserModule } from 'src/user/user.module';
 import { entityToResponse } from 'test/util';
-import { UserFactory } from './user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { TestTypeormModuleFactory } from 'test/database/test-typeorm/test-typeorm.module.factory';
+import { UserFactory } from './user.factory';
 
 const database = 'user_module_e2e';
 describe('UserModule (e2e)', () => {
@@ -44,6 +44,7 @@ describe('UserModule (e2e)', () => {
 			const stored = await userRepository.find();
 
 			const expectedBody = stored.map((x) => entityToResponse(x));
+
 			return request(app.getHttpServer())
 				.get('/v1/users')
 				.expect(200)
@@ -61,7 +62,7 @@ describe('UserModule (e2e)', () => {
 				.send(reqBody)
 				.expect(201);
 
-			const body = res.body;
+			const { body } = res;
 
 			const newUser = await userRepository.findOne({ id: body.id });
 
@@ -74,7 +75,7 @@ describe('UserModule (e2e)', () => {
 			const newUser = UserFactory.build();
 
 			const user = await userRepository.save(newUser);
-			const id = user.id;
+			const { id } = user;
 
 			const expectedBody = entityToResponse(user);
 
@@ -86,7 +87,7 @@ describe('UserModule (e2e)', () => {
 
 		it('404 on not exist resource', async function () {
 			const id = 4321;
-			const shouldNotExist = await userRepository.findOne({ id: id });
+			const shouldNotExist = await userRepository.findOne({ id });
 
 			expect(shouldNotExist).not.toBeDefined();
 

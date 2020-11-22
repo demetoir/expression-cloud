@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { createLogger, loggers, format, transports } = require('winston');
+const { createLogger, format, transports } = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 
 // import { createLogger, format, loggers, transports } from 'winston';
@@ -18,11 +18,13 @@ const levelToChalk = {
 
 const convertToFormat = ({ level, message, stack, timestamp }) => {
 	let msg = message;
+
 	if (typeof message === 'object') {
 		msg = JSON.stringify(message, null, 4);
 	}
 
 	let format;
+
 	if (stack) {
 		format = `${timestamp} [${level.toUpperCase()}]: ${msg} - ${stack}`;
 	} else {
@@ -47,6 +49,7 @@ const stdoutPrintf = printf((args) => {
 		timestamp,
 		level,
 	});
+
 	return addColor({ message: formattedMessage, level });
 });
 

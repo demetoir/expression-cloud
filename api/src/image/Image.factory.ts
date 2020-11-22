@@ -1,5 +1,5 @@
-import { ImageEntity } from './image.entity';
 import { internet, lorem, random, system } from 'faker';
+import { ImageEntity } from './image.entity';
 
 export class ImageFactory {
 	static build(): ImageEntity {

@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Controller, Get, INestApplication, UseFilters } from '@nestjs/common';
-import { DatabaseQueryFailFilter } from './database-query-fail-error.filter';
 import * as request from 'supertest';
 import { AuthenticationError } from 'src/auth/auth/error';
 import { DatabaseConstraintFailError } from '../error/database-constraint-fail.error';
 import { DBQueryFailError } from '../error/DB-query-fail.error';
+import { DatabaseQueryFailFilter } from './database-query-fail-error.filter';
 
 @UseFilters(new DatabaseQueryFailFilter())
 @Controller('/dummy')
@@ -25,9 +25,7 @@ class DummyController {
 	}
 
 	@Get('/raiseNoError')
-	raiseNoError() {
-		return;
-	}
+	raiseNoError() {}
 }
 
 describe('unit test typeorm query fail error filter', () => {

@@ -1,8 +1,8 @@
+import { ApiResponse } from '@nestjs/swagger';
 import {
 	ApiCRUDDecorator,
 	ApiCRUDOption,
 } from '../apiPropertyOption.interface';
-import { ApiResponse } from '@nestjs/swagger';
 
 export const ApiOkResponse = (option: ApiCRUDOption): ApiCRUDDecorator =>
 	ApiResponse({

@@ -43,8 +43,8 @@ describe('TokenService', () => {
 			await service.createOne(payload, uuid);
 
 			// than
-			expect(localStorageService['storage'][uuid]).toBeDefined();
-			expect(localStorageService['storage'][uuid]).toEqual(payload);
+			expect(localStorageService.storage[uuid]).toBeDefined();
+			expect(localStorageService.storage[uuid]).toEqual(payload);
 		});
 
 		it('raise error, if key already exist', async function () {
@@ -62,7 +62,7 @@ describe('TokenService', () => {
 			};
 			const uuid = '123';
 
-			localStorageService['storage'][uuid] = otherPayload;
+			localStorageService.storage[uuid] = otherPayload;
 
 			// when
 			try {
@@ -70,7 +70,7 @@ describe('TokenService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				//than
+				// than
 
 				expect(e.message).toBe(`obj already exist of ${uuid}`);
 			}
@@ -88,13 +88,13 @@ describe('TokenService', () => {
 
 			const uuid = '123';
 
-			localStorageService['storage'][uuid] = payload;
+			localStorageService.storage[uuid] = payload;
 
 			// when
 			await service.deleteOne(uuid);
 
-			//than
-			expect(localStorageService['storage'][uuid]).not.toBeDefined();
+			// than
+			expect(localStorageService.storage[uuid]).not.toBeDefined();
 		});
 
 		it('raise error, if not exist', async function () {
@@ -105,7 +105,7 @@ describe('TokenService', () => {
 			try {
 				await service.deleteOne(uuid);
 			} catch (e) {
-				//than
+				// than
 				expect(e.message).toBe(`not exist obj of ${uuid}`);
 			}
 		});
@@ -122,12 +122,12 @@ describe('TokenService', () => {
 
 			const uuid = '123';
 
-			localStorageService['storage'][uuid] = payload;
+			localStorageService.storage[uuid] = payload;
 
 			// when
 			const res = await service.findOne(uuid);
 
-			//than
+			// than
 			expect(res).toEqual(payload);
 		});
 
@@ -138,7 +138,7 @@ describe('TokenService', () => {
 			// when
 			const res = await service.findOne(uuid);
 
-			//than
+			// than
 			expect(res).toEqual(null);
 		});
 	});

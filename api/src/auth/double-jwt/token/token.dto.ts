@@ -1,5 +1,5 @@
-import { ITokenPayload } from './interface';
 import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
+import { ITokenPayload } from './interface';
 import { IPayloadType } from '../jwt-wrapper/interface';
 
 export class TokenDto implements ITokenPayload {

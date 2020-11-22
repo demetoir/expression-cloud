@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const _Fields = (token: string, ctx: ExecutionContext): string[] => {
+export const decorator = (token: string, ctx: ExecutionContext): string[] => {
 	const request = ctx.switchToHttp().getRequest();
 
 	let fields = request.query.fields || null;
@@ -16,4 +16,4 @@ export const _Fields = (token: string, ctx: ExecutionContext): string[] => {
 	return fields.split(',').filter((x) => x.length > 0);
 };
 
-export const Fields = createParamDecorator(_Fields);
+export const Fields = createParamDecorator(decorator);

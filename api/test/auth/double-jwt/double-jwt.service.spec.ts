@@ -311,10 +311,10 @@ describe('doubleJwtService', () => {
 				userName: username,
 				userId: 1,
 			};
-			//when
+			// when
 			const res = await service.issueToken(payload);
 
-			//than
+			// than
 			expect(res.expiredIn).toBe(expiredIn);
 			expect(res.accessToken).toBe(accessToken);
 			expect(res.refreshToken).toBe(refreshToken);
@@ -396,9 +396,9 @@ describe('doubleJwtService', () => {
 			// when
 			const res = await service.refreshToken(dto);
 
-			//than return response dto
+			// than return response dto
 			const expectationResult = {
-				refreshToken: refreshToken,
+				refreshToken,
 				accessToken: newAccessToken,
 				expiredIn: 3600,
 			};
@@ -973,6 +973,7 @@ describe('doubleJwtService', () => {
 			});
 
 			service.verifyToken = verifyToken;
+
 			try {
 				await service.revokeToken(dto);
 			} catch (e) {
@@ -1007,6 +1008,7 @@ describe('doubleJwtService', () => {
 			});
 
 			service.verifyToken = verifyToken;
+
 			try {
 				await service.revokeToken(dto);
 			} catch (e) {
@@ -1066,6 +1068,7 @@ describe('doubleJwtService', () => {
 			});
 
 			mockTokenService.findOne = findOneMock;
+
 			try {
 				// when
 				await service.verifyPayload(payload);
@@ -1093,6 +1096,7 @@ describe('doubleJwtService', () => {
 			});
 
 			mockTokenService.findOne = findOneMock;
+
 			try {
 				// when
 				await service.verifyPayload(payload);

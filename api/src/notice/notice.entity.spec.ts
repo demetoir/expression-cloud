@@ -1,10 +1,10 @@
 import { assert } from 'chai';
 import { UserEntity } from 'src/user/model/user.entity';
-import { NoticeEntity } from './notice.entity';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { UserFactory } from 'test/user/user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { NoticeEntity } from './notice.entity';
 
 const database = 'notice_entity';
 describe('notice entity', () => {

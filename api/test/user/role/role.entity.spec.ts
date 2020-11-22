@@ -4,11 +4,10 @@ import { RoleEnum } from 'src/role/role.enum';
 import { RoleFactory } from 'src/role/role.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { UserFactory } from '../user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { UserFactory } from '../user/user.factory';
 
-
-const database = 'role_entity'
+const database = 'role_entity';
 describe('role entity', () => {
 	let connection: Connection;
 	let roleRepository: Repository<RoleEntity>;

@@ -1,9 +1,9 @@
 import { assert } from 'chai';
-import { TagEntity } from './tag.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { ExpressionFactory } from '../expression/expression/expression.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
+import { ExpressionFactory } from '../expression/expression/expression.factory';
+import { TagEntity } from './tag.entity';
 
 const database = 'tag_entity';
 describe('tag entity', () => {
@@ -19,11 +19,11 @@ describe('tag entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(tagRepository);
 	});
 
-	it('should create new role', async function () {
+	it('should create new role', async () => {
 		const tag = new TagEntity();
 		tag.name = 'new tag';
 		await connection.manager.save(tag);
@@ -34,7 +34,7 @@ describe('tag entity', () => {
 	});
 
 	describe('check column', () => {
-		it('should not null on name', async function () {
+		it('should not null on name', async () => {
 			try {
 				const name = undefined;
 

@@ -1,9 +1,9 @@
 import { assert } from 'chai';
+import { Connection, QueryFailedError, Repository } from 'typeorm';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { getConnectionForTest } from 'test/util/typeorm';
 import { ExpressionSettingEntity } from './expression-setting.entity';
 import { ExpressionFactory } from '../expression/expression.factory';
-import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
 
 const database = 'expression_setting_entity';
 describe('ExpressionSetting entity', () => {
@@ -22,11 +22,11 @@ describe('ExpressionSetting entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(expressionSettingRepository);
 	});
 
-	it('should create new entity', async function () {
+	it('should create new entity', async () => {
 		const setting = new ExpressionSettingEntity();
 		await connection.manager.save(setting);
 

@@ -1,11 +1,11 @@
 import { assert } from 'chai';
+import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { Connection, Repository } from 'typeorm';
+import { getConnectionForTest } from 'test/util/typeorm';
 import { ImageEntity } from './image.entity';
 import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image/expression-thumbnail-image.entity';
 import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
 import { ImageFactory } from './Image.factory';
-import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { Connection, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
 
 const database = 'image_entity';
 describe('image entity', () => {

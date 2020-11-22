@@ -1,11 +1,11 @@
 import { assert } from 'chai';
-import { TeamEntity } from './team.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { UserFactory } from 'test/user/user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
+import { TeamEntity } from './team.entity';
 
-const database = 'team_entity'
+const database = 'team_entity';
 describe('team entity', () => {
 	let connection: Connection;
 	let teamRepository: Repository<TeamEntity>;

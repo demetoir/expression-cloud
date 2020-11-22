@@ -3,6 +3,7 @@ export class RepositoryMock<T> {
 	public createQueryBuilder = jest.fn(() => this.queryBuilder);
 
 	public manager = { transaction: (a) => Promise.resolve(a()) };
+
 	public metadata = {
 		connection: { options: { type: null } },
 		columns: [],
@@ -10,11 +11,17 @@ export class RepositoryMock<T> {
 	};
 
 	public save = jest.fn();
+
 	public delete = jest.fn();
+
 	public update = jest.fn();
+
 	public findOne = jest.fn();
+
 	public findOneOrFail = jest.fn();
+
 	public find = jest.fn();
+
 	public getMany = jest.fn();
 
 	public queryBuilder = {

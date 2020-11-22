@@ -1,10 +1,9 @@
-import { _ResourceId, ResourceNumberId } from './resourceId.decorator';
-
 import { mock } from 'jest-mock-extended';
 import { ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
+import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
+import { decorator, ResourceNumberId } from './resourceId.decorator';
 
 function getExecutionContextMock(request): ExecutionContext {
 	const httpArgumentHost = mock<HttpArgumentsHost>();
@@ -21,7 +20,7 @@ function getExecutionContextMock(request): ExecutionContext {
 describe('ResourceId decorator', () => {
 	it('should be declare', function () {
 		expect(ResourceNumberId).toBeDefined();
-		expect(_ResourceId);
+		expect(decorator);
 	});
 
 	it('should be send args (token, ctx)', function () {
@@ -33,7 +32,7 @@ describe('ResourceId decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		_ResourceId(token, context);
+		decorator(token, context);
 	});
 
 	it('should return number', function () {
@@ -45,7 +44,7 @@ describe('ResourceId decorator', () => {
 		};
 
 		const context = getExecutionContextMock(request);
-		const result = _ResourceId(token, context);
+		const result = decorator(token, context);
 
 		expect(typeof result).toEqual('number');
 	});
@@ -58,7 +57,7 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			_ResourceId(token, context);
+			decorator(token, context);
 
 			expectShouldNotCallThis();
 		} catch (e) {
@@ -74,7 +73,7 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			_ResourceId(token, context);
+			decorator(token, context);
 
 			expectShouldNotCallThis();
 		} catch (e) {
@@ -90,7 +89,7 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			_ResourceId(token, context);
+			decorator(token, context);
 
 			expectShouldNotCallThis();
 		} catch (e) {
@@ -106,7 +105,7 @@ describe('ResourceId decorator', () => {
 		const context = getExecutionContextMock(request);
 
 		try {
-			_ResourceId(token, context);
+			decorator(token, context);
 
 			expectShouldNotCallThis();
 		} catch (e) {

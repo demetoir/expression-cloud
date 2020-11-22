@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { validate } from 'class-validator';
+import * as _ from 'lodash';
+import { plainToClass } from 'class-transformer';
+import { isOneOfInstance } from 'src/common/libs/util';
 import { JwtWrapperService } from './jwt-wrapper/jwt-wrapper.service';
 import { ITokenPayload } from './token/interface';
 import { TokenService } from './token/token.service';
-import { isOneOfInstance } from 'src/common/libs/util';
-import { plainToClass } from 'class-transformer';
 import { TokenDto } from './token/token.dto';
-import { validate } from 'class-validator';
-import * as _ from 'lodash';
 import { PayloadTypes } from './jwt-wrapper/interface';
 import { ExpectedErrors } from './jwt-wrapper/error';
 import { DoubleJWTValidationError } from './error';
@@ -16,6 +16,7 @@ const expiredIn = 3600;
 @Injectable()
 export class DoubleJwtService {
 	private readonly customJwtService: JwtWrapperService<ITokenPayload>;
+
 	private readonly tokenService: TokenService;
 
 	constructor(
@@ -93,8 +94,8 @@ export class DoubleJwtService {
 
 		return {
 			accessToken: newAccessToken,
-			refreshToken: refreshToken,
-			expiredIn: expiredIn,
+			refreshToken,
+			expiredIn,
 		};
 	}
 
@@ -116,6 +117,7 @@ export class DoubleJwtService {
 
 	async verifyToken(token: string, type: string): Promise<ITokenPayload> {
 		let payload: ITokenPayload;
+
 		try {
 			payload = await this.customJwtService.verify(token);
 		} catch (e) {
@@ -143,6 +145,7 @@ export class DoubleJwtService {
 
 		// token not found in storage
 		const storedPayload = await this.tokenService.findOne(payload.uuid);
+
 		if (storedPayload === null) {
 			throw new DoubleJWTValidationError(
 				`${type} token is not found in token storage`,
@@ -174,6 +177,7 @@ export class DoubleJwtService {
 
 		// token not found in storage
 		const storedPayload = await this.tokenService.findOne(payload.uuid);
+
 		if (storedPayload === null) {
 			throw new DoubleJWTValidationError(
 				`payload is not found in storage`,

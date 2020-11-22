@@ -14,11 +14,12 @@ const StdOut = morganToolkit(
 	function (tokens, req, res) {
 		const parserToken = TokenParser.parse(tokens, req, res);
 		const colorizedToken = TokenPainter.paintColor(parserToken);
+
 		return FormatBuilder.build(null, colorizedToken);
 	},
 	{
 		// skip logging on return true
-		skip: function (req) {
+		skip(req) {
 			const { url } = req;
 			// ignore static route request
 			const skipFilter = [

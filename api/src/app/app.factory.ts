@@ -1,39 +1,18 @@
 import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import { SwaggerModule } from '@nestjs/swagger';
+import { INestApplication } from '@nestjs/common';
+import * as rateLimit from 'express-rate-limit';
+import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
+import * as helmet from 'helmet';
 import { AppModule } from './app.module';
 import { CustomMorgan } from '../common/middlewares/loggerMiddlewares';
-import * as helmet from 'helmet';
-import * as rateLimit from 'express-rate-limit';
-import { ExpressAdapter } from '@nestjs/platform-express';
 import { NodeConfigService } from '../config/NodeConfig.service';
 import { OpenApiDocConfigService } from '../config/openApiDocConfig.service';
 import { documentBuilderSingleton } from '../common/libs/nestjsCRUDToolkit';
-import { SwaggerModule } from '@nestjs/swagger';
-import { RedocModule, RedocOptions } from 'nestjs-redoc/dist';
-import { INestApplication } from '@nestjs/common';
-
-export async function appFactory(expressApp: any): Promise<INestApplication> {
-	const app = await NestFactory.create(
-		AppModule,
-		new ExpressAdapter(expressApp),
-	);
-
-	// const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-	const nodeConfigService = app.get(NodeConfigService);
-
-	if (nodeConfigService.isDevMode()) {
-		app.use(CustomMorgan());
-	}
-
-	initSecurity(app);
-
-	await initOpenApiDoc(app);
-
-	return app;
-}
 
 function initSecurity(app) {
-	//cors
+	// cors
 	app.enableCors();
 
 	app.set('trust proxy', 1);
@@ -82,4 +61,25 @@ async function initOpenApiDoc(app) {
 		document,
 		redocOptions,
 	);
+}
+
+export async function appFactory(expressApp: any): Promise<INestApplication> {
+	const app = await NestFactory.create(
+		AppModule,
+		new ExpressAdapter(expressApp),
+	);
+
+	// const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+	const nodeConfigService = app.get(NodeConfigService);
+
+	if (nodeConfigService.isDevMode()) {
+		app.use(CustomMorgan());
+	}
+
+	initSecurity(app);
+
+	await initOpenApiDoc(app);
+
+	return app;
 }

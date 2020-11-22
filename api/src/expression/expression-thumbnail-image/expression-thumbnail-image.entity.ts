@@ -1,7 +1,7 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
-import { ExpressionEntity } from '../expression/expression.entity';
 import { ImageEntity } from 'src/image/image.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
+import { ExpressionEntity } from '../expression/expression.entity';
 
 @Entity({ name: 'expression_thumbnail_images' })
 export class ExpressionThumbnailImageEntity extends BaseEntity {

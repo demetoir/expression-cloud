@@ -1,6 +1,6 @@
+import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { ExpressionEntity } from '../expression/expression.entity';
-import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 
 @Entity({ name: 'expression_settings' })
 export class ExpressionSettingEntity extends BaseEntity {

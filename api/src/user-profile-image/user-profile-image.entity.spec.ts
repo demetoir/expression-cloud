@@ -20,11 +20,11 @@ describe('userProfile entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(repository);
 	});
 
-	it('should create new entity', async function () {
+	it('should create new entity', async () => {
 		const userProfileImage = new UserProfileImageEntity();
 		await connection.manager.save(userProfileImage);
 
@@ -40,7 +40,8 @@ describe('userProfile entity', () => {
 
 		async function getNewUser(): Promise<UserEntity> {
 			const user = UserFactory.build();
-			return await connection.manager.save(user);
+
+			return connection.manager.save(user);
 		}
 
 		it('should prepare entity', async () => {

@@ -11,7 +11,7 @@ export { ApiDeleteOneResponse } from './apiCRUDResponseDecorator/apiDeleteOneRes
 export {
 	ApiCRUDOption,
 	ApiCRUDDecorator,
-	getManyResponse,
+	GetManyResponse,
 } from './apiPropertyOption.interface';
 
 export { CrudPlus } from './crudPlus.decorator';

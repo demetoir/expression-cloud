@@ -1,5 +1,5 @@
-import { ApiCRUDDecorator } from '../apiPropertyOption.interface';
 import { ApiResponse } from '@nestjs/swagger';
+import { ApiCRUDDecorator } from '../apiPropertyOption.interface';
 import { BadRequestException } from '../exception/badRequest.exception';
 
 export const ApiBadRequestResponse = (): ApiCRUDDecorator =>

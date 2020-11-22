@@ -14,6 +14,7 @@ export class TokenDocument extends Document {
 
 	@Prop({ type: String, required: true })
 	type: 'accessToken' | 'refreshToken';
+
 	@Prop({ type: String, required: true })
 	uuid: string;
 
@@ -22,6 +23,7 @@ export class TokenDocument extends Document {
 
 	@Prop({ type: String, required: true })
 	iss?: string;
+
 	@Prop({ type: Number, required: true })
 	exp?: number;
 

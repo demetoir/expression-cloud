@@ -1,4 +1,6 @@
 import { CrudOptions } from '@nestjsx/crud/lib/interfaces';
+import * as _ from 'lodash';
+import { Crud } from '@nestjsx/crud';
 import {
 	ApiCreateManyResponse,
 	ApiCreateOneResponse,
@@ -8,11 +10,9 @@ import {
 	ApiReplaceOneResponse,
 	ApiUpdateOneResponse,
 } from './index';
-import * as _ from 'lodash';
-import { Crud } from '@nestjsx/crud';
 
 export const CrudPlus = (options: CrudOptions) => {
-	const type = options.model.type;
+	const { type } = options.model;
 
 	const decoratorOptions = {
 		routes: {

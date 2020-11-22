@@ -1,15 +1,15 @@
 import { assert } from 'chai';
-import { ExpressionEntity } from './expression.entity';
 import { VectorEntity } from 'src/vector/vector.entity';
-import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
 import { ImageEntity } from 'src/image/image.entity';
-import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
 import { UserEntity } from 'src/user/model/user.entity';
-import { ExpressionFactory } from './expression.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from 'test/user/user/user.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { ExpressionFactory } from './expression.factory';
+import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
+import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
+import { ExpressionEntity } from './expression.entity';
 
 const database = 'expression_entity';
 describe('expression entity', () => {
@@ -26,11 +26,11 @@ describe('expression entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(expressionRepository);
 	});
 
-	it('should create new expression', async function () {
+	it('should create new expression', async () => {
 		const expression = ExpressionFactory.build();
 
 		await connection.manager.save(expression);
@@ -43,7 +43,7 @@ describe('expression entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on description', async function () {
+		it('should not null on description', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.description = null;
@@ -57,7 +57,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on name', async function () {
+		it('should not null on name', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.name = null;
@@ -71,7 +71,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on type', async function () {
+		it('should not null on type', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.type = null;
@@ -85,7 +85,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on content', async function () {
+		it('should not null on content', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.content = null;
@@ -99,7 +99,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on likeCount', async function () {
+		it('should not null on likeCount', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.likeCount = null;
@@ -113,7 +113,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on isForked', async function () {
+		it('should not null on isForked', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.isForked = null;
@@ -127,7 +127,7 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on forkCount', async function () {
+		it('should not null on forkCount', async () => {
 			try {
 				const expression = ExpressionFactory.build();
 				expression.forkCount = null;
@@ -141,21 +141,21 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should be false on isForked as default', async function () {
+		it('should be false on isForked as default', async () => {
 			const expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
 			assert.equal(expression.isForked, false);
 		});
 
-		it('should be 0 on forkCount as default', async function () {
+		it('should be 0 on forkCount as default', async () => {
 			const expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
 			assert.equal(expression.forkCount, 0);
 		});
 
-		it('should be 0 on likeCount as default', async function () {
+		it('should be 0 on likeCount as default', async () => {
 			const expression = ExpressionFactory.build();
 
 			await connection.manager.save(expression);
@@ -169,7 +169,7 @@ describe('expression entity', () => {
 		async function getNewExpressionEntity(): Promise<ExpressionEntity> {
 			const expression = ExpressionFactory.build();
 
-			return await connection.manager.save(expression);
+			return connection.manager.save(expression);
 		}
 
 		it('should prepare notice', async () => {
@@ -268,7 +268,7 @@ describe('expression entity', () => {
 		async function getNewUser(): Promise<UserEntity> {
 			const user = UserFactory.build();
 
-			return await connection.manager.save(user);
+			return connection.manager.save(user);
 		}
 
 		it('should relate with expression likes ', async () => {

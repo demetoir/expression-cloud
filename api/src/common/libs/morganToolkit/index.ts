@@ -1,9 +1,9 @@
+import * as morgan from 'morgan';
 import { TokenParser } from './tokenPraser';
 import { TokenPainter } from './tokenPainter';
 import { FormatBuilder } from './FormatBuilder';
 import { createRotateLogStream } from './createRotateLogStream';
 
-import * as morgan from 'morgan';
 // todo add test
 // todo add jsdoc
 // todo add types define

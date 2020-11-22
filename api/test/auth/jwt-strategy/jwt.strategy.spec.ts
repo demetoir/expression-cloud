@@ -86,7 +86,7 @@ describe('JwtStrategy', () => {
 			});
 			mockDoubleJwtService.verifyPayload = mockFn;
 
-			//when
+			// when
 			const result = await strategy.validate(payload);
 
 			// than
@@ -118,7 +118,7 @@ describe('JwtStrategy', () => {
 			});
 			mockDoubleJwtService.verifyPayload = mockFn;
 
-			//when
+			// when
 			try {
 				await strategy.validate(payload);
 			} catch (e) {

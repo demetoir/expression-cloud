@@ -71,7 +71,7 @@ describe('Auth Controller', () => {
 			// when
 			const res: IssueTokenResponse = await controller.issueToken(dto);
 
-			//than
+			// than
 			expect(res).toBeDefined();
 			expect(res).toEqual(responseDto);
 
@@ -92,11 +92,12 @@ describe('Auth Controller', () => {
 
 				expectShouldNotCallThis();
 			});
+
 			try {
 				// when
 				await controller.issueToken(dto);
 			} catch (e) {
-				//than
+				// than
 				expect(e).toBeInstanceOf(UnauthorizedException);
 				expect(e.message).toBe('shit');
 
@@ -118,11 +119,12 @@ describe('Auth Controller', () => {
 
 				expectShouldNotCallThis();
 			});
+
 			try {
 				// when
 				await controller.issueToken(dto);
 			} catch (e) {
-				//than
+				// than
 				expect(e).toBeInstanceOf(TypeError);
 				expect(e.message).toBe('shit');
 
@@ -143,7 +145,7 @@ describe('Auth Controller', () => {
 			dto.accessToken = accessToken;
 
 			const expectResponse: RefreshTokenResponse = {
-				refreshToken: refreshToken,
+				refreshToken,
 				accessToken: newAccessToken,
 				expiredIn: 3600,
 				tokenType: 'bearer',
@@ -158,7 +160,7 @@ describe('Auth Controller', () => {
 				dto,
 			);
 
-			//than
+			// than
 			expect(res).toEqual(expectResponse);
 			expect(service.refreshToken.mock.calls.length).toEqual(1);
 		});

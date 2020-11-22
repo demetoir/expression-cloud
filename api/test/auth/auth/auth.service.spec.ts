@@ -62,10 +62,10 @@ describe('AuthService', () => {
 			dto.username = 'root';
 			dto.password = 'pass';
 
-			//when
+			// when
 			const res: IssueTokenResponse = await service.issueToken(dto);
 
-			//than
+			// than
 			expect(res.tokenType).toBe(tokenType);
 			expect(res.expiredIn).toBe(expiredIn);
 			expect(res.accessToken).toBe(accessToken);
@@ -79,7 +79,7 @@ describe('AuthService', () => {
 			dto.password = 'pass';
 
 			try {
-				//when
+				// when
 				await service.issueToken(dto);
 
 				expectShouldNotCallThis();
@@ -119,9 +119,9 @@ describe('AuthService', () => {
 			// when
 			const res: RefreshTokenResponse = await service.refreshToken(dto);
 
-			//than return response dto
+			// than return response dto
 			const expectationResult: RefreshTokenResponse = {
-				refreshToken: refreshToken,
+				refreshToken,
 				accessToken: newAccessToken,
 				tokenType: 'bearer',
 				expiredIn: 3600,

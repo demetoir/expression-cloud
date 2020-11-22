@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { logger } from '../common/libs/winstonToolkit';
-import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 class readDto {
 	@ApiProperty()
@@ -32,6 +32,7 @@ export class AppController {
 	@Get('/hello')
 	getHello(): string {
 		this.logger.info('here');
+
 		return this.appService.getHello();
 	}
 

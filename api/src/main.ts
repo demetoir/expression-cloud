@@ -1,6 +1,6 @@
-import { NodeConfigService } from './config/NodeConfig.service';
 import { INestApplication } from '@nestjs/common';
 import * as express from 'express';
+import { NodeConfigService } from './config/NodeConfig.service';
 import { appFactory } from './app/app.factory';
 
 async function start() {

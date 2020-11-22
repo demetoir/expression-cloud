@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserLikeController } from 'src/user-like/user-like.controller';
 import { UserLikeService } from 'src/user-like/user-like.service';
-import { MockUserLikeService } from './user-like.service.mock';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { CRUDRequestMockBuilder } from 'test/lib/mock/CRUDRequest.MockBuilder';
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
@@ -9,6 +8,7 @@ import { QueryFailedError } from 'typeorm';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { DatabaseConstraintFailError } from 'src/common/error/database-constraint-fail.error';
 import { AnyOtherError } from 'test/lib/error/any-other.error';
+import { MockUserLikeService } from './user-like.service.mock';
 
 describe('UserLike Controller', () => {
 	let controller: UserLikeController;
@@ -62,10 +62,10 @@ describe('UserLike Controller', () => {
 				return stored;
 			});
 
-			//when
+			// when
 			const result = await controller.createOne(req, entity);
 
-			//than
+			// than
 			expect(result).toEqual(stored);
 			expect(service.createOne.mock.calls.length).toBe(1);
 			expect(service.createOne.mock.calls[0]).toEqual([req, entity]);
@@ -83,18 +83,18 @@ describe('UserLike Controller', () => {
 					new AnyOtherError(),
 				);
 
-				error['errno'] = MysqlErrorCodes.ER_NO_REFERENCED_ROW_2;
+				error.errno = MysqlErrorCodes.ER_NO_REFERENCED_ROW_2;
 
 				throw error;
 			});
 
-			//when
+			// when
 			try {
 				await controller.createOne(req, entity);
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				//than
+				// than
 				expect(e).toBeInstanceOf(DatabaseConstraintFailError);
 				expect(service.createOne.mock.calls.length).toBe(1);
 				expect(service.createOne.mock.calls[0]).toEqual([req, entity]);
@@ -110,12 +110,12 @@ describe('UserLike Controller', () => {
 				throw new AnyOtherError();
 			});
 
-			//when
+			// when
 			try {
 				await controller.createOne(req, entity);
 				expectShouldNotCallThis();
 			} catch (e) {
-				//than
+				// than
 				expect(e).toBeInstanceOf(AnyOtherError);
 
 				expect(service.createOne.mock.calls.length).toBe(1);
@@ -135,10 +135,10 @@ describe('UserLike Controller', () => {
 				return stored;
 			});
 
-			//when
+			// when
 			const result = await controller.deleteOne(req);
 
-			//than
+			// than
 			expect(result).toEqual(stored);
 			expect(service.deleteOne.mock.calls.length).toBe(1);
 			expect(service.deleteOne.mock.calls[0]).toEqual([req]);

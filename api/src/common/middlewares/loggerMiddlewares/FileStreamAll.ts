@@ -13,6 +13,7 @@ import {
 const FileStreamAll = morganToolkit(
 	function (tokens, req, res) {
 		const parserToken = TokenParser.parse(tokens, req, res);
+
 		return FormatBuilder.build(null, parserToken);
 	},
 	{

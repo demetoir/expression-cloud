@@ -1,5 +1,5 @@
-import { ExpressionEntity } from './expression.entity';
 import { lorem, name, random } from 'faker';
+import { ExpressionEntity } from './expression.entity';
 
 export class ExpressionFactory {
 	static build(): ExpressionEntity {

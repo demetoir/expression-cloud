@@ -6,7 +6,7 @@ import {
 	ValidationPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CrudPlus, getManyResponse } from 'src/common/libs/nestjsCRUDToolkit';
+import { CrudPlus, GetManyResponse } from 'src/common/libs/nestjsCRUDToolkit';
 import { UserLikeService } from 'src/user-like/user-like.service';
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { UserLikeCreateDto } from 'src/user-like/dto/user-like-create.dto';
@@ -63,7 +63,7 @@ export class UserLikeController implements CrudController<UserLikeEntity> {
 	@Override('getManyBase')
 	public async getMany(
 		@ParsedRequest() req: CrudRequest,
-	): Promise<getManyResponse<UserLikeEntity>> {
+	): Promise<GetManyResponse<UserLikeEntity>> {
 		return this.base.getManyBase(req);
 	}
 
@@ -78,7 +78,7 @@ export class UserLikeController implements CrudController<UserLikeEntity> {
 			return await this.base.createOneBase(req, entity);
 		} catch (e) {
 			if (e instanceof QueryFailedError) {
-				const errno = e['errno'];
+				const { errno } = e;
 
 				// todo: 여기 에러 핸들링 부분 아키텍쳐좀 개선하기
 				// case of constraint error

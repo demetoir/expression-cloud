@@ -1,5 +1,5 @@
 export declare interface IPayload {
-	//reserved jwt claims
+	// reserved jwt claims
 	exp?: number;
 	nbf?: number;
 	iat?: number;
@@ -9,7 +9,7 @@ export declare interface IPayload {
 	iss?: string;
 	sub?: string;
 
-	//custom jwt claim
+	// custom jwt claim
 	type?: IPayloadType;
 	uuid?: string;
 	userId?: number;
