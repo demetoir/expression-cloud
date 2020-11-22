@@ -1,10 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
-import { IComment } from './comment.interface';
 
 @Entity({ name: 'comments' })
-export class CommentEntity extends BaseEntity implements IComment {
+export class CommentEntity extends BaseEntity {
 	@Column({ name: 'content', type: 'text', nullable: false })
 	content: string;
 

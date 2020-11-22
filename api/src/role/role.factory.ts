@@ -1,41 +1,27 @@
-import { IRole } from 'src/role/role.interface';
-import { IUser } from 'src/user/user.interface';
 import { RoleEnum } from 'src/role/role.enum';
 import { RoleEntity } from 'src/role/role.entity';
 
-export class RoleFactory implements IRole {
-	id: number;
-
-	createdAt: Date;
-
-	updatedAt: Date;
-
-	deletedAt: Date;
-
-	name: RoleEnum;
-
-	users: IUser[];
-
-	static build(type: RoleEnum): IRole {
+export class RoleFactory {
+	static build(type: RoleEnum): RoleEntity {
 		const role = new RoleEntity();
 		role.name = type;
 
 		return role;
 	}
 
-	static buildAdminRole(): IRole {
-		return this.build(RoleEnum.admin);
+	static buildAdminRole(): RoleEntity {
+		return RoleFactory.build(RoleEnum.admin);
 	}
 
-	static buildUserRole(): IRole {
-		return this.build(RoleEnum.user);
+	static buildUserRole(): RoleEntity {
+		return RoleFactory.build(RoleEnum.user);
 	}
 
-	static buildManagerRole(): IRole {
-		return this.build(RoleEnum.manager);
+	static buildManagerRole(): RoleEntity {
+		return RoleFactory.build(RoleEnum.manager);
 	}
 
-	static buildAnonymousRole(): IRole {
-		return this.build(RoleEnum.anonymous);
+	static buildAnonymousRole(): RoleEntity {
+		return RoleFactory.build(RoleEnum.anonymous);
 	}
 }

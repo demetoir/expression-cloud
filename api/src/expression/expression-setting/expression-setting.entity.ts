@@ -1,11 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
-import { IExpressionSetting } from './expression-setting.interface';
 
 @Entity({ name: 'expression_settings' })
-export class ExpressionSettingEntity extends BaseEntity
-	implements IExpressionSetting {
+export class ExpressionSettingEntity extends BaseEntity {
 	@Column({
 		name: 'is_public',
 		type: 'boolean',

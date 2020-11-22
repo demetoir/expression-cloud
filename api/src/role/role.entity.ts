@@ -1,11 +1,10 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { IRole } from 'src/role/role.interface';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { UserEntity } from 'src/user/model/user.entity';
 import { RoleEnum } from 'src/role/role.enum';
 
 @Entity({ name: 'roles' })
-export class RoleEntity extends BaseEntity implements IRole {
+export class RoleEntity extends BaseEntity {
 	@Column({ type: 'varchar', length: 10, name: 'name', nullable: false })
 	name: RoleEnum;
 

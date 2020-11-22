@@ -1,10 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
-import { IOauth } from 'src/user-oauth/user-oauth.interface';
 
 @Entity({ name: 'user_oauths' })
-export class UserOauthEntity extends BaseEntity implements IOauth {
+export class UserOauthEntity extends BaseEntity {
 	@Column({ name: 'type', type: 'bigint', nullable: false })
 	type: number;
 

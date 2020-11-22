@@ -2,11 +2,9 @@ import { Entity, JoinColumn, OneToOne } from 'typeorm';
 import { ExpressionEntity } from '../expression/expression.entity';
 import { ImageEntity } from 'src/image/image.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
-import { IExpressionThumbnailImage } from './expression-thumbnail-image.interface';
 
 @Entity({ name: 'expression_thumbnail_images' })
-export class ExpressionThumbnailImageEntity extends BaseEntity
-	implements IExpressionThumbnailImage {
+export class ExpressionThumbnailImageEntity extends BaseEntity {
 	@OneToOne(() => ExpressionEntity, (object) => object.thumbnailImage, {
 		eager: false,
 	})

@@ -14,10 +14,9 @@ import { UserEntity } from 'src/user/model/user.entity';
 import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
 import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
-import { IExpression } from './expression.interface';
 
 @Entity({ name: 'expressions' })
-export class ExpressionEntity extends BaseEntity implements IExpression {
+export class ExpressionEntity extends BaseEntity {
 	@Column({
 		name: 'type',
 		type: 'tinyint',

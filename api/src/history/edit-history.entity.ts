@@ -1,10 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { UserEntity } from 'src/user/model/user.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
-import { IEditHistory } from './edit-history.interface';
 
 @Entity({ name: 'edit_histories' })
-export class EditHistoryEntity extends BaseEntity implements IEditHistory {
+export class EditHistoryEntity extends BaseEntity {
 	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
 	refId: bigint;
 

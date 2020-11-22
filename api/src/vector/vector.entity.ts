@@ -2,10 +2,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ExpressionEntity } from '../expression/expression/expression.entity';
 import { ScalarEntity } from '../scalar/scalar.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
-import { IVector } from './vector.interface';
 
 @Entity({ name: 'vectors' })
-export class VectorEntity extends BaseEntity implements IVector {
+export class VectorEntity extends BaseEntity {
 	@Column({
 		name: 'name',
 		type: 'varchar',
