@@ -15,11 +15,13 @@ import { GlobalTypeormModule } from '../database/global-typeorm/global-typeorm.m
 import { GlobalConfigModule } from '../config/globalConfig.module';
 import { UserModule } from 'src/user/user.module';
 import { UserLikeModule } from '../user-like/user-like.module';
+import { GlobalGraphqlModule } from '../graphql/global-graphql/global-graphql.module';
 
 @Module({
 	imports: [
 		GlobalTypeormModule,
 		GlobalConfigModule,
+		GlobalGraphqlModule,
 		UserModule,
 		UserLikeModule,
 		AuthModule,
