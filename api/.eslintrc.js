@@ -24,6 +24,7 @@ module.exports = {
 		'@typescript-eslint/no-floating-promises': 'error',
 		'import/prefer-default-export': 'off',
 		'class-methods-use-this': 'off',
+		'import/no-cycle': 'off',
 		'import/no-extraneous-dependencies': [
 			'error',
 			{
