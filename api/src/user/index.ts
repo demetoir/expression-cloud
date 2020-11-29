@@ -1,5 +1,5 @@
 export * from './dto';
-export * from './userRepository';
+export * from './user-repository';
 export * from './user.module';
 export * from './user.controller';
 export * from './user.interface';
