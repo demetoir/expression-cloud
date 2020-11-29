@@ -10530,10 +10530,10 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nest-code-generator@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/nest-code-generator/-/nest-code-generator-1.0.0.tgz#757df38b65b0167c09328a5e6798185dc415c04b"
-  integrity sha512-9QvwGJynVVHmCG4lVOOotWYwvpydQQVhRAwCdWWfoKDUoownWZ9/B5kAQaPL3oUQCnFHCH8d3jSaEJZyQNWeww==
+nest-code-generator@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/nest-code-generator/-/nest-code-generator-1.0.1.tgz#932733649bd6719fd8f100c8a050c02ed3a45eb6"
+  integrity sha512-SP+wL73ymzWCytwhNgiYo5MArVISbkNUXsu4HkJk+hGiVze9TabKo1xZjzJu+wztnBZdLKUalLwOQNwJq3AEwA==
   dependencies:
     chalk "^4.1.0"
     hygen "^6.0.4"
