@@ -33,7 +33,8 @@
 		"docker:api:down": "sh ./script/docker-api-down.sh",
 		"serverless:offline": "sls offline",
 		"serverless:deploy": "sh ./script/deploy-serverless.sh",
-		"compdoc": "compodoc -p tsconfig.json -s -d ./compdoc"
+		"compdoc": "compodoc -p tsconfig.json -s -d ./compdoc",
+		"generate": "nest-code-generator generate"
 	},
 	"dependencies": {
 		"@nestjs/common": "^7.5.4",
