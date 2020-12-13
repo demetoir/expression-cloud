@@ -6,26 +6,8 @@ import { User } from '../model';
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
-	@Query((returns) => User)
+	@Query(() => User, { name: 'getOneUser' })
 	async getOneById(): Promise<User> {
-		const user = new User();
-		user.id = 1;
-		user.description = '23e';
-		user.email = 'email';
-		user.forkedCount = 0;
-		user.isAnonymous = false;
-		user.likedCount = 0;
-
-		return user;
+		return this.userService.getOneById(0);
 	}
-
-	async getMany() {}
-
-	async getCount() {}
-
-	async createOne() {}
-
-	async updateOne() {}
-
-	async deleteOne() {}
 }
