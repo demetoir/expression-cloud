@@ -13,7 +13,13 @@ function initSecurity(app) {
 
 	app.set('trust proxy', 1);
 
-	app.use(helmet());
+	// https://github.com/graphql/graphql-playground/issues/1283
+	app.use(
+		helmet({
+			contentSecurityPolicy:
+				process.env.NODE_ENV === 'production' ? undefined : false,
+		}),
+	);
 
 	app.use(
 		rateLimit({
