@@ -2,15 +2,12 @@ import {
 	Column,
 	Entity,
 	JoinColumn,
-	JoinTable,
-	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	OneToOne,
 } from 'typeorm';
 import { VectorEntity } from 'src/vector/vector.entity';
 import { TagEntity } from 'src/tag/tag.entity';
-import { User } from 'src/user/model/user.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
 import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
@@ -88,30 +85,10 @@ export class ExpressionEntity extends BaseEntity {
 	)
 	thumbnailImage: Promise<ExpressionThumbnailImageEntity>;
 
-	@ManyToOne(() => User, (user) => user.expressions)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: User;
-
 	@ManyToOne(() => ExpressionEntity)
 	@JoinColumn({
 		name: 'origin_id',
 		referencedColumnName: 'id',
 	})
 	forkedFrom: ExpressionEntity;
-
-	@ManyToMany(() => User, (user) => user.likeToExpressions, {
-		eager: false,
-	})
-	@JoinTable({
-		name: 'expression_likes',
-		joinColumn: {
-			name: 'to_expression_id',
-			referencedColumnName: 'id',
-		},
-		inverseJoinColumn: {
-			name: 'from_user_id',
-			referencedColumnName: 'id',
-		},
-	})
-	likeFrom: User[];
 }

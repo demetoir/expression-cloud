@@ -1,4 +1,4 @@
-import { Resolver } from '@nestjs/graphql';
+import { Query, Resolver } from '@nestjs/graphql';
 import { UserService } from '../service';
 import { User } from '../model';
 
@@ -6,7 +6,18 @@ import { User } from '../model';
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
-	async getOneById() {}
+	@Query((returns) => User)
+	async getOneById(): Promise<User> {
+		const user = new User();
+		user.id = 1;
+		user.description = '23e';
+		user.email = 'email';
+		user.forkedCount = 0;
+		user.isAnonymous = false;
+		user.likedCount = 0;
+
+		return user;
+	}
 
 	async getMany() {}
 

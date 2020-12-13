@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { User } from 'src/user/model/user.entity';
+import { Column, Entity } from 'typeorm';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 
 @Entity({ name: 'user_oauths' })
@@ -20,7 +19,7 @@ export class UserOauthEntity extends BaseEntity {
 	//  grant_type: string;
 	//  provider: string;
 
-	@OneToOne(() => User, (user) => user.oauth)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: User;
+	// @OneToOne(() => User, (user) => user.oauth)
+	// @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	// user: User;
 }

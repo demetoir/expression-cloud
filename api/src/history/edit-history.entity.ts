@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { User } from 'src/user/model/user.entity';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'edit_histories' })
@@ -18,8 +17,4 @@ export class EditHistoryEntity extends BaseEntity {
 	})
 	@JoinColumn({ name: 'prev_id', referencedColumnName: 'id' })
 	prev: EditHistoryEntity;
-
-	@ManyToOne(() => User, (user) => user.editHistories)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: User;
 }

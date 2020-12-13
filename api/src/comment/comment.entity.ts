@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { User } from 'src/user/model/user.entity';
+import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'comments' })
@@ -12,8 +11,4 @@ export class CommentEntity extends BaseEntity {
 
 	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
 	refId: bigint;
-
-	@ManyToOne(() => User, (user) => user.comments)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: User;
 }

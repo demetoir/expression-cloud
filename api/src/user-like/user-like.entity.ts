@@ -1,15 +1,14 @@
 import {
-	Entity,
 	CreateDateColumn,
 	DeleteDateColumn,
+	Entity,
 	PrimaryColumn,
 	UpdateDateColumn,
 } from 'typeorm';
-import { IUserLike } from 'src/user-like/user-like.interface';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 @Entity({ name: 'user_likes' })
-export class UserLikeEntity implements IUserLike {
+export class UserLikeEntity {
 	@PrimaryColumn({ name: 'to_user_id', type: 'bigint', nullable: false })
 	toUserId: number;
 
