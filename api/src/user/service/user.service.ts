@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../repository';
 import { User } from '../model';
+import { UpdateUserInputType } from 'src/user/resolver';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,19 @@ export class UserService {
 		user.forkedCount = 0;
 		user.isAnonymous = false;
 		user.likedCount = 0;
+
+		return user;
+	}
+
+	async updateOneById(id: number, input: UpdateUserInputType): Promise<User> {
+		const user = new User();
+		user.id = 1;
+		user.description = '23e';
+		user.email = 'email';
+		user.forkedCount = 0;
+		user.isAnonymous = false;
+		user.likedCount = 0;
+		user.name = 'name';
 
 		return user;
 	}
