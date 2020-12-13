@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { UserProfileImageEntity } from 'src/user-profile-image/user-profile-image.entity';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { ImageEntity } from 'src/image/image.entity';
 import { UserFactory } from 'test/user/user/user.factory';
 import { Connection, Repository } from 'typeorm';
@@ -38,7 +38,7 @@ describe('userProfile entity', () => {
 	describe('relation', () => {
 		let userProfileImage;
 
-		async function getNewUser(): Promise<UserEntity> {
+		async function getNewUser(): Promise<User> {
 			const user = UserFactory.build();
 
 			return connection.manager.save(user);

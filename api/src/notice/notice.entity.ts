@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'notice' })
@@ -15,7 +15,7 @@ export class NoticeEntity extends BaseEntity {
 	})
 	isRead: boolean;
 
-	@ManyToOne(() => UserEntity, (user) => user.notices, { eager: false })
+	@ManyToOne(() => User, (user) => user.notices, { eager: false })
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
+	user: User;
 }

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { UserFactory } from 'test/user/user/user.factory';
@@ -8,14 +8,14 @@ import { NoticeEntity } from './notice.entity';
 
 const database = 'notice_entity';
 describe('notice entity', () => {
-	let userRepository: Repository<UserEntity>;
+	let userRepository: Repository<User>;
 	let connection: Connection;
 	let noticeRepository: Repository<NoticeEntity>;
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);
 
-		userRepository = connection.getRepository(UserEntity);
+		userRepository = connection.getRepository(User);
 		noticeRepository = connection.getRepository(NoticeEntity);
 	});
 

@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'teams' })
@@ -10,7 +10,7 @@ export class TeamEntity extends BaseEntity {
 	@Column({ type: 'text', name: 'description', nullable: false })
 	description: string;
 
-	@ManyToMany(() => UserEntity, (user) => user.teams)
+	@ManyToMany(() => User, (user) => user.teams)
 	@JoinTable({
 		name: 'user_team',
 		joinColumn: {
@@ -22,5 +22,5 @@ export class TeamEntity extends BaseEntity {
 			referencedColumnName: 'id',
 		},
 	})
-	users: UserEntity[];
+	users: User[];
 }

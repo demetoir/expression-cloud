@@ -1,7 +1,7 @@
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
@@ -12,9 +12,9 @@ describe('user like entity', () => {
 	let connection: Connection;
 	let repository: Repository<UserLikeEntity>;
 
-	let fromUser: UserEntity;
-	let toUser: UserEntity;
-	let notExistUser: UserEntity;
+	let fromUser: User;
+	let toUser: User;
+	let notExistUser: User;
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);

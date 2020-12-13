@@ -10,7 +10,7 @@ import { VectorEntity } from 'src/vector/vector.entity';
 import { ScalarEntity } from 'src/scalar/scalar.entity';
 import { TagEntity } from 'src/tag/tag.entity';
 import { TeamEntity } from 'src/team/team.entity';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { UserSettingEntity } from 'src/user-setting/user-setting.entity';
 import { UserOauthEntity } from 'src/user-oauth/user-oauth.entity';
@@ -25,7 +25,7 @@ const entities = [
 	ScalarEntity,
 	TagEntity,
 	TeamEntity,
-	UserEntity,
+	User,
 	UserLikeEntity,
 	UserSettingEntity,
 	UserOauthEntity,

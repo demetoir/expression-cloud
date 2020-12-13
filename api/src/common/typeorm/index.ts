@@ -1,1 +1,1 @@
-export * from 'src/common/typeorm/decorators';
+export * from './decorators';

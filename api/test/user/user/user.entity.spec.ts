@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { NoticeEntity } from 'src/notice/notice.entity';
 import { TeamEntity } from 'src/team/team.entity';
 import { EditHistoryEntity } from 'src/history/edit-history.entity';
@@ -17,12 +17,12 @@ import { UserFactory } from './user.factory';
 
 const database = 'user_entity';
 describe('user entity', () => {
-	let userRepository: Repository<UserEntity>;
+	let userRepository: Repository<User>;
 	let connection: Connection;
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);
-		userRepository = connection.getRepository(UserEntity);
+		userRepository = connection.getRepository(User);
 	});
 
 	afterAll(async () => {
@@ -97,7 +97,7 @@ describe('user entity', () => {
 
 			assert.equal(user.forkedCount, 0);
 
-			const result: UserEntity = await userRepository.findOne({
+			const result: User = await userRepository.findOne({
 				id: user.id,
 			});
 
@@ -106,7 +106,7 @@ describe('user entity', () => {
 
 		it('likeCount should be not null', async function () {
 			try {
-				const user = new UserEntity();
+				const user = new User();
 				user.name = name;
 				user.description = description;
 				user.email = email;
@@ -128,7 +128,7 @@ describe('user entity', () => {
 
 			assert.equal(user.likedCount, 0);
 
-			const result: UserEntity = await userRepository.findOne({
+			const result: User = await userRepository.findOne({
 				id: user.id,
 			});
 
@@ -141,7 +141,7 @@ describe('user entity', () => {
 				const description = 'description';
 				const email = 'email';
 
-				const user = new UserEntity();
+				const user = new User();
 				user.name = name;
 				user.description = description;
 				user.email = email;
@@ -169,7 +169,7 @@ describe('user entity', () => {
 		let user;
 		let anotherUser;
 
-		async function getNewUser(): Promise<UserEntity> {
+		async function getNewUser(): Promise<User> {
 			user = UserFactory.build();
 
 			return await connection.manager.save(user);

@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 
 @Entity({ name: 'user_oauths' })
@@ -10,7 +10,7 @@ export class UserOauthEntity extends BaseEntity {
 	@Column({ name: 'auth_id', type: 'text', nullable: false })
 	authId: string;
 
-	// todo: oauth2.0인즈시 필요한 컬럼 종류 정리하기
+	// todo: oauth2.0인증시 필요한 컬럼 종류 정리하기
 	//  google, github, naver, kakao, facebook 이거 5개 호환용
 	//  client_id: string;
 	//  client_secret: string;
@@ -20,7 +20,7 @@ export class UserOauthEntity extends BaseEntity {
 	//  grant_type: string;
 	//  provider: string;
 
-	@OneToOne(() => UserEntity, (user) => user.oauth)
+	@OneToOne(() => User, (user) => user.oauth)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
+	user: User;
 }

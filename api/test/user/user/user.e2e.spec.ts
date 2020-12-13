@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { Repository } from 'typeorm';
 import { UserModule } from 'src/user/user.module';
 import { entityToResponse } from 'test/util';
@@ -13,7 +13,7 @@ import { UserFactory } from './user.factory';
 const database = 'user_module_e2e';
 describe('UserModule (e2e)', () => {
 	let app: INestApplication;
-	let userRepository: Repository<UserEntity>;
+	let userRepository: Repository<User>;
 
 	// sqlite 연결시 connection already exist error 발생으로 beforeEach 가아닌 beforeAll을 넣는
 	beforeAll(async () => {
@@ -25,7 +25,7 @@ describe('UserModule (e2e)', () => {
 		}).compile();
 
 		app = moduleFixture.createNestApplication();
-		userRepository = moduleFixture.get(getRepositoryToken(UserEntity));
+		userRepository = moduleFixture.get(getRepositoryToken(User));
 
 		await app.init();
 	});

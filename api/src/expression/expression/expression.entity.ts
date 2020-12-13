@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { VectorEntity } from 'src/vector/vector.entity';
 import { TagEntity } from 'src/tag/tag.entity';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { ExpressionSettingEntity } from '../expression-setting/expression-setting.entity';
 import { ExpressionThumbnailImageEntity } from '../expression-thumbnail-image/expression-thumbnail-image.entity';
@@ -88,9 +88,9 @@ export class ExpressionEntity extends BaseEntity {
 	)
 	thumbnailImage: Promise<ExpressionThumbnailImageEntity>;
 
-	@ManyToOne(() => UserEntity, (user) => user.expressions)
+	@ManyToOne(() => User, (user) => user.expressions)
 	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-	user: UserEntity;
+	user: User;
 
 	@ManyToOne(() => ExpressionEntity)
 	@JoinColumn({
@@ -99,7 +99,7 @@ export class ExpressionEntity extends BaseEntity {
 	})
 	forkedFrom: ExpressionEntity;
 
-	@ManyToMany(() => UserEntity, (user) => user.likeToExpressions, {
+	@ManyToMany(() => User, (user) => user.likeToExpressions, {
 		eager: false,
 	})
 	@JoinTable({
@@ -113,5 +113,5 @@ export class ExpressionEntity extends BaseEntity {
 			referencedColumnName: 'id',
 		},
 	})
-	likeFrom: UserEntity[];
+	likeFrom: User[];
 }

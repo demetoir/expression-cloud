@@ -9,7 +9,7 @@ import { entityToResponse } from 'test/util';
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import * as _ from 'lodash';
 import { MAX_LIMIT } from 'src/user-like/user-like.controller';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { TestTypeormModuleFactory } from 'test/database/test-typeorm/test-typeorm.module.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { UserFactory } from '../user/user.factory';
@@ -20,8 +20,8 @@ describe('UserLikeModule (e2e)', () => {
 	let repository: Repository<UserLikeEntity>;
 	let connection: Connection;
 	let manager: EntityManager;
-	let fromUser: UserEntity;
-	let toUser: UserEntity;
+	let fromUser: User;
+	let toUser: User;
 
 	async function prepareDb(n = 10) {
 		const users = [];
@@ -45,7 +45,7 @@ describe('UserLikeModule (e2e)', () => {
 
 		const likes = await repository.find();
 
-		const storedUsers = await connection.getRepository(UserEntity).find();
+		const storedUsers = await connection.getRepository(User).find();
 
 		return {
 			users: storedUsers,

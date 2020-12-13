@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LocalAuthModule } from '../localAuth/localAuth.module';
-import { UserEntity } from '../../user';
+import { User } from '../../user';
 import { TokenModule } from '../double-jwt/token/token.module';
 import { DoubleJwtModule } from '../double-jwt/double-jwt.module';
 
@@ -11,7 +11,7 @@ import { DoubleJwtModule } from '../double-jwt/double-jwt.module';
 	imports: [
 		LocalAuthModule,
 		DoubleJwtModule,
-		TypeOrmModule.forFeature([UserEntity]),
+		TypeOrmModule.forFeature([User]),
 		TokenModule,
 	],
 	providers: [AuthService],

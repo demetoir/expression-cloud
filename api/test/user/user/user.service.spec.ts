@@ -1,20 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from 'src/user/user.service';
+import { UserService } from 'src/user/service/user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { RepositoryMock } from 'test/lib/mock/repository.mock';
 
 describe('UserService', () => {
 	let service: UserService;
-	let repository: Repository<UserEntity>;
+	let repository: Repository<User>;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
 				UserService,
 				{
-					provide: getRepositoryToken(UserEntity),
+					provide: getRepositoryToken(User),
 					useClass: RepositoryMock,
 				},
 			],
@@ -22,7 +22,7 @@ describe('UserService', () => {
 
 		service = module.get(UserService);
 
-		repository = module.get(getRepositoryToken(UserEntity));
+		repository = module.get(getRepositoryToken(User));
 	});
 
 	it('should be DI for init', () => {

@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { VectorEntity } from 'src/vector/vector.entity';
 import { ImageEntity } from 'src/image/image.entity';
-import { UserEntity } from 'src/user/model/user.entity';
+import { User } from 'src/user/model/user.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { UserFactory } from 'test/user/user/user.factory';
@@ -265,7 +265,7 @@ describe('expression entity', () => {
 			expect((await result.thumbnailImage).id).toEqual(thumbnailImage.id);
 		});
 
-		async function getNewUser(): Promise<UserEntity> {
+		async function getNewUser(): Promise<User> {
 			const user = UserFactory.build();
 
 			return connection.manager.save(user);
