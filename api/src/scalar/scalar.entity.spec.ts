@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
-import { VectorEntity } from '../vector/vector.entity';
+import { Vector } from 'src/vector/vector';
 import { ScalarEntity } from './scalar.entity';
 
 const database = 'scalar_entity';
@@ -103,7 +103,7 @@ describe('scalar entity', () => {
 		});
 
 		it('should relate with vector entity', async () => {
-			const vector = new VectorEntity();
+			const vector = new Vector();
 			vector.index = 0;
 			vector.name = 'name';
 			await connection.manager.save(vector);

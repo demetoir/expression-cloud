@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { VectorEntity } from '../vector/vector.entity';
+import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'scalars' })
@@ -12,7 +11,7 @@ export class ScalarEntity extends BaseEntity {
 	@Column({ name: 'index', type: 'int', nullable: false })
 	index: number;
 
-	@ManyToOne(() => VectorEntity, (vector) => vector.scalars)
-	@JoinColumn({ name: 'column_id', referencedColumnName: 'id' })
-	vector: VectorEntity;
+	// @ManyToOne(() => Vector, (vector) => vector.scalars)
+	// @JoinColumn({ name: 'column_id', referencedColumnName: 'id' })
+	// vector: Vector;
 }

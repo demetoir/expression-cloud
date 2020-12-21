@@ -1,9 +1,9 @@
 import { name, random } from 'faker';
-import { VectorEntity } from './vector.entity';
+import { Vector } from 'src/vector/model/vector';
 
 export class VectorFactory {
-	static build(): VectorEntity {
-		const entity = new VectorEntity();
+	static build(): Vector {
+		const entity = new Vector();
 		entity.name = name.findName();
 		entity.index = random.number(100);
 

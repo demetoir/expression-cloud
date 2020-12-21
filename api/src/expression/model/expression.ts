@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import {
 	BooleanField,
 	CreatedAtColumn,
@@ -12,6 +12,7 @@ import {
 } from 'src/common';
 import { User } from 'src/user';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Vector } from 'src/vector/model';
 
 export const GQL_INPUT_TYPE_EXPRESSION = 'ExpresionInput';
 export const GQL_OBJECT_TYPE_EXPRESSION = 'Expression';
@@ -103,8 +104,10 @@ export class Expression {
 	// @OneToMany(() => Expression, (expression) => expression.forkedTo)
 	// forkedTo: Expression[];
 	//
-	// @OneToMany(() => VectorEntity, (vector) => vector.expression)
-	// vectors: VectorEntity[];
+
+	@Field(() => [Vector])
+	@OneToMany(() => Vector, (vector) => vector.expression)
+	vectors: Vector[];
 
 	// @OneToOne(() => ExpressionSettingEntity, (setting) => setting.expression)
 	// setting: ExpressionSettingEntity;
