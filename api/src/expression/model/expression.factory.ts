@@ -1,9 +1,9 @@
 import { lorem, name, random } from 'faker';
-import { ExpressionEntity } from './expression.entity';
+import { Expression } from 'src/expression/model/expression';
 
 export class ExpressionFactory {
-	static build(): ExpressionEntity {
-		const entity = new ExpressionEntity();
+	static build(): Expression {
+		const entity = new Expression();
 		entity.name = name.findName();
 		entity.content = lorem.sentence(20);
 		entity.type = random.number(10);

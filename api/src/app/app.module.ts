@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UserResolverModule } from 'src/user';
+import { GlobalTypeormModule } from 'src/database';
+import { GlobalConfigModule } from 'src/config';
+import { ExpressionResolverModule } from 'src/expression';
+import { GlobalGraphqlModule } from 'src/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GlobalTypeormModule } from '../database/global-typeorm/global-typeorm.module';
-import { GlobalConfigModule } from '../config/globalConfig.module';
-import { GlobalGraphqlModule } from '../graphql/global-graphql/global-graphql.module';
 
 @Module({
 	imports: [
@@ -12,6 +13,7 @@ import { GlobalGraphqlModule } from '../graphql/global-graphql/global-graphql.mo
 		GlobalConfigModule,
 		GlobalGraphqlModule,
 		UserResolverModule,
+		ExpressionResolverModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
