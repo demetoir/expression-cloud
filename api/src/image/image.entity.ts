@@ -1,5 +1,4 @@
 import { Column, Entity, OneToOne } from 'typeorm';
-import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image/expression-thumbnail-image.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
 
@@ -34,8 +33,8 @@ export class ImageEntity extends BaseEntity {
 	@Column({ name: 'file_name', type: 'text', nullable: false })
 	fileName: string;
 
-	@OneToOne(() => ExpressionThumbnailImageEntity, (object) => object.image)
-	expressionThumbnail: ExpressionThumbnailImageEntity;
+	// @OneToOne(() => ExpressionThumbnailImageEntity, (object) => object.image)
+	// expressionThumbnail: ExpressionThumbnailImageEntity;
 
 	@OneToOne(() => UserProfileImageEntity, (object) => object.image)
 	userProfile: UserProfileImageEntity;

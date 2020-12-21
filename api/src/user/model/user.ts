@@ -1,4 +1,4 @@
-import { Entity, OneToOne } from 'typeorm';
+import { Entity, OneToMany, OneToOne } from 'typeorm';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
 	BooleanColumn,
@@ -18,6 +18,7 @@ import {
 	StringField,
 } from 'src/common/graphql';
 import { UserSetting } from 'src/user-setting';
+import { Expression } from 'src/expression';
 
 export const GQL_INPUT_TYPE_USER = 'UserInput';
 export const GQL_OBJECT_TYPE_USER = 'User';
@@ -92,4 +93,8 @@ export class User {
 	@Field(() => UserSetting)
 	@OneToOne(() => UserSetting, (setting) => setting.user)
 	setting: Promise<UserSetting>;
+
+	@Field(() => [Expression])
+	@OneToMany(() => Expression, (expression) => expression.owner)
+	expressions: Expression;
 }

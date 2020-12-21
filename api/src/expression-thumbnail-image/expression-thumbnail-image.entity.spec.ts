@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { ImageFactory } from 'src/image/Image.factory';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
-import { ExpressionFactory } from '../expression/expression.factory';
+import { ExpressionFactory } from 'src/expression/expression.factory';
 import { ExpressionThumbnailImageEntity } from './expression-thumbnail-image.entity';
 
 const database = 'expression_thumbnail_image_entity';

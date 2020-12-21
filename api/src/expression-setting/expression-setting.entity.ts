@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/common/model/entity/base/base.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { ExpressionEntity } from '../expression/expression.entity';
+import { Expression } from 'src/expression';
 
 @Entity({ name: 'expression_settings' })
 export class ExpressionSettingEntity extends BaseEntity {
@@ -20,7 +20,7 @@ export class ExpressionSettingEntity extends BaseEntity {
 	})
 	isLocked = false;
 
-	@OneToOne(() => ExpressionEntity, (expression) => expression.setting)
-	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
-	expression: ExpressionEntity;
+	// @OneToOne(() => Expression, (expression) => expression.setting)
+	// @JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
+	// expression: Expression;
 }

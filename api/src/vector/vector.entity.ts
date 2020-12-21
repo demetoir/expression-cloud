@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { ExpressionEntity } from '../expression/expression/expression.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { ScalarEntity } from '../scalar/scalar.entity';
 import { BaseEntity } from '../common/model/entity/base/base.entity';
 
@@ -19,7 +18,7 @@ export class VectorEntity extends BaseEntity {
 	@OneToMany(() => ScalarEntity, (scalars) => scalars.vector)
 	scalars: ScalarEntity[];
 
-	@ManyToOne(() => ExpressionEntity, (expression) => expression.vectors)
-	@JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
-	expression: ExpressionEntity;
+	// @ManyToOne(() => ExpressionEntity, (expression) => expression.vectors)
+	// @JoinColumn({ name: 'expression_id', referencedColumnName: 'id' })
+	// expression: ExpressionEntity;
 }
