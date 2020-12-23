@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../repository';
 import { User } from '../model';
-import { UpdateUserInputType } from 'src/user/resolver';
+import { UpdateUserInputType } from '../resolver';
 
 @Injectable()
 export class UserService {
@@ -30,5 +30,9 @@ export class UserService {
 		user.name = 'name';
 
 		return user;
+	}
+
+	async getMany(): Promise<User[]> {
+		return this.userRepository.find();
 	}
 }

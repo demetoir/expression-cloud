@@ -11,6 +11,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 			// bug: can not resolve union type if sortSchema is true this is nest graphql error
 			// related with issue 144
 			sortSchema: false,
+			tracing: true,
 		}),
 	],
 })
