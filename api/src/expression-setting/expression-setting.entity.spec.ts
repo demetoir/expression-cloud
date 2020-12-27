@@ -3,7 +3,6 @@ import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { ExpressionSettingEntity } from './expression-setting.entity';
-import { ExpressionFactory } from '../expression/expression.factory';
 
 const database = 'expression_setting_entity';
 describe('ExpressionSetting entity', () => {
@@ -67,33 +66,33 @@ describe('ExpressionSetting entity', () => {
 		});
 	});
 
-	describe('relation', () => {
-		let expressionSetting;
-
-		it('should prepare projectSetting', async () => {
-			expressionSetting = new ExpressionSettingEntity();
-
-			expressionSetting.name = 'setting';
-
-			await connection.manager.save(expressionSetting);
-		});
-
-		it('should relate with expression entity', async () => {
-			const expression = ExpressionFactory.build();
-			await connection.manager.save(expression);
-
-			expression.setting = expressionSetting;
-			await connection.manager.save(expression);
-
-			expressionSetting.expression = expression;
-			await connection.manager.save(expression);
-
-			const result = await expressionSettingRepository.findOne({
-				where: { id: expressionSetting.id },
-				relations: ['expression'],
-			});
-
-			assert.equal(result.expression.id, expression.id);
-		});
-	});
+	// describe('relation', () => {
+	// 	let expressionSetting;
+	//
+	// 	it('should prepare projectSetting', async () => {
+	// 		expressionSetting = new ExpressionSettingEntity();
+	//
+	// 		expressionSetting.name = 'setting';
+	//
+	// 		await connection.manager.save(expressionSetting);
+	// 	});
+	//
+	// 	it('should relate with expression entity', async () => {
+	// 		const expression = ExpressionFactory.build();
+	// 		await connection.manager.save(expression);
+	//
+	// 		expression.setting = expressionSetting;
+	// 		await connection.manager.save(expression);
+	//
+	// 		expressionSetting.expression = expression;
+	// 		await connection.manager.save(expression);
+	//
+	// 		const result = await expressionSettingRepository.findOne({
+	// 			where: { id: expressionSetting.id },
+	// 			relations: ['expression'],
+	// 		});
+	//
+	// 		assert.equal(result.expression.id, expression.id);
+	// 	});
+	// });
 });

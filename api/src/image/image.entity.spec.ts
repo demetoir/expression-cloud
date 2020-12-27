@@ -3,8 +3,6 @@ import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { ImageEntity } from './image.entity';
-import { ExpressionThumbnailImageEntity } from '../expression/expression-thumbnail-image/expression-thumbnail-image.entity';
-import { UserProfileImageEntity } from '../user-profile-image/user-profile-image.entity';
 import { ImageFactory } from './Image.factory';
 
 const database = 'image_entity';
@@ -22,11 +20,11 @@ describe('image entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(repository);
 	});
 
-	it('should create new Entity', async function () {
+	it('should create new Entity', async () => {
 		const image = ImageFactory.build();
 
 		await connection.manager.save(image);
@@ -113,52 +111,52 @@ describe('image entity', () => {
 		});
 	});
 
-	describe('relation', () => {
-		let image: ImageEntity;
-
-		it('should prepare projectSetting', async () => {
-			image = ImageFactory.build();
-
-			await connection.manager.save(image);
-		});
-
-		it('should relate with expression thumbnail image entity', async () => {
-			const thumbnailImage = new ExpressionThumbnailImageEntity();
-			await connection.manager.save(thumbnailImage);
-
-			image.expressionThumbnail = thumbnailImage;
-			await connection.manager.save(thumbnailImage);
-
-			thumbnailImage.image = image;
-			await connection.manager.save(thumbnailImage);
-
-			const result = await repository.findOne({
-				where: { id: image.id },
-				relations: ['expressionThumbnail'],
-			});
-
-			assert.equal(
-				(await result.expressionThumbnail).id,
-				thumbnailImage.id,
-			);
-		});
-
-		it('should relate with UserProfile thumbnail image entity', async () => {
-			const userProfileImageEntity = new UserProfileImageEntity();
-			await connection.manager.save(userProfileImageEntity);
-
-			userProfileImageEntity.image = image;
-			await connection.manager.save(userProfileImageEntity);
-
-			image.userProfile = userProfileImageEntity;
-			await connection.manager.save(userProfileImageEntity);
-
-			const result = await repository.findOne({
-				where: { id: image.id },
-				relations: ['userProfile'],
-			});
-
-			assert.equal(result.userProfile.id, userProfileImageEntity.id);
-		});
-	});
+	// describe('relation', () => {
+	// 	let image: ImageEntity;
+	//
+	// 	it('should prepare projectSetting', async () => {
+	// 		image = ImageFactory.build();
+	//
+	// 		await connection.manager.save(image);
+	// 	});
+	//
+	// 	it('should relate with expression thumbnail image entity', async () => {
+	// 		const thumbnailImage = new ExpressionThumbnailImageEntity();
+	// 		await connection.manager.save(thumbnailImage);
+	//
+	// 		image.expressionThumbnail = thumbnailImage;
+	// 		await connection.manager.save(thumbnailImage);
+	//
+	// 		thumbnailImage.image = image;
+	// 		await connection.manager.save(thumbnailImage);
+	//
+	// 		const result = await repository.findOne({
+	// 			where: { id: image.id },
+	// 			relations: ['expressionThumbnail'],
+	// 		});
+	//
+	// 		assert.equal(
+	// 			(await result.expressionThumbnail).id,
+	// 			thumbnailImage.id,
+	// 		);
+	// 	});
+	//
+	// 	it('should relate with UserProfile thumbnail image entity', async () => {
+	// 		const userProfileImageEntity = new UserProfileImageEntity();
+	// 		await connection.manager.save(userProfileImageEntity);
+	//
+	// 		userProfileImageEntity.image = image;
+	// 		await connection.manager.save(userProfileImageEntity);
+	//
+	// 		image.userProfile = userProfileImageEntity;
+	// 		await connection.manager.save(userProfileImageEntity);
+	//
+	// 		const result = await repository.findOne({
+	// 			where: { id: image.id },
+	// 			relations: ['userProfile'],
+	// 		});
+	//
+	// 		assert.equal(result.userProfile.id, userProfileImageEntity.id);
+	// 	});
+	// });
 });

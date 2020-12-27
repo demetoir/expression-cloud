@@ -1,8 +1,7 @@
 import { assert } from 'chai';
-import { User } from 'src/user/model/user.entity';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { UserFactory } from 'test/user/user/user.factory';
+import { User } from 'src/user';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { NoticeEntity } from './notice.entity';
 
@@ -23,13 +22,13 @@ describe('notice entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		expect(userRepository).toBeDefined();
 		expect(connection).toBeDefined();
 		expect(noticeRepository).toBeDefined();
 	});
 
-	it('should create entity', async function () {
+	it('should create entity', async () => {
 		const notice = new NoticeEntity();
 		notice.content = 'content';
 
@@ -41,7 +40,7 @@ describe('notice entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on content', async function () {
+		it('should not null on content', async () => {
 			try {
 				const content = null;
 				const notice = new NoticeEntity();
@@ -56,7 +55,7 @@ describe('notice entity', () => {
 			}
 		});
 
-		it('should not null on isRead', async function () {
+		it('should not null on isRead', async () => {
 			try {
 				const content = 'content';
 				const isRead = null;
@@ -74,7 +73,7 @@ describe('notice entity', () => {
 			}
 		});
 
-		it('should be boolean type of isRead', async function () {
+		it('should be boolean type of isRead', async () => {
 			const content = 'content';
 			const isRead = true;
 
@@ -94,7 +93,7 @@ describe('notice entity', () => {
 			assert.equal(typeof result2.isRead, 'boolean');
 		});
 
-		it('should isRead auto false', async function () {
+		it('should isRead auto false', async () => {
 			const content = 'content';
 			const isRead = undefined;
 
@@ -112,32 +111,32 @@ describe('notice entity', () => {
 		});
 	});
 
-	describe('relation', () => {
-		let notice;
-
-		it('should prepare entity', async () => {
-			notice = new NoticeEntity();
-			notice.content = 'content';
-
-			await connection.manager.save(notice);
-		});
-
-		it('should relate with user entity', async () => {
-			const user = UserFactory.build();
-			await connection.manager.save(user);
-
-			user.notices = [notice];
-			await connection.manager.save(user);
-
-			notice.user = user;
-			await connection.manager.save(notice);
-
-			const resultUserSetting = await noticeRepository.findOne({
-				where: { id: notice.id },
-				relations: ['user'],
-			});
-
-			assert.equal(resultUserSetting.user.id, user.id);
-		});
-	});
+	// describe('relation', () => {
+	// 	let notice;
+	//
+	// 	it('should prepare entity', async () => {
+	// 		notice = new NoticeEntity();
+	// 		notice.content = 'content';
+	//
+	// 		await connection.manager.save(notice);
+	// 	});
+	//
+	// 	it('should relate with user entity', async () => {
+	// 		const user = UserFactory.build();
+	// 		await connection.manager.save(user);
+	//
+	// 		user.notices = [notice];
+	// 		await connection.manager.save(user);
+	//
+	// 		notice.user = user;
+	// 		await connection.manager.save(notice);
+	//
+	// 		const resultUserSetting = await noticeRepository.findOne({
+	// 			where: { id: notice.id },
+	// 			relations: ['user'],
+	// 		});
+	//
+	// 		assert.equal(resultUserSetting.user.id, user.id);
+	// 	});
+	// });
 });

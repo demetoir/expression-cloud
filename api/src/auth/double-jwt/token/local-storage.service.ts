@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class LocalStorageService {
-	private readonly storage: any;
+	public readonly storage: any;
 
 	constructor() {
 		this.storage = {};

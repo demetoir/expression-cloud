@@ -1,18 +1,18 @@
 import { assert } from 'chai';
 import { Connection, EntityManager, Repository } from 'typeorm';
-import { UserSettingEntity } from 'src/user-setting/user-setting.entity';
+import { UserSetting } from 'src/user-setting';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { UserFactory } from '../user/user.factory';
 
 const database = 'user_setting_entity';
 describe('user-setting entity', () => {
 	let connection: Connection;
-	let userSettingRepository: Repository<UserSettingEntity>;
+	let userSettingRepository: Repository<UserSetting>;
 	let manager: EntityManager;
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);
-		userSettingRepository = connection.getRepository(UserSettingEntity);
+		userSettingRepository = connection.getRepository(UserSetting);
 		manager = connection.manager;
 	});
 
@@ -20,14 +20,14 @@ describe('user-setting entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		expect(connection).toBeDefined();
 		expect(userSettingRepository).toBeDefined();
 		expect(manager).toBeDefined();
 	});
 
-	it('should create new user-setting', async function () {
-		const userSetting = new UserSettingEntity();
+	it('should create new user-setting', async () => {
+		const userSetting = new UserSetting();
 		await manager.save(userSetting);
 
 		const newUserSetting = await userSettingRepository.findOne({
@@ -38,11 +38,11 @@ describe('user-setting entity', () => {
 	});
 
 	describe('properties', () => {
-		it('should have userId', async function () {
+		it('should have userId', async () => {
 			const user = UserFactory.build();
 			await manager.save(user);
 
-			const userSetting = new UserSettingEntity();
+			const userSetting = new UserSetting();
 			userSetting.userId = user.id;
 
 			await manager.save(userSetting);
@@ -51,8 +51,8 @@ describe('user-setting entity', () => {
 			expect(stored.userId).toBe(user.id);
 		});
 
-		it('userId should nullable true', async function () {
-			const userSetting = new UserSettingEntity();
+		it('userId should nullable true', async () => {
+			const userSetting = new UserSetting();
 			userSetting.userId = null;
 
 			await manager.save(userSetting);
@@ -66,7 +66,7 @@ describe('user-setting entity', () => {
 		let userSetting;
 
 		it('should prepare user-setting', async () => {
-			userSetting = new UserSettingEntity();
+			userSetting = new UserSetting();
 
 			await connection.manager.save(userSetting);
 		});

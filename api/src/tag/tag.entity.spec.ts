@@ -2,7 +2,6 @@ import { assert } from 'chai';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { Connection, Repository } from 'typeorm';
-import { ExpressionFactory } from '../expression/expression/expression.factory';
 import { TagEntity } from './tag.entity';
 
 const database = 'tag_entity';
@@ -51,34 +50,34 @@ describe('tag entity', () => {
 		});
 	});
 
-	describe('relation', () => {
-		let tag;
-
-		it('should prepare tag', async () => {
-			tag = new TagEntity();
-
-			tag.name = 'new tag';
-
-			await connection.manager.save(tag);
-		});
-
-		it('should relate with project entity', async () => {
-			const expression = ExpressionFactory.build();
-			await connection.manager.save(expression);
-
-			expression.tags = [tag];
-			await connection.manager.save(expression);
-
-			tag.expression = expression;
-			await connection.manager.save(tag);
-
-			const resultProject = await tagRepository.findOne({
-				where: { id: tag.id },
-				relations: ['expression'],
-			});
-			await connection.manager.save(resultProject);
-
-			assert.equal(resultProject.expression.id, expression.id);
-		});
-	});
+	// describe('relation', () => {
+	// 	let tag;
+	//
+	// 	it('should prepare tag', async () => {
+	// 		tag = new TagEntity();
+	//
+	// 		tag.name = 'new tag';
+	//
+	// 		await connection.manager.save(tag);
+	// 	});
+	//
+	// 	it('should relate with project entity', async () => {
+	// 		const expression = ExpressionFactory.build();
+	// 		await connection.manager.save(expression);
+	//
+	// 		expression.tags = [tag];
+	// 		await connection.manager.save(expression);
+	//
+	// 		tag.expression = expression;
+	// 		await connection.manager.save(tag);
+	//
+	// 		const resultProject = await tagRepository.findOne({
+	// 			where: { id: tag.id },
+	// 			relations: ['expression'],
+	// 		});
+	// 		await connection.manager.save(resultProject);
+	//
+	// 		assert.equal(resultProject.expression.id, expression.id);
+	// 	});
+	// });
 });

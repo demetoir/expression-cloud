@@ -1,10 +1,10 @@
 import { UserLikeEntity } from 'src/user-like/user-like.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
-import { User } from 'src/user/model/user.entity';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { User } from 'src/user';
 import { UserFactory } from '../user/user.factory';
 
 const database = 'user_like_entity';
@@ -35,18 +35,18 @@ describe('user like entity', () => {
 		await connection.manager.remove(user);
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		expect(connection).toBeDefined();
 		expect(repository).toBeDefined();
 	});
 
-	it('should prepare fixtures', function () {
+	it('should prepare fixtures', () => {
 		expect(fromUser).toBeDefined();
 		expect(toUser).toBeDefined();
 		expect(notExistUser).toBeDefined();
 	});
 
-	describe('when create entity', function () {
+	describe('when create entity', () => {
 		it('should create new project', async () => {
 			const like = new UserLikeEntity();
 			like.fromUserId = fromUser.id;
@@ -156,7 +156,7 @@ describe('user like entity', () => {
 		});
 	});
 
-	describe('when remove entity', function () {
+	describe('when remove entity', () => {
 		it('should soft removed', async () => {
 			const like = new UserLikeEntity();
 			like.fromUserId = fromUser.id;

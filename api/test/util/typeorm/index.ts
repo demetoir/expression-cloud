@@ -2,6 +2,8 @@ import { createConnection } from 'typeorm';
 import { Connection } from 'typeorm/connection/Connection';
 import { v4 as uuid } from 'uuid';
 import { configurationLoader } from 'src/config/configurationLoader';
+import { entities } from 'src/database';
+import { ConnectionOptions } from 'typeorm/connection/ConnectionOptions';
 
 /**
  * prepare database for test
@@ -14,7 +16,7 @@ import { configurationLoader } from 'src/config/configurationLoader';
  */
 export const getConnectionForTest = async (
 	database?: string,
-	options?: any,
+	options?: Partial<ConnectionOptions>,
 ): Promise<Connection> => {
 	const config = configurationLoader();
 
@@ -25,7 +27,7 @@ export const getConnectionForTest = async (
 		username: config.TYPEORM_USERNAME,
 		password: config.TYPEORM_PASSWORD,
 		database: config.TYPEORM_DATABASE,
-		entities: ['./src/**/*.entity.ts'],
+		entities,
 		...options,
 	});
 

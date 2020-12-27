@@ -25,10 +25,7 @@ export class UserResolver {
 
 	@Query(() => [User], { name: 'getManyUser' })
 	async getMany(): Promise<User[]> {
-		const a = await this.userService.getMany();
-		// console.log(a);
-
-		return a;
+		return this.userService.getMany();
 	}
 
 	@Query(() => User, { name: 'getOneUser' })

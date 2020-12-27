@@ -20,11 +20,11 @@ describe('user oauth entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(oauthRepository);
 	});
 
-	it('should create new project', async function () {
+	it('should create new project', async () => {
 		const oauth = new UserOauthEntity();
 		oauth.type = 1;
 		oauth.authId = 'id';
@@ -37,7 +37,7 @@ describe('user oauth entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on type', async function () {
+		it('should not null on type', async () => {
 			try {
 				const type = null;
 				const authId = 'id';
@@ -54,7 +54,7 @@ describe('user oauth entity', () => {
 			}
 		});
 
-		it('should not null on authId', async function () {
+		it('should not null on authId', async () => {
 			try {
 				const type = 0;
 				const authId = null;
@@ -72,33 +72,33 @@ describe('user oauth entity', () => {
 		});
 	});
 
-	describe('relation', () => {
-		let oauth;
-
-		it('should prepare entity', async () => {
-			oauth = new UserOauthEntity();
-			oauth.type = 1;
-			oauth.authId = 'id';
-
-			await connection.manager.save(oauth);
-		});
-
-		it('should relate with user entity', async () => {
-			const user = UserFactory.build();
-			await connection.manager.save(user);
-
-			user.oauth = oauth;
-			await connection.manager.save(user);
-
-			oauth.user = user;
-			await connection.manager.save(oauth);
-
-			const resultProject = await oauthRepository.findOne({
-				where: { id: oauth.id },
-				relations: ['user'],
-			});
-
-			assert.equal(resultProject.user.id, user.id);
-		});
-	});
+	// describe('relation', () => {
+	// 	let oauth;
+	//
+	// 	it('should prepare entity', async () => {
+	// 		oauth = new UserOauthEntity();
+	// 		oauth.type = 1;
+	// 		oauth.authId = 'id';
+	//
+	// 		await connection.manager.save(oauth);
+	// 	});
+	//
+	// 	it('should relate with user entity', async () => {
+	// 		const user = UserFactory.build();
+	// 		await connection.manager.save(user);
+	//
+	// 		user.oauth = oauth;
+	// 		await connection.manager.save(user);
+	//
+	// 		oauth.user = user;
+	// 		await connection.manager.save(oauth);
+	//
+	// 		const resultProject = await oauthRepository.findOne({
+	// 			where: { id: oauth.id },
+	// 			relations: ['user'],
+	// 		});
+	//
+	// 		assert.equal(resultProject.user.id, user.id);
+	// 	});
+	// });
 });

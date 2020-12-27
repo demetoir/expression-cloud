@@ -23,14 +23,14 @@ describe('TokenService', () => {
 		expect(service).toBeDefined();
 	});
 
-	it('should define method', function () {
+	it('should define method', () => {
 		expect(service.createOne).toBeDefined();
 		expect(service.deleteOne).toBeDefined();
 		expect(service.findOne).toBeDefined();
 	});
 
-	describe('createOne', function () {
-		it('should success', async function () {
+	describe('createOne', () => {
+		it('should success', async () => {
 			// given
 			const payload: ITokenPayload = {
 				userName: 'string',
@@ -47,7 +47,7 @@ describe('TokenService', () => {
 			expect(localStorageService.storage[uuid]).toEqual(payload);
 		});
 
-		it('raise error, if key already exist', async function () {
+		it('raise error, if key already exist', async () => {
 			// given
 			const payload: ITokenPayload = {
 				userName: 'string',
@@ -77,8 +77,8 @@ describe('TokenService', () => {
 		});
 	});
 
-	describe('deleteOne', function () {
-		it('should success', async function () {
+	describe('deleteOne', () => {
+		it('should success', async () => {
 			// given
 			const payload: ITokenPayload = {
 				userName: 'string',
@@ -97,7 +97,7 @@ describe('TokenService', () => {
 			expect(localStorageService.storage[uuid]).not.toBeDefined();
 		});
 
-		it('raise error, if not exist', async function () {
+		it('raise error, if not exist', async () => {
 			// given
 			const uuid = '123';
 
@@ -111,8 +111,8 @@ describe('TokenService', () => {
 		});
 	});
 
-	describe('findOne', function () {
-		it('return payload, if exist', async function () {
+	describe('findOne', () => {
+		it('return payload, if exist', async () => {
 			// given
 			const payload: ITokenPayload = {
 				userName: 'string',
@@ -131,7 +131,7 @@ describe('TokenService', () => {
 			expect(res).toEqual(payload);
 		});
 
-		it('return null, if not exist', async function () {
+		it('return null, if not exist', async () => {
 			// given
 			const uuid = '123';
 

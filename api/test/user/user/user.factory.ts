@@ -1,5 +1,5 @@
-import { User } from 'src/user/model/user.entity';
 import { internet, lorem, name, random } from 'faker';
+import { User } from 'src/user';
 
 export class UserFactory {
 	static build(): User {
