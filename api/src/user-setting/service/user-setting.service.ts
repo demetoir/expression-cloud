@@ -14,8 +14,6 @@ export class UserSettingService {
 	}
 
 	async findByUserIds(userIds: number[]): Promise<UserSetting[]> {
-		console.log('findByUserIds');
-
 		const a = await this.userSettingRepository.find({
 			where: {
 				userId: In(userIds),

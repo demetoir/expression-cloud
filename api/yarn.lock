@@ -10243,6 +10243,14 @@ nest-winston@^1.4.0:
     cli-color "^2.0.0"
     fast-safe-stringify "^2.0.7"
 
+nestjs-dataloader@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/nestjs-dataloader/-/nestjs-dataloader-7.0.1.tgz#a9a99eca8ce8b471069a4e622c4397c527102e2c"
+  integrity sha512-jNG/H0Qc0mAHiUkSJ4HVqchAAL5GJH53jan8cSEagJZvkQSLxOQDTBETDUo4kde+93L9clHCv2934fW4CfJJdw==
+  dependencies:
+    dataloader "^2.0.0"
+    rxjs "^6.5.4"
+
 nestjs-redoc@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/nestjs-redoc/-/nestjs-redoc-2.1.0.tgz#3e6aaed0b422281cc1f48a816293460f6090ca55"
@@ -11922,7 +11930,7 @@ run-parallel@^1.1.9:
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.10.tgz#60a51b2ae836636c81377df16cb107351bcd13ef"
   integrity sha512-zb/1OuZ6flOlH6tQyMPUrE3x3Ulxjlo9WIVXR4yVYi4H9UXQaeIsPbLn2R3O3vQCnDKkAl2qHiuocKKX4Tz/Sw==
 
-rxjs@6.6.3, rxjs@^6.4.0, rxjs@^6.6.0, rxjs@^6.6.2, rxjs@^6.6.3:
+rxjs@6.6.3, rxjs@^6.4.0, rxjs@^6.5.4, rxjs@^6.6.0, rxjs@^6.6.2, rxjs@^6.6.3:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==

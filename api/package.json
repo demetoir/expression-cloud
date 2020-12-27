@@ -73,6 +73,7 @@
 		"mysql2": "^2.2.5",
 		"nest-morgan": "^1.0.1",
 		"nest-winston": "^1.4.0",
+		"nestjs-dataloader": "^7.0.1",
 		"nestjs-redoc": "^2.1.0",
 		"passport": "^0.4.1",
 		"passport-jwt": "^4.0.0",
