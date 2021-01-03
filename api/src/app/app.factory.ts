@@ -1,30 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { INestApplication } from '@nestjs/common';
-import * as rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet';
+import { NodeConfigService } from 'src/config';
+import { CustomMorgan } from 'src/common';
 import { AppModule } from './app.module';
-import { CustomMorgan } from '../common/middlewares/loggerMiddlewares';
-import { NodeConfigService } from '../config/NodeConfig.service';
 
 function initSecurity(app) {
 	// cors
 	app.enableCors();
 
-	app.set('trust proxy', 1);
+	app.set('trust proxy', true);
 
 	// https://github.com/graphql/graphql-playground/issues/1283
 	app.use(
 		helmet({
 			contentSecurityPolicy:
 				process.env.NODE_ENV === 'production' ? undefined : false,
-		}),
-	);
-
-	app.use(
-		rateLimit({
-			windowMs: 15 * 60 * 1000, // 15 minutes
-			max: 100, // limit each IP to 100 requests per windowMs
 		}),
 	);
 }

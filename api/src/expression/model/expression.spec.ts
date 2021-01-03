@@ -1,8 +1,8 @@
 import { assert } from 'chai';
-import { Expression } from 'src/expression/model/expression';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
+import { Expression } from './expression';
 import { ExpressionFactory } from './expression.factory';
 
 const database = 'expression_entity';
@@ -12,7 +12,6 @@ describe('expression entity', () => {
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);
-
 		expressionRepository = connection.getRepository(Expression);
 	});
 

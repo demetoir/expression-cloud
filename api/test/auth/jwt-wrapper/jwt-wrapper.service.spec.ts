@@ -7,8 +7,8 @@ import {
 } from 'src/auth/double-jwt/jwt-wrapper/constants';
 import { JwtWrapperService } from 'src/auth/double-jwt/jwt-wrapper/jwt-wrapper.service';
 import {
-	InvalidJWTSignatureError,
-	MalformedJWTError,
+	InvalidJwtSignatureError,
+	MalformedJwtError,
 } from 'src/auth/double-jwt/jwt-wrapper/error';
 import * as moment from 'moment';
 import { v1 as uuidV1, v4 as uuidV4 } from 'uuid';
@@ -173,7 +173,7 @@ describe('JWTWrapperService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(MalformedJWTError);
+				expect(e).toBeInstanceOf(MalformedJwtError);
 			}
 		});
 
@@ -189,7 +189,7 @@ describe('JWTWrapperService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(InvalidJWTSignatureError);
+				expect(e).toBeInstanceOf(InvalidJwtSignatureError);
 			}
 		});
 
@@ -212,7 +212,7 @@ describe('JWTWrapperService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(MalformedJWTError);
+				expect(e).toBeInstanceOf(MalformedJwtError);
 			}
 		});
 
@@ -240,7 +240,7 @@ describe('JWTWrapperService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(MalformedJWTError);
+				expect(e).toBeInstanceOf(MalformedJwtError);
 				expect(e.message).toBe('invalid uuid');
 			}
 		});
@@ -269,7 +269,7 @@ describe('JWTWrapperService', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(MalformedJWTError);
+				expect(e).toBeInstanceOf(MalformedJwtError);
 				expect(e.message).toBe('uuid version is not 4');
 			}
 		});

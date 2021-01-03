@@ -5,8 +5,8 @@ import { PayloadTypes } from 'src/auth/double-jwt/jwt-wrapper/interface';
 import { DoubleJwtService } from 'src/auth/double-jwt/double-jwt.service';
 import { TokenService } from 'src/auth/double-jwt/token/token.service';
 import {
-	InvalidJWTSignatureError,
-	MalformedJWTError,
+	InvalidJwtSignatureError,
+	MalformedJwtError,
 } from 'src/auth/double-jwt/jwt-wrapper/error';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { RefreshTokenDto } from 'src/auth/auth/dto/refresh-token.dto';
@@ -152,7 +152,7 @@ describe('doubleJwtService', () => {
 
 			// given mock
 			mockCustomJwtService.verify.mockImplementation(() => {
-				throw new MalformedJWTError('malformed');
+				throw new MalformedJwtError('malformed');
 			});
 
 			try {
@@ -175,7 +175,7 @@ describe('doubleJwtService', () => {
 
 			// given mock
 			mockCustomJwtService.verify.mockImplementation(() => {
-				throw new InvalidJWTSignatureError('invalid JWT');
+				throw new InvalidJwtSignatureError('invalid JWT');
 			});
 
 			try {
@@ -424,7 +424,7 @@ describe('doubleJwtService', () => {
 			// given mock, throw
 			mockCustomJwtService.verify.mockImplementation((token) => {
 				if (token === refreshToken) {
-					throw new MalformedJWTError('malformed');
+					throw new MalformedJwtError('malformed');
 				}
 			});
 
@@ -453,7 +453,7 @@ describe('doubleJwtService', () => {
 			// given mock, throw
 			mockCustomJwtService.verify.mockImplementation((token) => {
 				if (token === refreshToken) {
-					throw new InvalidJWTSignatureError('invalid signature');
+					throw new InvalidJwtSignatureError('invalid signature');
 				}
 			});
 

@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as express from 'express';
-import { NodeConfigService } from './config/NodeConfig.service';
-import { appFactory } from './app/app.factory';
+import { NodeConfigService } from 'src/config';
+import { appFactory } from 'src/app';
 
 async function start() {
 	const expressApp = express();
