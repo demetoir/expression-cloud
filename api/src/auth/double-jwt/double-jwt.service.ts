@@ -2,22 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { isOneOfInstance } from 'src/common';
-import { ExpectedErrors, JwtWrapperService, PayloadTypes } from './jwt-wrapper';
-import { ITokenPayload, TokenDto } from './token';
 import { DoubleJWTValidationError } from './error';
+import { ExpectedErrors, JwtWrapperService, PayloadTypes } from './jwt-wrapper';
+import { JwtPayload } from './jwt-payload';
 
 const expiredIn = 3600;
 
 @Injectable()
-export class DoubleJwtService {
-	private readonly customJwtService: JwtWrapperService<ITokenPayload>;
+export class DoubleJwtService<T> {
+	private readonly customJwtService: JwtWrapperService<T>;
 
-	constructor(customJwtService: JwtWrapperService<ITokenPayload>) {
+	constructor(customJwtService: JwtWrapperService<T>) {
 		this.customJwtService = customJwtService;
 	}
 
 	async issueToken(
-		payload: ITokenPayload,
+		payload: T,
 	): Promise<{
 		accessToken: string;
 		refreshToken: string;
@@ -43,29 +43,22 @@ export class DoubleJwtService {
 		};
 	}
 
-	async refreshToken({
-		accessToken,
-		refreshToken,
-	}: {
-		accessToken: string;
-		refreshToken: string;
-	}): Promise<{
+	async refreshToken(
+		accessToken: string,
+		refreshToken: string,
+	): Promise<{
 		accessToken: string;
 		refreshToken: string;
 		expiredIn: number;
 	}> {
 		// validate tokens
-		const refreshPayload: ITokenPayload = await this.verifyToken(
-			refreshToken,
-		);
+		const refreshPayload: T = await this.verifyToken(refreshToken);
 
 		if (await this.customJwtService.isExpired(refreshPayload)) {
 			throw new DoubleJWTValidationError('expired refresh token');
 		}
 
-		const accessPayload: ITokenPayload = await this.verifyToken(
-			accessToken,
-		);
+		const accessPayload: T = await this.verifyToken(accessToken);
 
 		// issue new token and save to storage
 		const [newAccessToken] = await this.customJwtService.sign(
@@ -81,8 +74,8 @@ export class DoubleJwtService {
 		};
 	}
 
-	async verifyToken(token: string): Promise<ITokenPayload> {
-		let payload: ITokenPayload;
+	async verifyToken(token: string): Promise<T> {
+		let payload: T;
 
 		try {
 			payload = await this.customJwtService.verify(token);
@@ -98,7 +91,7 @@ export class DoubleJwtService {
 		}
 
 		// validate custom claims in payload
-		const payloadDto = plainToClass(TokenDto, payload);
+		const payloadDto = plainToClass(JwtPayload, payload);
 
 		const errors = await validate(payloadDto);
 
@@ -110,19 +103,5 @@ export class DoubleJwtService {
 		}
 
 		return payload;
-	}
-
-	async verifyPayload(payload: ITokenPayload | any): Promise<void> {
-		// validate custom claims in payload
-		const payloadDto = plainToClass(TokenDto, payload);
-
-		const errors = await validate(payloadDto);
-
-		if (errors.length > 0) {
-			throw new DoubleJWTValidationError(
-				`invalid custom claims in payload`,
-				errors,
-			);
-		}
 	}
 }

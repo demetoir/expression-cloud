@@ -1,17 +1,14 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import {
-	DoubleJwtService,
-	ITokenPayload,
-	JWT_SECRET,
-} from 'src/auth/double-jwt';
-import { DoubleJWTValidationError } from '../double-jwt/error';
+import { plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
+import { IPayload, JWT_SECRET, JwtPayload } from 'src/auth/double-jwt';
 import { JWT_STRATEGY } from './constants';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
-	constructor(private readonly doubleJwtService: DoubleJwtService) {
+	constructor() {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			ignoreExpiration: false,
@@ -20,17 +17,15 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
 	}
 
 	// todo: fix type of arg and return
-	async validate(payload: ITokenPayload): Promise<ITokenPayload | null> {
-		try {
-			await this.doubleJwtService.verifyPayload(payload);
+	async validate(payload: IPayload): Promise<IPayload | null> {
+		const payloadDto = plainToClass(JwtPayload, payload);
 
-			return payload;
-		} catch (e) {
-			if (e instanceof DoubleJWTValidationError) {
-				return null;
-			}
+		const errors = await validate(payloadDto);
 
-			throw e;
+		if (errors.length > 0) {
+			return null;
 		}
+
+		return payload;
 	}
 }

@@ -12,7 +12,6 @@ export declare interface IPayload {
 	// custom jwt claim
 	type?: IPayloadType;
 	uuid?: string;
-	userId?: number;
 }
 
 export enum PayloadTypes {

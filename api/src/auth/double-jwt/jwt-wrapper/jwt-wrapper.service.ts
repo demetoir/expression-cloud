@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService as _JwtService } from '@nestjs/jwt';
-import * as moment from 'moment';
+import moment from 'moment';
 import {
 	v4 as uuid,
 	validate as uuidValidate,
@@ -66,7 +66,7 @@ export class JwtWrapperService<T extends IPayload> {
 		const exp = now.add(duration, 'hour').valueOf();
 		const tokenUuid = uuid();
 		const newPayload: T = {
-			sub: payload.userId.toString(),
+			// sub: payload.userId.toString(),
 			iss: JWT_ISS,
 			aud: JWT_AUD,
 			iat,
