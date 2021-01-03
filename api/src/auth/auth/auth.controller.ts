@@ -7,7 +7,7 @@ import {
 	UnauthorizedException,
 	UseGuards,
 } from '@nestjs/common';
-import { logger } from 'src/common/libs/winstonToolkit';
+import { JwtGuard } from 'src/auth/jwt-strategy';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from '../localAuth/guard/localAuth.guard';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
@@ -16,12 +16,9 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
 import { AuthenticationError } from './error';
-import { JwtGuard } from '../jwt-strategy/jwt.guard';
 
 @Controller('v1/auth')
 export class AuthController {
-	private readonly logger = logger;
-
 	constructor(private readonly authService: AuthService) {}
 
 	// basic

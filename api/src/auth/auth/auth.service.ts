@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { DoubleJwtService } from '../double-jwt/double-jwt.service';
+import { DoubleJwtService, ITokenPayload } from 'src/auth/double-jwt';
 import { IssueTokenDto } from './dto/issue-token.dto';
 import { IssueTokenResponse } from './dto/issue-token.response.interface';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponse } from './dto/refreshToken.response.interface';
 import { RevokeTokenDto } from './dto/revoke-token.dto';
 import { AuthenticationError } from './error';
-import { ITokenPayload } from '../double-jwt/token/interface';
 
 @Injectable()
 export class AuthService {
