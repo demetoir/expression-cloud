@@ -59,7 +59,7 @@ export class AuthService {
 	async revokeToken(dto: RevokeTokenDto): Promise<void> {
 		const { accessToken, refreshToken } = dto;
 
-		await this.doubleJwtService.revokeToken({ accessToken, refreshToken });
+		// await this.doubleJwtService.revokeToken({ accessToken, refreshToken });
 	}
 
 	async isValidUserByBasic(

@@ -6,6 +6,7 @@ import { ExpressionResolverModule } from 'src/expression';
 import { VectorResolverModule } from 'src/vector';
 import { GlobalGraphqlModule } from 'src/graphql';
 import { JwtPassportModule } from 'src/auth/jwt-strategy';
+import { AuthResolverModule } from 'src/auth/auth-resolver.module';
 
 @Module({
 	imports: [
@@ -16,6 +17,7 @@ import { JwtPassportModule } from 'src/auth/jwt-strategy';
 		ExpressionResolverModule,
 		VectorResolverModule,
 		JwtPassportModule,
+		AuthResolverModule,
 	],
 })
 export class AppModule {}

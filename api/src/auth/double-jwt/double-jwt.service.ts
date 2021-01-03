@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import * as _ from 'lodash';
 import { plainToClass } from 'class-transformer';
 import { isOneOfInstance } from 'src/common';
 import { ExpectedErrors, JwtWrapperService, PayloadTypes } from './jwt-wrapper';
-import { ITokenPayload, TokenDto, TokenService } from './token';
+import { ITokenPayload, TokenDto } from './token';
 import { DoubleJWTValidationError } from './error';
 
 const expiredIn = 3600;
@@ -13,14 +12,8 @@ const expiredIn = 3600;
 export class DoubleJwtService {
 	private readonly customJwtService: JwtWrapperService<ITokenPayload>;
 
-	private readonly tokenService: TokenService;
-
-	constructor(
-		customJwtService: JwtWrapperService<ITokenPayload>,
-		tokenService: TokenService,
-	) {
+	constructor(customJwtService: JwtWrapperService<ITokenPayload>) {
 		this.customJwtService = customJwtService;
-		this.tokenService = tokenService;
 	}
 
 	async issueToken(
@@ -31,20 +24,17 @@ export class DoubleJwtService {
 		expiredIn: number;
 	}> {
 		// find recent issued token
-		const [accessToken, accessPayload] = await this.customJwtService.sign(
+		const [accessToken] = await this.customJwtService.sign(
 			payload,
 			PayloadTypes.access,
 			1,
 		);
 
-		const [refreshToken, refreshPayload] = await this.customJwtService.sign(
+		const [refreshToken] = await this.customJwtService.sign(
 			payload,
 			PayloadTypes.refresh,
 			10,
 		);
-
-		await this.tokenService.createOne(accessPayload, accessPayload.uuid);
-		await this.tokenService.createOne(refreshPayload, refreshPayload.uuid);
 
 		return {
 			accessToken,
@@ -67,7 +57,6 @@ export class DoubleJwtService {
 		// validate tokens
 		const refreshPayload: ITokenPayload = await this.verifyToken(
 			refreshToken,
-			'refresh',
 		);
 
 		if (await this.customJwtService.isExpired(refreshPayload)) {
@@ -76,20 +65,14 @@ export class DoubleJwtService {
 
 		const accessPayload: ITokenPayload = await this.verifyToken(
 			accessToken,
-			'access',
 		);
 
-		// delete old access token in storage
-		await this.tokenService.deleteOne(accessPayload.uuid);
-
 		// issue new token and save to storage
-		const [newAccessToken, payload] = await this.customJwtService.sign(
+		const [newAccessToken] = await this.customJwtService.sign(
 			accessPayload,
 			PayloadTypes.refresh,
 			10,
 		);
-
-		await this.tokenService.createOne(payload, payload.uuid);
 
 		return {
 			accessToken: newAccessToken,
@@ -98,29 +81,7 @@ export class DoubleJwtService {
 		};
 	}
 
-	async revokeToken({
-		accessToken,
-		refreshToken,
-	}: {
-		accessToken: string;
-		refreshToken: string;
-	}): Promise<void> {
-		const refreshPayload: ITokenPayload = await this.verifyToken(
-			refreshToken,
-			'refresh token',
-		);
-
-		const accessPayload: ITokenPayload = await this.verifyToken(
-			accessToken,
-			'access token',
-		);
-
-		// delete
-		await this.tokenService.deleteOne(refreshPayload.uuid);
-		await this.tokenService.deleteOne(accessPayload.uuid);
-	}
-
-	async verifyToken(token: string, type: string): Promise<ITokenPayload> {
+	async verifyToken(token: string): Promise<ITokenPayload> {
 		let payload: ITokenPayload;
 
 		try {
@@ -128,7 +89,7 @@ export class DoubleJwtService {
 		} catch (e) {
 			if (isOneOfInstance(e, ...ExpectedErrors)) {
 				throw new DoubleJWTValidationError(
-					`invalid ${type} token of ${e.message}`,
+					`invalid token of ${e.message}`,
 					e,
 				);
 			}
@@ -143,24 +104,8 @@ export class DoubleJwtService {
 
 		if (errors.length > 0) {
 			throw new DoubleJWTValidationError(
-				`invalid custom claims in ${type} token`,
+				`invalid custom claims in token`,
 				errors,
-			);
-		}
-
-		// token not found in storage
-		const storedPayload = await this.tokenService.findOne(payload.uuid);
-
-		if (storedPayload === null) {
-			throw new DoubleJWTValidationError(
-				`${type} token is not found in token storage`,
-			);
-		}
-
-		// check payload is same as stored payload
-		if (!_.isEqual(payload, storedPayload)) {
-			throw new DoubleJWTValidationError(
-				'payload is not same with stored payload',
 			);
 		}
 
@@ -177,22 +122,6 @@ export class DoubleJwtService {
 			throw new DoubleJWTValidationError(
 				`invalid custom claims in payload`,
 				errors,
-			);
-		}
-
-		// token not found in storage
-		const storedPayload = await this.tokenService.findOne(payload.uuid);
-
-		if (storedPayload === null) {
-			throw new DoubleJWTValidationError(
-				`payload is not found in storage`,
-			);
-		}
-
-		// check payload is same as stored payload
-		if (!_.isEqual(payload, storedPayload)) {
-			throw new DoubleJWTValidationError(
-				'payload is not same with stored one',
 			);
 		}
 	}
