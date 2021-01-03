@@ -2,13 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import * as _ from 'lodash';
 import { plainToClass } from 'class-transformer';
-import { isOneOfInstance } from 'src/common/libs/util';
-import { JwtWrapperService } from './jwt-wrapper/jwt-wrapper.service';
-import { ITokenPayload } from './token/interface';
-import { TokenService } from './token/token.service';
-import { TokenDto } from './token/token.dto';
-import { PayloadTypes } from './jwt-wrapper/interface';
-import { ExpectedErrors } from './jwt-wrapper/error';
+import { isOneOfInstance } from 'src/common';
+import { ExpectedErrors, JwtWrapperService, PayloadTypes } from './jwt-wrapper';
+import { ITokenPayload, TokenDto, TokenService } from './token';
 import { DoubleJWTValidationError } from './error';
 
 const expiredIn = 3600;
@@ -60,6 +56,9 @@ export class DoubleJwtService {
 	async refreshToken({
 		accessToken,
 		refreshToken,
+	}: {
+		accessToken: string;
+		refreshToken: string;
 	}): Promise<{
 		accessToken: string;
 		refreshToken: string;
@@ -99,7 +98,13 @@ export class DoubleJwtService {
 		};
 	}
 
-	async revokeToken({ accessToken, refreshToken }): Promise<void> {
+	async revokeToken({
+		accessToken,
+		refreshToken,
+	}: {
+		accessToken: string;
+		refreshToken: string;
+	}): Promise<void> {
 		const refreshPayload: ITokenPayload = await this.verifyToken(
 			refreshToken,
 			'refresh token',

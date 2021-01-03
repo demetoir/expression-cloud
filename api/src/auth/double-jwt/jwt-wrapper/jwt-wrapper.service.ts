@@ -7,7 +7,7 @@ import {
 	version as uuidVersion,
 } from 'uuid';
 import { JsonWebTokenError } from 'jsonwebtoken';
-import { InvalidJWTSignatureError, MalformedJWTError } from './error';
+import { InvalidJwtSignatureError, MalformedJwtError } from './error';
 import { IPayload, PayloadTypes } from './interface';
 import { JWT_AUD, JWT_ISS } from './constants';
 
@@ -23,11 +23,11 @@ export class JwtWrapperService<T extends IPayload> {
 		} catch (e) {
 			if (e instanceof JsonWebTokenError) {
 				if (e.message === 'invalid signature') {
-					throw new InvalidJWTSignatureError(`${e.message}`, e);
+					throw new InvalidJwtSignatureError(`${e.message}`, e);
 				}
 
 				if (e.message === 'jwt malformed') {
-					throw new MalformedJWTError(`${e.message}`, e);
+					throw new MalformedJwtError(`${e.message}`, e);
 				}
 			}
 
@@ -38,15 +38,15 @@ export class JwtWrapperService<T extends IPayload> {
 			payload.type !== PayloadTypes.refresh &&
 			payload.type !== PayloadTypes.access
 		) {
-			throw new MalformedJWTError(`invalid payload type ${payload.type}`);
+			throw new MalformedJwtError(`invalid payload type ${payload.type}`);
 		}
 
 		if (!uuidValidate(payload.uuid)) {
-			throw new MalformedJWTError('invalid uuid');
+			throw new MalformedJwtError('invalid uuid');
 		}
 
 		if (uuidVersion(payload.uuid) !== 4) {
-			throw new MalformedJWTError('uuid version is not 4');
+			throw new MalformedJwtError('uuid version is not 4');
 		}
 
 		return payload;
