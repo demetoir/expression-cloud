@@ -1,16 +1,15 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { DatabaseConstraintFailError } from '../error/database-constraint-fail.error';
-import { DBQueryFailError } from '../error/DB-query-fail.error';
+import { DatabaseConstraintFailError, DbQueryFailError } from 'src/common';
 
-@Catch(DBQueryFailError)
+@Catch(DbQueryFailError)
 export class DatabaseQueryFailFilter implements ExceptionFilter {
-	catch(exception: any, host: ArgumentsHost): void {
+	catch(error: Error, host: ArgumentsHost): void {
 		const ctx = host.switchToHttp();
 		const response = ctx.getResponse<Response>();
 		const request = ctx.getRequest<Request>();
 
-		if (exception instanceof DatabaseConstraintFailError) {
+		if (error instanceof DatabaseConstraintFailError) {
 			response.status(400).json({
 				statusCode: 400,
 				message: 'database constraint fail error',

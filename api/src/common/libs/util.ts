@@ -1,5 +1,5 @@
-export const isOneOfInstance = (e, ...errorArray): boolean => {
-	for (const error of errorArray) {
+export const isOneOfInstance = (e, ...errors: Error[]): boolean => {
+	for (const error: Error of errors) {
 		if (e instanceof error) {
 			return true;
 		}

@@ -1,6 +1,6 @@
 import { ValidationError } from 'class-validator';
 
-export class BaseNestedError extends Error {
+export class BaseNestError extends Error {
 	private readonly inner: any;
 
 	constructor(

@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Controller, Get, INestApplication, UseFilters } from '@nestjs/common';
 import * as request from 'supertest';
 import { AuthenticationError } from 'src/auth/auth/error';
-import { DatabaseConstraintFailError } from '../error/database-constraint-fail.error';
-import { DBQueryFailError } from '../error/DB-query-fail.error';
+import { DatabaseConstraintFailError } from '../errors/database-constraint-fail.error';
+import { DbQueryFailError } from 'src/common/errors/db-query-fail.error';
 import { DatabaseQueryFailFilter } from './database-query-fail-error.filter';
 
 @UseFilters(new DatabaseQueryFailFilter())
@@ -16,7 +16,7 @@ class DummyController {
 
 	@Get('/raiseDBQueryFailError')
 	raiseDatabaseQueryFailFilter() {
-		throw new DBQueryFailError(new Error());
+		throw new DbQueryFailError(new Error());
 	}
 
 	@Get('/raiseNonTargetError')

@@ -1,4 +1,4 @@
-export class DBQueryFailError extends Error {
+export class DbQueryFailError extends Error {
 	private inner: Error;
 
 	constructor(inner: Error) {

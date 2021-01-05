@@ -1,3 +1,3 @@
-import { BaseNestedError } from 'src/common/error/BaseNestedError';
+import { BaseNestError } from 'src/common/errors/base-nest.error';
 
-export class InvalidJwtSignatureError extends BaseNestedError {}
+export class InvalidJwtSignatureError extends BaseNestError {}
