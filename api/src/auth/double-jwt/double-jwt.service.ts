@@ -3,13 +3,18 @@ import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { isOneOfInstance } from 'src/common';
 import { DoubleJWTValidationError } from './error';
-import { ExpectedErrors, JwtWrapperService, PayloadTypes } from './jwt-wrapper';
+import {
+	ExpectedErrors,
+	IPayload,
+	JwtWrapperService,
+	PayloadTypes,
+} from './jwt-wrapper';
 import { JwtPayload } from './jwt-payload';
 
 const expiredIn = 3600;
 
 @Injectable()
-export class DoubleJwtService<T> {
+export class DoubleJwtService<T extends IPayload> {
 	private readonly customJwtService: JwtWrapperService<T>;
 
 	constructor(customJwtService: JwtWrapperService<T>) {
@@ -54,7 +59,7 @@ export class DoubleJwtService<T> {
 		// validate tokens
 		const refreshPayload: T = await this.verifyToken(refreshToken);
 
-		if (await this.customJwtService.isExpired(refreshPayload)) {
+		if (this.customJwtService.isExpired(refreshPayload)) {
 			throw new DoubleJWTValidationError('expired refresh token');
 		}
 

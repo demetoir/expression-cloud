@@ -52,7 +52,7 @@ export class JwtWrapperService<T extends IPayload> {
 		return payload;
 	}
 
-	async isExpired(payload: IPayload): Promise<boolean> {
+	isExpired(payload: T): boolean {
 		return payload.exp < moment().valueOf();
 	}
 
@@ -60,7 +60,7 @@ export class JwtWrapperService<T extends IPayload> {
 		payload: T,
 		type: PayloadTypes,
 		duration: number,
-	): Promise<[string, IPayload]> {
+	): Promise<[string, T]> {
 		const now = moment();
 		const iat = now.valueOf();
 		const exp = now.add(duration, 'hour').valueOf();
