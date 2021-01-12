@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
+import { ResourceIdTypeException } from 'src/common/errors';
 
 export const decorator = (token: string, ctx: ExecutionContext): number => {
 	if (token === undefined || token === null) {
@@ -10,7 +10,7 @@ export const decorator = (token: string, ctx: ExecutionContext): number => {
 
 	const resourceId = request.params[token] || null;
 
-	if (resourceId === null || isNaN(resourceId)) {
+	if (resourceId === null || Number.isNaN(resourceId)) {
 		throw new ResourceIdTypeException(resourceId, typeof Number);
 	}
 
