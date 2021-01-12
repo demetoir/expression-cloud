@@ -1,15 +1,27 @@
 import { JwtModule } from '@nestjs/jwt';
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
+import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
+import { JwtOptionsFactory } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
 import { JwtWrapperService } from './jwt-wrapper.service';
-import { JwtWrapperOptionService } from './jwt-wrapper-option.service';
+
+export interface JwtWrapperModuleAsyncOptions
+	extends Pick<ModuleMetadata, 'imports'> {
+	useClass?: Type<JwtOptionsFactory>;
+}
 
 @Module({
-	imports: [
-		JwtModule.registerAsync({
-			useClass: JwtWrapperOptionService,
-		}),
-	],
-	providers: [JwtWrapperOptionService, JwtWrapperService],
+	providers: [JwtWrapperService],
 	exports: [JwtWrapperService],
 })
-export class JwtWrapperModule {}
+export class JwtWrapperModule {
+	static registerAsync(options: JwtWrapperModuleAsyncOptions): DynamicModule {
+		return {
+			module: JwtWrapperModule,
+			imports: [
+				JwtModule.registerAsync({
+					useClass: options.useClass,
+				}),
+			],
+		};
+	}
+}

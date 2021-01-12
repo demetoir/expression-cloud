@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
-import { isOneOfInstance } from 'src/common';
 import { DoubleJWTValidationError } from './error';
 import {
-	ExpectedErrors,
+	BaseJwtError,
 	IPayload,
 	JwtWrapperService,
 	PayloadTypes,
@@ -12,13 +11,15 @@ import {
 import { JwtPayload } from './jwt-payload';
 
 const expiredIn = 3600;
+const accessTokenDuration = 1;
+const refreshTokenDuration = 10;
 
 @Injectable()
 export class DoubleJwtService<T extends IPayload> {
-	private readonly customJwtService: JwtWrapperService<T>;
+	private readonly jwtService: JwtWrapperService<T>;
 
-	constructor(customJwtService: JwtWrapperService<T>) {
-		this.customJwtService = customJwtService;
+	constructor(jwtService: JwtWrapperService<T>) {
+		this.jwtService = jwtService;
 	}
 
 	async issueToken(
@@ -29,16 +30,16 @@ export class DoubleJwtService<T extends IPayload> {
 		expiredIn: number;
 	}> {
 		// find recent issued token
-		const [accessToken] = await this.customJwtService.sign(
+		const [accessToken] = await this.jwtService.sign(
 			payload,
 			PayloadTypes.access,
-			1,
+			accessTokenDuration,
 		);
 
-		const [refreshToken] = await this.customJwtService.sign(
+		const [refreshToken] = await this.jwtService.sign(
 			payload,
 			PayloadTypes.refresh,
-			10,
+			refreshTokenDuration,
 		);
 
 		return {
@@ -59,17 +60,17 @@ export class DoubleJwtService<T extends IPayload> {
 		// validate tokens
 		const refreshPayload: T = await this.verifyToken(refreshToken);
 
-		if (this.customJwtService.isExpired(refreshPayload)) {
+		if (this.jwtService.isExpired(refreshPayload)) {
 			throw new DoubleJWTValidationError('expired refresh token');
 		}
 
 		const accessPayload: T = await this.verifyToken(accessToken);
 
 		// issue new token and save to storage
-		const [newAccessToken] = await this.customJwtService.sign(
+		const [newAccessToken] = await this.jwtService.sign(
 			accessPayload,
 			PayloadTypes.refresh,
-			10,
+			accessTokenDuration,
 		);
 
 		return {
@@ -83,9 +84,9 @@ export class DoubleJwtService<T extends IPayload> {
 		let payload: T;
 
 		try {
-			payload = await this.customJwtService.verify(token);
+			payload = await this.jwtService.verify(token);
 		} catch (e) {
-			if (isOneOfInstance(e, ...ExpectedErrors)) {
+			if (e instanceof BaseJwtError) {
 				throw new DoubleJWTValidationError(
 					`invalid token of ${e.message}`,
 					e,
