@@ -1,6 +1,7 @@
 export * from './string-args.decorator';
 export * from './id-args.decorator';
 
+export * from './cookies.decorator';
 export * from './boolean-field.decorator';
 export * from './float-field.decorator';
 export * from './id-field.decorator';
