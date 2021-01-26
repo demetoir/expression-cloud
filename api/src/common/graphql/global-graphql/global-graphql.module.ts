@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { HasRoleDirective } from 'src/security/jwt-strategy/has-role.directive';
+import { UpperCaseDirective } from 'src/security/jwt-strategy/upper.directive';
 
 @Module({
 	imports: [
@@ -12,6 +14,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 			// related with issue 144
 			sortSchema: false,
 			tracing: true,
+			context: (context) => ({ ...context }),
+			schemaDirectives: {
+				hasRole: HasRoleDirective,
+				upper: UpperCaseDirective,
+			},
 		}),
 	],
 })
