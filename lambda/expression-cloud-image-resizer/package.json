@@ -5,7 +5,7 @@
     "deploy": "yarn serverless deploy"
   },
   "dependencies": {
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "serverless-plugin-include-dependencies": "^4.1.0"
   },
   "devDependencies": {
