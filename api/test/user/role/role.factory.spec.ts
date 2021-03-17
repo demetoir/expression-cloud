@@ -1,5 +1,5 @@
-import { RoleFactory } from 'src/role/role.factory';
-import { RoleEnum } from 'src/role/role.enum';
+import { RoleFactory } from 'src/user/role/role.factory';
+import { RoleEnum } from 'src/user/role/role.enum';
 
 describe('role factory', () => {
 	it('should defined self and method', function () {

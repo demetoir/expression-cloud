@@ -1,10 +1,10 @@
-import { UserLikeEntity } from 'src/user-like/user-like.entity';
+import { UserLikeEntity } from 'src/user/user-like/user-like.entity';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
-import { User } from 'src/user';
+import { User } from 'src/user/user';
 import { UserFactory } from '../user/user.factory';
 
 const database = 'user_like_entity';

@@ -16,12 +16,12 @@ function getExecutionContextMock(request): ExecutionContext {
 }
 
 describe('includes param decorator', () => {
-	it('should be declare', function () {
+	it('should be declare', () => {
 		expect(Includes).toBeDefined();
 		expect(decorator).toBeDefined();
 	});
 
-	it('should be send args (data, ctx)', function () {
+	it('should be send args (data, ctx)', () => {
 		const request = {
 			query: {
 				includes: '12,1231,23',
@@ -34,7 +34,7 @@ describe('includes param decorator', () => {
 		expect(result).toBeInstanceOf(Array);
 	});
 
-	it('should be return array type', function () {
+	it('should be return array type', () => {
 		const request = {
 			query: {
 				includes: '12,1231,23',
@@ -47,7 +47,7 @@ describe('includes param decorator', () => {
 		expect(result).toBeInstanceOf(Array);
 	});
 
-	it('should be parse include', function () {
+	it('should be parse include', () => {
 		const request = {
 			query: {
 				includes: 'a,b,c',
@@ -60,7 +60,7 @@ describe('includes param decorator', () => {
 		expect(result).toStrictEqual(['a', 'b', 'c']);
 	});
 
-	it('should be empty array if includes not in query', function () {
+	it('should be empty array if includes not in query', () => {
 		const request = {
 			query: {},
 		};
@@ -71,7 +71,7 @@ describe('includes param decorator', () => {
 		expect(result).toStrictEqual([]);
 	});
 
-	it('should be ignore empty string', function () {
+	it('should be ignore empty string', () => {
 		const request = {
 			query: { includes: '11,,,,5&&,' },
 		};
@@ -82,7 +82,7 @@ describe('includes param decorator', () => {
 		expect(result).toStrictEqual(['11', '5&&']);
 	});
 
-	it('should be parse parse split query', function () {
+	it('should be parse parse split query', () => {
 		// case of ?includes=a,v,c&includes=b,t,o
 		const request = {
 			query: {

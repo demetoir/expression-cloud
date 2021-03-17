@@ -1,8 +1,7 @@
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '../common/model/entity/base/base.entity';
 
 @Entity({ name: 'notice' })
-export class NoticeEntity extends BaseEntity {
+export class NoticeEntity {
 	@Column({ type: 'text', name: 'content', nullable: false })
 	content: string;
 

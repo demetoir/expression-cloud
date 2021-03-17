@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { TokenPayload, TokenService } from 'src/security/token';
-import { User } from 'src/user';
+import { User } from 'src/user/user';
 import { UserMockBuilder } from 'src/user/user-mock.builder';
 import { Role, RoleName } from 'src/security/role';
 import { JsonResponse } from 'src/common';

@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { User } from 'src/user';
+import { User } from 'src/user/user';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { NoticeEntity } from './notice.entity';
 

@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserResolverModule } from 'src/user';
+import { UserResolverModule } from 'src/user/user';
 import { GlobalConfigModule } from 'src/config';
-import { ExpressionResolverModule } from 'src/expression';
-import { VectorResolverModule } from 'src/vector';
-import { JwtPassportModule } from 'src/auth/jwt-strategy';
-import { AuthResolverModule } from 'src/auth/auth-resolver.module';
+import { ExpressionResolverModule } from 'src/equation/expression';
+import { VectorResolverModule } from 'src/equation/vector';
 import { GlobalTypeormModule } from 'src/common/database';
 import { GlobalGraphqlModule } from 'src/common/graphql/global-graphql';
 
@@ -16,8 +14,6 @@ import { GlobalGraphqlModule } from 'src/common/graphql/global-graphql';
 		UserResolverModule,
 		ExpressionResolverModule,
 		VectorResolverModule,
-		JwtPassportModule,
-		AuthResolverModule,
 	],
 })
 export class AppModule {}

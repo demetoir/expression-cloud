@@ -1,7 +1,7 @@
 import { assert } from 'chai';
-import { RoleEntity } from 'src/role/role.entity';
-import { RoleEnum } from 'src/role/role.enum';
-import { RoleFactory } from 'src/role/role.factory';
+import { RoleEntity } from 'src/user/role/role.entity';
+import { RoleEnum } from 'src/user/role/role.enum';
+import { RoleFactory } from 'src/user/role/role.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';

@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Controller, Get, INestApplication, UseFilters } from '@nestjs/common';
 import * as request from 'supertest';
-import { AuthenticationError } from 'src/auth/auth/error';
-import { DatabaseConstraintFailError } from '../errors/database-constraint-fail.error';
+import { AuthenticationError } from 'apollo-server';
 import { DbQueryFailError } from 'src/common/errors/db-query-fail.error';
 import { DatabaseQueryFailFilter } from './database-query-fail-error.filter';
+import { DatabaseConstraintFailError } from '../errors';
 
 @UseFilters(new DatabaseQueryFailFilter())
 @Controller('/dummy')

@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { User } from 'src/user';
-import { UserSetting } from 'src/user-setting';
+import { User } from 'src/user/user';
+import { UserSetting } from 'src/user/user-setting';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { UserFactory } from './user.factory';
 
