@@ -2,21 +2,19 @@ import { Entity, OneToMany, OneToOne } from 'typeorm';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
 	BooleanColumn,
+	BooleanField,
 	CreatedAtColumn,
+	DateTimeField,
 	DeletedAtColumn,
-	IdColumn,
+	IdField,
 	IntColumn,
+	IntField,
+	PkColumn,
+	StringField,
 	TextColumn,
 	UpdatedAtColumn,
 	VarcharColumn,
-} from 'src/common/typeorm';
-import {
-	BooleanField,
-	DateTimeField,
-	IdField,
-	IntField,
-	StringField,
-} from 'src/common/graphql';
+} from 'src/common';
 import { UserSetting } from 'src/user/user-setting';
 import { Expression } from 'src/equation/expression';
 
@@ -28,7 +26,7 @@ export const GQL_OBJECT_TYPE_USER = 'User';
 @Entity({ name: 'user' })
 export class User {
 	@IdField()
-	@IdColumn()
+	@PkColumn()
 	id: number;
 
 	@DateTimeField()
