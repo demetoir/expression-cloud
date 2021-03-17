@@ -37,7 +37,7 @@
     "nuxt": "^2.14.12",
     "supertest": "^4.0.2",
     "vue": "^2.6.12",
-    "vue-google-oauth2": "^1.5.5"
+    "vue-google-oauth2": "^1.5.7"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^1.0.3",
