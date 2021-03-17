@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { HasRoleDirective } from 'src/security/jwt-strategy/has-role.directive';
-import { UpperCaseDirective } from 'src/security/jwt-strategy/upper.directive';
+import { HasRoleDirective } from 'src/core/security/jwt-strategy/has-role.directive';
+import { UpperCaseDirective } from 'src/core/security/jwt-strategy/upper.directive';
 
 @Module({
 	imports: [

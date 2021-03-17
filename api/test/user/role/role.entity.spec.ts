@@ -1,7 +1,7 @@
 import { assert } from 'chai';
-import { RoleEntity } from 'src/user/role/role.entity';
-import { RoleEnum } from 'src/user/role/role.enum';
-import { RoleFactory } from 'src/user/role/role.factory';
+import { Role } from 'src/core/user/model/role';
+import { RoleName } from 'src/core/user/model/role-name.enum';
+import { RoleFactory } from 'src/core/user/model/role.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/util/typeorm';
@@ -9,12 +9,12 @@ import { getConnectionForTest } from 'test/util/typeorm';
 const database = 'role_entity';
 describe('role entity', () => {
 	let connection: Connection;
-	let roleRepository: Repository<RoleEntity>;
+	let roleRepository: Repository<Role>;
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);
 
-		roleRepository = connection.getRepository(RoleEntity);
+		roleRepository = connection.getRepository(Role);
 	});
 
 	afterAll(async () => {
@@ -26,8 +26,8 @@ describe('role entity', () => {
 	});
 
 	it('should create new role', async () => {
-		const role = new RoleEntity();
-		role.name = RoleEnum.admin;
+		const role = new Role();
+		role.name = RoleName.admin;
 		await connection.manager.save(role);
 
 		const newTeam = await roleRepository.findOne({ id: role.id });
@@ -36,8 +36,8 @@ describe('role entity', () => {
 	});
 
 	it('should create role as user', async () => {
-		const role = new RoleEntity();
-		role.name = RoleEnum.user;
+		const role = new Role();
+		role.name = RoleName.user;
 		await connection.manager.save(role);
 
 		const newTeam = await roleRepository.findOne({ id: role.id });
@@ -46,8 +46,8 @@ describe('role entity', () => {
 	});
 
 	it('should create role as manager', async () => {
-		const role = new RoleEntity();
-		role.name = RoleEnum.manager;
+		const role = new Role();
+		role.name = RoleName.manager;
 		await connection.manager.save(role);
 
 		const newTeam = await roleRepository.findOne({ id: role.id });
@@ -56,8 +56,8 @@ describe('role entity', () => {
 	});
 
 	it('should create role as admin', async () => {
-		const role = new RoleEntity();
-		role.name = RoleEnum.admin;
+		const role = new Role();
+		role.name = RoleName.admin;
 		await connection.manager.save(role);
 
 		const newTeam = await roleRepository.findOne({ id: role.id });
@@ -66,8 +66,8 @@ describe('role entity', () => {
 	});
 
 	it('should create role as anonymous', async () => {
-		const role = new RoleEntity();
-		role.name = RoleEnum.anonymous;
+		const role = new Role();
+		role.name = RoleName.anonymous;
 		await connection.manager.save(role);
 
 		const newTeam = await roleRepository.findOne({ id: role.id });

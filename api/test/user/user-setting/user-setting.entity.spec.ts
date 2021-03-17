@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { Connection, EntityManager, Repository } from 'typeorm';
-import { UserSetting } from 'src/user/user-setting';
+import { UserSetting } from 'src/core/user/user-setting';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { UserFactory } from '../user/user.factory';
 

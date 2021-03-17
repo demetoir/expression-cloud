@@ -1,16 +1,16 @@
-import { UserLikeEntity } from 'src/user/user-like/user-like.entity';
+import { UserLike } from 'src/core/user/model/user-like';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
-import { User } from 'src/user/user';
+import { User } from 'src/core/user/user';
 import { UserFactory } from '../user/user.factory';
 
 const database = 'user_like_entity';
 describe('user like entity', () => {
 	let connection: Connection;
-	let repository: Repository<UserLikeEntity>;
+	let repository: Repository<UserLike>;
 
 	let fromUser: User;
 	let toUser: User;
@@ -18,7 +18,7 @@ describe('user like entity', () => {
 
 	beforeAll(async () => {
 		connection = await getConnectionForTest(database);
-		repository = connection.getRepository(UserLikeEntity);
+		repository = connection.getRepository(UserLike);
 	});
 
 	afterAll(async () => {
@@ -48,7 +48,7 @@ describe('user like entity', () => {
 
 	describe('when create entity', () => {
 		it('should create new project', async () => {
-			const like = new UserLikeEntity();
+			const like = new UserLike();
 			like.fromUserId = fromUser.id;
 			like.toUserId = toUser.id;
 
@@ -64,7 +64,7 @@ describe('user like entity', () => {
 
 		it('raise error, if not exist fromUserId', async () => {
 			try {
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = notExistUser.id;
 				like.toUserId = toUser.id;
 
@@ -80,7 +80,7 @@ describe('user like entity', () => {
 
 		it('raise error, if fromUserId is undefined', async () => {
 			try {
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = undefined;
 				like.toUserId = toUser.id;
 
@@ -95,7 +95,7 @@ describe('user like entity', () => {
 
 		it('raise error, if not exist toUserId', async () => {
 			try {
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = fromUser.id;
 				like.toUserId = notExistUser.id;
 
@@ -111,7 +111,7 @@ describe('user like entity', () => {
 
 		it('raise error, if toUserId is undefined', async () => {
 			try {
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = fromUser.id;
 				like.toUserId = undefined;
 
@@ -126,7 +126,7 @@ describe('user like entity', () => {
 
 		it('raise error, if not exist fromUserId and toUserId', async () => {
 			try {
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = notExistUser.id;
 				like.toUserId = notExistUser.id;
 
@@ -142,7 +142,7 @@ describe('user like entity', () => {
 
 		it('raise error, if toUserId is undefined', async () => {
 			try {
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = undefined;
 				like.toUserId = undefined;
 
@@ -158,7 +158,7 @@ describe('user like entity', () => {
 
 	describe('when remove entity', () => {
 		it('should soft removed', async () => {
-			const like = new UserLikeEntity();
+			const like = new UserLike();
 			like.fromUserId = fromUser.id;
 			like.toUserId = toUser.id;
 			await repository.save(like);
@@ -190,7 +190,7 @@ describe('user like entity', () => {
 				const fromUserId = null;
 				const toUserId = 3;
 
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = fromUserId;
 				like.toUserId = toUserId;
 				await connection.manager.save(like);
@@ -206,7 +206,7 @@ describe('user like entity', () => {
 				const fromUserId = 3;
 				const toUserId = null;
 
-				const like = new UserLikeEntity();
+				const like = new UserLike();
 				like.fromUserId = fromUserId;
 				like.toUserId = toUserId;
 

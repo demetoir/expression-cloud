@@ -1,7 +1,7 @@
-import { User } from 'src/user/user';
-import { UserSetting } from 'src/user/user-setting';
-import { Expression } from 'src/equation/expression';
-import { Vector } from 'src/equation/vector';
+import { User } from 'src/core/user/user';
+import { UserSetting } from 'src/core/user/user-setting';
+import { Expression } from 'src/core/equation/expression';
+import { Vector } from 'src/core/equation/vector';
 
 const entities = [User, UserSetting, Expression, Vector];
 

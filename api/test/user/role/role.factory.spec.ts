@@ -1,5 +1,5 @@
-import { RoleFactory } from 'src/user/role/role.factory';
-import { RoleEnum } from 'src/user/role/role.enum';
+import { RoleFactory } from 'src/core/user/model/role.factory';
+import { RoleName } from 'src/core/user/model/role-name.enum';
 
 describe('role factory', () => {
 	it('should defined self and method', function () {
@@ -14,24 +14,24 @@ describe('role factory', () => {
 	it('should buildAnonymousRole', async function () {
 		const role = RoleFactory.buildAnonymousRole();
 
-		expect(role.name).toBe(RoleEnum.anonymous);
+		expect(role.name).toBe(RoleName.anonymous);
 	});
 
 	it('should buildAdminRole', async function () {
 		const role = RoleFactory.buildAdminRole();
 
-		expect(role.name).toBe(RoleEnum.admin);
+		expect(role.name).toBe(RoleName.admin);
 	});
 
 	it('should buildUserRole', async function () {
 		const role = RoleFactory.buildUserRole();
 
-		expect(role.name).toBe(RoleEnum.user);
+		expect(role.name).toBe(RoleName.user);
 	});
 
 	it('should buildManagerRole', async function () {
 		const role = RoleFactory.buildManagerRole();
 
-		expect(role.name).toBe(RoleEnum.manager);
+		expect(role.name).toBe(RoleName.manager);
 	});
 });
