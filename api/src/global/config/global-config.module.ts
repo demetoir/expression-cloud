@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { configurationLoader } from './configurationLoader';
+import { ConfigurationLoader } from './configuration.loader';
 import { NodeConfigService } from './node-config.service';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			load: [configurationLoader],
+			load: [ConfigurationLoader.load],
 			isGlobal: true,
 		}),
 	],

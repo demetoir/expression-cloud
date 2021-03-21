@@ -55,8 +55,10 @@ const transformEnv = (env) => ({
 	REDOC_PATH: env.REDOC_PATH,
 });
 
-export const configurationLoader = (): any => {
-	const dotEnv = getDotEnv(process.env.NODE_ENV);
+export class ConfigurationLoader {
+	static load(): any {
+		const dotEnv = getDotEnv(process.env.NODE_ENV);
 
-	return transformEnv({ ...process.env, ...dotEnv });
-};
+		return transformEnv({ ...process.env, ...dotEnv });
+	}
+}

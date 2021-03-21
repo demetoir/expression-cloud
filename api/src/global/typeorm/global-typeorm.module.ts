@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configurationLoader } from 'src/global/config/configurationLoader';
 import { entities } from './entity.loader';
+import { ConfigurationLoader } from '../config';
 
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
 			useFactory: async () => {
-				const config = configurationLoader();
+				const config = ConfigurationLoader.load();
 
 				return {
 					type: 'mysql',

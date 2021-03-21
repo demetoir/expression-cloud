@@ -1,8 +1,7 @@
 import { DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { entities } from 'src/database/global-typeorm/entity.loader';
-import { configurationLoader } from 'src/global/config/configurationLoader';
+import { ConfigurationLoader, entities } from 'src/global';
 
 export const TestTypeormModuleFactory = (
 	database: string,
@@ -11,7 +10,7 @@ export const TestTypeormModuleFactory = (
 	TypeOrmModule.forRootAsync({
 		imports: [ConfigModule],
 		useFactory: () => {
-			const config = configurationLoader();
+			const config = ConfigurationLoader.load();
 
 			return {
 				type: 'mysql',
