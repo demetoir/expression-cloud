@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { JwtConfigModule } from 'src/core/security/config';
 import { AuthServiceModule } from '../auth';
 import { JwtStrategy } from './jwt.strategy';
+import { JwtConfigModule } from '../../../global/config/jwt-config';
 
 @Module({
 	imports: [PassportModule, AuthServiceModule, JwtConfigModule],

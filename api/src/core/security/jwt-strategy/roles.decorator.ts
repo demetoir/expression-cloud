@@ -1,5 +1,5 @@
-import { RoleName } from 'src/core/security/role';
 import { SetMetadata } from '@nestjs/common';
+import { RoleName } from '../role/role';
 
 export const METADATA_KEY_ROLES = 'roles';
 

@@ -4,15 +4,15 @@ import {
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
-	IdColumn,
 	IdField,
 	IntField,
+	PkColumn,
 	StringField,
 	UpdatedAtColumn,
 } from 'src/common';
-import { User } from 'src/core/user/user';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Vector } from 'src/core/equation/vector/model';
+import { User } from '../../../user';
 
 export const GQL_INPUT_TYPE_EXPRESSION = 'ExpresionInput';
 export const GQL_OBJECT_TYPE_EXPRESSION = 'Expression';
@@ -22,7 +22,7 @@ export const GQL_OBJECT_TYPE_EXPRESSION = 'Expression';
 @Entity({ name: 'expression' })
 export class Expression {
 	@IdField()
-	@IdColumn()
+	@PkColumn()
 	id: number;
 
 	@DateTimeField()

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { UserSettingDataLoaderModule } from 'src/core/user/user-setting';
-import { UserServiceModule } from '../service';
 import { UserResolver } from './user.resolver';
+import { UserServiceModule } from '../service/user-service.module';
+import { UserSettingDataLoaderModule } from '../loader';
 
 @Module({
 	imports: [UserServiceModule, UserSettingDataLoaderModule],

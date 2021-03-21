@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configurationLoader } from 'src/config/configurationLoader';
+import { configurationLoader } from 'src/global/config/configurationLoader';
 import { entities } from './entity.loader';
 
 @Module({

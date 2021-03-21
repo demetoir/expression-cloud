@@ -4,15 +4,15 @@ import {
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
-	IdColumn,
 	IdField,
+	PkColumn,
 	UpdatedAtColumn,
 } from '../../../../common';
 
 @Entity({ name: 'expression_thumbnail_images' })
 export class ExpressionThumbnailImage {
 	@IdField()
-	@IdColumn()
+	@PkColumn()
 	id: number;
 
 	@DateTimeField()

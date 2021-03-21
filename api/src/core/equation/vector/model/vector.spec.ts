@@ -20,11 +20,11 @@ describe('vector entity', () => {
 		await connection.close();
 	});
 
-	it('should able to get repository from connection manager', function () {
+	it('should able to get repository from connection manager', () => {
 		assert.isNotNull(vectorRepository);
 	});
 
-	it('should create new Column', async function () {
+	it('should create new Column', async () => {
 		const vector = VectorFactory.build();
 		await connection.manager.save(vector);
 
@@ -36,7 +36,7 @@ describe('vector entity', () => {
 	});
 
 	describe('column type check', () => {
-		it('should not null on name', async function () {
+		it('should not null on name', async () => {
 			try {
 				const vector = VectorFactory.build();
 				vector.name = null;
@@ -50,7 +50,7 @@ describe('vector entity', () => {
 			}
 		});
 
-		it('should not null on index', async function () {
+		it('should not null on index', async () => {
 			try {
 				const vector = VectorFactory.build();
 				vector.index = null;

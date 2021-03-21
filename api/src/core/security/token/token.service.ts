@@ -4,13 +4,13 @@ import { classToPlain } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
 import { JwtSignOptions } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
+import { TokenPayload } from './token-payload';
+import { ISignedResult } from './type';
 import {
 	AccessJwtConfigService,
 	IJWTConfigService,
 	RefreshJwtConfigService,
-} from 'src/core/security/config';
-import { TokenPayload } from './token-payload';
-import { ISignedResult } from './type';
+} from '../../../global/config/jwt-config';
 
 @Injectable()
 export class TokenService<AccessClaim, RefreshClaim> {

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { INestApplication } from '@nestjs/common';
 import * as helmet from 'helmet';
-import { NodeConfigService } from 'src/config';
+import { NodeConfigService } from 'src/global/config';
 import { CustomMorgan } from 'src/common';
 import { AppModule } from './app.module';
 

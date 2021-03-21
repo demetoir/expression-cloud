@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { JwtConfigModule } from 'src/core/security/config';
 import { AuthResolver } from './auth.resolver';
 import { AuthServiceModule } from '../service';
+import { JwtConfigModule } from '../../../../global/config/jwt-config';
 
 @Module({
 	imports: [AuthServiceModule, JwtConfigModule],

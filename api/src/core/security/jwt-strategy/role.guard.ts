@@ -2,9 +2,9 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { GQLContext } from 'src/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { RoleName } from '../role';
 import { TokenPayload } from '../token';
 import { METADATA_KEY_ROLES } from './roles.decorator';
+import { RoleName } from '../role/role';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -24,6 +24,9 @@ export class RolesGuard implements CanActivate {
 		const { req }: GQLContext = ctx.getContext();
 		const user = req.user as TokenPayload<any>;
 
+		// todo fix this
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		const userRoleNames = user.roles.map((x) => x.name);
 
 		return requiredRoleNames.some((requireRoleName) =>

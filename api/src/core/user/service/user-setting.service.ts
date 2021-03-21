@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { In } from 'typeorm';
 import { UserSettingRepository } from '../repository';
-import { UserSetting } from '../model';
+import { UserSetting } from '../model/user-setting';
 
 @Injectable()
 export class UserSettingService {

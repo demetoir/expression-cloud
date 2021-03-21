@@ -1,9 +1,9 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { GQLContext, JsonResponse } from 'src/common';
-import { JWTConfigService } from 'src/core/security/config';
 import { AuthService } from '../service';
 import { BasicAuthInput } from './basic-auth.input';
+import { JWTConfigService } from '../../../../global/config/jwt-config';
 
 @Resolver()
 export class AuthResolver {

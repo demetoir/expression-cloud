@@ -3,15 +3,15 @@ import {
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
-	IdColumn,
 	IdField,
+	PkColumn,
 	UpdatedAtColumn,
 } from '../../../../common';
 
 @Entity({ name: 'expression_settings' })
 export class ExpressionSetting {
 	@IdField()
-	@IdColumn()
+	@PkColumn()
 	id: number;
 
 	@DateTimeField()

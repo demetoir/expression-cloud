@@ -6,10 +6,11 @@ import {
 	Resolver,
 } from '@nestjs/graphql';
 import { IdArgs } from 'src/common';
-import { UserSetting, UserSettingDataLoader } from 'src/core/user/user-setting';
-import { UserService } from '../service';
 import { User } from '../model';
 import { UpdateUserInputArgs, UpdateUserInputType } from './operations';
+import { UserService } from '../service/user.service';
+import { UserSettingDataLoader } from '../loader';
+import { UserSetting } from '../model/user-setting';
 
 @Resolver(() => User)
 export class UserResolver {

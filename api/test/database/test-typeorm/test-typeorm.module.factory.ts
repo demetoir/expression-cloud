@@ -2,13 +2,13 @@ import { DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { entities } from 'src/database/global-typeorm/entity.loader';
-import { configurationLoader } from 'src/config/configurationLoader';
+import { configurationLoader } from 'src/global/config/configurationLoader';
 
 export const TestTypeormModuleFactory = (
 	database: string,
 	options?: any,
-): DynamicModule => {
-	return TypeOrmModule.forRootAsync({
+): DynamicModule =>
+	TypeOrmModule.forRootAsync({
 		imports: [ConfigModule],
 		useFactory: () => {
 			const config = configurationLoader();
@@ -30,4 +30,3 @@ export const TestTypeormModuleFactory = (
 			};
 		},
 	});
-};

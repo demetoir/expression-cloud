@@ -25,6 +25,7 @@ export class UserOauth {
 	@DateTimeField({ nullable: true })
 	@DeletedAtColumn()
 	deletedAt: Date;
+
 	@Column({ name: 'type', type: 'bigint', nullable: false })
 	type: number;
 
