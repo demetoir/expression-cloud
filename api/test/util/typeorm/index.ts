@@ -20,7 +20,7 @@ export const getConnectionForTest = async (
 	const config = ConfigurationLoader.load();
 
 	const connection = await createConnection({
-		type: config.TYPEORM_TYPE,
+		type: config.TYPEORM_DATABASE_TYPE,
 		host: config.TYPEORM_HOST,
 		port: config.TYPEORM_PORT,
 		username: config.TYPEORM_USERNAME,

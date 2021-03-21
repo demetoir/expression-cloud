@@ -1,5 +1,5 @@
 import { internet, lorem, name, random } from 'faker';
-import { User } from 'src/core/user/user';
+import { User } from '../../../src/core';
 
 export class UserFactory {
 	static build(): User {

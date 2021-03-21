@@ -2,8 +2,8 @@ import { mock } from 'jest-mock-extended';
 import { ExecutionContext } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { ResourceIdTypeException } from '../exceptions/resourceIdTypeException';
 import { decorator, ResourceNumberId } from './resourceId.decorator';
+import { ResourceIdTypeException } from '../errors';
 
 function getExecutionContextMock(request): ExecutionContext {
 	const httpArgumentHost = mock<HttpArgumentsHost>();
@@ -18,12 +18,12 @@ function getExecutionContextMock(request): ExecutionContext {
 }
 
 describe('ResourceId decorator', () => {
-	it('should be declare', function () {
+	it('should be declare', () => {
 		expect(ResourceNumberId).toBeDefined();
 		expect(decorator);
 	});
 
-	it('should be send args (token, ctx)', function () {
+	it('should be send args (token, ctx)', () => {
 		const token = 'id';
 		const request = {
 			params: {
@@ -35,7 +35,7 @@ describe('ResourceId decorator', () => {
 		decorator(token, context);
 	});
 
-	it('should return number', function () {
+	it('should return number', () => {
 		const token = 'id';
 		const request = {
 			params: {
@@ -49,7 +49,7 @@ describe('ResourceId decorator', () => {
 		expect(typeof result).toEqual('number');
 	});
 
-	it('should be throw error, if token is not included in params', function () {
+	it('should be throw error, if token is not included in params', () => {
 		const token = 'id';
 		const request = {
 			params: {},
@@ -65,7 +65,7 @@ describe('ResourceId decorator', () => {
 		}
 	});
 
-	it('should be throw error, if resourceId is not type of number', function () {
+	it('should be throw error, if resourceId is not type of number', () => {
 		const token = 'id';
 		const request = {
 			params: { id: 'fff' },
@@ -81,7 +81,7 @@ describe('ResourceId decorator', () => {
 		}
 	});
 
-	it('should be throw error, if token is undefined', function () {
+	it('should be throw error, if token is undefined', () => {
 		const token = undefined;
 		const request = {
 			params: { id: 'fff' },
@@ -97,7 +97,7 @@ describe('ResourceId decorator', () => {
 		}
 	});
 
-	it('should be throw error, if token is null', function () {
+	it('should be throw error, if token is null', () => {
 		const token = null;
 		const request = {
 			params: { id: 'fff' },

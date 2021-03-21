@@ -36,10 +36,10 @@ export class UserSetting {
 	deletedAt: Date;
 
 	@IntField()
-	@FKColumn({ name: 'user_id' })
+	@FKColumn()
 	userId: number;
 
 	@OneToOne(() => User, (user) => user.setting)
-	@JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+	@JoinColumn({ name: 'userId', referencedColumnName: 'id' })
 	user: User;
 }

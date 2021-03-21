@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne } from 'typeorm';
-import { UserProfileImage } from '../../user/model/user-profile.image';
+import { UserProfileImage } from '../../user';
 import {
 	CreatedAtColumn,
 	DateTimeField,

@@ -4,8 +4,8 @@ import { Connection, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
-import { User } from 'src/core/user/user';
 import { UserFactory } from '../user/user.factory';
+import { User } from '../../../src/core';
 
 const database = 'user_like_entity';
 describe('user like entity', () => {

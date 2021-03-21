@@ -1,5 +1,4 @@
 import { Entity, JoinColumn, OneToOne } from 'typeorm';
-import { Image } from 'src/core/image/model/image';
 import {
 	CreatedAtColumn,
 	DateTimeField,
@@ -8,6 +7,7 @@ import {
 	PkColumn,
 	UpdatedAtColumn,
 } from '../../../common';
+import { Image } from '../../image';
 
 @Entity({ name: 'user_profile_images' })
 export class UserProfileImage {
@@ -27,7 +27,7 @@ export class UserProfileImage {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@OneToOne(() => Image)
+	@OneToOne(() => Image, (object) => object.userProfile)
 	@JoinColumn({ name: 'image_id', referencedColumnName: 'id' })
 	image: Image;
 

@@ -1,5 +1,43 @@
-import { Expression, User, UserSetting, Vector } from '../../core';
+import {
+	Comment,
+	EditHistory,
+	EditHistoryValueBigint,
+	EditHistoryValueVarchar,
+	Expression,
+	ExpressionSetting,
+	ExpressionThumbnailImage,
+	Image,
+	Notice,
+	Scalar,
+	Tag,
+	Team,
+	User,
+	UserLike,
+	UserOauth,
+	UserProfileImage,
+	UserSetting,
+	Vector,
+} from '../../core';
 
-const entities = [User, UserSetting, Expression, Vector];
+const entities = [
+	User,
+	UserSetting,
+	UserLike,
+	UserOauth,
+	Expression,
+	ExpressionSetting,
+	ExpressionThumbnailImage,
+	Vector,
+	Image,
+	UserProfileImage,
+	EditHistory,
+	EditHistoryValueBigint,
+	EditHistoryValueVarchar,
+	Comment,
+	Notice,
+	Tag,
+	Team,
+	Scalar,
+];
 
 export { entities };
