@@ -1,64 +1,244 @@
-import { resolve } from 'path';
 import * as dotenv from 'dotenv';
+import { resolve } from 'path';
 
-const getDotEnv = (nodeEnv = 'development') => {
-	const envDir = `${__dirname}/../../../env`;
+/**
+ * parse node environment variable
+ * if NODE_PORT is falsy, use default value 3000
+ *
+ * @param env parsed node env
+ */
+export const parseNodeEnv = (env: any) => {
+	let NODE_PORT = parseInt(env.NODE_PORT, 10);
 
-	const mapper = {
-		development: `${envDir}/.env.dev`,
-		production: `${envDir}/.env.prod`,
-		test: `${envDir}/.env.test`,
-	};
+	if (Number.isNaN(NODE_PORT)) {
+		console.warn(`env NODE_PORT is not a number, use default port 3000`);
 
-	if (!(nodeEnv in mapper)) {
-		throw new Error(`NODE_ENV ${nodeEnv} is not expected value`);
+		NODE_PORT = 3000;
 	}
 
-	const path = resolve(mapper[nodeEnv]);
-
-	return dotenv.config({ path }).parsed;
+	return {
+		NODE_PORT,
+		NODE_ENV: env.NODE_ENV,
+	};
 };
 
-const parseBoolean = (val) => !!JSON.parse(String(val).toLowerCase());
+/**
+ * parse typeorm environment variable
+ * if any invalid value found, will raise error
+ *
+ * @param env
+ */
+export const parseTypeormEnv = (env) => {
+	const { TYPEORM_DATABASE_TYPE } = env;
 
-const transformEnv = (env) => ({
-	// node
-	NODE_PORT: parseInt(env.NODE_PORT, 10),
-	NODE_ENV: env.NODE_ENV,
+	if (TYPEORM_DATABASE_TYPE !== 'mysql') {
+		throw TypeError(
+			`env TYPEORM_DATABASE_TYPE expect mysql not '${TYPEORM_DATABASE_TYPE}'`,
+		);
+	}
 
-	// mysql
-	MYSQL_HOST: env.MYSQL_HOST,
-	MYSQL_PORT: parseInt(env.MYSQL_PORT, 10),
-	MYSQL_SCHEME: env.MYSQL_SCHEME,
-	MYSQL_USER: env.MYSQL_USER,
-	MYSQL_PASSWORD: env.MYSQL_PASSWORD,
+	const { TYPEORM_HOST } = env;
 
-	// typeorm
-	TYPEORM_TYPE: env.TYPEORM_TYPE,
-	TYPEORM_HOST: env.TYPEORM_HOST,
-	TYPEORM_PORT: parseInt(env.TYPEORM_PORT, 10),
-	TYPEORM_USERNAME: env.TYPEORM_USERNAME,
-	TYPEORM_PASSWORD: env.TYPEORM_PASSWORD,
-	TYPEORM_DATABASE: env.TYPEORM_DATABASE,
-	TYPEORM_SYNCHRONIZE: parseBoolean(env.TYPEORM_SYNCHRONIZE),
-	TYPEORM_LOGGING: parseBoolean(env.TYPEORM_LOGGING),
+	if (!TYPEORM_HOST) {
+		throw TypeError(
+			`env TYPEORM_HOST expect not a falsy value but '${TYPEORM_HOST}'`,
+		);
+	}
 
-	// redis
-	REDIS_HOST: env.REDIS_HOST,
-	REDIS_PORT: parseInt(env.REDIS_PORT, 10),
+	const TYPEORM_PORT = parseInt(env.TYPEORM_PORT, 10);
 
-	// JWT
-	JWT_SECRET: env.JWT_SECRET,
+	if (Number.isNaN(TYPEORM_PORT)) {
+		throw TypeError(
+			`env TYPEORM_PORT expect not NaN but '${TYPEORM_PORT}'`,
+		);
+	}
 
-	// api doc end point path
-	SWAGGER_UI_PATH: env.SWAGGER_UI_PATH,
-	REDOC_PATH: env.REDOC_PATH,
-});
+	const { TYPEORM_DATABASE } = env;
+
+	if (!TYPEORM_DATABASE) {
+		throw TypeError(
+			`env TYPEORM_DATABASE expect not a falsy value but '${TYPEORM_DATABASE}'`,
+		);
+	}
+
+	const { TYPEORM_USERNAME } = env;
+
+	if (!TYPEORM_USERNAME) {
+		throw TypeError(
+			`env TYPEORM_USERNAME expect not a falsy value but '${TYPEORM_USERNAME}'`,
+		);
+	}
+
+	const { TYPEORM_PASSWORD } = env;
+
+	if (!TYPEORM_PASSWORD) {
+		throw TypeError(
+			`env TYPEORM_PASSWORD expect not a falsy value but '${TYPEORM_PASSWORD}'`,
+		);
+	}
+
+	let { TYPEORM_LOGGING } = env;
+
+	if (!TYPEORM_LOGGING) {
+		console.warn(
+			'env TYPEORM_LOGGING is not specified, use default value `false`',
+		);
+		TYPEORM_LOGGING = false;
+	}
+
+	let { TYPEORM_SYNCHRONIZE } = env;
+
+	if (!TYPEORM_SYNCHRONIZE) {
+		console.warn(
+			'env TYPEORM_SYNCHRONIZE is not specified, use default value `false`',
+		);
+
+		TYPEORM_SYNCHRONIZE = false;
+	}
+
+	if (TYPEORM_SYNCHRONIZE === true) {
+		console.warn(
+			'env TYPEORM_SYNCHRONIZE set true, will synchronize database schema',
+		);
+	}
+
+	return {
+		TYPEORM_DATABASE_TYPE,
+		TYPEORM_HOST,
+		TYPEORM_PORT,
+		TYPEORM_DATABASE,
+		TYPEORM_USERNAME,
+		TYPEORM_PASSWORD,
+		TYPEORM_LOGGING,
+		TYPEORM_SYNCHRONIZE,
+	};
+};
+
+export const parseEtcEnv = (env: any) => {
+	let { LOGGING_PATH } = env;
+
+	if (!LOGGING_PATH) {
+		console.warn(`env LOGGING_PATH is not specified, use default './.log'`);
+
+		LOGGING_PATH = './.log';
+	}
+
+	return {
+		LOGGING_PATH,
+	};
+};
+
+export const parseJWTEnv = (env: any) => {
+	const { JWT_ACCESS_TOKEN_SECRET } = env;
+
+	if (!JWT_ACCESS_TOKEN_SECRET) {
+		throw new TypeError(`JWT_ACCESS_TOKEN_SECRET should specified but not`);
+	}
+
+	const { JWT_REFRESH_TOKEN_SECRET } = env;
+
+	if (!JWT_REFRESH_TOKEN_SECRET) {
+		throw new TypeError(
+			`JWT_REFRESH_TOKEN_SECRET should specified but not`,
+		);
+	}
+
+	const { JWT_ISSUER } = env;
+
+	if (!JWT_ISSUER) {
+		throw new TypeError(`JWT_ISSUER should specified but not`);
+	}
+
+	const JWT_ACCESS_TOKEN_DURATION = parseInt(
+		env.JWT_ACCESS_TOKEN_DURATION,
+		10,
+	);
+
+	if (Number.isNaN(JWT_ACCESS_TOKEN_DURATION)) {
+		throw new TypeError(`JWT_ACCESS_TOKEN_DURATION should number but not`);
+	}
+
+	const JWT_REFRESH_TOKEN_DURATION = parseInt(
+		env.JWT_REFRESH_TOKEN_DURATION,
+		10,
+	);
+
+	if (Number.isNaN(JWT_REFRESH_TOKEN_DURATION)) {
+		throw new TypeError(`JWT_ACCESS_TOKEN_DURATION should number but not`);
+	}
+
+	const { JWT_REFRESH_TOKEN_COOKIE_KEY } = env;
+
+	if (!JWT_REFRESH_TOKEN_COOKIE_KEY) {
+		throw new TypeError(
+			`JWT_REFRESH_TOKEN_COOKIE_KEY should specified but not`,
+		);
+	}
+
+	const { JWT_REFRESH_TOKEN_COOKIE_PATH } = env;
+
+	if (!JWT_REFRESH_TOKEN_COOKIE_PATH) {
+		throw new TypeError(
+			`JWT_REFRESH_TOKEN_COOKIE_KEY should specified but not`,
+		);
+	}
+
+	return {
+		JWT_ACCESS_TOKEN_SECRET,
+		JWT_REFRESH_TOKEN_SECRET,
+		JWT_ISSUER,
+		JWT_ACCESS_TOKEN_DURATION,
+		JWT_REFRESH_TOKEN_DURATION,
+		JWT_REFRESH_TOKEN_COOKIE_KEY,
+		JWT_REFRESH_TOKEN_COOKIE_PATH,
+	};
+};
+
+export const loadEnvFile = (
+	envPath: string,
+	NODE_ENV: 'development' | 'production' | 'test' | string,
+) => {
+	let path = null;
+
+	if (NODE_ENV === 'development') {
+		path = `${envPath}/.env.dev`;
+	} else if (NODE_ENV === 'production') {
+		path = `${envPath}/.env`;
+	} else if (NODE_ENV === 'test') {
+		path = `${envPath}/.env.test`;
+	}
+	path = resolve(path);
+
+	// load .env file
+	// .env 파일 뿐만 아니 환경변수에서 있는 값또한 가져온다.
+	dotenv.config({ path });
+
+	// parse and return config from .env
+	const { env } = process;
+
+	return {
+		// node env
+		...parseNodeEnv(env),
+
+		// typeorm
+		...parseTypeormEnv(env),
+
+		// etc env
+		...parseEtcEnv(env),
+
+		// jwt env
+		...parseJWTEnv(env),
+	};
+};
 
 export class ConfigurationLoader {
 	static load(): any {
-		const dotEnv = getDotEnv(process.env.NODE_ENV);
+		// load .env by NODE_ENV type
+		const NODE_ENV = process.env.NODE_ENV || 'development';
 
-		return transformEnv({ ...process.env, ...dotEnv });
+		// reference /env/*.env
+		const rootENVPath = resolve(`${__dirname}/../../../env`);
+
+		return loadEnvFile(rootENVPath, NODE_ENV);
 	}
 }
