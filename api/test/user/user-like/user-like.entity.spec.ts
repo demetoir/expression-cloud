@@ -1,11 +1,10 @@
-import { UserLike } from 'src/core/user/model/user-like';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/util/typeorm';
 import { UserFactory } from '../user/user.factory';
-import { User } from '../../../src/core';
+import { User, UserLike } from '../../../src/core';
 
 const database = 'user_like_entity';
 describe('user like entity', () => {
@@ -88,6 +87,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
+				console.log(e);
 				const { errno } = e;
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_DEFAULT_FOR_FIELD);
 			}
@@ -97,7 +97,7 @@ describe('user like entity', () => {
 			try {
 				const like = new UserLike();
 				like.fromUserId = fromUser.id;
-				like.toUserId = notExistUser.id;
+				like.toUserId = 0;
 
 				await connection.manager.save(like);
 
@@ -127,8 +127,8 @@ describe('user like entity', () => {
 		it('raise error, if not exist fromUserId and toUserId', async () => {
 			try {
 				const like = new UserLike();
-				like.fromUserId = notExistUser.id;
-				like.toUserId = notExistUser.id;
+				like.fromUserId = 0;
+				like.toUserId = 0;
 
 				await connection.manager.save(like);
 
@@ -197,7 +197,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe("Column 'from_user_id' cannot be null");
+				expect(e.message).toBe("Column 'fromUserId' cannot be null");
 			}
 		});
 
@@ -214,7 +214,7 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe("Column 'to_user_id' cannot be null");
+				expect(e.message).toBe("Column 'toUserId' cannot be null");
 			}
 		});
 	});

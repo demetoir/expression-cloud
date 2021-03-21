@@ -1,9 +1,34 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 import { RoleName } from 'src/core/user/model/role-name.enum';
+import {
+	CreatedAtColumn,
+	DateTimeField,
+	DeletedAtColumn,
+	IdField,
+	PkColumn,
+	UpdatedAtColumn,
+	VarcharColumn,
+} from '../../../common';
 
 @Entity({ name: 'roles' })
 export class Role {
-	@Column({ type: 'varchar', length: 10, name: 'name', nullable: false })
+	@IdField()
+	@PkColumn()
+	id: number;
+
+	@DateTimeField()
+	@CreatedAtColumn()
+	createdAt: Date;
+
+	@DateTimeField()
+	@UpdatedAtColumn()
+	updatedAt: Date;
+
+	@DateTimeField({ nullable: true })
+	@DeletedAtColumn()
+	deletedAt: Date;
+
+	@VarcharColumn()
 	name: RoleName;
 
 	// @ManyToMany(() => User)

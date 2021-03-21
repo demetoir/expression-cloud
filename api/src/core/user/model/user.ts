@@ -17,6 +17,7 @@ import {
 } from 'src/common';
 import { Expression } from 'src/core/equation/expression';
 import { UserSetting } from './user-setting';
+import { UserLike } from './user-like';
 
 export const GQL_INPUT_TYPE_USER = 'UserInput';
 export const GQL_OBJECT_TYPE_USER = 'User';
@@ -95,4 +96,10 @@ export class User {
 	@Field(() => [Expression])
 	@OneToMany(() => Expression, (expression) => expression.owner)
 	expressions: Expression;
+
+	@OneToMany(() => UserLike, (object) => object.toUser)
+	likeUsers: UserLike[];
+
+	@OneToMany(() => UserLike, (object) => object.fromUser)
+	likeFromUsers: UserLike[];
 }

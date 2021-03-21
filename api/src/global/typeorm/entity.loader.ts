@@ -8,6 +8,7 @@ import {
 	ExpressionThumbnailImage,
 	Image,
 	Notice,
+	Role,
 	Scalar,
 	Tag,
 	Team,
@@ -38,6 +39,7 @@ const entities = [
 	Tag,
 	Team,
 	Scalar,
+	Role,
 ];
 
 export { entities };

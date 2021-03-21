@@ -1,12 +1,14 @@
-import { Entity, PrimaryColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne } from 'typeorm';
 import {
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
+	FKColumn,
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
 } from '../../../common';
+import { User } from './user';
 
 @Entity({ name: 'user_likes' })
 export class UserLike {
@@ -26,9 +28,17 @@ export class UserLike {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@PrimaryColumn({ name: 'to_user_id', type: 'bigint', nullable: false })
+	@FKColumn()
 	toUserId: number;
 
-	@PrimaryColumn({ name: 'from_user_id', type: 'bigint', nullable: false })
+	@FKColumn()
 	fromUserId: number;
+
+	@ManyToOne(() => User)
+	@JoinColumn({ name: 'toUserId' })
+	toUser: User;
+
+	@ManyToOne(() => User)
+	@JoinColumn({ name: 'fromUserId' })
+	fromUser: User;
 }

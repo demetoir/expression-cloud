@@ -36,7 +36,7 @@ export class UserSetting {
 	deletedAt: Date;
 
 	@IntField()
-	@FKColumn()
+	@FKColumn({ nullable: true })
 	userId: number;
 
 	@OneToOne(() => User, (user) => user.setting)

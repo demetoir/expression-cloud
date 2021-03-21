@@ -10,11 +10,17 @@ export const decorator = (token: string, ctx: ExecutionContext): number => {
 
 	const resourceId = request.params[token] || null;
 
-	if (resourceId === null || Number.isNaN(resourceId)) {
+	if (resourceId === null) {
 		throw new ResourceIdTypeException(resourceId, typeof Number);
 	}
 
-	return Number.parseInt(resourceId, 10);
+	const parsedValue = Number.parseInt(resourceId, 10);
+
+	if (Number.isNaN(parsedValue)) {
+		throw new ResourceIdTypeException(resourceId, typeof Number);
+	}
+
+	return parsedValue;
 };
 
 export const ResourceNumberId = createParamDecorator(decorator);
