@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { In } from 'typeorm';
 import { UserSettingRepository } from '../repository';
-import { UserSetting } from '../model/user-setting';
+import { UserSetting } from '../model';
 
 @Injectable()
 export class UserSettingService {
@@ -14,12 +14,10 @@ export class UserSettingService {
 	}
 
 	async findByUserIds(userIds: number[]): Promise<UserSetting[]> {
-		const a = await this.userSettingRepository.find({
+		return this.userSettingRepository.find({
 			where: {
 				userId: In(userIds),
 			},
 		});
-
-		return a;
 	}
 }
