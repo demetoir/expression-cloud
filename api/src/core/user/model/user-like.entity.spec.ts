@@ -2,9 +2,9 @@ import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
-import { getConnectionForTest } from 'test/util/typeorm';
-import { UserFactory } from '../user/user.factory';
-import { User, UserLike } from '../../../src/core';
+import { getConnectionForTest } from 'test/database/test-typeorm';
+import { UserFactory } from './user.factory';
+import { User, UserLike } from '../../index';
 
 const database = 'user_like_entity';
 describe('user like entity', () => {

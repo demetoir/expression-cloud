@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 import { UserFactory } from './user.factory';
-import { User, UserSetting } from '../../../src/core';
+import { User, UserSetting } from '../../index';
 
 const database = 'user_entity';
 describe('user entity', () => {

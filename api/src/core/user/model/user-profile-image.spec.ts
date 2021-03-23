@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { UserProfileImage } from 'src/core/user/model/user-profile.image';
 import { Connection, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 
 const database = 'user_profile_entity';
 describe('userProfile entity', () => {

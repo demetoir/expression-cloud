@@ -1,10 +1,10 @@
 import { assert } from 'chai';
 import { Role } from 'src/core/user/model/role';
 import { RoleName } from 'src/core/user/model/role-name.enum';
-import { RoleFactory } from 'src/core/user/model/role.factory';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { Connection, Repository } from 'typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
+import { factory } from 'typeorm-seeding';
 
 const database = 'role_entity';
 describe('role entity', () => {
@@ -30,9 +30,9 @@ describe('role entity', () => {
 		role.name = RoleName.admin;
 		await connection.manager.save(role);
 
-		const newTeam = await roleRepository.findOne({ id: role.id });
+		const newRole = await roleRepository.findOne({ id: role.id });
 
-		assert.isNotNull(newTeam);
+		assert.isNotNull(newRole);
 	});
 
 	it('should create role as user', async () => {
@@ -40,9 +40,9 @@ describe('role entity', () => {
 		role.name = RoleName.user;
 		await connection.manager.save(role);
 
-		const newTeam = await roleRepository.findOne({ id: role.id });
+		const newRole = await roleRepository.findOne({ id: role.id });
 
-		assert.isNotNull(newTeam);
+		assert.isNotNull(newRole);
 	});
 
 	it('should create role as manager', async () => {
@@ -50,9 +50,9 @@ describe('role entity', () => {
 		role.name = RoleName.manager;
 		await connection.manager.save(role);
 
-		const newTeam = await roleRepository.findOne({ id: role.id });
+		const newRole = await roleRepository.findOne({ id: role.id });
 
-		assert.isNotNull(newTeam);
+		assert.isNotNull(newRole);
 	});
 
 	it('should create role as admin', async () => {
@@ -60,9 +60,9 @@ describe('role entity', () => {
 		role.name = RoleName.admin;
 		await connection.manager.save(role);
 
-		const newTeam = await roleRepository.findOne({ id: role.id });
+		const newRole = await roleRepository.findOne({ id: role.id });
 
-		assert.isNotNull(newTeam);
+		assert.isNotNull(newRole);
 	});
 
 	it('should create role as anonymous', async () => {
@@ -70,23 +70,20 @@ describe('role entity', () => {
 		role.name = RoleName.anonymous;
 		await connection.manager.save(role);
 
-		const newTeam = await roleRepository.findOne({ id: role.id });
+		const newRole = await roleRepository.findOne({ id: role.id });
 
-		assert.isNotNull(newTeam);
+		assert.isNotNull(newRole);
 	});
 
 	describe('check column type', () => {
 		it('should not null on name', async () => {
-			try {
-				const role = RoleFactory.buildManagerRole();
-				role.name = null;
+			const role = await factory(Role)().make({ name: null });
 
+			try {
 				await connection.manager.save(role);
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e).toBeInstanceOf(QueryFailedError);
-
 				expect(e.message).toBe(`Column 'name' cannot be null`);
 			}
 		});

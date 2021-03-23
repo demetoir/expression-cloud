@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { Connection, EntityManager, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
-import { UserFactory } from '../user/user.factory';
-import { UserSetting } from '../../../src/core';
+import { getConnectionForTest } from 'test/database/test-typeorm';
+import { UserFactory } from './user.factory';
+import { UserSetting } from '../../index';
 
 const database = 'user_setting_entity';
 describe('user-setting entity', () => {

@@ -1,3 +1,4 @@
+import { useSeeding } from 'typeorm-seeding';
 import { createConnection } from 'typeorm';
 import { Connection } from 'typeorm/connection/Connection';
 import { v4 as uuid } from 'uuid';
@@ -31,11 +32,12 @@ export const getConnectionForTest = async (
 	});
 
 	const databaseName = database || uuid().replace('-', '_');
-
 	await connection.query(`drop database if exists ${databaseName}`);
 	await connection.query(`create database if not exists ${databaseName}`);
 	await connection.query(`use ${databaseName}`);
 	await connection.synchronize();
+
+	await useSeeding({ connection: connection.name });
 
 	return connection;
 };

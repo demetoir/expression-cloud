@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { Connection, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 import { EditHistory } from './edit.history';
 
 const database = 'entity_history_entity';

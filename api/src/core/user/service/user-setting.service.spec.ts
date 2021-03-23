@@ -1,7 +1,7 @@
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserSetting, UserSettingService } from '../../../src/core';
-import { RepositoryMock } from '../../lib/mock/repository.mock';
+import { UserSetting, UserSettingService } from '../../index';
+import { RepositoryMock } from '../../../../test/lib/mock/repository.mock';
 
 describe('UserSettingService', () => {
 	let service: UserSettingService;

@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { UserOauth } from 'src/core/user/model/user-oauth';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 import { Connection, Repository } from 'typeorm';
 
 const database = 'user_oauth_entity';

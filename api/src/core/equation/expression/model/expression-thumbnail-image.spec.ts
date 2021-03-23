@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 import { Connection, Repository } from 'typeorm';
 import { ExpressionThumbnailImage } from './expression-thumbnail-image';
 

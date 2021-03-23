@@ -6,11 +6,10 @@ import {
 	Resolver,
 } from '@nestjs/graphql';
 import { IdArgs } from 'src/common';
-import { User } from '../model';
+import { User, UserSetting } from '../model';
 import { UpdateUserInputArgs, UpdateUserInputType } from './operations';
-import { UserService } from '../service/user.service';
+import { UserService } from '../service';
 import { UserSettingDataLoader } from '../loader';
-import { UserSetting } from '../model/user-setting';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -37,8 +36,7 @@ export class UserResolver {
 	@Mutation(() => User, { name: 'updateOneUser' })
 	async updateOneById(
 		@IdArgs() id: number,
-		@UpdateUserInputArgs()
-		input: UpdateUserInputType,
+		@UpdateUserInputArgs() input: UpdateUserInputType,
 	): Promise<User> {
 		return this.userService.updateOneById(id, input);
 	}

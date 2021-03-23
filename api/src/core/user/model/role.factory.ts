@@ -1,27 +1,12 @@
-import { RoleName } from 'src/core/user/model/role-name.enum';
-import { Role } from 'src/core/user/model/role';
+import { define } from 'typeorm-seeding';
+import Faker from 'faker';
+import { Role } from './role';
+import { RoleName } from './role-name.enum';
 
-export class RoleFactory {
-	static build(type: RoleName): Role {
-		const role = new Role();
-		role.name = type;
+define(Role, (faker: typeof Faker) => {
+	const entity = new Role();
 
-		return role;
-	}
+	entity.name = faker.random.arrayElement(Object.values(RoleName));
 
-	static buildAdminRole(): Role {
-		return RoleFactory.build(RoleName.admin);
-	}
-
-	static buildUserRole(): Role {
-		return RoleFactory.build(RoleName.user);
-	}
-
-	static buildManagerRole(): Role {
-		return RoleFactory.build(RoleName.manager);
-	}
-
-	static buildAnonymousRole(): Role {
-		return RoleFactory.build(RoleName.anonymous);
-	}
-}
+	return entity;
+});

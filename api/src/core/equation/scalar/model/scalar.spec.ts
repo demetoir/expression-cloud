@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 import { Scalar } from './scalar';
 
 const database = 'scalar_entity';

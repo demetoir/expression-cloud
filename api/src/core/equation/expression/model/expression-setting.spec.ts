@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Connection, QueryFailedError, Repository } from 'typeorm';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
-import { getConnectionForTest } from 'test/util/typeorm';
+import { getConnectionForTest } from 'test/database/test-typeorm';
 import { ExpressionSetting } from './expression.setting';
 
 const database = 'expression_setting_entity';
