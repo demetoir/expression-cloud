@@ -1,13 +1,20 @@
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserSettingService } from 'src/core/user/service/user-setting.service';
-import { UserSettingServiceModule } from '../../../src/core';
+import { UserSetting, UserSettingService } from '../../../src/core';
+import { RepositoryMock } from '../../lib/mock/repository.mock';
 
 describe('UserSettingService', () => {
 	let service: UserSettingService;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			imports: [UserSettingServiceModule],
+			providers: [
+				UserSettingService,
+				{
+					provide: getRepositoryToken(UserSetting),
+					useClass: RepositoryMock,
+				},
+			],
 		}).compile();
 
 		service = module.get<UserSettingService>(UserSettingService);

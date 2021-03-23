@@ -87,7 +87,6 @@ describe('user like entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				console.log(e);
 				const { errno } = e;
 				expect(errno).toBe(MysqlErrorCodes.ER_NO_DEFAULT_FOR_FIELD);
 			}
