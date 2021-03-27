@@ -1,6 +1,5 @@
 import { assert } from 'chai';
 import { UserOauth } from 'src/core/user/model/user-oauth';
-import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { getConnectionForTest } from 'test/database/test-typeorm';
 import { Connection, Repository } from 'typeorm';
 
@@ -25,7 +24,6 @@ describe('user oauth entity', () => {
 
 	it('should create new project', async () => {
 		const oauth = new UserOauth();
-		oauth.type = 1;
 		oauth.authId = 'id';
 
 		await connection.manager.save(oauth);
@@ -33,42 +31,6 @@ describe('user oauth entity', () => {
 		const newEntity = await oauthRepository.findOne({ id: oauth.id });
 
 		assert.equal(newEntity.id, oauth.id);
-	});
-
-	describe('column type check', () => {
-		it('should not null on type', async () => {
-			try {
-				const type = null;
-				const authId = 'id';
-
-				const oauth = new UserOauth();
-				oauth.type = type;
-				oauth.authId = authId;
-
-				await connection.manager.save(oauth);
-
-				expectShouldNotCallThis();
-			} catch (e) {
-				expect(e.message).toBe("Column 'type' cannot be null");
-			}
-		});
-
-		it('should not null on authId', async () => {
-			try {
-				const type = 0;
-				const authId = null;
-
-				const oauth = new UserOauth();
-				oauth.type = type;
-				oauth.authId = authId;
-
-				await connection.manager.save(oauth);
-
-				expectShouldNotCallThis();
-			} catch (e) {
-				expect(e.message).toBe("Column 'auth_id' cannot be null");
-			}
-		});
 	});
 
 	// describe('relation', () => {

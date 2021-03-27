@@ -71,7 +71,7 @@ describe('user entity', () => {
 				assert(false, 'should not call this');
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(`Column 'forked_count' cannot be null`);
+				expect(e.message).toBe(`Column 'forkedCount' cannot be null`);
 			}
 		});
 
@@ -99,7 +99,7 @@ describe('user entity', () => {
 				assert(false, 'should not call this');
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(`Column 'liked_count' cannot be null`);
+				expect(e.message).toBe(`Column 'likedCount' cannot be null`);
 			}
 		});
 
@@ -127,7 +127,7 @@ describe('user entity', () => {
 				assert(false, 'should not call this');
 			} catch (e) {
 				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(`Column 'is_anonymous' cannot be null`);
+				expect(e.message).toBe(`Column 'isAnonymous' cannot be null`);
 			}
 		});
 

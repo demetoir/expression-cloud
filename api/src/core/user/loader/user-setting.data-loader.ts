@@ -1,7 +1,7 @@
 import * as DataLoader from 'dataloader';
 import { Injectable, Scope } from '@nestjs/common';
 import { UserSettingService } from 'src/core/user/service';
-import { UserSetting } from '../model/user-setting';
+import { UserSetting } from '../model';
 
 declare type Value = UserSetting;
 declare type Key = UserSetting['id'];
