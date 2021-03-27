@@ -1,4 +1,4 @@
-import { Entity } from 'typeorm';
+import { BeforeInsert, Entity } from 'typeorm';
 import {
 	BooleanColumn,
 	CreatedAtColumn,
@@ -37,4 +37,9 @@ export class Notice {
 	// @ManyToOne(() => User, (user) => user.notices, { eager: false })
 	// @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
 	// user: User;
+
+	@BeforeInsert()
+	beforeInsert(): void {
+		this.isRead = false;
+	}
 }

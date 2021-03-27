@@ -70,7 +70,7 @@ describe('image entity', () => {
 
 				expectShouldNotCallThis();
 			} catch (e) {
-				expect(e.message).toBe("Column 'file_name' cannot be null");
+				expect(e.message).toBe("Column 'fileName' cannot be null");
 			}
 		});
 

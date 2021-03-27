@@ -92,48 +92,6 @@ describe('expression entity', () => {
 			}
 		});
 
-		it('should not null on likeCount', async () => {
-			try {
-				const expression = ExpressionFactory.build();
-				expression.likeCount = null;
-
-				await connection.manager.save(expression);
-
-				expectShouldNotCallThis();
-			} catch (e) {
-				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(`Column 'like_count' cannot be null`);
-			}
-		});
-
-		it('should not null on isForked', async () => {
-			try {
-				const expression = ExpressionFactory.build();
-				expression.isForked = null;
-
-				await connection.manager.save(expression);
-
-				expectShouldNotCallThis();
-			} catch (e) {
-				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(`Column 'is_forked' cannot be null`);
-			}
-		});
-
-		it('should not null on forkCount', async () => {
-			try {
-				const expression = ExpressionFactory.build();
-				expression.forkCount = null;
-
-				await connection.manager.save(expression);
-
-				expectShouldNotCallThis();
-			} catch (e) {
-				expect(e).toBeInstanceOf(QueryFailedError);
-				expect(e.message).toBe(`Column 'fork_count' cannot be null`);
-			}
-		});
-
 		it('should be false on isForked as default', async () => {
 			const expression = ExpressionFactory.build();
 
