@@ -11,3 +11,6 @@ export * from './date-time-field.decorator';
 export * from './non-negative-int-field.decorator';
 export * from './url-field.decorator';
 export * from './uuid-field.decorator';
+export * from './created-at-field.decorator';
+export * from './updated-at-field.decorator';
+export * from './deleted-at-field.decorator';
