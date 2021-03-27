@@ -1,30 +1,33 @@
 import { Entity, JoinColumn, ManyToOne } from 'typeorm';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	FKColumn,
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from '../../../common';
 import { User } from './user';
 
-@Entity({ name: 'user_likes' })
+@Entity()
 export class UserLike {
 	@IdField()
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

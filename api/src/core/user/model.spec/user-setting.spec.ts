@@ -1,8 +1,8 @@
+import { factory } from 'typeorm-seeding';
 import { assert } from 'chai';
 import { Connection, EntityManager, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/database/test-typeorm';
-import { UserFactory } from './user.factory';
-import { UserSetting } from '../../index';
+import { User, UserSetting } from '../model';
 
 const database = 'user_setting_entity';
 describe('user-setting entity', () => {
@@ -39,7 +39,7 @@ describe('user-setting entity', () => {
 
 	describe('properties', () => {
 		it('should have userId', async () => {
-			const user = UserFactory.build();
+			const user = await factory(User)().create();
 			await manager.save(user);
 
 			const userSetting = new UserSetting();
@@ -72,7 +72,8 @@ describe('user-setting entity', () => {
 		});
 
 		it('should relate with user entity', async () => {
-			const user = UserFactory.build();
+			const user = await factory(User)().create();
+
 			await connection.manager.save(user);
 
 			user.setting = Promise.resolve(userSetting);

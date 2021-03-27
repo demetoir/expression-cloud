@@ -10,24 +10,13 @@ export class UserService {
 	async getOneById(id: number): Promise<User> {
 		const user = new User();
 		user.id = 1;
-		user.description = '23e';
-		user.email = 'email';
-		user.forkedCount = 0;
-		user.isAnonymous = false;
-		user.likedCount = 0;
 
 		return user;
 	}
 
 	async updateOneById(id: number, input: UpdateUserInputType): Promise<User> {
 		const user = new User();
-		user.id = 1;
-		user.description = '23e';
-		user.email = 'email';
-		user.forkedCount = 0;
-		user.isAnonymous = false;
-		user.likedCount = 0;
-		user.name = 'name';
+		user.id = id;
 
 		return user;
 	}

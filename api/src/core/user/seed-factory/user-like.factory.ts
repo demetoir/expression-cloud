@@ -1,6 +1,6 @@
 import { define } from 'typeorm-seeding';
 import Faker from 'faker';
-import { UserLike } from './user-like';
+import { UserLike } from '../model';
 
 const Entity = UserLike;
 

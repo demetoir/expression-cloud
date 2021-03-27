@@ -2,29 +2,32 @@ import { Entity } from 'typeorm';
 import { RoleName } from 'src/core/user/model/role-name.enum';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 	VarcharColumn,
 } from '../../../common';
 
-@Entity({ name: 'roles' })
+@Entity()
 export class Role {
 	@IdField()
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

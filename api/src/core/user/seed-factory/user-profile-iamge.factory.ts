@@ -1,8 +1,8 @@
 import { define } from 'typeorm-seeding';
 import Faker from 'faker';
-import { UserOauth } from './user-oauth';
+import { UserProfileImage } from '../model';
 
-const Entity = UserOauth;
+const Entity = UserProfileImage;
 
 define(Entity, (faker: typeof Faker) => {
 	const entity = new Entity();

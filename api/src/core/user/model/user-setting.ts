@@ -2,13 +2,16 @@ import { Entity, JoinColumn, OneToOne } from 'typeorm';
 import { InputType, ObjectType } from '@nestjs/graphql';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	FKColumn,
 	IdField,
 	IntField,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from 'src/common';
 import { User } from './user';
 
@@ -17,21 +20,21 @@ export const GQL_INPUT_TYPE_USER_SETTING = 'UserSettingInput';
 
 @InputType(GQL_INPUT_TYPE_USER_SETTING)
 @ObjectType(GQL_OBJECT_TYPE_USER_SETTING)
-@Entity({ name: 'user_setting' })
+@Entity()
 export class UserSetting {
 	@IdField()
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField()
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 
@@ -40,6 +43,6 @@ export class UserSetting {
 	userId: number;
 
 	@OneToOne(() => User, (user) => user.setting)
-	@JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+	@JoinColumn({ name: 'userId' })
 	user: User;
 }

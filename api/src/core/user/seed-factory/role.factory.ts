@@ -1,7 +1,7 @@
 import { define } from 'typeorm-seeding';
 import Faker from 'faker';
-import { Role } from './role';
-import { RoleName } from './role-name.enum';
+import { Role } from '../model';
+import { RoleName } from '../model/role-name.enum';
 
 define(Role, (faker: typeof Faker) => {
 	const entity = new Role();

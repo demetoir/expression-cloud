@@ -1,91 +1,54 @@
 import { Entity, OneToMany, OneToOne } from 'typeorm';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
-	BooleanColumn,
-	BooleanField,
 	CreatedAtColumn,
-	DateTimeField,
+	CreatedAtField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
-	IntColumn,
-	IntField,
 	PkColumn,
-	StringField,
-	TextColumn,
 	UpdatedAtColumn,
-	VarcharColumn,
+	UpdatedAtField,
 } from 'src/common';
 import { Expression } from 'src/core/equation/expression';
 import { UserSetting } from './user-setting';
 import { UserLike } from './user-like';
+import { UserDetail } from './user-detail';
 
 export const GQL_INPUT_TYPE_USER = 'UserInput';
 export const GQL_OBJECT_TYPE_USER = 'User';
 
 @InputType(GQL_INPUT_TYPE_USER)
 @ObjectType(GQL_OBJECT_TYPE_USER)
-@Entity({ name: 'user' })
+@Entity()
 export class User {
 	@IdField()
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@StringField()
-	@VarcharColumn()
-	name: string;
-
-	@StringField()
-	@VarcharColumn({
-		nullable: true,
-		default: null,
-		unique: true,
-	})
-	email?: string;
-
-	@StringField()
-	@TextColumn({
-		nullable: true,
-		default: null,
-	})
-	description?: string;
-
-	@BooleanField()
-	@BooleanColumn({
-		default: false,
-	})
-	isAnonymous: boolean;
-
-	@IntField()
-	@IntColumn({
-		default: 0,
-	})
-	likedCount: number;
-
-	@IntField()
-	@IntColumn({
-		default: 0,
-	})
-	forkedCount: number;
+	@Field(() => UserDetail, { nullable: true })
+	@OneToOne(() => UserDetail, (object) => object.user)
+	detail: UserDetail;
 
 	// relation
 	@Field(() => UserSetting)
-	@OneToOne(() => UserSetting, (setting) => setting.user)
+	@OneToOne(() => UserSetting, (object) => object.user)
 	setting: Promise<UserSetting>;
 
 	@Field(() => [Expression])
-	@OneToMany(() => Expression, (expression) => expression.owner)
+	@OneToMany(() => Expression, (object) => object.owner)
 	expressions: Expression;
 
 	@OneToMany(() => UserLike, (object) => object.toUser)

@@ -1,29 +1,31 @@
 import { Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
-	DateTimeField,
+	CreatedAtField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 	VarcharColumn,
 } from '../../../common';
 
-@Entity({ name: 'user_oauths' })
+@Entity()
 export class UserOauth {
 	@IdField()
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

@@ -1,10 +1,10 @@
+import { factory } from 'typeorm-seeding';
 import { expectShouldNotCallThis } from 'test/lib/helper/jestHelper';
 import { Connection, Repository } from 'typeorm';
 import * as _ from 'lodash';
 import { MysqlErrorCodes } from 'mysql-error-codes';
 import { getConnectionForTest } from 'test/database/test-typeorm';
-import { UserFactory } from './user.factory';
-import { User, UserLike } from '../../index';
+import { User, UserLike } from '../model';
 
 const database = 'user_like_entity';
 describe('user like entity', () => {
@@ -26,10 +26,10 @@ describe('user like entity', () => {
 
 	beforeEach(async () => {
 		// prepare fixtures
-		fromUser = await connection.manager.save(UserFactory.build());
-		toUser = await connection.manager.save(UserFactory.build());
+		fromUser = await factory(User)().create();
+		toUser = await factory(User)().create();
 
-		const user = await connection.manager.save(UserFactory.build());
+		const user = await factory(User)().create();
 		notExistUser = _.cloneDeep(user);
 		await connection.manager.remove(user);
 	});
