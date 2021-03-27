@@ -2,12 +2,15 @@ import { BeforeInsert, Entity } from 'typeorm';
 import {
 	BooleanColumn,
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	TextColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from '../../../common';
 
 @Entity({ name: 'notice' })
@@ -16,15 +19,15 @@ export class Notice {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

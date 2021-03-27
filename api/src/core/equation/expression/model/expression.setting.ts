@@ -1,11 +1,14 @@
 import { Column, Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from '../../../../common';
 
 @Entity({ name: 'expression_settings' })
@@ -14,15 +17,15 @@ export class ExpressionSetting {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

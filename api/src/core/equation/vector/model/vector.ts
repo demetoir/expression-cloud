@@ -2,14 +2,17 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	IntColumn,
 	IntField,
 	PkColumn,
 	StringField,
 	UpdatedAtColumn,
+	UpdatedAtField,
 	VarcharColumn,
 } from 'src/common';
 import { Expression } from '../../expression';
@@ -25,15 +28,15 @@ export class Vector {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

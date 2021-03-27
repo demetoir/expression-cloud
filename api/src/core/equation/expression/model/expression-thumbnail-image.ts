@@ -2,11 +2,14 @@ import { Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Image } from 'src/core/image/model/image';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from '../../../../common';
 
 @Entity({ name: 'expression_thumbnail_images' })
@@ -15,15 +18,15 @@ export class ExpressionThumbnailImage {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 	// @OneToOne(() => Expression, (object) => object.thumbnailImage, {

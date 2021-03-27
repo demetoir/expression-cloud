@@ -1,12 +1,15 @@
 import { Column, Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	IntColumn,
 	PkColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from '../../../../common';
 
 @Entity({ name: 'scalars' })
@@ -15,15 +18,15 @@ export class Scalar {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

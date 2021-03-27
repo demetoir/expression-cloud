@@ -2,12 +2,15 @@ import { Entity, OneToOne } from 'typeorm';
 import { UserProfileImage } from '../../user';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	TextColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 	VarcharColumn,
 } from '../../../common';
 
@@ -17,15 +20,15 @@ export class Image {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

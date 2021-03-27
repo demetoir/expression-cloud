@@ -1,12 +1,15 @@
 import { Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	PkColumn,
 	TextColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 } from '../../../common';
 
 @Entity({ name: 'comments' })
@@ -15,15 +18,15 @@ export class Comment {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField()
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 

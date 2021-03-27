@@ -3,8 +3,10 @@ import {
 	BooleanColumn,
 	BooleanField,
 	CreatedAtColumn,
+	CreatedAtField,
 	DateTimeField,
 	DeletedAtColumn,
+	DeletedAtField,
 	IdField,
 	IntColumn,
 	IntField,
@@ -12,6 +14,7 @@ import {
 	StringField,
 	TextColumn,
 	UpdatedAtColumn,
+	UpdatedAtField,
 	VarcharColumn,
 } from 'src/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
@@ -29,15 +32,15 @@ export class Expression {
 	@PkColumn()
 	id: number;
 
-	@DateTimeField()
+	@CreatedAtField()
 	@CreatedAtColumn()
 	createdAt: Date;
 
-	@DateTimeField()
+	@UpdatedAtField()
 	@UpdatedAtColumn()
 	updatedAt: Date;
 
-	@DateTimeField({ nullable: true })
+	@DeletedAtField()
 	@DeletedAtColumn()
 	deletedAt: Date;
 
