@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { UserProfileImage } from 'src/core/user/model/user-profile.image';
+import { UserProfileImage } from 'src/core/user/model/user-profile-image';
 import { Connection, Repository } from 'typeorm';
 import { getConnectionForTest } from 'test/database/test-typeorm';
 
