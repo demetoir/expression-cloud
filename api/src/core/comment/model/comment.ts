@@ -28,10 +28,4 @@ export class Comment {
 
 	@Column({ name: 'content', type: 'text', nullable: false })
 	content: string;
-
-	@Column({ name: 'ref_type', type: 'bigint', nullable: true })
-	refType: bigint;
-
-	@Column({ name: 'ref_id', type: 'bigint', nullable: true })
-	refId: bigint;
 }
