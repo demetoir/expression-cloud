@@ -5,10 +5,12 @@ import {
 	DateTimeField,
 	DeletedAtColumn,
 	IdField,
+	IntColumn,
 	IntField,
 	PkColumn,
 	StringField,
 	UpdatedAtColumn,
+	VarcharColumn,
 } from 'src/common';
 import { Expression } from '../../expression';
 
@@ -36,16 +38,11 @@ export class Vector {
 	deletedAt: Date;
 
 	@StringField()
-	@Column({
-		name: 'name',
-		type: 'varchar',
-		length: 255,
-		nullable: false,
-	})
+	@VarcharColumn()
 	name: string;
 
 	@IntField()
-	@Column({ name: 'index', type: 'int', nullable: false })
+	@IntColumn()
 	index: number;
 
 	// @OneToMany(() => ScalarEntity, (scalars) => scalars.vector)

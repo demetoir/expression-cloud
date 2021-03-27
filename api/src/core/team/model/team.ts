@@ -1,11 +1,13 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
 	IdField,
 	PkColumn,
+	TextColumn,
 	UpdatedAtColumn,
+	VarcharColumn,
 } from '../../../common';
 
 @Entity({ name: 'teams' })
@@ -26,9 +28,9 @@ export class Team {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@Column({ type: 'varchar', length: 255, name: 'name', nullable: false })
+	@VarcharColumn()
 	name: string;
 
-	@Column({ type: 'text', name: 'description', nullable: false })
+	@TextColumn()
 	description: string;
 }

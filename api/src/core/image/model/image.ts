@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Entity, OneToOne } from 'typeorm';
 import { UserProfileImage } from '../../user';
 import {
 	CreatedAtColumn,
@@ -6,7 +6,9 @@ import {
 	DeletedAtColumn,
 	IdField,
 	PkColumn,
+	TextColumn,
 	UpdatedAtColumn,
+	VarcharColumn,
 } from '../../../common';
 
 @Entity({ name: 'images' })
@@ -27,33 +29,20 @@ export class Image {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@Column({ name: 'url', type: 'text', nullable: false })
+	@TextColumn()
 	url: string;
 
-	@Column({
-		name: 'extension',
-		type: 'varchar',
-		length: 255,
-		nullable: false,
-	})
+	@VarcharColumn()
 	extension: string;
 
-	@Column({
-		name: 'path',
-		type: 'text',
-		nullable: false,
-	})
+	@TextColumn()
 	path: string;
 
 	// origin, resize, compressed, thumbnail....
-	@Column({
-		name: 'type',
-		type: 'int',
-		nullable: false,
-	})
+	@VarcharColumn()
 	type: number;
 
-	@Column({ name: 'file_name', type: 'text', nullable: false })
+	@TextColumn()
 	fileName: string;
 
 	// @OneToOne(() => ExpressionThumbnailImageEntity, (object) => object.image)

@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
 	DateTimeField,
@@ -6,6 +6,7 @@ import {
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	VarcharColumn,
 } from '../../../common';
 
 @Entity({ name: 'tags' })
@@ -26,7 +27,7 @@ export class Tag {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
+	@VarcharColumn()
 	name: string;
 
 	// @ManyToOne(() => ExpressionEntity, (expression) => expression.tags)

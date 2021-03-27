@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
 	DateTimeField,
@@ -6,6 +6,7 @@ import {
 	IdField,
 	PkColumn,
 	UpdatedAtColumn,
+	VarcharColumn,
 } from '../../../common';
 
 @Entity({ name: 'user_oauths' })
@@ -26,10 +27,7 @@ export class UserOauth {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@Column({ name: 'type', type: 'bigint', nullable: false })
-	type: number;
-
-	@Column({ name: 'auth_id', type: 'text', nullable: false })
+	@VarcharColumn()
 	authId: string;
 
 	// todo: oauth2.0인증시 필요한 컬럼 종류 정리하기

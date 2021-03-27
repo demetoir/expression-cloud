@@ -1,10 +1,12 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 import {
+	BooleanColumn,
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
 	IdField,
 	PkColumn,
+	TextColumn,
 	UpdatedAtColumn,
 } from '../../../common';
 
@@ -26,15 +28,10 @@ export class Notice {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@Column({ type: 'text', name: 'content', nullable: false })
+	@TextColumn()
 	content: string;
 
-	@Column({
-		type: 'boolean',
-		name: 'is_read',
-		nullable: false,
-		default: false,
-	})
+	@BooleanColumn()
 	isRead: boolean;
 
 	// @ManyToOne(() => User, (user) => user.notices, { eager: false })

@@ -1,14 +1,18 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { BeforeInsert, Entity, ManyToOne, OneToMany } from 'typeorm';
 import {
+	BooleanColumn,
 	BooleanField,
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
 	IdField,
+	IntColumn,
 	IntField,
 	PkColumn,
 	StringField,
+	TextColumn,
 	UpdatedAtColumn,
+	VarcharColumn,
 } from 'src/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Vector } from 'src/core/equation/vector/model';
@@ -38,63 +42,31 @@ export class Expression {
 	deletedAt: Date;
 
 	@IntField()
-	@Column({
-		name: 'type',
-		type: 'tinyint',
-		nullable: false,
-	})
+	@IntColumn()
 	type: number;
 
 	@StringField()
-	@Column({
-		name: 'name',
-		type: 'varchar',
-		length: 255,
-		nullable: false,
-	})
+	@VarcharColumn()
 	name: string;
 
 	@StringField()
-	@Column({
-		name: 'content',
-		type: 'text',
-		nullable: false,
-	})
+	@TextColumn()
 	content: string;
 
 	@StringField()
-	@Column({
-		name: 'description',
-		type: 'text',
-		nullable: false,
-	})
+	@TextColumn()
 	description: string;
 
 	@IntField()
-	@Column({
-		type: 'integer',
-		name: 'like_count',
-		nullable: false,
-		default: 0,
-	})
+	@IntColumn()
 	likeCount: number;
 
 	@BooleanField()
-	@Column({
-		type: 'boolean',
-		name: 'is_forked',
-		nullable: false,
-		default: false,
-	})
+	@BooleanColumn()
 	isForked: boolean;
 
 	@IntField()
-	@Column({
-		type: 'integer',
-		name: 'fork_count',
-		nullable: false,
-		default: 0,
-	})
+	@IntColumn()
 	forkCount: number;
 
 	@Field(() => User)
@@ -127,4 +99,11 @@ export class Expression {
 	// 	referencedColumnName: 'id',
 	// })
 	// forkedFrom: Expression;
+
+	@BeforeInsert()
+	beforeInsert(): void {
+		this.likeCount = 0;
+		this.isForked = false;
+		this.forkCount = 0;
+	}
 }

@@ -43,16 +43,11 @@ export class User {
 	deletedAt: Date;
 
 	@StringField()
-	@VarcharColumn({
-		name: 'name',
-		length: 255,
-	})
+	@VarcharColumn()
 	name: string;
 
 	@StringField()
 	@VarcharColumn({
-		name: 'email',
-		length: 255,
 		nullable: true,
 		default: null,
 		unique: true,
@@ -61,7 +56,6 @@ export class User {
 
 	@StringField()
 	@TextColumn({
-		name: 'description',
 		nullable: true,
 		default: null,
 	})
@@ -69,21 +63,18 @@ export class User {
 
 	@BooleanField()
 	@BooleanColumn({
-		name: 'is_anonymous',
 		default: false,
 	})
 	isAnonymous: boolean;
 
 	@IntField()
 	@IntColumn({
-		name: 'liked_count',
 		default: 0,
 	})
 	likedCount: number;
 
 	@IntField()
 	@IntColumn({
-		name: 'forked_count',
 		default: 0,
 	})
 	forkedCount: number;

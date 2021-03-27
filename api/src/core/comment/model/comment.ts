@@ -1,10 +1,11 @@
-import { Column, Entity } from 'typeorm';
+import { Entity } from 'typeorm';
 import {
 	CreatedAtColumn,
 	DateTimeField,
 	DeletedAtColumn,
 	IdField,
 	PkColumn,
+	TextColumn,
 	UpdatedAtColumn,
 } from '../../../common';
 
@@ -26,6 +27,6 @@ export class Comment {
 	@DeletedAtColumn()
 	deletedAt: Date;
 
-	@Column({ name: 'content', type: 'text', nullable: false })
+	@TextColumn()
 	content: string;
 }
