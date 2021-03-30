@@ -1,6 +1,6 @@
 import { define } from 'typeorm-seeding';
 import Faker, { random } from 'faker';
-import { UserDetail } from '../model/user-detail';
+import { UserDetail } from '../model';
 
 const Entity = UserDetail;
 

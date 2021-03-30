@@ -9,7 +9,7 @@ import { IdArgs } from 'src/common';
 import { User, UserSetting } from '../model';
 import { UpdateUserInputArgs, UpdateUserInputType } from './operations';
 import { UserService } from '../service';
-import { UserSettingDataLoader } from '../loader';
+import { UserSettingDataLoader } from '../data-loader';
 
 @Resolver(() => User)
 export class UserResolver {
