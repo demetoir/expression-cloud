@@ -1,5 +1,5 @@
 import { Directive } from '@nestjs/graphql';
-import { RoleName } from 'src/core/security/role';
+import { RoleName } from '../../user';
 
 export const HasRole = (
 	...roleNames: RoleName[]

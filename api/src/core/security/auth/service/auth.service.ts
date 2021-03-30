@@ -1,26 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { TokenPayload, TokenService } from 'src/core/security/token';
 import { JsonResponse } from 'src/common';
-import { User } from '../../../user';
+import { TokenPayload, TokenService } from '../../token';
+import { BasicAuthResponse } from '../resolver/basic-auth.response';
+import { BasicAuthInput } from '../resolver';
 
 // todo re implement this
 @Injectable()
 export class AuthService {
 	constructor(private readonly tokenService: TokenService<any, any>) {}
 
-	async mockFindUserByUserNameAndPassword(
-		userName,
-		password,
-	): Promise<User | undefined> {
-		return null;
-	}
-
-	async mockFindUserById(userId) {
-		return null;
-	}
-
-	async issueRefreshTokenByBasicAuth(userName: string, password: string) {
-		return null;
+	async loginByBasicAuth(input: BasicAuthInput): Promise<BasicAuthResponse> {
+		return {
+			refreshToken: '3',
+			expiredAt: 123,
+			issueAt: 123,
+		};
 	}
 
 	async issueAccessToken(refreshToken: string): Promise<JsonResponse<any>> {

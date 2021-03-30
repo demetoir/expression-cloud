@@ -1,9 +1,10 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { GQLContext, JsonResponse } from 'src/common';
+import { Context, Query, Resolver } from '@nestjs/graphql';
+import { GQLContext, InputArgs, JsonResponse } from 'src/common';
 import { AuthService } from '../service';
 import { BasicAuthInput } from './basic-auth.input';
 import { JWTConfigService } from '../../../../global/config/jwt-config';
+import { BasicAuthResponse } from './basic-auth.response';
 
 @Resolver()
 export class AuthResolver {
@@ -12,20 +13,16 @@ export class AuthResolver {
 		private readonly jwtConfigService: JWTConfigService,
 	) {}
 
-	@Mutation(() => JsonResponse)
+	@Query(() => JsonResponse)
 	async loginByBasic(
-		@Args('input', { type: () => BasicAuthInput })
-		basicAuthInput: BasicAuthInput,
+		@InputArgs(BasicAuthInput) input: BasicAuthInput,
 		@Context() { res }: GQLContext,
-	): Promise<JsonResponse<any>> {
-		const { userName, password } = basicAuthInput;
+	): Promise<JsonResponse<BasicAuthResponse>> {
 		const {
 			refreshToken,
-			payload,
-		} = await this.authService.issueRefreshTokenByBasicAuth(
-			userName,
-			password,
-		);
+			expiredAt,
+			issueAt,
+		} = await this.authService.loginByBasicAuth(input);
 
 		//  set cookie for save refresh token
 		res.cookie(this.jwtConfigService.refreshTokenCookieKey, refreshToken, {
@@ -33,20 +30,20 @@ export class AuthResolver {
 			secure: true,
 			httpOnly: true,
 			path: this.jwtConfigService.refreshTokenCookiePath,
-			expires: new Date(payload.exp),
+			expires: new Date(expiredAt),
 		});
 
-		const response = new JsonResponse();
+		const response = new JsonResponse<BasicAuthResponse>();
 		response.jsonObject = {
 			refreshToken,
-			issueAt: payload.iat,
-			expiredAt: payload.exp,
+			issueAt,
+			expiredAt,
 		};
 
 		return response;
 	}
 
-	@Mutation(() => JsonResponse)
+	@Query(() => JsonResponse)
 	async issueAccessToken(
 		@Context() { req }: GQLContext,
 	): Promise<JsonResponse<any>> {
