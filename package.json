@@ -17,7 +17,7 @@
     "pre-commit": "sh scripts/husky/pre-commit.sh"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.2",
     "dotenv": "^8.2.0",
     "dotenv-expand": "^5.1.0",
     "rotating-file-stream": "^2.1.6",
