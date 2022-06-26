@@ -55,7 +55,7 @@
 		"dayjs": "^1.10.4",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
-		"graphql": "^15.4.0",
+		"graphql": "^15.8.0",
 		"graphql-scalars": "^1.7.0",
 		"graphql-tools": "^7.0.5",
 		"graphql-type-json": "^0.3.2",
