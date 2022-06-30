@@ -34,7 +34,7 @@
     "@nuxtjs/pwa": "^3.3.3",
     "ant-design-vue": "^1.6.2",
     "core-js": "^3.22.8",
-    "nuxt": "^2.14.12",
+    "nuxt": "^2.15.8",
     "supertest": "^4.0.2",
     "vue": "^2.6.12",
     "vue-google-oauth2": "^1.5.5"
