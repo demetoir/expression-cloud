@@ -79,7 +79,7 @@
 		"rxjs": "^6.6.3",
 		"typeorm": "^0.2.29",
 		"uuid": "^8.3.2",
-		"winston": "^3.3.3",
+		"winston": "^3.7.2",
 		"winston-daily-rotate-file": "^4.5.0"
 	},
 	"devDependencies": {
